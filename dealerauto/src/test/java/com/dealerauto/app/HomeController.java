@@ -1,0 +1,28 @@
+package com.dealerauto.app;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+    public String home() {
+        return "index";
+    }
+
+    @GetMapping("/client")
+    public String clientPage() {
+        return "client";
+    }
+
+    @GetMapping("/agent")
+    public String agentPage() {
+        return "agent";
+    }
+
+    @GetMapping("/manager")
+    public String managerPage() {
+        return "manager";
+    }
+}

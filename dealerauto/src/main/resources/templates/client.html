@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Offers</title>
+
+    <style>
+        body {
+            font-family: Arial, serif;
+            background: #eef3ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        /* --------------------- LEFT SIDEBAR --------------------- */
+        .sidebar {
+            width: 260px;
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+            height: fit-content;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .sidebar label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .sidebar input {
+            width: 95%;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-top: 3px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            border: none;
+            background: #0066ff;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .sidebar button:hover {
+            background: #004ec2;
+        }
+
+        /* --------------------- MAIN CONTENT --------------------- */
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 28px;
+        }
+
+        .car-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 70%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        #loadMore {
+            margin: 20px auto;
+            display: block;
+            background: #0080ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #loadMore:hover {
+            background: #006ad1;
+        }
+
+        a.back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+
+        .sort-box {
+            width: 70%;
+            margin: 0 auto 20px auto;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sort-box label {
+            font-weight: bold;
+        }
+
+        .sort-box select {
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+        }
+
+        .sort-btn {
+            background: #4444ff;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .sort-btn:hover {
+            background: #2e2ed1;
+        }
+
+        <!-- -->
+        .auth-bar {
+            position: fixed;
+            top: 15px;
+            right: 25px;
+            display: flex;
+            flex-direction: column; /* buttons stacked vertically */
+            gap: 10px;              /* space between them */
+            z-index: 999;
+        }
+
+        .auth-btn {
+            width: 150px;
+            text-align: center;
+            padding: 10px 0;
+            background: #f4f4f4;       /* white-grey */
+            color: #222;               /* dark text */
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #ccc;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .auth-btn:hover {
+            background: #e6e6e6;       /* slightly darker on hover */
+            transform: translateY(-2px);
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="auth-bar">
+    <a href="/client-login" class="auth-btn">Sign In</a>
+    <a href="/client-register" class="auth-btn">Create Account</a>
+</div>
+
+
+<!-- Left Sidebar -->
+<div class="sidebar">
+    <h2>Filters</h2>
+
+    <label>Minimum Price</label>
+    <input type="number" placeholder="Ex: 5000">
+
+    <label>Maximum Price</label>
+    <input type="number" placeholder="Ex: 30000">
+
+    <label>Minimum Year</label>
+    <input type="number" placeholder="Ex: 2005">
+
+    <label>Maximum Year</label>
+    <input type="number" placeholder="Ex: 2024">
+
+    <label>Maximum Mileage</label>
+    <input type="number" placeholder="Ex: 150000">
+
+    <label>Brands:</label>
+    <div>
+        <input type="checkbox"> Audi<br>
+        <input type="checkbox"> BMW<br>
+        <input type="checkbox"> Mercedes<br>
+        <input type="checkbox"> Volkswagen<br>
+        <input type="checkbox"> Ford<br>
+    </div>
+
+    <button style="background: green;">Apply Filters</button>
+</div>
+
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <h1>Available Offers</h1>
+
+    <!-- Sorting Bar -->
+    <div class="sort-box">
+        <label>Sort by:</label>
+        <select>
+            <option value="pret">Price</option>
+            <option value="an">Year</option>
+            <option value="kilometraj">Mileage</option>
+        </select>
+
+        <select>
+            <option value="cresc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+
+        <button class="sort-btn">Sort</button>
+    </div>
+
+    <div id="lista">
+        <div th:each="m : ${masini}" class="car-box">
+            <p><b>Brand:</b> [[${m.marca}]]</p>
+            <p><b>Model:</b> [[${m.model}]]</p>
+            <p><b>Year:</b> [[${m.an}]]</p>
+            <p><b>Mileage:</b> [[${m.kilometraj}]] km</p>
+            <p><b>Price:</b> [[${m.pret}]] €</p>
+        </div>
+    </div>
+
+    <button id="loadMore">Load More Offers</button>
+    <a href="/" class="back-btn">⬅ Back to Home</a>
+</div>
+
+
+<script>
+    let page = 1;
+
+    document.getElementById("loadMore").addEventListener("click", async () => {
+
+        const response = await fetch(`/client/data?page=` + page);
+        const cars = await response.json();
+
+        if (cars.length === 0) {
+            document.getElementById("loadMore").innerText = "No more offers";
+            document.getElementById("loadMore").disabled = true;
+            return;
+        }
+
+        let container = document.getElementById("lista");
+
+        cars.forEach(m => {
+            container.innerHTML += `
+                <div class="car-box">
+                    <p><b>Brand:</b> ${m.marca}</p>
+                    <p><b>Model:</b> ${m.model}</p>
+                    <p><b>Year:</b> ${m.an}</p>
+                    <p><b>Mileage:</b> ${m.kilometraj} km</p>
+                    <p><b>Price:</b> ${m.pret} €</p>
+                </div>
+            `;
+        });
+
+        page++;
+    });
+</script>
+
+</body>
+</html>
