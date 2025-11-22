@@ -169,17 +169,121 @@
             transform: translateY(-2px);
         }
 
+        /* iconita */
+        /* Container general (poziționat în dreapta sus) */
+        .auth-container {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        /* Avatar rotund */
+        .avatar {
+            background: #0a44c9;
+            color: white;
+            font-size: 24px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* ----------------- GUEST MODE (VERTICAL) ---------------- */
+
+        .auth-buttons-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* ----------------- LOGGED MODE (HORIZONTAL) ---------------- */
+
+        .auth-buttons-horizontal {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        /* Butoane generale */
+        .auth-btn {
+            display: block;
+            text-align: center;
+            padding: 10px 14px;
+            background: #f3f3f3;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            color: #0a44c9;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+            min-width: 120px;
+        }
+
+        /* Butoane mici pentru orizontală */
+        .small-btn {
+            padding: 8px 12px;
+            min-width: auto;
+        }
+
+        /* Hover */
+        .auth-btn:hover {
+            background: #e7e7e7;
+        }
+
+        /* Logout roșu */
+        .logout-btn {
+            color: #d00000;
+            border-color: #d00000;
+        }
+
+        .logout-btn:hover {
+            background: #ffe5e5;
+        }
+
+        .main-content {
+            margin-top: 80px;   /* modifică valoarea după cum îți place */
+        }
 
 
     </style>
 </head>
 <body>
 
+<!-- AUTH BOX -->
+<div class="auth-container">
 
-<div class="auth-bar">
-    <a href="/client-login" class="auth-btn">Sign In</a>
-    <a href="/client-register" class="auth-btn">Create Account</a>
+    <!-- Avatar -->
+    <div class="avatar">
+        <span th:if="${isLogged}" th:text="${clientInitials}"></span>
+        <span th:unless="${isLogged}">?</span>
+    </div>
+
+    <!-- --------------------- GUEST MODE (vertical) --------------------- -->
+    <div class="auth-buttons-vertical" th:unless="${isLogged}">
+        <a href="/client-login" class="auth-btn">Sign In</a>
+        <a href="/client-register" class="auth-btn">Create Account</a>
+    </div>
+
+    <!-- --------------------- LOGGED MODE (horizontal) --------------------- -->
+    <div class="auth-buttons-horizontal" th:if="${isLogged}">
+        <a href="/client-favorites" class="auth-btn small-btn">Favorites</a>
+        <a href="/client-orders" class="auth-btn small-btn">My Orders</a>
+        <a href="/client-details" class="auth-btn small-btn">Account Details</a>
+        <a href="/logout" class="auth-btn logout-btn small-btn">🚪 Logout</a>
+    </div>
+
 </div>
+
+
+
 
 
 <!-- Left Sidebar -->

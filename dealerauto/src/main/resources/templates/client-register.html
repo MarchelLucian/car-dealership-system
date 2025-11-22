@@ -17,6 +17,16 @@
             min-height: 100vh;
         }
 
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .back-container {
+            margin-top: 10px;
+        }
+
         .register-box {
             background: white;
             width: 450px;
@@ -75,15 +85,52 @@
             margin-bottom: 10px;
         }
 
+        .go-login-btn {
+            display: block;
+            margin-top: 15px;
+            color: #1e3a8a;
+            font-size: 17px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+        }
+        .go-login-btn:hover {
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #3a0ca3; /* violet închis, ca în imagine */
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        .back-container {
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
     </style>
 </head>
 
 <body>
 
+<div class="page-wrapper">
+
 <div class="register-box">
     <h1>Create Client Account</h1>
 
     <p th:if="${success}" th:text="${success}" class="success-message"></p>
+    <a th:if="${success}" href="/client-login"
+       class="go-login-btn">→ Go sign in to see what we offer!</a>
     <p th:if="${error}" th:text="${error}" class="error-message"></p>
 
     <form action="/client-register" method="post">
@@ -93,6 +140,12 @@
             <option value="persoana fizica">Individual</option>
             <option value="firma">Company</option>
         </select>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
 
         <label>First Name</label>
         <input type="text" name="nume" required>
@@ -109,9 +162,6 @@
         <label>Phone</label>
         <input type="text" name="telefon" required>
 
-        <label>Email</label>
-        <input type="email" name="email" required>
-
         <label>Address</label>
         <input type="text" name="adresa">
 
@@ -119,6 +169,13 @@
     </form>
 
 </div>
+
+<div class="back-container">
+    <a href="/client" class="back-btn">← Back to offers</a>
+</div>
+
+</div>
+
 <script>
     function updateClientType() {
         const type = document.getElementById("tip_client").value;

@@ -43,5 +43,25 @@ public class ClientRegisterDAO {
         return count != null && count > 0;
     }
 
+    public int saveAndReturnId(Client c) {
+        String sql = """
+        INSERT INTO client (tip_client, nume, prenume, cnp, cui, telefon, email, adresa)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        RETURNING id
+        """;
+
+        return jdbcTemplate.queryForObject(sql, Integer.class,
+                c.getTip_client(),
+                c.getNume(),
+                c.getPrenume(),
+                c.getCnp(),
+                c.getCui(),
+                c.getTelefon(),
+                c.getEmail(),
+                c.getAdresa()
+        );
+    }
+
+
 
 }
