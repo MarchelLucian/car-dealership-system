@@ -1,0 +1,1003 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #e9fbe6;       /* verde foarte deschis */
+    margin: 0;
+    padding: 0;
+}
+
+/* ====== Wrapper centralizat ====== */
+.page-wrapper {
+    position: relative;
+    max-width: 1800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 20px;
+
+    border: 3px solid #2bff06;
+    border-left: 3px solid #d0d0d0;
+    border-right: 3px solid #d0d0d0;
+
+    min-height: 100vh;
+}
+
+.page-title {
+    text-align: center;
+    margin-top: 2px;
+    color: #1a531b;
+}
+
+/* SPINNER */
+.table-wrapper {
+    position: relative;
+
+}
+
+/* ------------ TABEL LATEX STYLE ------------ */
+.car-table-wrapper {
+    width: 95%;
+    margin: 30px auto;
+    border-radius: 18px;
+    overflow: hidden;              /* ESENȚIAL */
+    border: 2px solid #1a531b;      /* border exterior */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.car-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    font-family: Cambria, serif;
+    font-size: 22px;
+    text-align: center;
+}
+
+.car-table thead {
+    background-color: #1a531b;
+    color: white;
+}
+
+.car-table th, .car-table td {
+    padding: 12px;
+    border: 1px solid #3e8e41;
+}
+
+.car-table tbody tr:nth-child(odd) {
+    background-color: #b8ffb8;
+}
+
+.car-table tbody tr:nth-child(even) {
+    background-color: #9afc9a;
+}
+
+/* Colțuri sus */
+.car-table thead tr:first-child th:first-child {
+    border-top-left-radius: 16px;
+}
+
+.car-table thead tr:first-child th:last-child {
+    border-top-right-radius: 16px;
+}
+
+/* Colțuri jos - ultima celulă din ultimul rând */
+.car-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 16px;
+}
+
+.car-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 16px;
+}
+
+/* Elimină borderurile exterioare */
+.car-table thead tr:first-child th {
+    border-top: none;
+}
+
+.car-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.car-table th:first-child,
+.car-table td:first-child {
+    border-left: none;
+}
+
+.car-table th:last-child,
+.car-table td:last-child {
+    border-right: none;
+}
+
+.car-table tbody tr:nth-child(odd) {
+    background-color: #b8ffb8;
+}
+
+.car-table tbody tr:nth-child(even) {
+    background-color: #9afc9a;
+}
+
+/* ------------ BUTON EDIT ------------ */
+.edit-btn {
+    background: #1a531b;
+    color: white;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.edit-btn:hover {
+    background: #0d3a0e;
+}
+
+
+/* ------------ PAGINATION ------------ */
+.pagination {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size : 20px;
+}
+
+.page-btn {
+    padding: 10px 14px;
+    margin: 4px;
+    background-color: #1a531b;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.page-btn.active {
+    background-color: #3d8312;
+    color: #fff;
+    font-weight: bold;
+}
+.page-btn:hover {
+    background-color:  #1faa00;   /* o nuanță mai deschisă decât #222 */
+    color: #fff;
+    transition: background-color 0.25s ease;
+}
+
+/* ======================= */
+/*  Prev / Next buttons    */
+/* ======================= */
+.page-btn.prev-next {
+    background-color: #3d8312;  /* albastru elegant */
+    font-weight: bold;
+}
+
+.page-btn.prev-next:hover {
+    background-color: #1faa00;  /* albastru mai deschis */
+}
+
+.page-btn.disabled-btn {
+    background-color: #9ab58f !important;  /* gri-verzui */
+    color: #eee !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important; /* nu poate fi apăsat */
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+.page-btn.disabled-btn:hover {
+    background-color: #9ab58f !important; /* fără hover */
+}
+
+
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    margin: 20px;
+    padding: 8px 15px;
+    background-color: #1a531b;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 22px;
+    transition: background 0.25s, transform 0.25s;
+}
+
+.back-btn:hover {
+    background-color: #0d3a0e;
+    transform: translateY(-3px);
+}
+
+.back-btn i {
+    font-size: 30px;
+    margin-right: 8px;
+}
+
+/* ===== Personal Logged in ===== */
+/* ===== Top bar for back button + agent info ===== */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#agentNameBadge {
+    display: inline-block;
+    background: #1a531b;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 22px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+    cursor: default;
+    transition: background 0.25s, transform 0.25s;
+}
+
+/* efect mic de hover */
+#agentNameBadge:hover {
+    background: #0d3a0e;
+    transform: translateY(-3px);
+}
+
+#agentNameBadge i {
+    font-size: 26px;
+    margin-right: 6px;
+}
+
+/* overlay doar peste tabel */
+.table-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.7); /* semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* peste tabel */
+}
+
+/* spinner */
+.spin-icon {
+    font-size: 55px;
+    color: #1a531b;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.id-badge {
+    background-color: #0d3a0e;   /* verde închis elegant */
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    display: inline-block;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.status-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-status-icon {
+    font-size: 24px;
+    color: #ec0b0b;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.edit-status-icon:hover {
+    color: #830505;
+    transform: scale(1.2);
+}
+
+/* ------------ STATUS BUTTONS ------------ */
+.status-btn {
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: default;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    pointer-events: none;
+
+    /* ➤ ADAUGAT pentru fixarea dimensiunii */
+    width: 150px;                   /* lățime fixă */
+    height: 38px;                   /* înălțime fixă */
+    display: flex;                  /* centrare perfectă */
+    justify-content: center;
+    align-items: center;
+}
+
+.status-btn.available {
+    background-color: #1faa00;
+}
+
+.status-btn.unavailable {
+    background-color: #d00000;
+}
+
+/* spinner în centrul butonului */
+.status-spinner {
+    animation: spin 0.9s linear infinite;
+    font-size: 18px;
+    color: white;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.status-check {
+    color: #28a745 !important;
+    font-size: 18px;
+    margin-left: 6px;
+}
+
+/* container pentru butoane */
+.inventory-actions {
+    display: flex;
+    gap: 16px;
+    margin: 15px 0 25px 0;
+}
+/* ------------ add car and record sale BUTTONS ------------ */
+/* ===== HEADER WRAPPER ===== */
+.inventory-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+    margin-left: 66px;
+}
+
+/* ===== TITLE ===== */
+.page-title {
+    margin-bottom: 0px;
+    font-size: 48px;
+    color: #0d3d0d;
+    text-align: center;
+}
+
+
+
+/* ===== ACTION BUTTONS ===== */
+.inventory-actions {
+    display: flex;
+    gap: 80px;
+    margin-bottom: 20px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 36px;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Add Car  */
+.action-btn {
+    background-color: #1a531b;
+}
+.action-btn:hover {
+    background-color: #0d3a0e;
+    transform: translateY(-3px);
+}
+
+
+
+/* Record Sale (portocaliu) */
+.sale-btn {
+    background-color: #1a531b;
+}
+.sale-btn:hover {
+    background-color: #0d3a0e;
+    transform: translateY(-3px);
+}
+
+/* Icons */
+.action-btn i {
+    font-size: 32px;
+    margin-right : 6px;
+    margin-left : 6px;
+}
+
+/* ===== Little details for showing ===== */
+.page-size-box {
+    margin-left: 45px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #063a15;
+
+}
+
+.page-size-input {
+    width: 40px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 2px solid #0d4f1f;
+    font-size: 16px;
+    background-color: #b8ffb8;
+}
+
+.search-box {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-left: 45px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #063a15;
+}
+
+.search-input {
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 2px solid #0d4f1f;
+    width: 74px;
+    font-size: 16px;
+    background-color: #b8ffb8;
+}
+
+.search-btn {
+    background-color: #1a531b;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.search-btn:hover {
+    background-color: #2c7c2d;
+    transition: 0.3s;
+    transform: scale(1.1);
+}
+.not-found-msg {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #b30000;
+    background-color: #ffe6e6;
+    border: 2px solid #b30000;
+    border-radius: 6px;
+}
+/* numeric wrapper */
+/* Wrapper general */
+/* CARD-ul filtrelor */
+.filter-card {
+    positiion : relative;
+    border-radius: 14px;                    /* colțuri rotunjite */
+    padding: 20px;
+    width: 640px;                           /* poți modifica dimensiunea */
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.35); /* umbră fină */
+    font-size: 20px;
+    font-weight: bold;
+    color: #063a15;
+    margin: 0 auto;
+}
+
+/* rânduri filtre */
+.filter-row {
+    display:flex;
+    margin-bottom: 20px;
+    gap : 50px;
+    justify-content: center;
+}
+
+/* fiecare input */
+.filter-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-label {
+
+}
+
+.filter-input {
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 2px solid #0d4f1f;
+    width: 130px;
+    font-size: 16px;
+}
+
+.apply-btn-wrapper {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.apply-btn {
+    background-color: #1a531b;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.apply-btn:hover {
+    background-color: #2c7c2d;
+    transform: translateY(-2px);
+}
+
+.apply-btn:active {
+    transform: translateY(0);
+    background-color: #164a17;
+}
+.apply-btn i {
+    font-size: 32px;
+    margin-right : 8px;
+}
+
+.reset-btn-wrapper {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+/* You can choose color: red, grey or orange */
+/* Variantă profesională: roșu închis */
+
+.reset-btn {
+    background-color: #8b1a1a;       /* roșu închis elegant */
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.reset-btn:hover {
+    background-color: #b32020;
+    transform: translateY(-2px);
+}
+
+.reset-btn:active {
+    transform: translateY(0);
+    background-color: #6f1515;
+}
+
+.reset-btn i {
+    font-size: 28px;   /* puțin mai mic decât ciocanul ca să dea bine */
+    margin-right : 8px;
+}
+
+.apply-btn,
+.reset-btn {
+    width: 220px;
+}
+
+
+.filter-section {
+    margin-bottom: 25px;
+}
+
+.filter-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-left : 50px;
+
+}
+
+.row-options {
+    width: 80%;
+    margin: 0 auto;                       /* centrează rândul în card */
+    display: flex;
+    justify-content: space-between;       /* distanță egală între opțiuni */
+    align-items: center;
+}
+
+.row-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 18px;
+}
+
+.row-options input[type="checkbox"] {
+    transform: scale(1.8);
+    cursor: pointer;
+}
+
+.row-options-center {
+    display: flex;
+    justify-content: center;   /* pune grupul în mijloc */
+    gap: 100px;                 /* distanța dintre opțiuni (modifici cum vrei) */
+    margin: 0 auto;
+}
+
+.row-options-center label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 18px;
+}
+
+.row-options-center input[type="checkbox"] {
+    transform: scale(1.8);
+    cursor: pointer;
+}
+
+.row-options-seats {
+    display: flex;
+    justify-content: center;   /* pune tot grupul în centru */
+    gap: 40px;                 /* distanță între opțiuni (modifici cum vrei) */
+}
+
+.seat-option {
+    display: flex;
+    flex-direction: column;    /* checkbox sus, text sub el */
+    align-items: center;
+    font-size: 18px;
+    gap: 4px;                  /* distanță mică între checkbox și număr */
+}
+
+.seat-option input[type="checkbox"] {
+    transform: scale(1.8);
+    cursor: pointer;
+}
+.filter-title i {
+    font-size: 22px;   /* modifică dimensiunea cum vrei */
+    margin-right: 6px; /* mic spațiu între icon și text */
+}
+
+/* BRAAAANDS*/
+/* Make the title clickable */
+.toggle-arrow {
+    font-size: 18px;
+    padding: 2px;
+    margin-left: 8px;                /* mic spațiu între text și icon */
+    cursor: pointer;                 /* arată că e buton */
+    transition: transform 0.2s, color 0.2s;   /* animat frumos */
+    border-radius: 6px;
+    border: 2px solid #1a531b;;
+}
+
+.toggle-arrow:hover {
+    color: #063a15;                  /* puțin mai închis pe hover */
+    transform: scale(1.3);           /* ușoară mărire */
+}
+
+
+/* ASCUNSE implicit (fără inline style) */
+.brands-options,
+.providers-options {
+    display: none;
+    margin-top: 10px;
+}
+
+/* Când sunt deschise */
+.brands-options.open,
+.providers-options.open {
+    display: grid;
+}
+
+/* GRID original – îl păstrăm */
+.brands-options {
+    margin-left: 60px;
+    grid-template-columns: repeat(3, 180px);
+    justify-content: center;
+    row-gap: 14px;
+    font-size: 18px;
+}
+
+.providers-options {
+    margin-left: 60px;
+    grid-template-columns: repeat(3, 180px);
+    row-gap: 14px;
+    column-gap: 18px;
+    width: fit-content;
+    font-size: 18px;
+}
+
+/* Label style */
+.brands-options label,
+.providers-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Checkbox scaling */
+.brands-options input[type="checkbox"],
+.providers-options input[type="checkbox"] {
+    transform: scale(1.8);
+    cursor: pointer;
+}
+
+.filters-toggle-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    margin-top:-95px;
+}
+
+.filters-toggle-btn {
+    background-color: #1a531b;
+    color: white;
+    font-size: 24px;
+    padding: 18px 36px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.filters-toggle-btn:hover {
+    background-color: #0d3a0e;
+    transform: translateY(-2px);
+}
+
+.filters-toggle-btn:active {
+    transform: translateY(0);
+    background-color: #04270b;
+}
+
+.filters-toggle-btn i {
+    font-size: 32px;
+    margin-right : 6px;
+    margin-left : 6px;
+}
+
+
+/* search bar by model  */
+/* Wrapper general */
+.model-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 15px;
+    margin-left: 45px;
+    margin-bottom: 30px;
+}
+
+/* Input-ul */
+.model-search-input {
+    width: 228px;
+    padding: 5px 8px;
+    font-size: 18px;
+    border: 2px solid #063a15;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s ease;
+    color: #063a15;
+    background-color: #b8ffb8;
+}
+
+.model-search-input:focus {
+    border-color: #1a531b;
+    box-shadow: 0 0 6px rgba(0,128,0,0.4);
+}
+
+/* Butonul cu lupă */
+.model-search-button {
+    background-color: #1a531b;
+    color: white;
+    padding: 8px 14px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.model-search-button:hover {
+    background-color: #2c7c2d;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.model-search-button:active {
+    transform: translateY(0);
+    background-color: #164a17;
+}
+
+.model-search-button i {
+    font-size: 16px;
+}
+
+/* Dropdown sugestii */
+.model-search-suggestions {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #dcffc0;
+    max-height: 180px;
+    overflow-y: auto;
+    display: none;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Fiecare item */
+.model-search-suggestions div {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 17px;
+    color: #063a15;
+}
+
+.model-search-suggestions div:hover {
+    background-color: #acec76;
+}
+
+
+/* ===== SORT BOX WRAPPER ===== */
+.sort-box-wrapper {
+
+    max-width: 1660px;
+    margin: 20px auto 25px auto;  /* poziționare centrală */
+    background-color: #e9fbe6;    /* verde foarte deschis */
+    border: 2px solid #1a531b;    /* margine verde pastel */
+    border-radius: 12px;
+    padding: 18px 22px;
+    box-shadow: 0 4px 10px rgba(0, 80, 0, 0.15);
+    display: flex;
+    justify-content: center;
+
+}
+
+/* ===== CONȚINUT SORT BAR ===== */
+.sort-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ===== LABEL ===== */
+.sort-container label {
+    color: #0d3b0d;
+    font-size: 24px;
+    padding: 14px ;
+    font-weight: bold;
+}
+
+/* ===== SELECT BOXES ===== */
+.sort-select {
+    padding: 14px 22px;
+    border-radius: 8px;
+    border: 2px solid #0e5c0e;
+    background-color: #b8ffb8;
+    color: #0e3d0e;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.sort-select:hover {
+    background-color: #dbffdb;
+    border-color: #179f17;
+}
+
+/* ===== SORT BUTTON ===== */
+.sort-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #1a531b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    font-size: 20px;
+    padding: 14px 28px;
+    font-weight: bold;
+}
+
+.sort-btn:hover {
+    background-color: #0d3a0e;
+    transform: translateY(-2px);
+}
+.sort-btn i{
+    font-size: 24px;
+    margin-left: 6px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 700px) {
+    .sort-box-wrapper {
+        padding: 14px;
+    }
+
+    .sort-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* ===== coborare titlu  ===== */
+.top-row {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+/* stânga rămâne lipită acolo */
+.left-side {
+    flex: 1;
+}
+
+/* titlul devine centrat absolut */
+.top-row .page-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+.status-btn.sold {
+    background-color: #8b0000; /* Burgundy */
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: not-allowed;
+    font-weight: bold;
+}
+
+.status-icon-slot {
+   width: 28px;        /* FIX */
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

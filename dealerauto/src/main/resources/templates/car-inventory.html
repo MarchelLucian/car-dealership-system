@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Car Inventory</title>
+
+    <link rel="stylesheet" th:href="@{/css/car-inventory.css}" />
+    <script th:src="@{/js/car-inventory.js}" defer></script>
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+</head>
+
+<body>
+
+
+<div class="page-wrapper">
+
+    <div class="top-bar">
+        <a href="/agent-dashboard" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="agent-greeting">
+           <span id="agentNameBadge">
+          <i class="fa-solid fa-user-tie"></i>
+          Agent :
+           <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}">
+          </span>
+        </span>
+        </div>
+    </div>
+
+    <div class="inventory-header">
+        <div class="inventory-actions">
+
+            <a href="/agent-dashboard/car-inventory/add-car" class="action-btn add-car-btn">
+                <i class="fa-solid fa-plus"></i> Add Car
+                <i class="fa-solid fa-car-rear"></i>
+            </a>
+
+            <a href="/agent-dashboard/car-inventory/add-brand" class="action-btn add-brand-btn">
+                <i class="fa-solid fa-plus"></i> Add Brand
+                <i class="fa-solid fa-registered"></i>
+            </a>
+
+            <a href="/agent-dashboard/car-inventory/add-provider" class="action-btn add-provider-btn">
+                <i class="fa-solid fa-plus"></i> Add Provider
+                <i class="fa-solid fa-truck"></i>
+            </a>
+
+        </div>
+    </div>
+
+
+
+    <div class="page-size-box">
+        <label for="pageSizeInput" class="show-label">Rows per page:</label>
+
+        <input type="number"
+               id="pageSizeInput"
+               class="page-size-input"
+               min="5"
+
+               max="30"
+               th:value="${pageSize}"
+               onchange="updatePageSize()">
+
+        <span class="rows-hint">( 5–30 )</span>
+    </div>
+
+
+    <div class="top-row">
+        <div class="left-side">
+            <div class="search-box">
+                <label for="searchIdInput" class="search-label">Find car by ID :</label>
+
+                <input type="number"
+                id="searchIdInput"
+                class="search-input"
+                min="1"
+                placeholder="Enter ID..."
+                th:value="${searchId != null ? searchId : ''}"
+                onkeydown="if(event.key==='Enter') searchById()">
+
+                <button class="search-btn" onclick="searchById()">
+                   <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+
+    <h1 class="page-title">Car Inventory</h1>
+    </div>
+
+    <div class="model-search-wrapper">
+        <input
+                type="text"
+                id="vinSearchInput"
+                class="model-search-input"
+                placeholder="Search car by VIN..."
+                autocomplete="off"
+                th:value="${vinSearch}"
+        />
+
+        <button id="vinSearchButton" class="model-search-button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <div id="vinSearchSuggestions" class="model-search-suggestions"></div>
+    </div>
+
+
+    <div class="model-search-wrapper">
+        <input
+                type="text"
+                id="modelSearchInput"
+                class="model-search-input"
+                placeholder="Search cars by model..."
+                autocomplete="off"
+                th:value="${modelSearch}"
+        />
+
+        <button id="modelSearchButton" class="model-search-button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <div id="modelSearchSuggestions" class="model-search-suggestions"></div>
+    </div>
+
+
+    <div class="filters-toggle-wrapper">
+        <button class="filters-toggle-btn" onclick="toggleFilters()">
+
+            <i id="filters-toggle-icon"
+               class="fa-solid"
+               th:classappend="${filtersOpen} ? ' fa-chevron-up' : ' fa-sliders'">
+            </i>
+
+            <span id="filters-toggle-text"
+                  th:text="${filtersOpen} ? 'Hide Filters' : 'Show Filters'">
+            </span>
+
+        </button>
+
+    </div>
+
+    <div id="filterCard"
+         class="filter-card"
+         th:style="${filtersOpen} ? 'display: block;' : 'display: none;'">
+
+    <!-- PRICE -->
+        <div class="filter-row">
+            <div class="filter-box">
+                <label class="filter-label">Min Price (€):</label>
+                <input type="number"
+                       id="priceMin"
+                       class="filter-input"
+                       placeholder="e.g. 1000"
+                       th:value="${priceMin}">
+            </div>
+
+            <div class="filter-box">
+                <label class="filter-label">Max Price (€):</label>
+                <input type="number"
+                       id="priceMax"
+                       class="filter-input"
+                       placeholder="e.g. 50000"
+                       th:value="${priceMax}">
+            </div>
+        </div>
+
+        <!-- YEAR -->
+        <div class="filter-row">
+            <div class="filter-box">
+                <label class="filter-label">Min Year:</label>
+                <input type="number"
+                       id="yearMin"
+                       class="filter-input"
+                       placeholder="e.g. 2010"
+                       th:value="${yearMin}">
+            </div>
+
+            <div class="filter-box">
+                <label class="filter-label">Max Year:</label>
+                <input type="number"
+                       id="yearMax"
+                       class="filter-input"
+                       placeholder="e.g. 2024"
+                       th:value="${yearMax}">
+            </div>
+        </div>
+
+        <!-- KM -->
+        <div class="filter-row">
+            <div class="filter-box">
+                <label class="filter-label">Max Mileage (km):</label>
+                <input type="number"
+                       id="kmMax"
+                       class="filter-input"
+                       placeholder="e.g. 150000"
+                       th:value="${kmMax}">
+            </div>
+        </div>
+
+
+        <!-- BRANDS -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fa-solid fa-list-check"></i>
+                Available Brands:
+
+                <i id="brands-arrow"
+                   class="fa-solid toggle-arrow"
+                   th:classappend="${brandsSelected != null and !brandsSelected.isEmpty()} ?
+                           ' fa-chevron-up' : ' fa-chevron-down'"
+                   onclick="toggleBrands(event)">
+                </i>
+            </div>
+
+            <div id="brands-content"
+                 class="brands-options"
+                 th:classappend="${brandsSelected != null and !brandsSelected.isEmpty()} ? ' open' : ''">
+
+                <label th:each="b : ${brands}">
+                    <input type="checkbox"
+                           name="brands"
+                           th:value="${b.nume}"
+                           th:checked="${brandsSelected != null and brandsSelected.contains(b.nume)}">
+                    <span th:text="${b.nume}"></span>
+                </label>
+
+            </div>
+        </div>
+
+
+
+        <!-- TRANSMISSION -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fa-solid fa-gear"></i>
+                Transmission Type:
+            </div>
+
+            <div class="row-options-center">
+                <label>
+                    <input type="checkbox" value="manuala"
+                           th:checked="${transmissionsSelected != null and transmissionsSelected.contains('manuala')}"> Manual
+                </label>
+
+                <label>
+                    <input type="checkbox" value="automata"
+                           th:checked="${transmissionsSelected != null and transmissionsSelected.contains('automata')}"> Automatic
+                </label>
+            </div>
+        </div>
+
+
+        <!-- FUEL -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fa-solid fa-gear"></i>
+                Fuel Type:
+            </div>
+
+            <div class="row-options">
+                <label><input type="checkbox" value="benzina"
+                              th:checked="${fuelsSelected != null and fuelsSelected.contains('benzina')}"> Petrol</label>
+
+                <label><input type="checkbox" value="motorina"
+                              th:checked="${fuelsSelected != null and fuelsSelected.contains('motorina')}"> Diesel</label>
+
+                <label><input type="checkbox" value="electric"
+                              th:checked="${fuelsSelected != null and fuelsSelected.contains('electric')}"> Electric</label>
+
+                <label><input type="checkbox" value="hibrid"
+                              th:checked="${fuelsSelected != null and fuelsSelected.contains('hibrid')}"> Hybrid</label>
+            </div>
+        </div>
+
+
+        <!-- DOORS -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fa-solid fa-gear"></i>
+                Number of Doors:
+            </div>
+
+            <div class="row-options-center">
+                <label><input type="checkbox" value="2"
+                              th:checked="${doorsSelected != null and doorsSelected.contains('2')}"> 2</label>
+
+                <label><input type="checkbox" value="4"
+                              th:checked="${doorsSelected != null and doorsSelected.contains('4')}"> 4</label>
+            </div>
+        </div>
+
+
+        <!-- SEATS -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fa-solid fa-gear"></i>
+                Number of Seats:
+            </div>
+
+            <div class="row-options-seats">
+
+                <label class="seat-option">
+                    <input type="checkbox" value="2"
+                           th:checked="${seatsSelected != null and seatsSelected.contains('2')}">
+                    <span>2</span>
+                </label>
+
+                <label class="seat-option">
+                    <input type="checkbox" value="4"
+                           th:checked="${seatsSelected != null and seatsSelected.contains('4')}">
+                    <span>4</span>
+                </label>
+
+                <label class="seat-option">
+                    <input type="checkbox" value="5"
+                           th:checked="${seatsSelected != null and seatsSelected.contains('5')}">
+                    <span>5</span>
+                </label>
+
+                <label class="seat-option">
+                    <input type="checkbox" value="6"
+                           th:checked="${seatsSelected != null and seatsSelected.contains('6')}">
+                    <span>6</span>
+                </label>
+
+                <label class="seat-option">
+                    <input type="checkbox" value="7"
+                           th:checked="${seatsSelected != null and seatsSelected.contains('7')}">
+                    <span>7</span>
+                </label>
+
+                <label class="seat-option">
+                    <input type="checkbox" value="8"
+                           th:checked="${seatsSelected != null and seatsSelected.contains('8')}">
+                    <span>8</span>
+                </label>
+
+                <label class="seat-option">
+                    <input type="checkbox" value="9"
+                           th:checked="${seatsSelected != null and seatsSelected.contains('9')}">
+                    <span>9</span>
+                </label>
+
+            </div>
+        </div>
+
+
+        <!-- PROVIDERS -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fa-solid fa-list-check"></i>
+                Available Providers:
+
+                <i id="providers-arrow"
+                   class="fa-solid toggle-arrow"
+                   th:classappend="${providersSelected != null and !providersSelected.isEmpty()} ?
+                           ' fa-chevron-up' : ' fa-chevron-down'"
+                   onclick="toggleProviders(event)">
+                </i>
+            </div>
+
+            <div id="providers-content"
+                 class="providers-options"
+                 th:classappend="${providersSelected != null and !providersSelected.isEmpty()} ? ' open' : ''">
+
+                <label th:each="p : ${providers}">
+                    <input type="checkbox"
+                           name="providers"
+                           th:value="${p.nume}"
+                           th:checked="${providersSelected != null and providersSelected.contains(p.nume)}">
+                    <span th:text="${p.nume}"></span>
+                </label>
+
+            </div>
+        </div>
+
+
+
+
+        <!-- APPLY + RESET -->
+        <div class="apply-btn-wrapper">
+            <button class="apply-btn" onclick="applyFilters()">
+                <i class="fa-solid fa-hammer"></i> Apply Filters
+            </button>
+        </div>
+
+        <div class="reset-btn-wrapper">
+            <button class="reset-btn" onclick="resetFilters()">
+                <i class="fa-solid fa-trash-can"></i> Reset Filters
+            </button>
+        </div>
+
+    </div>
+
+
+
+    <!-- SORTing ul -->
+
+    <div class="sort-box-wrapper">
+        <div class="sort-container">
+            <label>Sort by :</label>
+
+            <select id="sortField" class="sort-select" name="sortField">
+
+                <option value="price"
+                        th:selected="${sortField == 'price'}">Price</option>
+
+                <option value="year"
+                        th:selected="${sortField == 'year'}">Year</option>
+
+                <option value="km"
+                        th:selected="${sortField == 'km'}">Mileage</option>
+
+                <option value="brand"
+                        th:selected="${sortField == 'brand'}">Brand</option>
+
+            </select>
+
+
+            <select id="sortOrder" class="sort-select" name="sortOrder">
+
+                <option value="asc"
+                        th:selected="${sortOrder == 'asc'}">Ascending</option>
+
+                <option value="desc"
+                        th:selected="${sortOrder == 'desc'}">Descending</option>
+
+            </select>
+
+
+            <button class="sort-btn" id="sortButton" onclick="applySort()">
+                Apply <i class="fa-solid fa-arrow-down-short-wide"></i>
+            </button>
+        </div>
+    </div>
+
+
+
+
+    <div class="table-wrapper">
+
+        <div id="tableOverlay" class="table-overlay" style="display:none;">
+            <i class="fa-solid fa-spinner spin-icon"></i>
+        </div>
+
+        <div class="car-table-wrapper">
+        <table class="car-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Provider</th>
+                <th>Year</th>
+                <th>Mileage (km)</th>
+                <th>Fuel</th>
+                <th>Transmission</th>
+                <th>Color</th>
+                <th>Purchase Price <i class="fa-solid fa-euro-sign"></i></th>
+                <th>Doors</th>
+                <th>Seats</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="car : ${cars}">
+
+                <td>
+                    <span class="id-badge" th:text="'#' + ${car.id}"></span>
+                </td>
+
+
+                <td th:text="${car.marca}"></td>
+
+                <td th:text="${car.model}"></td>
+
+                <td th:text="${car.furnizor}"></td>
+
+                <td th:text="${car.an}"></td>
+
+                <td th:text="${car.kilometraj}"></td>
+
+                <td th:text="${car.combustibil}"></td>
+
+                <td th:text="${car.transmisie}"></td>
+
+                <td th:text="${car.culoare}"></td>
+
+                <td th:text="${car.pret}"></td>
+
+                <td th:text="${car.numarUsi}"></td>
+
+                <td th:text="${car.numarLocuri}"></td>
+
+                <td>
+                    <div class="status-wrapper">
+                    <button
+                            class="status-btn available"
+                            th:if="${car.stare == 'disponibila'}"
+                            th:onclick="'toggleStatus(' + ${car.id} + ')'"
+                            disabled
+                    >
+                        Disponibilă
+                    </button>
+
+                    <button
+                            class="status-btn unavailable"
+                            th:if="${car.stare == 'indisponibila'}"
+                            th:onclick="'toggleStatus(' + ${car.id} + ')'"
+                            disabled
+                    >
+                        Indisponibilă
+                    </button>
+
+                        <!-- VÂNDUTĂ -->
+                        <button
+                                class="status-btn sold"
+                                th:if="${car.stare == 'vanduta'}"
+                                disabled
+                        >
+                            Vândută
+                        </button>
+
+                    <!-- ICONIȚĂ EDIT (doar pentru stări care nu sunt 'vanduta') -->
+
+                        <!-- SLOT FIX pentru iconiță -->
+                        <span class="status-icon-slot">
+                          <i class="fa-solid fa-rotate edit-status-icon"
+                            th:if="${car.stare != 'vanduta'}"
+                            th:onclick="'toggleStatus(' + ${car.id} + ',this)'"></i>
+                        </span>
+
+
+                    </div>
+                </td>
+            </tr>
+
+            <!-- Dacă există un mesaj de eroare (mașina nu există sau este vândută) -->
+            <tr th:if="${notFoundMessage}">
+                <td colspan="13" class="not-found-msg">
+                    <span th:text="${notFoundMessage}"></span>
+                </td>
+            </tr>
+
+
+            <tr th:if="${modelNotFound}">
+                <td colspan="13" class="not-found-msg">
+                    No cars found for model: "<span th:text="${modelSearch}"></span>"
+                </td>
+            </tr>
+
+            <tr th:if="${filtersNotFound}">
+                <td colspan="13" class="not-found-msg">
+                    No cars found for the selected filters.
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="pagination">
+
+        <!-- PREV (funcționalitatea veche păstrată) -->
+        <a th:if="${currentPage > 1}"
+           th:href="|/agent-dashboard/car-inventory?page=${currentPage - 1}&pageSize=${pageSize}
+            &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
+           class="page-btn prev-next"
+           onclick="goToPage(this.href); return false;">
+            Prev
+        </a>
+
+        <!-- PREV-ul dezactivat când suntem pe pagina 1 -->
+        <span th:if="${currentPage == 1}"
+              class="page-btn prev-next disabled-btn">
+        Prev
+    </span>
+
+
+        <!-- NUMERE PAGINI (NEATINSE) -->
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+          <a th:href="|/agent-dashboard/car-inventory?page=${i}&pageSize=${pageSize}
+                 &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
+           th:text="${i}"
+           th:classappend="${i == currentPage} ? 'active' : ''"
+           class="page-btn"
+           onclick="goToPage(this.href); return false;">
+          </a>
+    </span>
+
+
+        <!-- NEXT (funcționalitatea veche păstrată) -->
+        <a th:if="${currentPage < totalPages}"
+           th:href="|/agent-dashboard/car-inventory?page=${currentPage + 1}&pageSize=${pageSize}
+            &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
+           class="page-btn prev-next"
+           onclick="goToPage(this.href); return false;">
+            Next
+        </a>
+
+        <!-- NEXT dezactivat pe ultima pagină -->
+        <span th:if="${currentPage == totalPages}"
+              class="page-btn prev-next disabled-btn">
+        Next
+    </span>
+
+    </div>
+
+
+
+</div>
+</body>
+</html>

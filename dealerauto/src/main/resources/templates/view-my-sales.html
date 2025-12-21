@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Sales</title>
+
+    <link rel="stylesheet" th:href="@{/css/sales.css}">
+    <link rel="stylesheet" th:href="@{/css/view-my-sales.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script th:src="@{/js/view-my-sales.js}"></script>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <!-- Go Back -->
+        <a href="/agent-dashboard/sales" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <!-- Agent Badge -->
+        <div class="agent-greeting">
+            <span id="agentNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Agent :
+                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+            </span>
+        </div>
+
+    </div>
+
+
+ <div class="filters-and-summary one">
+
+        <!-- STÂNGA: filtre -->
+    <!-- Show sales from -->
+    <div class="filter-box-wrapper">
+
+        <!--  Last X months -->
+        <div class="filter-row">
+            <label>Show sales from last</label>
+            <input type="number" id="monthsInput" min="1" placeholder="e.g. 3">
+            <label>months</label>
+
+            <button class="search-btn" onclick="filterLastMonths()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <!--  Between dates -->
+        <div class="filter-row">
+            <label>From</label>
+            <input type="date" id="dateFrom">
+
+            <label>To</label>
+            <input type="date" id="dateTo">
+
+            <button class="search-btn" onclick="filterBetweenDates()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <!--  Quick presets -->
+            <div class="filter-row">
+                <label>Select range </label>
+
+                 <select id="predefinedRange">
+                   <option value="" hidden>-</option>
+                   <option value="all" selected>All time</option>
+                   <option value="7">Last week</option>
+                   <option value="30">Last month</option>
+                   <option value="90">Last 3 months</option>
+                   <option value="180">Last 6 months</option>
+                  <option value="365">Last year</option>
+
+                     </select>
+
+                <button class="search-btn" onclick="filterQuickRange()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                 </button>
+            </div>
+
+        </div>
+
+         <!-- DREAPTA: summary -->
+        <div class="summary-wrapper-first">
+
+            <div class="summary-card count">
+
+                <div id="tableOverlayCount" class="summary-overlay" style="display:none;">
+                    <i class="fa-solid fa-spinner spin-icon"></i>
+                </div>
+
+
+                <div class="summary-icon" >
+                 <i class="fa-solid fa-calculator"></i>
+                 </div>
+                <div class="summary-content">
+                 <span class="summary-label">Number of sales</span>
+                 <span class="summary-value" id="salesCount">0</span>
+                 </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- PAGE TITLE -->
+    <h1 class="page-title-new">
+        My Sales <i class="fa-solid fa-clipboard-list"></i>
+    </h1>
+
+
+    <div class="filters-and-summary">
+
+        <div class="search-box-wrapper">
+
+        <!-- Search Auto-complete -->
+        <div class="model-search-wrapper">
+            <input
+                    type="text"
+                    id="clientSearchInput"
+                    class="model-search-input"
+                    placeholder="Search sales by client..."
+                    autocomplete="off"
+            />
+
+            <button class="search-btn" onclick="filterByClient()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            <div id="clientSearchSuggestions" class="model-search-suggestions"></div>
+        </div>
+
+        <!-- Search Auto-complete -->
+        <div class="model-search-wrapper">
+            <input
+                    type="text"
+                    id="carSearchInput"
+                    class="model-search-input"
+                    placeholder="Search sales by car model or brand..."
+                    autocomplete="off"
+            />
+
+            <button class="search-btn" onclick="filterByCar()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            <div id="carSearchSuggestions" class="model-search-suggestions"></div>
+        </div>
+
+        </div>
+
+        <div class="summary-wrapper">
+
+            <div class="summary-card profit">
+
+                <!-- OVERLAY -->
+                <div id="tableOverlayProfit" class="summary-overlay" style="display:none;">
+                    <i class="fa-solid fa-spinner spin-icon"></i>
+                </div>
+                <!-- Continut -->
+                <div class="summary-icon" id="coins">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <div class="summary-content">
+                    <span class="summary-label">Total profit (€)</span>
+                    <span class="summary-value" id="totalProfit">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="sort-box-wrapper">
+        <div class="sort-container">
+            <label>Sort by :</label>
+
+            <select id="sortField" class="sort-select">
+
+                <option value="date">Date</option>
+                <option value="price">Final price</option>
+                <option value="profit">Profit</option>
+                <option value="status">Status</option>
+
+            </select>
+
+            <select id="sortOrder" class="sort-select">
+
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
+
+            </select>
+
+            <button class="sort-btn" id="sortButton" onclick="sortSales()">
+                Apply <i class="fa-solid fa-arrow-down-wide-short"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- SALES LIST -->
+    <div class="sales-container">
+
+        <div id="tableOverlay" class="table-overlay" style="display:none;">
+            <i class="fa-solid fa-spinner spin-icon"></i>
+        </div>
+
+        <!-- HEADER -->
+        <div class="sales-row sales-header">
+            <div>Sale ID</div>
+            <div>Car</div>
+            <div>Client</div>
+            <div>Final Price (€)</div>
+            <div>Profit (€)</div>
+            <div>Date (y-m-d)</div>
+            <div>Status</div>
+        </div>
+
+        <!-- NO RESULTS ROW -->
+        <div id="noResultsRow" class="sales-row no-results" style="display:none;">
+            <div class="no-results-text"></div>
+        </div>
+
+
+        <!-- ===== SALES ROWS ===== -->
+        <div th:each="s : ${sales}">
+
+            <!-- RÂND PRINCIPAL -->
+            <div class="sales-row">
+                <div>
+                    <span class="id-badge" th:text="'#' + ${s.saleId}"></span>
+                </div>
+
+                <!-- CAR -->
+                <div class="name-with-info">
+                    <span th:text="${s.carName}"></span>
+                    <i class="fa-solid fa-circle-info info-btn"
+                       th:attr="data-sale-id=${s.saleId}, data-car-id=${s.masinaId}"
+                       onclick="showCarInfo(this)">
+                    </i>
+                    <i class="fa-solid fa-spinner spin-icon"
+                       style="display:none;"></i>
+                </div>
+
+                <!-- CLIENT -->
+                <div class="name-with-info">
+                    <span th:text="${s.clientName}"></span>
+                    <i class="fa-solid fa-circle-info info-btn"
+                       th:attr="data-sale-id=${s.saleId}, data-client-id=${s.clientId}"
+                       onclick="showClientInfo(this)">
+                    </i>
+                    <i class="fa-solid fa-spinner spin-icon"
+                       style="display:none;"></i>
+                </div>
+
+                <div th:text="${s.finalPrice}"></div>
+
+                <div th:text="${s.profit}"
+                     th:classappend="${s.profit >= 0} ? ' profit-positive' : ' profit-negative'">
+                </div>
+
+                <div th:text="${s.saleDate}"></div>
+
+                <div class="status"
+                     th:classappend="${s.status == 'PENDING'} ? ' pending' : ' paid'"
+                     th:text="${s.status == 'PENDING'} ? 'Payment in progress' : 'Paid'">
+                </div>
+            </div>
+
+            <!-- RÂND DETALII (ASCUNS) -->
+            <!-- RÂND DETALII MAȘINĂ -->
+            <div class="details-row hidden"
+                 th:id="'car-details-' + ${s.saleId}">
+            </div>
+
+            <!-- RÂND DETALII CLIENT -->
+            <div class="details-row hidden"
+                 th:id="'client-details-' + ${s.saleId}">
+            </div>
+        </div>
+
+
+        <!-- ===== EMPTY STATE ===== -->
+        <div th:if="${sales == null or sales.isEmpty()}"
+             class="empty-state">
+            No sales recorded yet.
+        </div>
+
+        <div th:if="${noAgent}" class="empty-state error">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Connection lost. No agent logged in.
+            <br>
+            <a href="/agent-login" class="login-link">
+                Go sign in
+            </a>
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>

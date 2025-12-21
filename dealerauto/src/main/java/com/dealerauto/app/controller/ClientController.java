@@ -5,17 +5,17 @@ import com.dealerauto.app.dao.MasinaDAO;
 import com.dealerauto.app.dao.ClientUserDAO;
 import jakarta.servlet.http.HttpSession;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 public class ClientController {
+
 
     @Autowired
     private MasinaDAO masinaDAO;
@@ -26,17 +26,8 @@ public class ClientController {
     // Pagina principală /client
     @GetMapping("/client")
     public String paginaClient(
-            @RequestParam(defaultValue = "0") int page,
             HttpSession session,
             Model model) {
-
-        int limit = 5;
-        int offset = page * limit;
-
-        List<Masina> masini = masinaDAO.getMasiniDisponibile(offset, limit);
-
-        model.addAttribute("masini", masini);
-        model.addAttribute("page", page);
 
         // -------------------- NOUL COD ---------------------
         Integer clientId = (Integer) session.getAttribute("clientId");
@@ -59,14 +50,18 @@ public class ClientController {
         return "client";
     }
 
-    // AJAX pentru încărcare oferte
-    @GetMapping("/client/data")
+    @GetMapping("/client/all")
     @ResponseBody
-    public List<Masina> getCarsAjax(@RequestParam int page) {
-
-        int limit = 5;
-        int offset = page * limit;
-
-        return masinaDAO.getMasiniDisponibile(offset, limit);
+    public List<Masina> getAllMasini() {
+        return masinaDAO.getAllDisponibile();
     }
+
+    @GetMapping("/client/brands")
+    @ResponseBody
+    public List<String> getBrands() {
+        return masinaDAO.getAllBrands();
+    }
+
+
+
 }

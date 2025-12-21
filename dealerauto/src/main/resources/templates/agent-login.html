@@ -1,109 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Agent Login</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #e4ffe8; /* soft green tone */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-box {
-            background: white;
-            width: 380px;
-            padding: 30px 35px;
-            border-radius: 14px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            color: #0f5132;
-            font-size: 24px;
-        }
-
-        label {
-            display: block;
-            text-align: left;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 8px;
-            border: 1px solid #cccccc;
-            font-size: 14px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #0f9d23; /* green button */
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #0b7a1b;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 15px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 15px;
-            color: #0f5132;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back-btn:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/agent-login.css}" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script th:src="@{/js/agent-login.js}"></script>
 </head>
 
 <body>
+<div class="page-wrapper">
 
-<div class="login-box">
-    <h1>Agent Login</h1>
+    <div class="top-bar">
+        <a href="/" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+    </div>
+    <div class="login-center">
+    <div class="login-box">
+        <h1>Agent Login</h1>
 
-    <!-- Error message -->
-    <p th:if="${error}" th:text="${error}" class="error-message"></p>
+        <!-- Error message -->
+        <p th:if="${error}" th:text="${error}" class="error-message"></p>
 
-    <form action="/agent-login" method="post">
+        <form id="loginForm" action="/agent-login" method="post">
+            <label>Username</label>
+            <input type="text" id="username" name="username" required />
 
-        <label>Username</label>
-        <input type="text" name="username" required>
+            <label>Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" required />
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+                <i id="togglePassword"
+                   class="fa-solid fa-eye-slash password-toggle"></i>
+            </div>
 
-        <button type="submit">Sign In</button>
-    </form>
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
 
-    <a href="/" class="back-btn">← Back to Home</a>
+    <button type="button" id="demoLoginBtn" class="demo-btn">
+        Demo Login
+    </button>
+    </div>
 </div>
 
 </body>

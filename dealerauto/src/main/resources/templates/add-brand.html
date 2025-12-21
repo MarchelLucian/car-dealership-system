@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Brand</title>
+
+    <link rel="stylesheet" th:href="@{/css/add-car.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <script th:src="@{/js/add-brand.js}"></script>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="top-bar">
+    <!-- GO BACK BUTTON -->
+    <a href="/agent-dashboard/car-inventory"
+       class="back-btn top-back">
+        <i class="fa-regular fa-circle-left"></i>
+        Go Back
+    </a>
+
+    <div class="agent-greeting">
+           <span id="agentNameBadge">
+          <i class="fa-solid fa-user-tie"></i>
+          Agent :
+           <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}">
+          </span>
+        </span>
+    </div>
+   </div>
+
+    <div class="container">
+
+        <h1>New Brand <i class="fa-solid fa-registered"></i></h1>
+
+        <!-- SUCCESS MESSAGE -->
+        <p id="successMessage"
+           th:if="${successMessage}"
+           th:utext="${successMessage}"
+           class="success-message">
+        </p>
+
+        <!-- ERROR MESSAGE -->
+        <p id="errorMessage"
+           th:if="${errorMessage}"
+           th:utext="${errorMessage}"
+           class="error-message-big">
+        </p>
+
+        <!-- FORM -->
+        <form th:action="@{/agent-dashboard/car-inventory/add-brand}"
+              method="post"
+              onsubmit="validateAddBrand(event)">
+
+            <!-- BRAND NAME -->
+            <span class="error-msg" id="error-name"></span>
+            <label>Brand Name:</label>
+            <input type="text" name="nume"  placeholder="e.g. Toyota">
+
+            <!-- COUNTRY -->
+            <span class="error-msg" id="error-country"></span>
+            <label>Country of Origin:</label>
+
+            <input type="text" name="tara_origine" th:value="${tara_origine}" placeholder="e.g. Japan">
+            <!-- RESET -->
+            <button type="button" class="reset-btn" onclick="clearBrandForm()">Clear Form</button>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="submit-btn" id="addBrandBtn">
+                <i class="fa-solid fa-plus" id="addBrandPlus"></i>
+                <span id="addBrandText">Add Brand</span>
+                <i class="fa-solid fa-spinner spin-icon" id="addBrandSpinner"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

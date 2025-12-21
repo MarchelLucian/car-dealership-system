@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #eef3ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    width: 380px;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #003399;
+}
+
+input {
+    width: 94%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: #003399;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size : 18px;
+}
+
+button:hover {
+    background: #002266;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+a {
+    color: #003399;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.back-btn {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #3a0ca3; /* violet închis, ca în imagine */
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    text-decoration: underline;
+}
+
+.demo-btn {
+    background: #003399;
+    width: 160px;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.demo-btn:hover {
+    background: #002266;
+}

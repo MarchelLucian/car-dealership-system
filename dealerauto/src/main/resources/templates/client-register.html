@@ -1,216 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Create Client Account</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef3ff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 40px;
-            min-height: 100vh;
-        }
-
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .back-container {
-            margin-top: 10px;
-        }
-
-        .register-box {
-            background: white;
-            width: 450px;
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.15);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #1e3a8a;
-        }
-
-        label {
-            display: block;
-            margin-top: 12px;
-            font-weight: bold;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #1e3a8a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #162c6b;
-        }
-
-        .success-message {
-            color: green;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .error-message {
-            color: red;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .go-login-btn {
-            display: block;
-            margin-top: 15px;
-            color: #1e3a8a;
-            font-size: 17px;
-            font-weight: bold;
-            text-decoration: none;
-            text-align: center;
-        }
-        .go-login-btn:hover {
-            text-decoration: underline;
-        }
-
-        .back-btn {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-            font-size: 16px;
-            color: #3a0ca3; /* violet închis, ca în imagine */
-            text-decoration: none;
-        }
-
-        .back-btn:hover {
-            text-decoration: underline;
-        }
-
-        .back-container {
-            text-align: center;
-            margin-top: 15px;
-            margin-bottom: 5px;
-        }
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/client-register.css}" />
+    <script src="/js/client-register.js"></script>
 </head>
 
 <body>
-
 <div class="page-wrapper">
+    <div class="register-box">
+        <h1>Create Client Account</h1>
 
-<div class="register-box">
-    <h1>Create Client Account</h1>
+        <p th:if="${success}" th:text="${success}" class="success-message"></p>
+        <a th:if="${success}" href="/client-login" class="go-login-btn"
+        >→ Go sign in to see what we offer!</a
+        >
+        <p th:if="${error}" th:text="${error}" class="error-message"></p>
 
-    <p th:if="${success}" th:text="${success}" class="success-message"></p>
-    <a th:if="${success}" href="/client-login"
-       class="go-login-btn">→ Go sign in to see what we offer!</a>
-    <p th:if="${error}" th:text="${error}" class="error-message"></p>
+        <form action="/client-register" method="post">
+            <label>Client Type</label>
+            <select
+                    name="tip_client"
+                    id="tip_client"
+                    onchange="updateClientType()"
+                    required
+            >
+                <option value="persoana fizica">Individual</option>
+                <option value="firma">Company</option>
+            </select>
 
-    <form action="/client-register" method="post">
+            <label>Email</label>
+            <input type="email" name="email" required />
 
-        <label>Client Type</label>
-        <select name="tip_client" id="tip_client" onchange="updateClientType()" required>
-            <option value="persoana fizica">Individual</option>
-            <option value="firma">Company</option>
-        </select>
+            <label>Password</label>
+            <input type="password" name="password" required />
 
-        <label>Email</label>
-        <input type="email" name="email" required>
+            <label>First Name</label>
+            <input type="text" name="nume" required />
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+            <label>Last Name</label>
+            <input type="text" id="prenume" name="prenume" />
 
-        <label>First Name</label>
-        <input type="text" name="nume" required>
+            <label>CNP</label>
+            <input type="text" id="cnp" name="cnp" />
 
-        <label>Last Name</label>
-        <input type="text" id="prenume" name="prenume">
+            <label>CUI</label>
+            <input type="text" id="cui" name="cui" />
 
-        <label>CNP</label>
-        <input type="text" id="cnp" name="cnp">
+            <label>Phone</label>
+            <input type="text" name="telefon" required />
 
-        <label>CUI</label>
-        <input type="text" id="cui" name="cui">
+            <label>Address</label>
+            <input type="text" name="adresa" />
 
-        <label>Phone</label>
-        <input type="text" name="telefon" required>
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
 
-        <label>Address</label>
-        <input type="text" name="adresa">
-
-        <button type="submit">Create Account</button>
-    </form>
-
+    <div class="back-container">
+        <a href="/client" class="back-btn">← Back to offers</a>
+    </div>
 </div>
-
-<div class="back-container">
-    <a href="/client" class="back-btn">← Back to offers</a>
-</div>
-
-</div>
-
-<script>
-    function updateClientType() {
-        const type = document.getElementById("tip_client").value;
-
-        const cnpField = document.getElementById("cnp");
-        const cuiField = document.getElementById("cui");
-        const prenumeField = document.getElementById("prenume");
-
-        if (type === "persoana fizica") {
-            // Individual
-            cnpField.disabled = false;
-            cnpField.value = "";
-
-            prenumeField.disabled = false;
-            prenumeField.value = "";
-
-            cuiField.disabled = true;
-            cuiField.value = "---";  // vizual
-        } else {
-            // Company
-            cuiField.disabled = false;
-            cuiField.value = "";
-
-            cnpField.disabled = true;
-            cnpField.value = "---"; // vizual
-
-            prenumeField.disabled = true;
-            prenumeField.value = "---"; // vizual
-        }
-    }
-
-    // rulează la load
-    window.onload = updateClientType;
-</script>
-
-
 </body>
 </html>

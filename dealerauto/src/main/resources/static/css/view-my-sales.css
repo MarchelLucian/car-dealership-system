@@ -1,0 +1,664 @@
+/* ===== SALES LIST ===== */
+
+.sales-container {
+    max-width: 95%;
+    margin: 0 auto;
+    background: #b8ffb8;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    overflow: hidden;
+    margin-bottom : 120px;
+    border:2px solid #1a531b;
+    position: relative;
+}
+
+/* GRID ROW */
+.sales-row {
+    display: grid;
+    grid-template-columns:
+    160px   /* Sale ID */
+        2.5fr   /* Car */
+        2.5fr   /* Client */
+        1.5fr   /* Final Price */
+        1.2fr   /* Profit */
+        1.5fr   /* Date */
+        160px;  /* Status */
+    padding: 16px 20px;
+    align-items: center;
+    font-size: 24px;
+    border-bottom: 1px solid #1a531b;
+}
+
+.sales-row:last-child {
+    border-bottom: none;
+}
+
+/* HEADER */
+.sales-header {
+    background: #1a531b;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+/* HOVER EFFECT */
+.sales-row:not(.sales-header):hover {
+    background: #9afc9a;
+}
+
+/* STATUS */
+
+.status {
+    font-weight: bold;
+    text-align: center;
+
+    /* DIMENSIUNI FIXE */
+    width: 140px;
+    min-height: 40px;
+
+    /* CENTRARE TEXT */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 10px;
+    border-radius: 10px;
+
+    line-height: 1.2;
+    white-space: normal; /* permite text pe 2 rânduri */
+    font-size: 22px;
+
+}
+
+.status.paid {
+    background: #60fa60;
+    color: #1a531b;
+}
+
+.status.pending {
+    background-color: #ffd859;
+    color: #815000;
+}
+/* EMPTY STATE */
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    font-size: 22px;
+    color: #666;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+    .sales-row {
+        grid-template-columns: 1fr 2fr 2fr;
+        row-gap: 10px;
+    }
+
+    .sales-header {
+        display: none;
+    }
+
+    .sales-row div::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        color: #0f5f0f;
+        margin-bottom: 3px;
+    }
+}
+
+
+.name-with-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+}
+/* textul */
+.name-with-info span {
+    flex: 1;                       /* ia tot spațiul disponibil */
+    text-align: left;
+
+}
+
+.info-btn {
+    margin-right: 50px;
+    color: #1a531b;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.info-btn:hover {
+    transform: scale(1.2);
+    color: #0d3a0e;
+}
+
+.empty-state {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: #444;
+}
+
+.empty-state.error {
+    color: #a30000;
+}
+
+.empty-state .login-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #0f5f0f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.empty-state .login-link:hover {
+    text-decoration: underline;
+}
+
+.id-badge {
+    background-color: #1a531b;  /* verde închis elegant */
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+    width: 50px;
+
+    display: flex;               /* centrare perfectă */
+    align-items: center;
+    justify-content: center;
+}
+
+.profit-positive {
+    color: #0f5f0f;
+    font-weight: bold;
+}
+
+.profit-negative {
+    color: #b00000;
+    font-weight: bold;
+}
+
+.name-with-info i
+{
+    font-size: 30px;
+}
+
+.details-row {
+    grid-column: 1 / -1;
+    background: #e9fbe6;
+    border-left: 14px solid #07fb62;
+    border-bottom: 1px solid #1a531b;
+    padding: 14px 20px;
+    font-size: 20px;
+    display: none;
+}
+
+.details-row.visible {
+    display: block;
+}
+
+.details-content {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+}
+
+.details-content div span {
+    font-weight: bold;
+    color: #0f5f0f;
+}
+
+/* CLOSE BUTTON */
+.close-btn  {
+    position: absolute;
+
+    right: 14px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #c00000;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #800000;
+    transform: scale(1.2);
+}
+
+.denum {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.spin-icon {
+    animation: spin 1s linear infinite;
+
+    font-size: 20px;
+    margin-left: 6px;
+
+    margin-right: 50px;
+    color: #1a531b;
+    cursor: pointer;
+
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+
+.sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 20px auto 25px;
+    width: 90%;
+}
+
+.sort-bar select,
+.sort-bar button {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #2e7d32;
+    font-size: 16px;
+}
+
+.sort-bar button {
+    background: #1b5e20;
+    color: white;
+    cursor: pointer;
+}
+
+.sort-bar button:hover {
+    background: #2e7d32;
+}
+
+/* ===== SORT BOX WRAPPER ===== */
+.sort-box-wrapper {
+
+    max-width: 1660px;
+    margin: 10px auto 25px auto;  /* poziționare centrală */
+    background-color: #e9fbe6;    /* verde foarte deschis */
+    border: 2px solid #1a531b;    /* margine verde pastel */
+    border-radius: 12px;
+    padding: 18px 22px;
+    box-shadow: 0 4px 10px rgba(0, 80, 0, 0.15);
+    display: flex;
+    justify-content: center;
+
+}
+
+/* ===== CONȚINUT SORT BAR ===== */
+.sort-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ===== LABEL ===== */
+.sort-container label {
+    color: #0d3b0d;
+    font-size: 24px;
+    padding: 14px ;
+    font-weight: bold;
+}
+
+/* ===== SELECT BOXES ===== */
+.sort-select {
+    padding: 14px 22px;
+    border-radius: 8px;
+    border: 2px solid #0e5c0e;
+    background-color: #b8ffb8;
+    color: #0e3d0e;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.sort-select:hover {
+    background-color: #dbffdb;
+    border-color: #179f17;
+}
+
+/* ===== SORT BUTTON ===== */
+.sort-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #1a531b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    font-size: 20px;
+    padding: 14px 28px;
+    font-weight: bold;
+}
+
+.sort-btn:hover {
+    background-color: #0d3a0e;
+    transform: translateY(-2px);
+}
+.sort-btn i{
+    font-size: 24px;
+    margin-left: 6px;
+}
+
+
+/* overlay doar peste tabel */
+.table-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.7); /* semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* peste tabel */
+}
+
+/* spinner */
+.spin-icon {
+    font-size: 55px;
+    color: #1a531b;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+
+.filter-box-wrapper {
+    width: 95%;
+    margin: 0px auto;
+    padding: 14px 20px;
+    border-radius: 12px;
+
+    font-size : 24px;
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.filter-row label {
+    font-weight: bold;
+    color: #0f5f0f;
+}
+
+.filter-row input,
+.filter-row select {
+    width: 160px;
+    padding: 5px 8px;
+    font-size: 22px;
+    border: 2px solid #063a15;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s ease;
+    color: #063a15;
+    background-color: #b8ffb8;
+}
+
+
+.search-btn {
+    background-color: #1a531b;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.search-btn:hover {
+    background-color: #2c7c2d;
+    transition: 0.3s;
+    transform: scale(1.1);
+}
+#monthsInput {
+    width: 112px;
+}
+
+#predefinedRange {
+    width: 185px;
+}
+
+/* Wrapper general */
+.model-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    margin-left: 18px;
+    margin-bottom: 30px;
+
+}
+
+/* Input-ul */
+.model-search-input {
+
+    padding: 5px 8px;
+    font-size: 22px;
+    border: 2px solid #063a15;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s ease;
+    color: #063a15;
+    background-color: #b8ffb8;
+}
+
+.model-search-input:focus {
+    border-color: #1a531b;
+    box-shadow: 0 0 6px rgba(0,128,0,0.4);
+}
+
+/* Dropdown sugestii */
+.model-search-suggestions {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #dcffc0;
+    max-height: 180px;
+    overflow-y: auto;
+    display: none;
+
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+
+    z-index: 9999;
+}
+
+/* Fiecare item */
+.model-search-suggestions div {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 17px;
+    color: #063a15;
+}
+
+.model-search-suggestions div:hover {
+    background-color: #acec76;
+}
+
+#carSearchInput {
+    width: 364px;
+}
+
+#clientSearchInput{
+    width: 364px;
+}
+
+/* RÂND special în tabel */
+.no-results {
+    grid-column: 1 / -1;
+    display: grid;
+    place-items: center;
+    margin-top: 8px;
+
+    background-color: #ffe6e6;
+    border: 2px solid #b30000;
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+/* Conținut mesaj */
+.no-results-text {
+    grid-column: 1 / -1;
+    width: 100%;
+
+    text-align: center;
+    padding: 16px 20px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #b30000;
+
+
+
+    /* CHEIA PROBLEMEI */
+    white-space: nowrap;        /* un singur rând */
+    overflow: hidden;
+    text-overflow: ellipsis;    /* dacă e foarte lung */
+}
+
+.summary-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    background: #e9fbe6;
+    border: 4px solid #1a531b;
+    border-radius: 14px;
+    padding: 10px 28px;
+
+    width: 280px;
+    height:  100px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.summary-icon {
+    font-size: 48px;
+    color: #24afaf;
+}
+
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.summary-label {
+    font-size: 26px;
+    font-weight: 600;
+    color: #1a531b;
+}
+
+.summary-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: #063a15;
+    align-items: center;
+}
+
+#coins{
+    color: #d8b714;
+}
+
+.filters-and-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* NU center pe rând */
+    width: 95%;
+    margin: 0 100px 0px 30px;
+
+     /* AICI controlezi spațiul */
+}
+
+.summary-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* MUTĂ pe dreapta */
+    margin-right: -14px;
+
+    /* Centrează vertical față de blocul de filtre */
+    margin-top: -4px;
+}
+
+
+@media (max-width: 1100px) {
+    .filters-and-summary {
+        flex-direction: column;
+    }
+
+    .summary-wrapper {
+        align-self: flex-start;
+        margin-top: 20px;
+    }
+}
+
+.summary-wrapper-first{
+    display: flex;
+    flex-direction: column;
+    /* MUTĂ pe dreapta */
+    margin-right: -14px;
+
+    /* Centrează vertical față de blocul de filtre */
+    margin-top: 30px;
+}
+
+.page-title-new {
+    text-align: center;
+    color: #0f5f0f;
+    font-size: 48px;
+}
+
+.page-title-new i{
+    font-size: 48px;
+    margin-left: 10px;
+}
+
+.one{
+    margin-top: 140px;
+    margin-bottom: -80px;
+}
+
+.summary-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.7); /* semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* peste tabel */
+}
+
+.summary-overlay i{
+    margin-left: 60px;
+}

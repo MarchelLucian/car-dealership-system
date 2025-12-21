@@ -1,0 +1,243 @@
+body {
+    background-color: #e9fbe6;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+/* Wrapper general — ocupă toată pagina */
+.page-wrapper {
+    position: relative;
+    max-width: 1800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 20px;
+
+    border: 3px solid #2bff06;
+    border-left: 3px solid #d0d0d0;
+    border-right: 3px solid #d0d0d0;
+
+    min-height: 100vh;
+}
+
+
+/* Buton Go Back în colțul stânga-sus al wrapperului */
+.top-back {
+    position: absolute;
+    left: 40px;      /* distanță de marginea stângă */
+    top: 40px;       /* distanță de sus */
+}
+
+
+.container {
+    width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #0f5f0f;
+    margin-bottom: 30px;
+}
+
+h1 i{
+    font-size: 38px;
+    margin-left: 14px;
+}
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 22px;
+    color: #064f06;
+}
+
+input, select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 20px;
+}
+
+.submit-btn {
+    grid-column: span 2;
+    padding: 12px;
+    background: #0f5f0f;
+    color: white;
+    font-size: 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #0c4c0c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.submit-btn i{
+    margin-right: 14px;
+}
+
+.reset-btn {
+    grid-column: span 2;
+    padding: 12px;
+    background: #cccccc;
+    color: #333;
+    font-size: 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: -5px;
+    transition: 0.2s ease-in-out;
+}
+
+.reset-btn:hover {
+    background: #b5b5b5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.error-msg {
+    color: #d10000;
+    font-size: 16px;
+    grid-column: span 2; /* ocupa rând întreg */
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+
+.input-error {
+    border: 2px solid #d10000 !important;
+    background-color: #ffe5e5;
+}
+
+.success-message {
+    background-color: #d4fcd4;
+    color: #0a5c0a;
+    border: 1px solid #0a5c0a;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#addCarSpinner {
+    display: none;
+}
+
+.spin-icon {
+    margin-left: 8px;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    margin: 20px;
+
+    padding: 8px 15px;
+    background-color: #1a531b;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 22px;
+    transition: background 0.25s, transform 0.25s;
+    margin-top: -5px;
+    margin-left: 40px;
+}
+
+.back-btn:hover {
+    background-color: #0d3a0e;
+    transform: translateY(-3px);
+}
+
+.back-btn i {
+    font-size: 30px;
+    margin-right: 8px;
+}
+
+
+#addBrandSpinner {
+    display: none;
+}
+#addProviderSpinner {
+    display: none;
+}
+
+#addSaleSpinner{
+    display: none;
+}
+
+#addClientSpinner{
+    display: none;
+}
+
+
+.error-message-big {
+    background-color: #ffd4d4;
+    border: 1px solid #c40000;
+    color: #7a0000;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+
+#agentNameBadge {
+    display: inline-block;
+    background: #1a531b;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 22px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+    cursor: default;
+    transition: background 0.25s, transform 0.25s;
+}
+
+/* efect mic de hover */
+#agentNameBadge:hover {
+    background: #0d3a0e;
+    transform: translateY(-3px);
+}
+
+#agentNameBadge i {
+    font-size: 26px;
+    margin-right: 6px;
+}
+
+.agent-greeting {
+    position: absolute;
+    right: 60px;   /* distanță față de marginea dreaptă */
+    top: 34px;     /* aliniat cu butonul Go Back */
+}
+

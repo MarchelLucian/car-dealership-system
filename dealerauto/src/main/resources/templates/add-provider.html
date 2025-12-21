@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Provider</title>
+
+    <link rel="stylesheet" th:href="@{/css/add-car.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <script th:src="@{/js/add-provider.js}"></script>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="top-bar">
+    <a href="/agent-dashboard/car-inventory" class="back-btn top-back">
+        <i class="fa-regular fa-circle-left"></i>
+        Go Back
+    </a>
+
+    <div class="agent-greeting">
+           <span id="agentNameBadge">
+          <i class="fa-solid fa-user-tie"></i>
+          Agent :
+           <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}">
+          </span>
+        </span>
+    </div>
+    </div>
+
+    <div class="container">
+
+        <h1>New Provider <i class="fa-solid fa-truck"></i></h1>
+
+        <!-- SUCCESS MESSAGE -->
+        <p id="successMessage"
+           th:if="${successMessage}"
+           th:utext="${successMessage}"
+           class="success-message"></p>
+
+        <!-- ERROR DUPLICATES MESSAGE -->
+        <p id="errorMessage"
+           th:if="${errorMessage}"
+           th:utext="${errorMessage}"
+           class="error-message-big"></p>
+
+
+        <form th:action="@{/agent-dashboard/car-inventory/add-provider}"
+              method="post"
+              onsubmit="validateAddProvider(event)">
+
+            <!-- NUME -->
+            <span class="error-msg" id="error-name"></span>
+            <label>Name:</label>
+            <input type="text" name="nume" th:value="${nume}" placeholder="e.g. Premium Auto Dealer">
+
+            <!-- TIP -->
+            <span class="error-msg" id="error-type"></span>
+            <label>Provider Type:</label>
+            <select name="tip_furnizor">
+                <option value="" disabled selected>Select type</option>
+                <option value="individual"
+                        th:selected="${tip_furnizor == 'persoana fizica'}">Individual</option>
+                <option value="company"
+                        th:selected="${tip_furnizor == 'firma'}">Company</option>
+            </select>
+
+            <!-- TELEFON -->
+            <span class="error-msg" id="error-phone"></span>
+            <label>Phone:</label>
+            <input type="text" name="telefon" placeholder="e.g. 0744 123 456">
+
+            <!-- CUI / CNP -->
+            <span class="error-msg" id="error-id"></span>
+            <label>CUI / CNP:</label>
+            <input type="text" name="cui_cnp" placeholder="Unique ID">
+
+            <!-- ADRESĂ -->
+            <span class="error-msg" id="error-address"></span>
+            <label>Address:</label>
+            <input type="text" name="adresa" th:value="${adresa}" placeholder="Street, number, city">
+
+            <!-- ȚARA -->
+            <span class="error-msg" id="error-country"></span>
+            <label>Country:</label>
+            <input type="text" name="tara" th:value="${tara}" placeholder="Optional">
+
+            <button type="button" class="reset-btn" onclick="clearProviderForm()">Clear Form</button>
+
+            <button type="submit" class="submit-btn" id="addProviderBtn">
+                <i class="fa-solid fa-plus" id="addProviderPlus"></i>
+                <span id="addProviderText">Add Provider</span>
+                <i class="fa-solid fa-spinner spin-icon" id="addProviderSpinner"></i>
+            </button>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

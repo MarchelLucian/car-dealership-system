@@ -1,0 +1,328 @@
+body {
+    background-color: #e9fbe6;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* WRAPPER */
+.page-wrapper {
+    position: relative;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border: 3px solid #2bff06;
+    border-left: 3px solid #d0d0d0;
+    border-right: 3px solid #d0d0d0;
+    min-height: 100vh;
+}
+
+/* TOP BAR */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* BACK BUTTON */
+.top-back {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    background-color: #1a531b;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+/* AGENT BADGE */
+.agent-greeting {
+    position: absolute;
+    right: 60px;
+    top: 34px;
+}
+
+#agentNameBadge {
+    padding: 10px 22px;
+    background: #1a531b;
+    color: white;
+    font-size: 22px;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* MAIN BOX */
+.container {
+    width: 700px;
+    margin: 80px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+}
+
+/* FORM */
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 24px;
+    color: #064f06;
+}
+
+input, select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+.error-msg {
+    color: #d10000;
+    grid-column: span 2;
+    font-size: 20px;
+}
+
+/* SUCCESS + ERROR */
+.success-message, .error-message {
+    grid-column: span 2;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.success-message {
+    background: #d4fcd4;
+    border: 1px solid #0a5c0a;
+}
+
+.error-message {
+    background: #ffd4d4;
+    border: 1px solid #aa0000;
+    font-size: 20px;
+}
+
+/* BUTTONS */
+.reset-btn, .submit-btn {
+    grid-column: span 2;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.reset-btn {
+    background: #cccccc;
+}
+
+.submit-btn {
+    background: #0f5f0f;
+    color: white;
+}
+
+.search-input-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.search-input-wrapper input {
+    flex: 1;
+}
+
+.search-btn {
+    background: #1a531b;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background: #2c7c2d;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+/* INPUT disabled */
+.disabled-input {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* BUTTON (lupă) disabled */
+.disabled-btn {
+    background-color: #9ca3af !important;
+    cursor: not-allowed;
+    opacity: 0.8;
+    transform: scale(1) !important;
+}
+
+#vinSpinner {
+    display: none;
+}
+
+#clientSpinner {
+    display: none;
+}
+
+#idSpinner {
+    display: none;
+}
+.searchICONita{
+    display: inline-block;
+}
+.spin-icon {
+    display: none;
+}
+
+.spin-iconITA {
+    animation: spin 0.7s linear infinite;
+}
+
+
+/* INFO BOX – CAR DETAILS */
+.info-box {
+    margin: 12px 0 18px 0;
+    padding: 12px 16px;
+
+    background: #f0fdf4;            /* verde foarte deschis */
+    border-left: 5px solid #15803d; /* verde închis */
+    border-radius: 6px;
+
+    color: #064e3b;
+    font-size: 18px;
+    line-height: 1.5;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Titlu (marca + model) */
+.info-box strong {
+    display: block;
+    font-size: 20px;
+    color: #065f46;
+    margin-bottom: 4px;
+}
+
+/* VIN evidențiat */
+.info-box .vin {
+    margin-top: 4px;
+    font-family: monospace;
+    font-size: 17px;
+    color: #14532d;
+}
+
+
+/* LOOKUP ERROR (deasupra câmpului) */
+
+
+.lookup-error {
+    display: block;
+    margin: 6px 0 10px 0;
+
+    color: #b91c1c;
+    background: #fef2f2;
+
+    padding: 6px 10px;
+    border-left: 4px solid #dc2626;
+    border-radius: 4px;
+
+    font-size: 20px;
+}
+.lookup-error:empty {
+    display: none;
+}
+
+.register-client-link {
+    color: #c00000;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.register-client-link:hover {
+    color: #8b0000;
+    text-decoration: underline;
+}
+
+.full-row {
+    grid-column: 1 / -1;   /* ocupă toate coloanele */
+    width: 100%;
+}
+
+
+/* Cutia cu informațiile mașinii */
+.car-info-box {
+    background: #e9fbe6;
+    border: 4px solid #1a531b;
+    padding: 16px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    font-size: 24px;
+    color: #1a531b;
+}
+
+.car-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 22px;
+}
+
+.car-columns div {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.car-columns span {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color : black;
+}
+
+.client-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 22px;
+}
+
+.client-columns div {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.client-columns span {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.car-columns div,
+.client-columns div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}

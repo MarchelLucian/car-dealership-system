@@ -1,0 +1,656 @@
+body {
+    font-family: Arial, serif;
+    background: #eef3ff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* --------------------- LEFT SIDEBAR --------------------- */
+.sidebar {
+    width: 260px;
+    background: white;
+    padding: 20px;
+    margin: 180px 20px 20px 20px; /* TOP 120px */
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    height: fit-content;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.sidebar label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.sidebar input {
+    width: 95%;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 3px;
+}
+
+.sidebar button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    background: #0066ff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #004ec2;
+}
+
+/* --- NEW styling for horizontal filters --- */
+
+.filter-inline.centered {
+    display: flex;
+    justify-content: center; /* center the items */
+    gap: 60px;               /* spacing between left and right option */
+    margin-top: 5px;
+    align-items: center;
+}
+
+.filter-inline.centered div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Apply same size as brand checkboxes to all new filters */
+.filter-section input[type="checkbox"],
+.filter-inline input[type="checkbox"],
+.seat-grid input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* grid for seats */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 5px;
+    justify-content: center;     /* CENTER THE WHOLE GRID */
+    width: 200px;                /* FIXED WIDTH TO CENTER COLUMNS */
+    margin-left: auto;
+    margin-right: auto;          /* CENTER THE GRID IN SIDEBAR */
+}
+
+.seat-grid .row2 {
+    grid-column: span 4;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    justify-content: center;     /* CENTER SECOND ROW */
+    width: 150px;                /* 3 columns centered */
+    margin-left: auto;
+    margin-right: auto;
+}
+.seat-grid .seat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center checkbox and number */
+    justify-content: center;
+    gap: 2px; /* space between checkbox and number */
+    width: 40px; /* ensures equal width per column */
+}
+
+.fuel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;            /* aici modifici distanța */
+    width: 240px;         /* poți ajusta la nevoie */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+}
+
+.fuel-grid .seat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+/* Button for advanced options */
+.advanced-toggle {
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #0a44c9;
+    user-select: none;
+}
+
+.advanced-toggle:hover {
+    text-decoration: underline;
+}
+
+/* Hidden section */
+.advanced-section {
+    display: none;    /* hidden by default */
+    animation: fadeIn 0.3s ease;
+}
+
+.advanced-toggle i {
+    font-size: 24px;   /* tu alegi dimensiunea */
+    margin-right: 6px;  /* opțional, spațiu între text și icon */
+}
+
+
+/* Fade-in effect */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.filter-btn {
+    width: 100%;
+    padding: 10px 0;
+    background: #4444ff;       /* culoarea ta */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.15s ease;
+    margin-top: 15px;
+}
+
+.filter-btn:hover {
+    background: #2e2ed1;       /* mai închis la hover */
+    transform: translateY(-2px);
+}
+
+.filter-btn:active {
+    transform: translateY(0px);
+}
+
+
+/* --------------------- MAIN CONTENT --------------------- */
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 28px;
+}
+
+.car-box {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#loadMore {
+    display: block;
+    margin: 20px auto;
+    background: #4444ff;          /* aceeași culoare ca celelalte */
+    color: white;
+    border: none;
+    padding: 10px 20px;           /* păstrat */
+    border-radius: 8px;           /* păstrat */
+    cursor: pointer;
+    font-size: 20px;              /* păstrat */
+    transition: background 0.25s ease, transform 0.15s ease;
+}
+
+#loadMore:hover {
+    background: #2e2ed1;          /* aceeași culoare la hover */
+    transform: translateY(-2px);
+}
+
+#loadMore:active {
+    transform: translateY(0px);
+}
+
+
+.back-btn {
+    display : block ;
+    font-size: 22px;
+    text-decoration: none;        /* fără underline normal */
+    color: #4444ff;               /* culoare link elegantă */
+    font-weight: bold;
+    text-align: center;
+    transition: text-decoration 0.2s ease;
+}
+
+.back-btn:hover {
+    text-decoration: underline;   /* underline DOAR la hover */
+}
+
+
+.sort-box {
+    width: 99%;
+    margin: 0 auto 20px auto;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.sort-box label {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.sort-box select {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    font-size: 18px;
+}
+
+.sort-btn {
+    background: #4444ff;
+    color: white;
+    padding: 6px 12px;   /* păstrat EXACT */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.sort-btn:hover {
+    background: #2e2ed1;
+    transform: translateY(-2px);
+}
+
+.sort-btn:active {
+    transform: translateY(0);
+}
+
+
+<!-- -->
+.auth-bar {
+    position: fixed;
+    top: 15px;
+    right: 25px;
+    display: flex;
+    flex-direction: column; /* buttons stacked vertically */
+    gap: 10px;              /* space between them */
+    z-index: 999;
+}
+
+.auth-btn {
+    width: 150px;
+    text-align: center;
+    padding: 10px 0;
+    background: #f4f4f4;       /* white-grey */
+    color: #222;               /* dark text */
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.auth-btn:hover {
+    background: #e6e6e6;       /* slightly darker on hover */
+    transform: translateY(-2px);
+}
+
+/* iconita */
+/* Container general (poziționat în dreapta sus) */
+.auth-container {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+/* Avatar rotund */
+.avatar {
+    background: #0a44c9;
+    color: white;
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* ----------------- GUEST MODE (VERTICAL) ---------------- */
+
+.auth-buttons-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ----------------- LOGGED MODE (HORIZONTAL) ---------------- */
+
+.auth-buttons-horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Butoane generale */
+.auth-btn {
+    display: block;
+    text-align: center;
+    padding: 10px 14px;
+    background: #f3f3f3;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    color: #0a44c9;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    min-width: 120px;
+}
+
+/* Butoane mici pentru orizontală */
+.small-btn {
+    padding: 8px 12px;
+    min-width: auto;
+}
+
+/* Hover */
+.auth-btn:hover {
+    background: #e7e7e7;
+}
+
+/* Logout roșu */
+.logout-btn {
+    color: #d00000;
+    border-color: #d00000;
+}
+
+.logout-btn:hover {
+    background: #ffe5e5;
+}
+
+.main-content {
+    margin-top: 80px;   /* modifică valoarea după cum îți place */
+}
+
+.auth-btn i {
+    margin-right: 6px;
+}
+.auth-icon {
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+
+/* === LAYOUT GENERAL === */
+.page-wrapper {
+    max-width: 1600px;        /* limitează lățimea TOTALĂ */
+    width: 100%;
+    margin: 0 auto;           /* centrează pe ecran */
+    display: flex;
+    position: relative;
+
+}
+
+/* sidebar pe stânga */
+.sidebar {
+    width: 260px;
+    flex-shrink: 0;           /* nu se micșorează la zoom */
+}
+
+/* zona de content */
+.main-content {
+    flex: 1;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* bara de autentificare poziționată fix în wrapper */
+.auth-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+/* bara de cautare */
+/* SEARCH BAR CONTAINER */
+.search-wrapper {
+    position: absolute;
+    top: 25px;
+    left: 60px; /* Ajustează dacă sidebar-ul se modifică */
+    display: flex;
+    align-items: center;
+    width: 450px;
+    height: 40px;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 50px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    border: 1px solid #ccd7ff;
+}
+
+/* SEARCH INPUT */
+.search-bar {
+    flex: 1;
+    left: 100px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+
+/* BUTTON */
+.search-btn {
+    background: #0a44c9;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 80%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-btn:hover {
+    background: #0839ab;
+}
+
+
+.page-wrapper {
+    border: 2px solid #005DFF;
+    border-left: 3px solid #d0d0d0;   /* bordura stânga */
+    border-right: 3px solid #d0d0d0;  /* bordura dreapta */
+    padding: 40px;                    /* spațiu interior frumos */
+}
+
+.spin-icon {
+    font-size: 18px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+#loadMore {
+    visibility: hidden;
+}
+
+.back-btn {
+    visibility: hidden;
+}
+
+/* filters */
+/* Un rând cu două filtre unul lângă altul */
+.filter-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;   /* spațiu între min/max */
+    margin-bottom: 40px; /* spațiu între secțiuni */
+}
+
+/* Un bloc individual (label + input) */
+.filter-item {
+    flex: 1;
+}
+
+/* Secțiuni singulare precum mileage și brands */
+.filter-section {
+    margin-bottom: 25px;
+}
+
+/* Toate input-urile din filtre */
+.filter-item input,
+.filter-section input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 5px;
+}
+
+.brand-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;          /* spațiu între checkbox și text */
+    margin-bottom: 12px; /* reduce spațiul între branduri */
+    font-size: 16px;
+}
+.brand-option span {
+    font-weight: bold;     /* face numele brandului bold */
+}
+
+.brand-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.show-more-brands {
+    font-size: 14px;
+    color: #0a44c9;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.show-more-brands:hover {
+    color: #0839ab;
+    text-decoration: underline;
+}
+.reset-filters {
+    margin-top: 10px;
+    text-align: center;
+    color: #0a44c9;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.reset-filters:hover {
+    text-decoration: underline;
+}
+.loading-box {
+    text-align: center;
+    padding: 30px;
+    font-size: 30px;
+    color: #0a44c9;
+}
+.loading-box i {
+    font-size: 50px;
+}
+
+.search-btn {
+    transition: transform 0.25s ease;
+}
+
+.search-btn:hover {
+    transform: scale(1.1);
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    background: white;
+    border: 2px solid #005DFF;
+     /* IMPORTANT: ca să se contopească elegant cu bara */
+
+    /* colțuri rotunjite doar jos */
+    border-radius: 20px 20px 20px 20px;
+
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.24);
+
+    max-height: 440px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: none;
+}
+
+.autocomplete-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.autocomplete-item:hover {
+    background: #f5f5f5;
+}
+/* results count */
+   .results-count {
+       font-size: 22px;
+       margin: 10px 0 20px;
+       color: #444;
+       font-weight: 500;
+       text-align: center;
+   }
+
+.brands-controls {
+    display: flex;
+    justify-content: space-between;   /* left-right alignment */
+    align-items: center;              /* perfect vertical alignment */
+    margin-top: 8px;
+    margin-bottom: 18px;
+    width: 100%;
+}
+
+.show-less-brands {
+    font-size: 14px;
+    color: #d11a1a;     /* roșu */
+    cursor: pointer;
+    transition: color 0.2s;
+    display: none;      /* ascuns la început */
+}
+
+.show-less-brands:hover {
+    color: #a70f0f;
+    text-decoration: underline;
+}

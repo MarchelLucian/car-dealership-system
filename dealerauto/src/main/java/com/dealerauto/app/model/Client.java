@@ -12,6 +12,8 @@ public class Client {
     private String email;
     private String adresa;
 
+    public Client() {
+    }
     // Constructor folosit la REGISTER (fără ID)
     public Client(String tip_client, String nume, String prenume,
                   String cnp, String cui, String telefon,

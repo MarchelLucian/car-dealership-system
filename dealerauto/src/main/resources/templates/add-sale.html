@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Sale</title>
+    <link rel="stylesheet" th:href="@{/css/add-car.css}">
+    <link rel="stylesheet" th:href="@{/css/add-sale.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script th:src="@{/js/add-sale.js}"></script>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <!-- Go Back to SALES HOME -->
+        <a href="/agent-dashboard/sales" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <!-- Agent badge -->
+        <div class="agent-greeting">
+            <span id="agentNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Agent :
+                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+            </span>
+        </div>
+
+    </div>
+
+    <!-- CONTAINER -->
+    <div class="container">
+
+        <h1>New Sale <i class="fa-solid fa-money-bill-wave"></i></h1>
+
+        <!-- Success message -->
+        <p id="successMessage"
+           th:if="${successMessage}"
+           th:utext="${successMessage}"
+           class="success-message"></p>
+
+        <!-- Error message -->
+        <p id="errorMessage"
+           th:if="${errorMessage}"
+           th:utext="${errorMessage}"
+           class="error-message"></p>
+
+        <!-- FORM -->
+        <form th:action="@{/agent-dashboard/sales/add-sale}" method="post"
+              onsubmit="validateAddSale(event)">
+
+            <!-- ================= CAR SEARCH ================= -->
+
+            <!-- VALIDATION ERROR (sub câmp) -->
+            <span class="error-msg validation-error" id="error-car-validation"></span>
+
+            <!-- ===== SEARCH BY VIN ===== -->
+            <label>Car VIN:</label>
+
+            <div class="search-input-wrapper">
+                <input type="text"
+                       name="carVinInput"
+                       id="carVinInput"
+                       placeholder="e.g. BMW2019XXX00020">
+
+                <button type="button"
+                        class="search-btn"
+                        id="searchVinBtn"
+                        onclick="searchCarByVin()">
+                    <i id="vinSearchIcon" class="fa-solid fa-magnifying-glass searchICONita"></i>
+                    <i id="vinSpinner" class="fa-solid fa-spinner spin-iconITA"></i>
+                </button>
+            </div>
+
+            <!-- ===== SEARCH BY ID ===== -->
+            <label>Car ID:</label>
+
+            <div class="search-input-wrapper">
+                <input type="number"
+                       name="carIdInput"
+                       id="carIdInput"
+                       placeholder="e.g. 12">
+
+                <button type="button"
+                        class="search-btn"
+                        id="searchIdBtn"
+                        onclick="searchCarById()">
+                    <i id="idSearchIcon" class="fa-solid fa-magnifying-glass searchICONita"></i>
+                    <i  id="idSpinner" class="fa-solid fa-spinner spin-iconITA"></i>
+                </button>
+            </div>
+
+            <!-- LOOKUP ERROR (deasupra câmpului) -->
+            <span class="error-msg lookup-error" id="error-car-lookup"></span>
+
+            <!-- ===== RESULT (FULL WIDTH) ===== -->
+            <div class="full-row">
+                <div id="carInfoBox" class="car-info-box" style="display:none;"></div>
+            </div>
+
+            <input type="hidden" name="masina_id" id="masina_id">
+
+
+            <!-- CLIENT SELECT -->
+
+            <!-- VALIDATION ERROR (sub câmp) -->
+            <span class="error-msg validation-error" id="error-client-validation"></span>
+
+            <label>Buyer CUI / CNP:</label>
+
+            <div class="search-input-wrapper">
+                <input type="text"
+                       name="buyerCuiCnpInput"
+                       id="buyerCuiCnpInput"
+                       placeholder="e.g. RO12345678">
+
+                <button type="button"
+                        class="search-btn"
+                        id="searchClientBtn"
+                        onclick="searchClientByCuiCnp()">
+
+                    <i  id="clientSearchIcon" class="fa-solid fa-magnifying-glass searchICONita"></i>
+                    <i id="clientSpinner" class="fa-solid fa-spinner spin-iconITA"></i>
+                </button>
+            </div>
+
+            <!-- LOOKUP ERROR (deasupra câmpului) -->
+            <span class="error-msg lookup-error" id="error-client-lookup"></span>
+
+            <div class="full-row">
+                <div id="clientInfoBox" class="car-info-box" style="display:none;"></div>
+            </div>
+
+            <input type="hidden" name="client_id" id="client_id">
+
+
+
+            <!-- PRICE -->
+            <span class="error-msg" id="error-price"></span>
+            <label>Final Price (€)</label>
+            <input type="number" name="pret_final" placeholder="e.g. 5500">
+
+            <!-- PAYMENT -->
+            <span class="error-msg" id="error-payment"></span>
+            <label>Payment Method:</label>
+            <select name="metoda_plata">
+                <option value="" disabled selected>Select method</option>
+                <option value="cash">Cash</option>
+                <option value="transfer bancar">Bank Transfer</option>
+                <option value="leasing">Leasing</option>
+                <option value="rate">Installments</option>
+            </select>
+
+
+            <!-- DATE -->
+            <span class="error-msg" id="error-date"></span>
+            <label>Sale Date:</label>
+            <input type="date" name="data_vanzare">
+
+            <!-- RESET -->
+            <button type="button" class="reset-btn" onclick="clearSaleForm()">Clear Form</button>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="submit-btn" id="addSaleBtn">
+                <i class="fa-solid fa-plus" id="addSalePlus"></i>
+                <span id="addSaleText">Add Sale</span>
+                <i class="fa-solid fa-spinner spin-icon" id="addSaleSpinner"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

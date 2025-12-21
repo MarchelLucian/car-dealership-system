@@ -3,89 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>DealerAuto - Home Page</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f4f7;
-            text-align: center;
-            margin: 0;
-            padding: 40px 20px;
-        }
-
-        h1 {
-            font-size: 32px;
-            color: #222;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            font-size: 18px;
-            font-weight: normal;
-            color: #444;
-            margin-bottom: 40px;
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 50px;
-        }
-
-        .card {
-            width: 280px;
-            height: 220px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.12);
-            padding: 25px;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none;
-            color: #222;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 6px 28px rgba(0,0,0,0.25);
-        }
-
-        .card h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            font-size: 16px;
-            color: #555;
-        }
-
-        /* Different color for each role */
-        .client { border-top: 10px solid #0080ff; }
-        .agent { border-top: 10px solid #28a745; }
-        .manager { border-top: 10px solid #f1c40f; }
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
 </head>
 <body>
 
-<h1>Welcome to the perfect place to find your ideal car!</h1>
+<h1>Auto Dealer Web Platform </h1>
 <h2>Select your role and start exploring</h2>
 
 <div class="container">
-
-    <!-- Client Card -->
-    <a href="/client" class="card client">
-        <h3>🔵 Client</h3>
-        <p>Browse available cars and find the perfect one for you.</p>
-    </a>
 
     <!-- Agent Card -->
     <a href="/agent-login" class="card agent">
         <h3>🟢 Sales Agent</h3>
         <p>Manage the car inventory and process sales.</p>
+    </a>
+
+    <!-- Client Card -->
+    <a href="/client" class="card client">
+        <h3>🔵 Client</h3>
+        <p>Browse available cars and find the perfect one for you.</p>
     </a>
 
     <!-- Manager Card -->

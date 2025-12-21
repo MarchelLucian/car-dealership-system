@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Processing</title>
+
+    <link rel="stylesheet" th:href="@{/css/sales.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <!-- Go Back -->
+        <a href="/agent-dashboard" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <!-- Agent Badge -->
+        <div class="agent-greeting">
+            <span id="agentNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Agent :
+                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+            </span>
+        </div>
+
+    </div>
+
+    <!-- TITLE -->
+    <h1 class="page-title">
+        Sales Management <i class="fa-solid fa-money-bill-wave"></i>
+    </h1>
+
+    <!-- INSTRUCTIONS -->
+    <p class="subtitle">
+        Manage customer sales, record payments and track your performance
+    </p>
+
+    <!-- MAIN OPTIONS -->
+    <div class="options-wrapper">
+
+        <!-- ROW 1 -->
+        <div class="options-container">
+            <!-- ADD SALE -->
+            <a href="/agent-dashboard/sales/add-sale" class="option-card">
+                <i class="fa-solid fa-file-circle-plus option-icon"></i>
+                <h2>Record New Sale</h2>
+                <p>Register a new transaction and update the vehicle stock</p>
+            </a>
+
+            <!-- VIEW SALES -->
+            <a href="/agent-dashboard/sales/view-my-sales" class="option-card">
+                <i class="fa-solid fa-clipboard-list option-icon"></i>
+                <h2>View My Sales</h2>
+                <p>Browse all recorded sales, filter results and analyze trends</p>
+            </a>
+        </div>
+
+        <!-- ROW 2 (CENTRAT) -->
+        <div class="options-container single">
+            <a href="/agent-dashboard/sales/add-client" class="option-card">
+
+                <i class="fa-solid fa-person-circle-plus option-icon"></i>
+                <h2>Register New Client</h2>
+                <p>Create a new customer account</p><br>
+            </a>
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>

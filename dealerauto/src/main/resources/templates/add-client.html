@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Client</title>
+
+    <link rel="stylesheet" th:href="@{/css/add-car.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <script th:src="@{/js/add-client.js}"></script>
+</head>
+
+<body  onload="toggleClientType()">
+
+<div class="page-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <!-- Go Back -->
+        <a href="/agent-dashboard/sales" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <!-- Agent Badge -->
+        <div class="agent-greeting">
+            <span id="agentNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Agent :
+                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+            </span>
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <h1>New Client <i class="fa-solid fa-user-plus"></i></h1>
+
+        <!-- SUCCESS -->
+        <p id="successMessage"
+           th:if="${successMessage}"
+           th:utext="${successMessage}"
+           class="success-message"></p>
+
+        <!-- ERROR -->
+        <p id="errorMessage"
+           th:if="${errorMessage}"
+           th:utext="${errorMessage}"
+           class="error-message-big"></p>
+
+        <!-- FORM -->
+        <form th:action="@{/agent-dashboard/sales/add-client}"
+              method="post"
+              onsubmit="validateAddClient(event)">
+
+            <!-- TYPE -->
+            <span class="error-msg" id="error-tip"></span>
+            <label>Client Type:</label>
+            <select name="tip_client" id="tipClient" onchange="toggleClientType()"
+                    th:value="${tip_client}">
+                <option value="" disabled selected>Select type</option>
+                <option value="persoana fizica"  th:selected="${tip_client == 'persoana fizica'}">Individual</option>
+                <option value="firma" th:selected="${tip_client == 'firma'}">Company</option>
+            </select>
+
+            <!-- LAST NAME / NAME -->
+            <span class="error-msg" id="error-nume"></span>
+            <label id="labelNume"> Name:</label>
+            <input type="text" name="nume" placeholder="e.g. Popescu / SC Auto SRL" th:value="${nume}">
+
+            <!-- FIRST NAME (PF only) -->
+            <div id="prenumeBlock" style="display:none;">
+                <span class="error-msg" id="error-prenume"></span>
+                <label id="labelPrenume">First Name:</label>
+                <input type="text" name="prenume" id="prenumeInput" placeholder="e.g. Mihai"  th:value="${prenume}">
+            </div>
+
+
+            <!-- CNP / CUI -->
+            <span class="error-msg" id="error-cnp"></span>
+            <label>CNP / CUI:</label>
+            <input type="text" name="cnp_cui" placeholder="e.g. 1990715123456" th:value="${cnp_cui}">
+
+            <!-- TELEFON -->
+            <span class="error-msg" id="error-telefon"></span>
+            <label>Phone:</label>
+            <input type="text" name="telefon" placeholder="+40721110005" th:value="${telefon}">
+
+            <!-- EMAIL -->
+            <span class="error-msg" id="error-email"></span>
+            <label>Email:</label>
+            <input type="email" name="email" placeholder="email@example.com"   th:value="${email}">
+
+            <!-- ADRESA -->
+            <span class="error-msg" id="error-adresa"></span>
+            <label>Address:</label>
+            <input type="text" name="adresa" placeholder="City, Street, No" th:value="${adresa}">
+
+            <!-- RESET -->
+            <button type="button" class="reset-btn" onclick="clearClientForm()">Clear Form</button>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="submit-btn" id="addClientBtn">
+                <i class="fa-solid fa-plus" id="addClientPlus"></i>
+                <span id="addClientText">Add Client</span>
+                <i class="fa-solid fa-spinner spin-icon" id="addClientSpinner"></i>
+            </button>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
