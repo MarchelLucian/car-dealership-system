@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Retract Car</title>
+
+    <link rel="stylesheet" th:href="@{/css/add-car.css}">
+    <link rel="stylesheet" th:href="@{/css/add-sale.css}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <script th:src="@{/js/retract-car.js}"></script>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <a href="/agent-dashboard/cars-management" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="agent-greeting">
+            <span id="agentNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Agent :
+                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+            </span>
+        </div>
+
+    </div>
+
+    <!-- CONTAINER -->
+    <div class="container">
+
+        <h1>Retract Car <i class="fa-solid fa-car-rear"></i></h1>
+
+        <p th:if="${successMessage}" class="success-message" th:text="${successMessage}"></p>
+        <p th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></p>
+
+        <form th:action="@{/agent-dashboard/cars-management/retract-car}"
+              method="post"
+              onsubmit="validateRetractCar(event)">
+
+            <!-- VALIDATION ERROR -->
+            <span class="error-msg validation-error" id="error-car-validation"></span>
+
+            <!-- ===== SEARCH BY VIN ===== -->
+            <label>Car VIN:</label>
+            <div class="search-input-wrapper">
+                <input type="text"
+                       id="carVinInput"
+                       placeholder="e.g. BMW2019XXX00020">
+
+                <button type="button"
+                        class="search-btn"
+                        id="searchVinBtn"
+                        onclick="searchCarByVin()">
+                    <i id="vinSearchIcon" class="fa-solid fa-magnifying-glass searchICONita"></i>
+                    <i id="vinSpinner" class="fa-solid fa-spinner spin-iconITA"></i>
+                </button>
+            </div>
+
+            <!-- ===== SEARCH BY ID ===== -->
+            <label>Car ID:</label>
+            <div class="search-input-wrapper">
+                <input type="number"
+                       id="carIdInput"
+                       placeholder="e.g. 12">
+
+                <button type="button"
+                        class="search-btn"
+                        id="searchIdBtn"
+                        onclick="searchCarById()">
+                    <i id="idSearchIcon" class="fa-solid fa-magnifying-glass searchICONita"></i>
+                    <i id="idSpinner" class="fa-solid fa-spinner spin-iconITA"></i>
+                </button>
+            </div>
+
+            <span class="error-msg lookup-error" id="error-car-lookup"></span>
+
+            <div class="full-row">
+                <div id="carInfoBox" class="car-info-box" style="display:none;"></div>
+            </div>
+
+            <input type="hidden" name="masina_id" id="masina_id">
+
+            <!-- PROVIDER INFO -->
+            <div class="full-row">
+                <div id="providerInfoBox" class="car-info-box" style="display:none;"></div>
+            </div>
+
+            <input type="hidden" name="provider_id" id="provider_id">
+
+
+            <!-- CAR SNAPSHOT (pentru masini_retrase) -->
+            <input type="hidden" name="vin" id="vin">
+            <input type="hidden" name="marca_nume" id="marca_nume">
+            <input type="hidden" name="model" id="model">
+            <input type="hidden" name="an_fabricatie" id="an_fabricatie">
+            <input type="hidden" name="kilometraj" id="kilometraj">
+            <input type="hidden" name="pret_achizitie" id="pret_achizitie">
+            <input type="hidden" name="combustibil" id="combustibil">
+            <input type="hidden" name="transmisie" id="transmisie">
+            <input type="hidden" name="numar_locuri" id="numar_locuri">
+
+            <!-- PROVIDER SNAPSHOT -->
+            <input type="hidden" name="provider_nume" id="provider_nume">
+
+
+            <!-- ===== REASON ===== -->
+            <span class="error-msg" id="error-reason"></span>
+
+            <label>Reason :</label>
+            <textarea id="retractReason"
+                      name="retract_reason"
+                      rows="4"
+                      maxlength="200"
+                      placeholder="e.g. Vehicle withdrawn from sale, damaged, reserved externally..."></textarea>
+
+
+            <label class="TAX">Storage Cost:</label>
+            <input type="text"
+                   id="taxaStationare"
+                   class="readonly-input tax"
+                   placeholder = "------"
+                   readonly>
+
+
+            <label class="LabelWithdrawDate">Withdrawal Date:</label>
+            <input type="text"
+                   id="withdrawDate"
+                   class="readonly-input"
+                   readonly>
+
+
+            <!-- CLEAR DETAILS -->
+            <button type="button"
+                    class="reset-btn"
+                    onclick="clearRetractForm()">
+                Clear Details
+            </button>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="submit-btn" id="retractCarBtn">
+                <i class="fa-solid fa-minus" id="retractCarMinus"></i>
+                <span id="retractCarText">Withdraw Car</span>
+                <i class="fa-solid fa-spinner spin-icon" id="retractCarSpinner"></i>
+            </button>
+
+        </form>
+
+        <!-- CONFIRM MODAL -->
+        <div id="confirmModal" class="modal-overlay" style="display:none;">
+            <div class="modal-box">
+
+                <h2 class="modal-title">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Confirm Withdrawal
+                </h2>
+
+                <p id="confirmMessage">
+                    Are you sure you want to retract this car with VIN:
+                    <strong id="confirmVin">—</strong>
+                    from the stock?
+                </p>
+
+                <div class="modal-actions">
+                    <button type="button"
+                            class="modal-btn cancel"
+                            onclick="closeConfirmModal()">
+                        Cancel
+                    </button>
+
+                    <button type="button"
+                            class="modal-btn confirm"
+                            onclick="confirmRetractCar()">
+                        Confirm
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

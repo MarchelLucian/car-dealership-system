@@ -19,7 +19,7 @@
 <div class="page-wrapper">
 
     <div class="top-bar">
-        <a href="/agent-dashboard" class="back-btn">
+        <a href="/agent-dashboard/cars-management" class="back-btn">
             <i class="fa-regular fa-circle-left"></i>
             Go Back
         </a>
@@ -33,29 +33,6 @@
         </span>
         </div>
     </div>
-
-    <div class="inventory-header">
-        <div class="inventory-actions">
-
-            <a href="/agent-dashboard/car-inventory/add-car" class="action-btn add-car-btn">
-                <i class="fa-solid fa-plus"></i> Add Car
-                <i class="fa-solid fa-car-rear"></i>
-            </a>
-
-            <a href="/agent-dashboard/car-inventory/add-brand" class="action-btn add-brand-btn">
-                <i class="fa-solid fa-plus"></i> Add Brand
-                <i class="fa-solid fa-registered"></i>
-            </a>
-
-            <a href="/agent-dashboard/car-inventory/add-provider" class="action-btn add-provider-btn">
-                <i class="fa-solid fa-plus"></i> Add Provider
-                <i class="fa-solid fa-truck"></i>
-            </a>
-
-        </div>
-    </div>
-
-
 
     <div class="page-size-box">
         <label for="pageSizeInput" class="show-label">Rows per page:</label>
@@ -82,7 +59,7 @@
                 id="searchIdInput"
                 class="search-input"
                 min="1"
-                placeholder="Enter ID..."
+                placeholder="ID"
                 th:value="${searchId != null ? searchId : ''}"
                 onkeydown="if(event.key==='Enter') searchById()">
 
@@ -574,7 +551,7 @@
 
         <!-- PREV (funcționalitatea veche păstrată) -->
         <a th:if="${currentPage > 1}"
-           th:href="|/agent-dashboard/car-inventory?page=${currentPage - 1}&pageSize=${pageSize}
+           th:href="|/agent-dashboard/cars-management/car-inventory?page=${currentPage - 1}&pageSize=${pageSize}
             &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
            class="page-btn prev-next"
            onclick="goToPage(this.href); return false;">
@@ -590,7 +567,7 @@
 
         <!-- NUMERE PAGINI (NEATINSE) -->
         <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:href="|/agent-dashboard/car-inventory?page=${i}&pageSize=${pageSize}
+          <a th:href="|/agent-dashboard/cars-management/car-inventory?page=${i}&pageSize=${pageSize}
                  &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
            th:text="${i}"
            th:classappend="${i == currentPage} ? 'active' : ''"
@@ -602,7 +579,7 @@
 
         <!-- NEXT (funcționalitatea veche păstrată) -->
         <a th:if="${currentPage < totalPages}"
-           th:href="|/agent-dashboard/car-inventory?page=${currentPage + 1}&pageSize=${pageSize}
+           th:href="|/agent-dashboard/cars-management/car-inventory?page=${currentPage + 1}&pageSize=${pageSize}
             &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
            class="page-btn prev-next"
            onclick="goToPage(this.href); return false;">

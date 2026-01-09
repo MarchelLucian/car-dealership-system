@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Client Login</title>
+
+    <link rel="stylesheet" th:href="@{/css/agent-login.css}" />
     <link rel="stylesheet" th:href="@{/css/client-login.css}" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <script th:src="@{/js/client-login.js}"></script>
 </head>
 
 <body>
-
 <div class="page-wrapper">
 
-<div class="login-box">
+    <div class="top-bar">
+        <a href="/client" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+    </div>
+    <div class="login-center">
+        <div class="login-box">
+            <h1>Client Login</h1>
 
-    <h1>Client Login</h1>
+            <!-- Error message -->
+            <p th:if="${error}" th:text="${error}" class="error-message"></p>
 
-    <p th:if="${error}" th:text="${error}" class="error-message"></p>
+            <form id="loginForm" action="/client-login" method="post">
+                <label>Email</label>
+                <input type="text" id="email" name="email" required >
 
-    <form id="loginForm" action="/client-login" method="post">
-        <input id="email" type="email" name="email" placeholder="Email" required>
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" required >
 
-        <input  id="password" type="password" name="password" placeholder="Password" required>
+                    <i id="togglePassword"
+                       class="fa-solid fa-eye-slash password-toggle"></i>
+                </div>
 
-        <button type="submit">Sign In</button>
-    </form>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
 
-</div>
-
-    <button type="button" id="demoLoginBtn" class="demo-btn">
-        Demo Login
-    </button>
-<a href="/client"  class="back-btn">← Back to Offers</a>
-
+        <button type="button" id="demoLoginBtn" class="demo-btn">
+            Demo Login
+        </button>
+    </div>
 </div>
 
 </body>

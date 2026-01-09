@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars Management</title>
+
+    <!-- Păstrăm CSS-ul existent -->
+    <link rel="stylesheet" th:href="@{/css/sales.css}">
+    <link rel="stylesheet" th:href="@{/css/cars-management.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <!-- Go Back -->
+        <a href="/agent-dashboard" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <!-- Agent Badge -->
+        <div class="agent-greeting">
+            <span id="agentNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Agent :
+                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+            </span>
+        </div>
+
+    </div>
+
+    <!-- TITLE -->
+    <h1 class="page-title">
+        Cars Management <i class="fa-solid fa-car-side"></i>
+    </h1>
+
+    <!-- INSTRUCTIONS -->
+
+    <!-- MAIN OPTIONS -->
+    <div class="options-wrapper">
+        <!-- ROW 1 -->
+        <div class="options-container first_row">
+
+            <a href="/agent-dashboard/cars-management/car-inventory" class="option-card">
+                <i class="fa-solid fa-warehouse option-icon"></i>
+                <h2>Car Inventory</h2>
+                <p>Access the full vehicle inventory with advanced filters</p>
+            </a>
+
+            <!-- EDIT LISTINGS -->
+            <a href="/agent-dashboard/cars-management/edit-listings" class="option-card">
+                <i class="fa-solid fa-tags option-icon"></i>
+                <h2>Edit Listings</h2>
+                <p>Update selling prices</p>
+            </a>
+        </div>
+
+
+
+        <p class="subtitle">
+            <i class="fa-solid fa-circle-info"></i> In order to add a new car in the inventory, both the car brand and the provider must already be registered in the database
+        </p>
+        <!-- ROW 2 -->
+        <div class="options-container second_row">
+
+            <!-- ADD CAR -->
+            <a href="/agent-dashboard/cars-management/add-car" class="option-card">
+                <i class="fa-solid fa-plus option-icon"></i>
+                <i class="fa-solid fa-car-rear option-icon"></i>
+                <h2>Add Car</h2>
+                <p>Add a new vehicle to the inventory</p>
+            </a>
+
+            <!-- ADD BRAND -->
+            <a href="/agent-dashboard/cars-management/add-brand" class="option-card">
+                <i class="fa-solid fa-plus option-icon"></i>
+                <i class="fa-solid fa-registered  option-icon"></i>
+                <h2>Add Brand</h2>
+                <p>Register a new car manufacturer</p>
+            </a>
+
+            <!-- ADD PROVIDER -->
+            <a href="/agent-dashboard/cars-management/add-provider" class="option-card">
+                <i class="fa-solid fa-plus option-icon"></i>
+                <i class="fa-solid fa-truck option-icon"></i>
+                <h2>Add Provider</h2>
+                <p>Register a new vehicle supplier</p>
+            </a>
+
+        </div>
+
+        <!-- ROW 2 (CENTRAT) -->
+        <div class="options-container single third_row">
+
+            <!-- Retract car -->
+            <a href="/agent-dashboard/cars-management/retract-car" class="option-card">
+                <i class="fa-solid fa-minus  option-icon"></i>
+                <i class="fa-solid fa-car-rear option-icon"></i>
+                <h2>Retract Car</h2>
+                <p>Withdraw a vehicle from active inventory</p>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

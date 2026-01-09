@@ -12,34 +12,38 @@
 </head>
 <body>
 <div class="page-wrapper">
-    <!-- AUTH BOX -->
 
+    <!-- Buton Go Back cu position absolute -->
+    <a href="/" class="client-back-btn">
+        <i class="fa-regular fa-circle-left"></i>
+    </a>
+    <!-- AUTH BOX -->
     <div class="auth-container">
         <!-- Avatar -->
         <div class="avatar">
-            <span th:if="${isLogged}" th:text="${clientInitials}"></span>
+            <span th:if="${isLogged}" th:text="${clientInitials} "></span>
             <span th:unless="${isLogged}">?</span>
         </div>
 
         <!-- --------------------- GUEST MODE (vertical) --------------------- -->
         <div class="auth-buttons-vertical" th:unless="${isLogged}">
-            <a href="/client-login" class="auth-btn">Sign In</a>
-            <a href="/client-register" class="auth-btn">Create Account</a>
+            <a href="/client-login" class="auth-btn sign-in">Sign In</a>
+            <a href="/client-register" class="auth-btn sign-in">Create Account</a>
         </div>
 
         <!-- --------------------- LOGGED MODE (horizontal) --------------------- -->
         <div class="auth-buttons-horizontal" th:if="${isLogged}">
-            <a href="/client-favorites" class="auth-btn small-btn">
+            <a href="/client/favorites" class="auth-btn small-btn">
                 <i class="fa-regular fa-heart auth-icon"></i>
                 Favorites
             </a>
-            <a href="/client-orders" class="auth-btn small-btn">
+            <a href="/client/my-orders" class="auth-btn small-btn">
                 <i class="fa-solid fa-car-side auth-icon"></i>
-                My Orders
+                My Purchases
             </a>
-            <a href="/client-details" class="auth-btn small-btn">
+            <a href="/client/my-account" class="auth-btn small-btn">
                 <i class="fa-solid fa-circle-info auth-icon"></i>
-                Account Details
+                My Account
             </a>
 
             <a href="/logout" class="auth-btn logout-btn small-btn">
@@ -84,7 +88,7 @@
         </div>
 
         <!-- YEAR -->
-        <div class="filter-row">
+        <div class="filter-row years">
             <div class="filter-item">
                 <label>Minimum Year</label>
                 <input id="minYear" type="number" placeholder="Ex: 2005">
@@ -97,7 +101,7 @@
         </div>
 
         <!-- MILEAGE -->
-        <div class="filter-section">
+        <div class="filter-section mileage">
             <label>Maximum Mileage (km)</label>
             <input id="maxMileage" type="number" placeholder="Ex: 150000">
         </div>
@@ -105,8 +109,8 @@
 
         <!-- BRANDS -->
         <div class="filter-section">
-            <label>Available Brands:</label>
-            <div id="brandsContainer"></div>
+            <label class=" labelAvailableBrands">Available Brands:</label>
+            <div  id="brandsContainer"></div>
         </div>
 
         <div class="brands-controls">
@@ -208,7 +212,7 @@
 
         </div>
         <!-- Type of fuel -->
-        <div class="filter-section">
+        <div class="filter-section a">
             <label>Fuel Type:</label>
 
             <div class="fuel-grid">
@@ -252,13 +256,13 @@
         <!-- Sorting Bar -->
         <div class="sort-box">
             <label>Sort by:</label>
-            <select id="sortField">
+            <select id="sortField" class="criteriuSort">
                 <option value="pret">Price</option>
                 <option value="an">Year</option>
                 <option value="kilometraj">Mileage</option>
             </select>
 
-            <select id="sortOrder">
+            <select id="sortOrder" class="tipSort">
                 <option value="cresc">
                     Ascending
                 </option>
@@ -274,15 +278,103 @@
 
         </div>
 
-        <div id="lista">
-            <div th:each="m : ${masini}" class="car-box">
-                <p><b>Brand:</b> [[${m.marca}]]</p>
-                <p><b>Model:</b> [[${m.model}]]</p>
-                <p><b>Year:</b> [[${m.an}]]</p>
-                <p><b>Mileage:</b> [[${m.kilometraj}]] km</p>
-                <p><b>Price:</b> [[${m.pret}]] €</p>
+        <div id="lista" class="lista-wrapper">
+            <div id="listaOverlay" class="lista-overlay" style="display:none;">
+                <i class="fa-solid fa-spinner spin-icon"></i>
+            </div>
+
+            <div id="listaContent">
+                <div th:each="m : ${masini}" class="car-box" th:attr="data-car-id=${m.id}">
+
+                    <!-- Buton Favorite -->
+                    <button class="favorite-btn"
+                            th:classappend="${favoriteMasinaIds.contains(m.id)} ? 'active' : ''"
+                            th:onclick="'toggleFavorite(this, ' + ${m.id} + ')'">
+                        <i th:class="${favoriteMasinaIds.contains(m.id)} ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+                    </button>
+
+                    <!--  BADGE DATA ACTUALIZARE -->
+                    <div class="price-update-badge"
+                         th:if="${dateActualizare.containsKey(m.id)}"
+                         th:attr="data-update-date=${dateActualizare.get(m.id)}">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>Loading...</span>
+                    </div>
+
+                    <!-- Preț -->
+                    <div class="car-price">
+                        [[${#numbers.formatInteger(m.pret, 0, 'DEFAULT')}]] €
+                    </div>
+
+                    <!-- Header cu Brand & Model -->
+                    <div class="car-header">
+                        <div class="car-title-section">
+                            <!-- Logo - va fi încărcat dinamic -->
+                            <img class="car-logo"
+                                 th:data-brand="${m.marca}"
+                                 src="/images/logos/loading.gif"
+                                 alt="Loading logo...">
+                            <div>
+                                <h3 class="car-title">[[${m.marca}]]</h3>
+                                <p class="car-model">[[${m.model}]]</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Detalii principale (vizibile mereu) -->
+                    <div class="car-main-details">
+                        <p>
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <b>Year:</b> [[${m.an}]]
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-road"></i>
+                            <b>Mileage:</b> [[${m.kilometraj}]] km
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-gas-pump"></i>
+                            <b>Fuel:</b> [[${m.combustibil}]]
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-gears"></i>
+                            <b>Transmission:</b> [[${m.transmisie}]]
+                        </p>
+                    </div>
+
+                    <!-- CAROUSEL IMAGINI MAȘINĂ -->
+                    <div class="car-images-carousel"
+                         th:data-brand="${m.marca}"
+                         th:data-model="${m.model}">
+
+                        <div class="carousel-container">
+                            <button class="carousel-btn prev-btn carousel-btn-hidden">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+
+                            <div class="carousel-images">
+                                <div class="carousel-loading">
+                                    <i class="fa-solid fa-spinner fa-spin"></i>
+                                </div>
+                            </div>
+
+                            <button class="carousel-btn next-btn carousel-btn-hidden">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+
+                        <div class="carousel-dots"></div>
+                    </div>
+
+                </div>
             </div>
         </div>
+
+
+
 
         <button id="loadMore">
             <i class="fa-solid fa-caret-down"></i>
@@ -294,6 +386,13 @@
 </div>
 >
 
+<script th:inline="javascript">
+    // Trimite favoriteMasinaIds la JavaScript
+    const favoriteMasinaIds = /*[[${favoriteMasinaIds}]]*/ [];
+
+    const dateActualizareMap = /*[[${dateActualizare}]]*/ {};
+    console.log('📅 Date actualizare loaded:', dateActualizareMap);
+</script>
 <script th:src="@{/js/client.js}"></script>
 </body>
 </html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Purchases - DealerAuto</title>
+
+    <link rel="stylesheet" th:href="@{/css/client.css}"/>
+    <link rel="stylesheet" th:href="@{/css/favorites.css}"/>
+    <link rel="stylesheet" th:href="@{/css/my-orders.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body>
+<div class="page-wrapper">
+
+    <!-- Top Bar cu Go Back și Avatar -->
+    <div class="fav-top-bar">
+        <a href="/client" class="fav-back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="fav-avatar">
+            <span th:text="${clientInitials}">MC</span>
+        </div>
+    </div>
+
+    <!-- Titlu pagină -->
+    <div class="fav-header orders-header">
+        <h1>
+            <i class="fa-solid fa-car-side"></i>
+            My Purchases
+        </h1>
+        <p th:if="${orders.size() > 0}" class="fav-count orders-count">
+            You have <strong th:text="${orders.size()}">0</strong> <span class="purchase-text">purchase(s)</span>
+        </p>
+    </div>
+
+    <!-- Lista de comenzi -->
+    <div class="fav-content">
+        <!-- Mesaj când nu ai comenzi -->
+        <div th:if="${orders.isEmpty()}" class="fav-empty">
+            <i class="fa-solid fa-box-open"></i>
+            <h2>No orders yet</h2>
+            <p>You haven't purchased any cars yet. Browse our inventory!</p>
+            <a href="/client" class="fav-btn-browse">Browse Cars</a>
+        </div>
+
+        <!-- Lista de comenzi -->
+        <div th:if="${!orders.isEmpty()}" class="orders-grid">
+            <div th:each="order : ${orders}" class="car-box" th:attr="data-car-id=${order.masina.id}">
+
+                <!-- Badge "SOLD" -->
+                <div class="sold-badge">
+                    <div class="sold-title">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        SOLD ON
+                    </div>
+
+                    <div class="sold-date">
+                        <span th:text="${#temporals.format(order.vanzare.dataVanzare, 'dd MMM yyyy')}">
+                     15 Dec 2024
+                     </span>
+                    </div>
+                </div>
+
+
+                <!-- Preț de vânzare -->
+                <div class="car-price price-obtained">
+                    [[${#numbers.formatInteger(order.vanzare.pretFinal, 0, 'DEFAULT')}]] €
+                </div>
+
+                <!-- Header cu Brand & Model -->
+                <div class="car-header">
+                    <div class="car-title-section">
+                        <img class="car-logo"
+                             th:data-brand="${order.masina.marca}"
+                             src="/images/logos/loading.gif"
+                             alt="Loading logo...">
+                        <div>
+                            <h3 class="car-title">[[${order.masina.marca}]]</h3>
+                            <p class="car-model">[[${order.masina.model}]]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalii principale -->
+                <div class="car-main-details">
+                    <p>
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <b>Year:</b> [[${order.masina.an}]]
+                    </p>
+
+                    <p>
+                        <i class="fa-solid fa-road"></i>
+                        <b>Mileage:</b> [[${order.masina.kilometraj}]] km
+                    </p>
+
+                    <p>
+                        <i class="fa-solid fa-gas-pump"></i>
+                        <b>Fuel:</b> [[${order.masina.combustibil}]]
+                    </p>
+
+                    <p>
+                        <i class="fa-solid fa-gears"></i>
+                        <b>Transmission:</b> [[${order.masina.transmisie}]]
+                    </p>
+                </div>
+            <div class="order-flex-container">
+                <!-- Carousel imagini -->
+                <div class="car-images-carousel purchases-cars"
+                     th:data-brand="${order.masina.marca}"
+                     th:data-model="${order.masina.model}">
+
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev-btn carousel-btn-hidden">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <div class="carousel-images">
+                            <div class="carousel-loading">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+
+                        <button class="carousel-btn next-btn carousel-btn-hidden">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="carousel-dots"></div>
+                </div>
+
+                <!--  DETALII COMANDĂ -->
+                <div class="order-details-section">
+                    <h3 class="order-section-title">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        Details
+                    </h3>
+
+                    <div class="order-info-grid">
+
+                        <div class="order-info-item payment-type-item"
+                             th:attr="data-payment-type=${order.vanzare.tipTranzactie}">
+                            <i class="payment-icon"></i>
+                            <div class="continut">
+                                <span class="order-label">Payment Type:</span>
+                                <span class="order-value payment-text">[[${order.vanzare.tipTranzactie}]]</span>
+                            </div>
+                        </div>
+
+                        <div class="order-info-item order-agent-info">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <div class="continut">
+                                <span class="order-label">Sales Agent:</span>
+                                <span class="order-value" th:text="${order.agent.fullName}">John Doe</span>
+                                <span class="order-phone">
+                                    <i class="fa-solid fa-phone iconita"></i>
+                                    [[${order.agent.telefon}]]
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/client.js"></script>
+<script src="/js/my-orders.js"></script>
+
+</body>
+</html>

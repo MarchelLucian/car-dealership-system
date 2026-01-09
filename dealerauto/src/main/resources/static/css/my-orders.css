@@ -1,0 +1,386 @@
+/* ================================
+   OVERRIDE PAGE-WRAPPER
+   ================================ */
+
+.page-wrapper {
+
+}
+
+/* ================================
+   TOP BAR
+   ================================ */
+
+.orders-top-bar {
+
+}
+
+.orders-avatar {
+
+}
+
+.orders-back-btn {
+
+}
+
+.orders-back-btn:hover {
+
+}
+
+.orders-back-btn i {
+
+}
+
+/* ================================
+   HEADER
+   ================================ */
+
+.orders-header {
+
+}
+
+.orders-header h1 {
+
+}
+
+.orders-header h1 i {
+    color: #3498db;
+    margin-right: 15px;
+}
+
+.orders-count {
+
+}
+
+.orders-count strong {
+    color: #3498db;
+}
+
+/* ================================
+   CONTENT
+   ================================ */
+
+.orders-content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 40px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.orders-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+}
+
+.orders-grid .car-box {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* ================================
+   NO ORDERS MESSAGE
+   ================================ */
+
+.no-orders {
+    text-align: center;
+    padding: 80px 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 2px dashed #dee2e6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.no-orders i {
+    font-size: 80px;
+    color: #dee2e6;
+    margin-bottom: 20px;
+}
+
+.no-orders h2 {
+    font-size: 32px;
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.no-orders p {
+    font-size: 18px;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.orders-btn-browse {
+    display: inline-block;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: transform 0.3s;
+}
+
+.orders-btn-browse:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* ================================
+   BADGE "SOLD"
+   ================================ */
+
+
+/* ================================
+   DETALII COMANDĂ (ORDER DETAILS)
+   ================================ */
+
+.order-details-section {
+    background: transparent;
+    /*background: linear-gradient(135deg, #f8f9fa 0%, #6897ca 100%);*/
+    border-radius: 12px;
+    padding: 25px;
+
+    border: 2px solid #133b95;;
+
+    width: fit-content;
+}
+
+.order-section-title {
+    font-size: 30px;
+    color: #133b95;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: 2px solid #133b95;;
+    padding-bottom: 10px;
+    margin-top:10px;
+}
+
+.order-section-title i {
+    color: #133b95;
+    font-size: 40px;
+    margin-right: 12px;
+}
+
+.order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+}
+
+.order-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding: 15px;
+
+    width : 320px;
+}
+
+.order-info-item > i {
+    font-size: 38px;
+    color: #133b95;
+    min-width: 24px;
+}
+
+.order-info-item > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.order-label {
+    font-size: 26px;
+    font-weight: 600;
+    color: #133580;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.order-value {
+    font-size: 25px;
+    color: #133580;
+    font-weight: 600;
+}
+
+.order-phone {
+    font-size: 25px;
+    color: #133b95;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.order-phone i {
+    font-size: 22px;
+    margin-top: -30px;
+}
+
+.order-agent-info {
+    grid-column: 1 / -1;
+}
+
+.order-agent-info i{
+    padding-top:30px;
+    font-size: 38px;
+}
+
+.order-phone i{
+    font-size: 32px;
+}
+
+.continut{
+    margin-left: 20px;
+}
+
+.payment-icon{
+  margin-top:15px;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 1024px) {
+    .orders-content {
+        max-width: 900px;
+        padding: 0 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .orders-content {
+        padding: 0 20px;
+    }
+
+    .orders-grid {
+        gap: 25px;
+    }
+
+    .orders-header h1 {
+        font-size: 32px;
+    }
+
+    .orders-top-bar {
+        padding: 15px 20px;
+    }
+
+    .orders-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .order-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-agent-info {
+        grid-column: 1;
+    }
+}
+
+.price-obtained{
+    color: #6a6963 !important;
+}
+
+.sold-badge {
+    position: absolute;
+    top: 45px;
+    right: 50px;
+    background: transparent;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    color: #133b95;
+    border-radius: 10px;
+
+}
+
+.sold-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.sold-title i{
+    margin-right: 4px;
+    font-size: 30px;
+}
+
+.sold-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 26px;
+    font-weight: 600;
+    opacity: 0.9;
+    margin-top:8px;
+}
+
+
+/* Iconiță payment */
+.payment-icon {
+    font-size: 32px;
+    color: #3498db;
+    min-width: 24px;
+}
+
+/* Culori specifice pentru fiecare tip */
+.payment-type-item[data-payment-type="Cash"] .payment-icon,
+.payment-type-item[data-payment-type="cash"] .payment-icon {
+    color: #27ae60; /* Verde pentru Cash */
+}
+
+.payment-type-item[data-payment-type="Transfer bancar"] .payment-icon,
+.payment-type-item[data-payment-type="transfer bancar"] .payment-icon {
+    color: #133b95; /* Albastru pentru Transfer */
+}
+
+.payment-type-item[data-payment-type="Leasing"] .payment-icon,
+.payment-type-item[data-payment-type="leasing"] .payment-icon {
+    color: #9b59b6; /* Mov pentru Leasing */
+}
+
+.payment-type-item[data-payment-type="Rate"] .payment-icon,
+.payment-type-item[data-payment-type="rate"] .payment-icon {
+    color: #e67e22; /* Portocaliu pentru Rate */
+}
+
+/* ================================
+   CONTAINER FLEX - CAROUSEL + SALE DETAILS
+   ================================ */
+
+.order-flex-container {
+    width: 1200px;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin-top: 40px;
+    margin-left: 24px;
+}
+/* Carousel ocupă 55% din spațiu */
+.order-flex-container .car-images-carousel.purchases-cars {
+    flex: 0 0 55%;
+    max-width: 55%;
+}
+
+.carousel-container{
+    height: 378px;
+    margin-top: -28px;
+}

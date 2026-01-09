@@ -55,4 +55,9 @@ public class Agent {
 
     public double getSalariu() { return salariu; }
     public void setSalariu(double salariu) { this.salariu = salariu; }
+
+    // Helper method
+    public String getFullName() {
+        return nume + " " + prenume;
+    }
 }

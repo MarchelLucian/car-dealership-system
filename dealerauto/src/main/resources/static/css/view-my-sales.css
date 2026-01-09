@@ -16,13 +16,14 @@
 .sales-row {
     display: grid;
     grid-template-columns:
-    160px   /* Sale ID */
-        2.5fr   /* Car */
-        2.5fr   /* Client */
-        1.5fr   /* Final Price */
-        1.2fr   /* Profit */
-        1.5fr   /* Date */
-        160px;  /* Status */
+     160px    /* Sale ID */
+    2.4fr    /* Car */
+    2.4fr    /* Client */
+    1.5fr    /* Final Price */
+    1.2fr    /* Profit */
+    1.2fr    /* Markup (%) */
+    1.5fr    /* Date */
+    160px;   /* Status */
     padding: 16px 20px;
     align-items: center;
     font-size: 24px;
@@ -661,4 +662,14 @@
 
 .summary-overlay i{
     margin-left: 60px;
+}
+
+.markup-positive {
+    color: #1a7f37;
+    font-weight: bold;
+}
+
+.markup-negative {
+    color: #d00000;
+    font-weight: bold;
 }

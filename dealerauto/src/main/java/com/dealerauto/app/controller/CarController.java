@@ -1,43 +1,48 @@
 package com.dealerauto.app.controller;
 
 
-import com.dealerauto.app.dao.FurnizorDAO;
-import com.dealerauto.app.dao.MarcaDAO;
-import com.dealerauto.app.dao.MasinaDAO;
-import com.dealerauto.app.dao.VinCorelareDAO;
+import com.dealerauto.app.dao.*;
 import com.dealerauto.app.model.Agent;
 import com.dealerauto.app.model.Furnizor;
 import com.dealerauto.app.model.Marca;
 import com.dealerauto.app.model.Masina;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.Map;
 @Controller
-@RequestMapping("/agent-dashboard/car-inventory")
+@RequestMapping("/agent-dashboard/cars-management")
 public class CarController {
 
     private final MasinaDAO masinaDAO;
+    private final MarcaDAO marcaDAO;
+    private final FurnizorDAO furnizorDAO;
+    private final VinCorelareDAO vinCorelareDAO;
+    private final MasiniRetraseDAO masiniRetraseDAO;
 
-    @Autowired
-    private MarcaDAO marcaDAO;
-
-    @Autowired
-    private FurnizorDAO furnizorDAO;
-
-    @Autowired
-    private VinCorelareDAO vinCorelareDAO;
-
-    public CarController(MasinaDAO masinaDAO) {
+    public CarController(
+            MasinaDAO masinaDAO,
+            MarcaDAO marcaDAO,
+            FurnizorDAO furnizorDAO,
+            VinCorelareDAO vinCorelareDAO,
+            MasiniRetraseDAO masiniRetraseDAO
+    ) {
         this.masinaDAO = masinaDAO;
+        this.marcaDAO = marcaDAO;
+        this.furnizorDAO = furnizorDAO;
+        this.vinCorelareDAO = vinCorelareDAO;
+        this.masiniRetraseDAO = masiniRetraseDAO;
     }
 
     // ===== SCHIMBĂ STAREA =====
-    @PostMapping("/toggle-status/{id}")
+    @PostMapping("/car-inventory/toggle-status/{id}")
     @ResponseBody
     public String toggleStatus(@PathVariable int id) {
         masinaDAO.toggleStatus(id);
@@ -73,6 +78,7 @@ public class CarController {
             @RequestParam(required = false) Integer usi,
             @RequestParam(required = false) Integer locuri,
             @RequestParam(required = false) String vin,
+            @RequestParam(required = false) Double pretVanzare,
             RedirectAttributes redirectAttributes
     ) {
         // 1) VALIDARE SERVER-SIDE
@@ -83,6 +89,7 @@ public class CarController {
                         an == null ||
                         kilometraj == null ||
                         pretAchizitie == null ||
+                        pretVanzare == null || pretVanzare <= 0 ||
                         usi == null ||
                         locuri == null ||
                         vin == null || vin.isBlank() ||
@@ -92,7 +99,7 @@ public class CarController {
         if (invalid) {
             redirectAttributes.addFlashAttribute("errorMessage",
                     "All fields are required!");
-            return "redirect:/agent-dashboard/car-inventory/add-car";
+            return "redirect:/agent-dashboard/cars-management/add-car";
         }
 
         // ===== VALIDARE VIN UNIC =====
@@ -116,7 +123,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
 
-            return "redirect:/agent-dashboard/car-inventory/add-car";
+            return "redirect:/agent-dashboard/cars-management/add-car";
         }
 
 
@@ -158,6 +165,8 @@ public class CarController {
 
         int masinaId = masinaDAO.insert(masina);
 
+        masinaDAO.upsertPretVanzare(masinaId, pretVanzare);
+
         // INSERT VIN
         if (vin != null && !vin.isBlank()) {
             vinCorelareDAO.insert(masinaId, vin);
@@ -169,7 +178,7 @@ public class CarController {
                 "The car has been successfully added to the inventory.<br> Add more or go inspect the inventory ."
         );
 
-        return "redirect:/agent-dashboard/car-inventory/add-car";
+        return "redirect:/agent-dashboard/cars-management/add-car";
 
     }
 
@@ -193,7 +202,7 @@ public class CarController {
 
             redirectAttributes.addFlashAttribute("errorMessage",
                     "All fields are required!");
-            return "redirect:/agent-dashboard/car-inventory/add-brand";
+            return "redirect:/agent-dashboard/cars-management/add-brand";
         }
 
         Marca m = new Marca();
@@ -216,7 +225,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("tara_origine", tara_origine);
         }
 
-        return "redirect:/agent-dashboard/car-inventory/add-brand";
+        return "redirect:/agent-dashboard/cars-management/add-brand";
     }
 
 
@@ -275,13 +284,272 @@ public class CarController {
                         "An unexpected error occurred.");
             }
 
-            return "redirect:/agent-dashboard/car-inventory/add-provider";
+            return "redirect:/agent-dashboard/cars-management/add-provider";
         }
 
         redirectAttributes.addFlashAttribute("successMessage",
                 "The provider has been successfully added.<br>You may add another one.");
 
-        return "redirect:/agent-dashboard/car-inventory/add-provider";
+        return "redirect:/agent-dashboard/cars-management/add-provider";
     }
+
+
+    @GetMapping("/retract-car")
+    public String showRetractCarPage(Model model , HttpSession session) {
+        Agent agent = (Agent) session.getAttribute("agent");
+        model.addAttribute("agent", agent);
+        return "retract-car";
+    }
+
+    @GetMapping("/lookup-car-with-provider")
+    @ResponseBody
+    public Map<String, Object> lookupCarWithProvider(@RequestParam int id) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Map<String, Object> row = masinaDAO.findCarWithProviderById(id);
+
+            response.put("found", true);
+
+            // CAR
+            response.put("id", row.get("masina_id"));
+            response.put("vin", row.get("vin"));
+            response.put("marca", row.get("marca"));
+            response.put("model", row.get("model"));
+            response.put("an", row.get("an"));
+            response.put("km", row.get("km"));
+            response.put("pretAchizitie", row.get("pret_achizitie"));
+            response.put("combustibil", row.get("combustibil"));
+            response.put("transmisie", row.get("transmisie"));
+            response.put("numar_locuri", row.get("numar_locuri"));
+
+
+            // PROVIDER
+            response.put("provider_id", row.get("provider_id"));
+            response.put("provider_nume", row.get("provider_nume"));
+            response.put("provider_tip", row.get("provider_tip"));
+            response.put("provider_telefon", row.get("provider_telefon"));
+            response.put("provider_cui_cnp", row.get("provider_cui_cnp"));
+
+            return response;
+
+        } catch (EmptyResultDataAccessException e) {
+            response.put("found", false);
+            response.put("message", "Car not found.");
+            return response;
+        }
+    }
+
+    @GetMapping("/lookup-car-with-provider-by-vin")
+    @ResponseBody
+    public Map<String, Object> lookupCarWithProviderByVin(@RequestParam String vin) {
+
+        Map<String, Object> res = new HashMap<>();
+
+        try {
+            Map<String, Object> row = masinaDAO.findCarWithProviderByVin(vin);
+
+            res.put("found", true);
+
+            // CAR
+            res.put("id", row.get("masina_id"));
+            res.put("vin", row.get("vin"));
+            res.put("marca", row.get("marca"));
+            res.put("model", row.get("model"));
+            res.put("an", row.get("an"));
+            res.put("km", row.get("km"));
+            res.put("pretAchizitie", row.get("pret_achizitie"));
+            res.put("combustibil", row.get("combustibil"));
+            res.put("transmisie", row.get("transmisie"));
+            res.put("numar_locuri", row.get("numar_locuri"));
+
+
+            // PROVIDER
+            res.put("provider_id", row.get("provider_id"));
+            res.put("provider_nume", row.get("provider_nume"));
+            res.put("provider_tip", row.get("provider_tip"));
+            res.put("provider_telefon", row.get("provider_telefon"));
+            res.put("provider_cui_cnp", row.get("provider_cui_cnp"));
+
+            return res;
+
+        } catch (EmptyResultDataAccessException e) {
+            res.put("found", false);
+            res.put("message", "Car not found.");
+            return res;
+        }
+    }
+
+    @PostMapping("/retract-car")
+    @Transactional
+    public String retractCar(
+            @RequestParam int masina_id,
+            @RequestParam String vin,
+            @RequestParam String marca_nume,
+            @RequestParam String model,
+            @RequestParam int an_fabricatie,
+            @RequestParam int kilometraj,
+            @RequestParam double pret_achizitie,
+            @RequestParam String combustibil,
+            @RequestParam String transmisie,
+            @RequestParam int numar_locuri,
+            @RequestParam int provider_id,
+            @RequestParam String provider_nume,
+            @RequestParam(name = "retract_reason") String motiv,
+            RedirectAttributes redirectAttributes
+    ) {
+
+        try {
+            masiniRetraseDAO.insert(
+                    vin,
+                    marca_nume,
+                    model,
+                    an_fabricatie,
+                    kilometraj,
+                    pret_achizitie,
+                    combustibil,
+                    transmisie,
+                    numar_locuri,
+                    provider_id,
+                    provider_nume,
+                    motiv,
+                    0
+            );
+
+            vinCorelareDAO.deleteByMasinaId(masina_id);
+            masinaDAO.deleteById(masina_id);
+
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Car successfully withdrawn from inventory."
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "An error occurred while withdrawing the car. Please try again."
+            );
+        }
+
+        return "redirect:/agent-dashboard/cars-management/retract-car";
+    }
+
+
+    @GetMapping("/edit-listings")
+    public String showEditListiongsPage(Model model , HttpSession session) {
+        Agent agent = (Agent) session.getAttribute("agent");
+        model.addAttribute("agent", agent);
+        return "edit-listings";
+    }
+
+    @GetMapping("/lookup-car-for-listing")
+    @ResponseBody
+    public Map<String, Object> lookupCarForListing(@RequestParam int id) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Map<String, Object> row = masinaDAO.findCarForListingById(id);
+
+            response.put("found", true);
+
+            // IDENTIFICARE
+            response.put("id", row.get("masina_id"));
+            response.put("vin", row.get("vin"));
+
+            // VEHICLE INFO
+            response.put("marca", row.get("marca"));
+            response.put("model", row.get("model"));
+            response.put("an", row.get("an"));
+            response.put("km", row.get("km"));
+            response.put("combustibil", row.get("combustibil"));
+            response.put("transmisie", row.get("transmisie"));
+            response.put("culoare", row.get("culoare"));
+            response.put("numar_locuri", row.get("numar_locuri"));
+
+            // PRICES
+            response.put("pretAchizitie", row.get("pret_achizitie"));
+            response.put("pretVanzare", row.get("pret_vanzare"));
+
+            return response;
+
+        } catch (EmptyResultDataAccessException e) {
+            response.put("found", false);
+            response.put("message", "Car not found.");
+            return response;
+        }
+    }
+
+
+    @GetMapping("/lookup-car-for-listing-by-vin")
+    @ResponseBody
+    public Map<String, Object> lookupCarForListingByVin(@RequestParam String vin) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Map<String, Object> row = masinaDAO.findCarForListingByVin(vin);
+
+            response.put("found", true);
+
+            // IDENTIFICARE
+            response.put("id", row.get("masina_id"));
+            response.put("vin", row.get("vin"));
+
+            // VEHICLE INFO
+            response.put("marca", row.get("marca"));
+            response.put("model", row.get("model"));
+            response.put("an", row.get("an"));
+            response.put("km", row.get("km"));
+            response.put("combustibil", row.get("combustibil"));
+            response.put("transmisie", row.get("transmisie"));
+            response.put("culoare", row.get("culoare"));
+            response.put("numar_locuri", row.get("numar_locuri"));
+
+            // PRICES
+            response.put("pretAchizitie", row.get("pret_achizitie"));
+            response.put("pretVanzare", row.get("pret_vanzare"));
+
+            return response;
+
+        } catch (EmptyResultDataAccessException e) {
+            response.put("found", false);
+            response.put("message", "Car not found.");
+            return response;
+        }
+    }
+
+    @PostMapping("/edit-listings/update-price")
+    @Transactional
+    public String updateListingPrice(
+            @RequestParam("masina_id") int masinaId,
+            @RequestParam("pret_vanzare_nou") double pretVanzareNou,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+
+            if (pretVanzareNou <= 0) {
+                redirectAttributes.addFlashAttribute("errorMessage", "New selling price must be greater than 0.");
+                return "redirect:/agent-dashboard/cars-management/edit-listings";
+            }
+
+            int updated = masinaDAO.updatePretVanzare(masinaId, pretVanzareNou);
+
+            if (updated == 0) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Price update failed. Car price row not found.");
+                return "redirect:/agent-dashboard/cars-management/edit-listings";
+            }
+
+            redirectAttributes.addFlashAttribute("successMessage", "Selling price updated successfully.");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "An error occurred while updating the price.");
+        }
+
+        return "redirect:/agent-dashboard/cars-management/edit-listings";
+    }
+
 
 }

@@ -43,6 +43,21 @@ public class ClientRegisterDAO {
         return count != null && count > 0;
     }
 
+    // Adaugă în ClientDAO
+    public boolean cnpExists(String cnp) {
+        if (cnp == null || cnp.isEmpty()) return false;
+        String sql = "SELECT COUNT(*) FROM client WHERE cnp = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cnp);
+        return count != null && count > 0;
+    }
+
+    public boolean cuiExists(String cui) {
+        if (cui == null || cui.isEmpty()) return false;
+        String sql = "SELECT COUNT(*) FROM client WHERE cui = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cui);
+        return count != null && count > 0;
+    }
+
     public int saveAndReturnId(Client c) {
         String sql = """
         INSERT INTO client (tip_client, nume, prenume, cnp, cui, telefon, email, adresa)

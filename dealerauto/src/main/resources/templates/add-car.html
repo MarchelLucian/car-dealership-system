@@ -18,7 +18,7 @@
 <div class="page-wrapper">
 
     <div class="top-bar">
-    <a href="/agent-dashboard/car-inventory" class="back-btn top-back">
+    <a href="/agent-dashboard/cars-management" class="back-btn top-back">
         <i class="fa-regular fa-circle-left"></i>
         Go Back
     </a>
@@ -51,7 +51,7 @@
        class="error-message-big">
     </p>
 
-    <form th:action="@{/agent-dashboard/car-inventory/add-car}"
+    <form th:action="@{/agent-dashboard/cars-management/add-car}"
           method="post"
           onsubmit="validateAddCarForm(event)">
 
@@ -175,6 +175,24 @@
                name="pretAchizitie"
                placeholder="e.g. 12500"
                th:value="${pretAchizitie}">
+
+        <!-- SELLING PRICE -->
+        <span class="error-msg" id="error-selling-price"></span>
+        <label>Selling Price (€):</label>
+        <input type="number"
+               name="pretVanzare"
+               id="pretVanzare"
+               placeholder="e.g. 15000"
+               min="0"
+               step="0.01">
+
+        <label>Markup (%):</label>
+        <input type="text"
+               id="priceMarkup"
+               class="readonly-input"
+               placeholder="------"
+               readonly>
+
 
 
         <!-- DOORS -->

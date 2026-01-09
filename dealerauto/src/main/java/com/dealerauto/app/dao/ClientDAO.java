@@ -2,7 +2,11 @@ package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Client;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Repository
 public class ClientDAO {
@@ -73,5 +77,37 @@ public class ClientDAO {
     }
 
 
+
+    /**
+     * Găsește client după ID
+     */
+    public Client findById(Integer id) {
+        String sql = "SELECT * FROM client WHERE id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new ClientRowMapper(), id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * RowMapper pentru Client
+     */
+    private static class ClientRowMapper implements RowMapper<Client> {
+        @Override
+        public Client mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Client client = new Client();
+            client.setId(rs.getInt("id"));
+            client.setTip_client(rs.getString("tip_client"));
+            client.setNume(rs.getString("nume"));
+            client.setPrenume(rs.getString("prenume"));
+            client.setCnp(rs.getString("cnp"));
+            client.setCui(rs.getString("cui"));
+            client.setTelefon(rs.getString("telefon"));
+            client.setEmail(rs.getString("email"));
+            client.setAdresa(rs.getString("adresa"));
+            return client;
+        }
+    }
 
 }

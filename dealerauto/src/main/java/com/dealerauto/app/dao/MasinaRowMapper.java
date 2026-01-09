@@ -15,6 +15,8 @@ public class MasinaRowMapper implements RowMapper<Masina> {
         m.setId(rs.getInt("id"));
         m.setMarca(rs.getString("marca_nume"));
         m.setModel(rs.getString("model"));
+
+        m.setFurnizorId(rs.getInt("furnizor_id"));
         m.setFurnizor(rs.getString("furnizor_nume"));
 
 

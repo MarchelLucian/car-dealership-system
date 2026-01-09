@@ -1,5 +1,7 @@
 package com.dealerauto.app.model;
 
+import java.time.LocalDateTime;
+
 public class Masina {
 
     private int id;
@@ -22,6 +24,9 @@ public class Masina {
     private int numarLocuri;       // NOU
 
     private String vin;
+
+    private LocalDateTime dataActualizare;
+
     // Constructor gol (necesar pentru RowMapper)
     public Masina() {}
 
@@ -114,4 +119,12 @@ public class Masina {
     public void setFurnizorId(int id) { this.furnizorId = id; }
 
     public void setVin(String vin) { this.vin = vin; }
+
+    public LocalDateTime getDataActualizare() {
+        return dataActualizare;
+    }
+
+    public void setDataActualizare(LocalDateTime dataActualizare) {
+        this.dataActualizare = dataActualizare;
+    }
 }

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Account - DealerAuto</title>
+
+    <link rel="stylesheet" th:href="@{/css/client.css}"/>
+    <link rel="stylesheet" th:href="@{/css/my-account.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body>
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="acc-top-bar">
+        <a href="/client" class="acc-back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="acc-avatar">
+            <span th:text="${clientInitials}">MC</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="acc-header">
+        <h1>
+            <i class="fa-solid fa-circle-info"></i>
+            My Account
+        </h1>
+    </div>
+
+    <!-- Content -->
+    <div class="acc-content">
+
+        <!-- Personal Information -->
+        <div class="acc-section">
+            <h2 class="acc-section-title">
+                <i class="fa-solid fa-user"></i>
+                Personal Information
+            </h2>
+
+            <div class="acc-info-grid">
+                <div class="acc-info-item">
+                    <span class="acc-label">Full Name:</span>
+                    <span class="acc-value">[[${client.nume}]] [[${client.prenume}]]</span>
+                </div>
+
+                <div class="acc-info-item">
+                    <span class="acc-label">Account Type:</span>
+                    <span class="acc-value acc-badge" th:text="${clientTypeEnglish}">Individual</span>
+                </div>
+
+                <div class="acc-info-item" th:if="${client.cnp != null}">
+                    <span class="acc-label">CNP:</span>
+                    <span class="acc-value">[[${client.cnp}]]</span>
+                </div>
+
+                <div class="acc-info-item" th:if="${client.cui != null}">
+                    <span class="acc-label">CUI:</span>
+                    <span class="acc-value">[[${client.cui}]]</span>
+                </div>
+
+                <div class="acc-info-item">
+                    <span class="acc-label">Phone:</span>
+                    <span class="acc-value">[[${client.telefon}]]</span>
+                </div>
+
+                <div class="acc-info-item">
+                    <span class="acc-label">Email:</span>
+                    <span class="acc-value">[[${client.email}]]</span>
+                </div>
+
+                <div class="acc-info-item acc-full-width">
+                    <span class="acc-label">Address:</span>
+                    <span class="acc-value">[[${client.adresa}]]</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Section -->
+        <div class="acc-section">
+            <h2 class="acc-section-title">
+                <i class="fa-solid fa-lock"></i>
+                Security
+            </h2>
+
+            <button class="acc-btn-change-password" onclick="showChangePasswordPopup()">
+                <i class="fa-solid fa-key"></i>
+                Change Password
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Change Password Popup (Hidden by default) -->
+<div id="changePasswordOverlay" class="acc-password-overlay" style="display: none;">
+    <div class="acc-password-popup">
+        <button class="acc-popup-close" onclick="closeChangePasswordPopup()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h3>Change Password</h3>
+
+        <div id="passwordErrorMessage" class="acc-error-message" style="display: none;"></div>
+
+        <form id="changePasswordForm" onsubmit="handleChangePassword(event)">
+
+            <div class="acc-form-group">
+                <label>Current Password</label>
+                <div class="acc-password-wrapper">
+                    <input type="password" id="currentPassword" required>
+                    <i class="fa-solid fa-eye-slash acc-toggle-password" onclick="togglePasswordVisibility('currentPassword', this)"></i>
+                </div>
+            </div>
+
+            <div class="acc-form-group">
+                <label>New Password</label>
+                <div class="acc-password-wrapper">
+                    <input type="password" id="newPassword" required minlength="3">
+                    <i class="fa-solid fa-eye-slash acc-toggle-password" onclick="togglePasswordVisibility('newPassword', this)"></i>
+                </div>
+            </div>
+
+            <div class="acc-form-group">
+                <label>Confirm New Password</label>
+                <div class="acc-password-wrapper">
+                    <input type="password" id="confirmPassword" required>
+                    <i class="fa-solid fa-eye-slash acc-toggle-password" onclick="togglePasswordVisibility('confirmPassword', this)"></i>
+                </div>
+            </div>
+
+            <div class="acc-form-buttons">
+                <button type="button" class="acc-btn-cancel" onclick="closeChangePasswordPopup()">Cancel</button>
+                <button type="submit" class="acc-btn-submit">Change Password</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/my-account.js"></script>
+
+</body>
+</html>

@@ -82,5 +82,42 @@ function clearCarForm() {
     document.querySelectorAll("input, select").forEach(e => e.classList.remove("input-error"));
 
     // 🔥 reload curat (fără flash attributes)
-    window.location.href = "/agent-dashboard/car-inventory/add-car";
+    window.location.href = "/agent-dashboard/cars-management/add-car";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const purchaseInput = document.querySelector("input[name='pretAchizitie']");
+    const sellingInput = document.getElementById("pretVanzare");
+    const markupInput = document.getElementById("priceMarkup");
+
+    if (!purchaseInput || !sellingInput || !markupInput) return;
+
+    function updateMarkup() {
+        const purchase = parseFloat(purchaseInput.value);
+        const selling = parseFloat(sellingInput.value);
+
+        if (!purchase || !selling || selling <= 0) {
+            markupInput.value = "------";
+            markupInput.classList.remove("positive", "negative");
+            return;
+        }
+
+        const markup = ((selling - purchase) / purchase) * 100;
+        const sign = markup > 0 ? "+" : "";
+
+        markupInput.value = `${sign}${markup.toFixed(2)}%`;
+        markupInput.classList.remove("positive", "negative");
+
+        if (markup > 0) markupInput.classList.add("positive");
+        if (markup < 0) markupInput.classList.add("negative");
+    }
+
+    sellingInput.addEventListener("blur", updateMarkup);
+    sellingInput.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            updateMarkup();
+        }
+    });
+});

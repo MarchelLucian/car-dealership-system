@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Favorites - DealerAuto</title>
+
+    <link rel="stylesheet" th:href="@{/css/client.css}"/>
+    <link rel="stylesheet" th:href="@{/css/favorites.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body>
+<div class="page-wrapper">
+
+    <!-- Top Bar cu Go Back și Avatar -->
+    <div class="fav-top-bar">
+        <a href="/client" class="fav-back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="fav-avatar">
+            <span th:text="${clientInitials}">MC</span>
+        </div>
+    </div>
+
+    <!-- Titlu pagină -->
+    <div class="fav-header">
+        <h1>
+            <i class="fa-solid fa-heart"></i>
+            My Favorites
+        </h1>
+        <p th:if="${masini.size() > 0}" class="fav-count">
+            You have <strong th:text="${masini.size()}">0</strong> favorite <span class="car-text">car(s)</span>
+        </p>
+    </div>
+
+    <!-- Lista de mașini favorite -->
+    <div class="fav-content">
+        <!-- Mesaj când nu ai favorite -->
+        <div th:if="${masini.isEmpty()}" class="fav-empty">
+            <i class="fa-regular fa-heart-crack"></i>
+            <h2>No favorites yet</h2>
+            <p>Start adding cars to your favorites to see them here!</p>
+            <a href="/client" class="fav-btn-browse">Browse Cars</a>
+        </div>
+
+        <!-- Lista de mașini -->
+        <div th:if="${!masini.isEmpty()}" class="fav-grid">
+            <div th:each="m : ${masini}" class="car-box" th:attr="data-car-id=${m.id}">
+
+                <!-- Buton Favorite -->
+                <button class="favorite-btn active"
+                        th:onclick="'toggleFavoriteOnFavoritesPage(this, ' + ${m.id} + ')'"
+                        title="Click to remove from favorites">
+                    <i class="fa-solid fa-heart"></i>
+                </button>
+
+                <!--  BADGE CU DATA ADĂUGĂRII -->
+                <div class="fav-date-badge"
+                     th:attr="data-date=${favoriteDates.get(m.id)}">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>Loading...</span>
+                </div>
+
+                <!--  BADGE DATA ACTUALIZARE PREȚ -->
+                <div class="price-update-badge "
+                     th:if="${dateActualizare.containsKey(m.id)}"
+                     th:attr="data-update-date=${dateActualizare.get(m.id)}">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>Loading...</span>
+                </div>
+
+                <!-- Buton Remove -->
+                <button class="fav-remove-btn"
+                        th:onclick="'removeFromFavorites(this, ' + ${m.id} + ')'"
+                        title="Remove from favorites">
+                    <i class="fa-solid fa-trash-can"></i>
+                    Remove
+                </button>
+
+                <!-- Preț -->
+                <div class="car-price">
+                    [[${#numbers.formatInteger(m.pret, 0, 'DEFAULT')}]] €
+                </div>
+
+                <!-- Header cu Brand & Model -->
+                <div class="car-header">
+                    <div class="car-title-section">
+                        <img class="car-logo"
+                             th:data-brand="${m.marca}"
+                             src="/images/logos/loading.gif"
+                             alt="Loading logo...">
+                        <div>
+                            <h3 class="car-title">[[${m.marca}]]</h3>
+                            <p class="car-model">[[${m.model}]]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalii principale -->
+                <div class="car-main-details">
+                    <p>
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <b>Year:</b> [[${m.an}]]
+                    </p>
+
+                    <p>
+                        <i class="fa-solid fa-road"></i>
+                        <b>Mileage:</b> [[${m.kilometraj}]] km
+                    </p>
+
+                    <p class="fuel-text">
+                        <i class="fa-solid fa-gas-pump"></i>
+                        <b>Fuel:</b> [[${m.combustibil}]]
+                    </p>
+
+                    <p class="transmission-text">
+                        <i class="fa-solid fa-gears"></i>
+                        <b>Transmission:</b> [[${m.transmisie}]]
+                    </p>
+                </div>
+
+                <!-- Carousel imagini -->
+                <div class="car-images-carousel"
+                     th:data-brand="${m.marca}"
+                     th:data-model="${m.model}">
+
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev-btn carousel-btn-hidden">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <div class="carousel-images">
+                            <div class="carousel-loading">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+
+                        <button class="carousel-btn next-btn carousel-btn-hidden">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="carousel-dots"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script th:inline="javascript">
+    const favoriteMasinaIds = /*[[${favoriteMasinaIds}]]*/ [];
+</script>
+<script src="/js/client.js"></script>
+<script src="/js/favorites.js"></script>
+
+</body>
+</html>

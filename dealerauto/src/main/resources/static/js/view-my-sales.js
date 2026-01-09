@@ -200,14 +200,23 @@ function sortSales() {
                     valB = parseFloat(b.children[4]?.innerText || 0);
                     break;
 
+                case "markup":
+                    valA = parseFloat(
+                        (a.children[5]?.innerText || "0").replace("%", "")
+                    );
+                    valB = parseFloat(
+                        (b.children[5]?.innerText || "0").replace("%", "")
+                    );
+                    break;
+
                 case "date":
-                    valA = new Date(a.children[5]?.innerText || "1970-01-01");
-                    valB = new Date(b.children[5]?.innerText || "1970-01-01");
+                    valA = new Date(a.children[6]?.innerText || "1970-01-01");
+                    valB = new Date(b.children[6]?.innerText || "1970-01-01");
                     break;
 
                 case "status":
-                    valA = a.children[6]?.innerText || "";
-                    valB = b.children[6]?.innerText || "";
+                    valA = a.children[7]?.innerText || "";
+                    valB = b.children[7]?.innerText || "";
                     break;
             }
 
@@ -260,7 +269,7 @@ function clearPredefinedRange() {
 
 
 function getSaleDate(row) {
-    const cell = row.children[5];
+    const cell = row.children[6];
     if (!cell) return null;
     return new Date(cell.innerText);
 }
@@ -732,4 +741,22 @@ function updateSalesSummary() {
 
 document.addEventListener("DOMContentLoaded", () => {
     updateSalesSummary();
+
+    document.querySelectorAll(".markup").forEach(cell => {
+        const finalPrice = parseFloat(cell.dataset.finalPrice);
+        const profit = parseFloat(cell.dataset.profit);
+
+        const purchasePrice = finalPrice - profit;
+        if (purchasePrice <= 0) {
+            cell.textContent = "—";
+            return;
+        }
+
+        const markup = (profit / purchasePrice) * 100;
+        const sign = markup > 0 ? "+" : "";
+
+        cell.textContent = `${sign}${markup.toFixed(2)}%`;
+        cell.classList.add(markup >= 0 ? "markup-positive" : "markup-negative");
+    });
+
 });

@@ -3,9 +3,12 @@ package com.dealerauto.app.dao;
 import com.dealerauto.app.dto.SaleViewDTO;
 import com.dealerauto.app.model.Vanzare;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
@@ -63,7 +66,7 @@ public class VanzareDAO {
             v.setMasinaId(rs.getInt("masina_id"));
             v.setClientId(rs.getInt("client_id"));
             v.setAgentId(rs.getInt("agent_id"));
-            v.setDataVanzare(rs.getDate("data_vanzare"));
+            v.setDataVanzare(rs.getDate("data_vanzare").toLocalDate());
             v.setPretFinal(rs.getDouble("pret_final"));
             v.setTipTranzactie(rs.getString("tip_tranzactie"));
             v.setPretAchizitieMasina(rs.getDouble("pret_achizitie_masina"));
@@ -144,5 +147,36 @@ public class VanzareDAO {
         return jdbcTemplate.query(sql, (rs, i) -> rs.getString("client_name"), q, q);
     }
 
+
+    /**
+     * Găsește toate vânzările unui client
+     */
+    public List<Vanzare> findByClientId(Integer clientId) {
+        String sql = "SELECT * FROM vanzare WHERE client_id = ? ORDER BY data_vanzare DESC";
+        return jdbcTemplate.query(sql, new VanzareRowMapper(), clientId);
+    }
+
+    /**
+     * RowMapper pentru Vanzare
+     */
+    private static class VanzareRowMapper implements RowMapper<Vanzare> {
+        @Override
+        public Vanzare mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Vanzare v = new Vanzare();
+            v.setId(rs.getInt("id"));
+            v.setMasinaId(rs.getInt("masina_id"));
+            v.setClientId(rs.getInt("client_id"));
+            v.setAgentId(rs.getInt("agent_id"));
+
+            if (rs.getDate("data_vanzare") != null) {
+                v.setDataVanzare(rs.getDate("data_vanzare").toLocalDate());
+            }
+
+            v.setPretFinal(rs.getDouble("pret_final"));
+            v.setTipTranzactie(rs.getString("tip_tranzactie"));
+
+            return v;
+        }
+    }
 
 }

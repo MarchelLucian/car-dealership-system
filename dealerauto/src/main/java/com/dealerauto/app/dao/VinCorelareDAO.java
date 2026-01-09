@@ -37,4 +37,10 @@ public class VinCorelareDAO {
         }
     }
 
+
+    public void deleteByMasinaId(int masinaId) {
+        String sql = "DELETE FROM vin_corelare WHERE masina_id = ?";
+        jdbcTemplate.update(sql, masinaId);
+    }
+
 }

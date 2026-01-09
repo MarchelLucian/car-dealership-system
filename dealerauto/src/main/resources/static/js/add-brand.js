@@ -59,5 +59,5 @@ function clearBrandForm() {
     if (err) err.style.display = "none";
 
     // elimină valorile venite din backend → reload fără FlashAttributes!
-    window.location.href = "/agent-dashboard/car-inventory/add-brand";
+    window.location.href = "/agent-dashboard/cars-management/add-brand";
 }

@@ -36,6 +36,7 @@ public class SaleController {
         return "sales"; // fișierul sales.html
     }
 
+
     @GetMapping("/agent-dashboard/sales/add-sale")
     public String showAddSalePage(HttpSession session, Model model) {
 
@@ -179,7 +180,7 @@ public class SaleController {
         v.setAgentId(agentId);
 
         // FOARTE IMPORTANT: java.sql.Date
-        v.setDataVanzare(java.sql.Date.valueOf(data_vanzare));
+        v.setDataVanzare(data_vanzare);
 
         v.setPretFinal(pret_final);
         v.setTipTranzactie(metoda_plata);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.MultiValueMap;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -22,23 +23,25 @@ public class MasinaDAO {
         List<Masina> masini = new ArrayList<>();
 
         String sql = """
-        SELECT 
-            id,
-            marca_nume,
-            model,
-            an_fabricatie,
-            kilometraj,
-            pret_achizitie,
-            combustibil,
-            transmisie,
-            culoare,
-            stare,
-            numar_usi,
-            numar_locuri
-        FROM masina
-        WHERE stare = 'disponibila'
-        ORDER BY id;
-        """;
+    SELECT 
+        m.id,
+        m.marca_nume,
+        m.model,
+        m.an_fabricatie,
+        m.kilometraj,
+        pv.pret_vanzare AS pret,
+        m.combustibil,
+        m.transmisie,
+        m.culoare,
+        m.stare,
+        m.numar_usi,
+        m.numar_locuri
+    FROM masina m
+    LEFT JOIN preturi_vanzare pv 
+        ON pv.masina_id = m.id
+    WHERE m.stare = 'disponibila'
+    ORDER BY m.id;
+    """;
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -53,7 +56,12 @@ public class MasinaDAO {
                 m.setModel(rs.getString("model"));
                 m.setAn(rs.getInt("an_fabricatie"));
                 m.setKilometraj(rs.getInt("kilometraj"));
-                m.setPret(rs.getDouble("pret_achizitie"));
+
+                double pret = rs.getDouble("pret");
+                if (rs.wasNull()) {
+                    pret = 0.0; // sau alt default (ex: -1, null dacă schimbi tipul)
+                }
+                m.setPret(pret);
 
                 m.setCombustibil(rs.getString("combustibil"));
                 m.setTransmisie(rs.getString("transmisie"));
@@ -605,7 +613,206 @@ public class MasinaDAO {
         jdbcTemplate.update(sql, masinaId);
     }
 
+    public Map<String, Object> findCarWithProviderById(int id) {
+
+        String sql = """
+        SELECT
+            m.id AS masina_id,
+            vc.vin,
+
+            m.marca_nume AS marca,
+            m.model,
+            m.an_fabricatie AS an,
+            m.kilometraj AS km,
+            m.pret_achizitie,
+            m.combustibil,
+            m.transmisie,
+            m.numar_locuri,
+
+            f.id AS provider_id,
+            f.nume AS provider_nume,
+            f.tip_furnizor AS provider_tip,
+            f.telefon AS provider_telefon,
+            f.cui_cnp AS provider_cui_cnp
+                
+        
+        FROM masina m
+        JOIN vin_corelare vc ON vc.masina_id = m.id
+        JOIN furnizor f ON m.furnizor_id = f.id
+        WHERE m.id = ?
+          AND m.stare != 'vanduta'
+    """;
+
+        return jdbcTemplate.queryForMap(sql, id);
+    }
+
+    public Map<String, Object> findCarWithProviderByVin(String vin) {
+
+        String sql = """
+        SELECT
+            m.id AS masina_id,
+            vc.vin,
+
+            m.marca_nume AS marca,
+            m.model,
+            m.an_fabricatie AS an,
+            m.kilometraj AS km,
+            m.pret_achizitie,
+            m.combustibil,
+            m.transmisie,
+            m.numar_locuri,
+
+            f.id AS provider_id,
+            f.nume AS provider_nume,
+            f.tip_furnizor AS provider_tip,
+            f.telefon AS provider_telefon,
+            f.cui_cnp AS provider_cui_cnp
+                
+        
+        FROM vin_corelare vc
+        JOIN masina m ON vc.masina_id = m.id
+        JOIN furnizor f ON m.furnizor_id = f.id
+        WHERE vc.vin = ?
+          AND m.stare != 'vanduta'
+    """;
+
+        return jdbcTemplate.queryForMap(sql, vin);
+    }
 
 
+
+    public void deleteById(int id) {
+        String sql = "DELETE FROM masina WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    public Map<String, Object> findCarForListingById(int id) {
+
+        String sql = """
+        SELECT
+            m.id AS masina_id,
+            vc.vin,
+
+            m.marca_nume AS marca,
+            m.model,
+            m.an_fabricatie AS an,
+            m.kilometraj AS km,
+            m.combustibil,
+            m.transmisie,
+            m.culoare,
+            m.numar_locuri,
+
+            m.pret_achizitie,
+            pv.pret_vanzare
+
+        FROM masina m
+        JOIN vin_corelare vc ON vc.masina_id = m.id
+        JOIN preturi_vanzare pv ON pv.masina_id = m.id
+
+        WHERE m.id = ?
+          AND m.stare != 'vanduta'
+    """;
+
+        return jdbcTemplate.queryForMap(sql, id);
+    }
+
+    public Map<String, Object> findCarForListingByVin(String vin) {
+
+        String sql = """
+        SELECT
+            m.id AS masina_id,
+            vc.vin,
+
+            m.marca_nume AS marca,
+            m.model,
+            m.an_fabricatie AS an,
+            m.kilometraj AS km,
+            m.combustibil,
+            m.transmisie,
+            m.culoare,
+            m.numar_locuri,
+
+            m.pret_achizitie,
+            pv.pret_vanzare
+
+        FROM vin_corelare vc
+        JOIN masina m ON vc.masina_id = m.id
+        JOIN preturi_vanzare pv ON pv.masina_id = m.id
+
+        WHERE vc.vin = ?
+          AND m.stare != 'vanduta'
+    """;
+
+        return jdbcTemplate.queryForMap(sql, vin);
+    }
+
+
+    public int updatePretVanzare(int masinaId, double pretVanzareNou) {
+
+        String sql = """
+        UPDATE preturi_vanzare
+        SET pret_vanzare = ?,
+            data_actualizare = CURRENT_TIMESTAMP
+        WHERE masina_id = ?
+    """;
+
+        return jdbcTemplate.update(sql, pretVanzareNou, masinaId);
+    }
+
+    public void upsertPretVanzare(int masinaId, double pretVanzare) {
+
+        String sql = """
+        INSERT INTO preturi_vanzare (masina_id, pret_vanzare)
+        VALUES (?, ?)
+        ON CONFLICT (masina_id)
+        DO UPDATE SET
+            pret_vanzare = EXCLUDED.pret_vanzare,
+            data_actualizare = CURRENT_TIMESTAMP
+    """;
+
+        jdbcTemplate.update(sql, masinaId, pretVanzare);
+    }
+
+    /**
+     * Găsește mașini după lista de ID-uri
+     */
+    public List<Masina> findByIds(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+
+        String sql = "SELECT * FROM masina WHERE id = ANY(?)";
+
+        // Convertește List<Integer> la Array pentru PostgreSQL
+        Integer[] idsArray = ids.toArray(new Integer[0]);
+
+        return jdbcTemplate.query(sql, new MasinaRowMapper(), (Object) idsArray);
+    }
+
+
+    /**
+     * Găsește datele de actualizare a prețurilor pentru toate mașinile disponibile
+     * Returnează Map<masinaId, dataActualizare>
+     */
+    public Map<Integer, LocalDateTime> findAllActualDates() {
+        String sql = """
+        SELECT m.id, pv.data_actualizare
+        FROM masina m
+        LEFT JOIN preturi_vanzare pv ON m.id = pv.masina_id
+        WHERE m.stare = 'disponibila'
+    """;
+
+        Map<Integer, LocalDateTime> dateActualizare = new HashMap<>();
+
+        jdbcTemplate.query(sql, rs -> {
+            int masinaId = rs.getInt("id");
+            if (rs.getTimestamp("data_actualizare") != null) {
+                LocalDateTime data = rs.getTimestamp("data_actualizare").toLocalDateTime();
+                dateActualizare.put(masinaId, data);
+            }
+        });
+
+        return dateActualizare;
+    }
 
 }

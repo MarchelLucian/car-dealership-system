@@ -188,6 +188,19 @@ input, select {
     display: none;
 }
 
+#editListingSpinner
+{
+    display: none;
+}
+
+#retractCarSpinner {
+    display: none;
+}
+
+
+#registerSpinner{
+    display: none;
+}
 
 .error-message-big {
     background-color: #ffd4d4;
@@ -241,3 +254,27 @@ input, select {
     top: 34px;     /* aliniat cu butonul Go Back */
 }
 
+.readonly-input{
+    background-color: #f3f3f3;
+    color: #555;
+    cursor: not-allowed;
+    font-size: 22px;
+    text-align: center;
+
+}
+
+.TAX{
+    margin-top: 22px;
+}
+
+/* valoarea reală (când există text) */
+input.tax {
+    color: #c0392b;        /* roșu */
+    font-weight: 600;
+}
+
+/* placeholder-ul rămâne neutru */
+input.tax::placeholder {
+    color: #999;           /* gri */
+    font-weight: normal;
+}

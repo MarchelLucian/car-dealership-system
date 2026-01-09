@@ -226,6 +226,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+function clearCarValidationError() {
+    const validationError = document.getElementById("error-car-validation");
+    if (validationError) {
+        validationError.textContent = "";
+    }
+
+    const carIdInput = document.getElementById("carIdInput");
+    const carVinInput = document.getElementById("carVinInput");
+
+    if (carIdInput) carIdInput.classList.remove("input-error");
+    if (carVinInput) carVinInput.classList.remove("input-error");
+}
 
 
 function searchCarById() {
@@ -266,6 +278,8 @@ function searchCarById() {
                 hideSuccessMessage();
                 return;
             }
+
+            clearCarValidationError();
 
             hiddenId.value = data.id;
 
@@ -338,6 +352,8 @@ function searchCarByVin() {
                 return;
             }
 
+            clearCarValidationError();
+
             hiddenId.value = data.id;
 
             //  completează ID
@@ -371,6 +387,18 @@ function searchCarByVin() {
         });
 
     }, 1000);
+}
+
+function clearClientValidationError() {
+    const validationError = document.getElementById("error-client-validation");
+    if (validationError) {
+        validationError.textContent = "";
+    }
+
+    const input = document.getElementById("buyerCuiCnpInput");
+    if (input) {
+        input.classList.remove("input-error");
+    }
 }
 
 
@@ -419,6 +447,8 @@ function searchClientByCuiCnp() {
     `;
                 return;
             }
+
+            clearClientValidationError();
 
             hiddenId.value = data.id;
 

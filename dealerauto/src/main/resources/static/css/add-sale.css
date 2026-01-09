@@ -326,3 +326,158 @@ input, select {
     overflow-wrap: break-word;
     word-break: break-word;
 }
+
+#retractReason {
+    font-size: 20px;
+}
+
+.LabelWithdrawDate {
+    margin-top:22px;
+}
+.readonly-input{
+    background-color: #f3f3f3;
+    color: #555;
+    cursor: not-allowed;
+    font-size: 22px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.readonly-input-listings {
+    background-color: #f3f3f3;
+    color: #555;
+    cursor: not-allowed;
+    font-size: 22px;
+    text-align: center;
+
+}
+
+.input_pret_vanzare_nou {
+    font-size: 20px;
+    text-align: center;
+    margin-top:20px;
+
+}
+
+.PurchasePrice {
+margin-top: 40px;
+}
+
+
+.CurrentPrice {
+
+}
+
+.newSellingPrice{
+    margin-top:24px;
+}
+
+.first-price{
+    margin-top: 40px;
+}
+
+.readonly-input-listings.positive { color: #1b7f3a; font-weight: 600; }
+.readonly-input-listings.negative { color: #c0392b; font-weight: 600; }
+
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+/* ===== MODAL BOX ===== */
+.modal-box {
+    background: #ffffff;
+    padding: 28px 32px;
+    border-radius: 14px;
+    width: 420px;
+    max-width: 90%;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    text-align: center;
+    animation: modalPop 0.25s ease-out;
+}
+
+@keyframes modalPop {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-box h2 {
+    margin-bottom: 12px;
+}
+
+.modal-box p {
+    font-size: 22px;
+    margin-bottom: 24px;
+}
+
+.modal-title {
+    font-size: 32px;
+    margin-bottom: 14px;
+    color: #1a531b;
+}
+
+.modal-title i {
+    margin-right: 8px;
+}
+
+#confirmMessage {
+    font-size: 22px;
+    color: #333;
+    line-height: 1.5;
+}
+
+#confirmMessage strong {
+    color: #000;
+}
+
+/* ===== ACTIONS ===== */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Cancel */
+.modal-btn.cancel {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.modal-btn.cancel:hover {
+    background: #a8a8a8;
+}
+
+/* Confirm */
+.modal-btn.confirm {
+    background: #27ae60;
+    color: #fff;
+    font-weight: 600;
+}
+
+.modal-btn.confirm:hover {
+    background: #219150;
+}

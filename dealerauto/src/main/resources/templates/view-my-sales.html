@@ -187,6 +187,7 @@
                 <option value="date">Date</option>
                 <option value="price">Final price</option>
                 <option value="profit">Profit</option>
+                <option value="markup">Markup (%)</option>
                 <option value="status">Status</option>
 
             </select>
@@ -219,6 +220,7 @@
             <div>Client</div>
             <div>Final Price (€)</div>
             <div>Profit (€)</div>
+            <div>Markup (%)</div>
             <div>Date (y-m-d)</div>
             <div>Status</div>
         </div>
@@ -265,6 +267,12 @@
                 <div th:text="${s.profit}"
                      th:classappend="${s.profit >= 0} ? ' profit-positive' : ' profit-negative'">
                 </div>
+
+                <div class="markup"
+                     th:attr="data-final-price=${s.finalPrice},
+              data-profit=${s.profit}">
+                </div>
+
 
                 <div th:text="${s.saleDate}"></div>
 

@@ -45,15 +45,42 @@ public class ClientRegisterController {
         if ("---".equals(prenume)) prenume = null;
         if ("---".equals(cui)) cui = null;
 
-        // VALIDARE EMAIL EXISTENT (în tabela client_user!!!)
+        // PĂSTRĂM TOATE VALORILE INTRODUSE (le trimitem înapoi la formular)
+        model.addAttribute("tip_client", tip_client);
+        model.addAttribute("nume", nume);
+        model.addAttribute("prenume", prenume);
+        model.addAttribute("telefon", telefon);
+        model.addAttribute("email", email);
+        model.addAttribute("adresa", adresa);
+        // NU trimitem parola înapoi (securitate)
+
+        // VALIDĂRI INDIVIDUALE
+
+        // 1. EMAIL
         if (clientUserDAO.emailExists(email)) {
             model.addAttribute("error", "Email already exists!");
+            model.addAttribute("email", ""); // Golim doar email-ul
             return "client-register";
         }
 
-        // VALIDARE TELEFON EXISTENT (tabela client)
+        // 2. TELEFON
         if (clientDAO.phoneExists(telefon)) {
             model.addAttribute("error", "Phone number already exists!");
+            model.addAttribute("telefon", ""); // Golim doar telefonul
+            return "client-register";
+        }
+
+        // 3. CNP (doar pentru persoană fizică)
+        if (cnp != null && !cnp.isEmpty() && clientDAO.cnpExists(cnp)) {
+            model.addAttribute("error", "CNP already exists!");
+            model.addAttribute("cnp", ""); // Golim doar CNP-ul
+            return "client-register";
+        }
+
+        // 4. CUI (doar pentru firmă)
+        if (cui != null && !cui.isEmpty() && clientDAO.cuiExists(cui)) {
+            model.addAttribute("error", "CUI already exists!");
+            model.addAttribute("cui", ""); // Golim doar CUI-ul
             return "client-register";
         }
 
@@ -81,8 +108,18 @@ public class ClientRegisterController {
 
             model.addAttribute("success", "Client account created successfully!");
 
+            // Goliim toate câmpurile după success
+            model.addAttribute("tip_client", "");
+            model.addAttribute("nume", "");
+            model.addAttribute("prenume", "");
+            model.addAttribute("cnp", "");
+            model.addAttribute("cui", "");
+            model.addAttribute("telefon", "");
+            model.addAttribute("email", "");
+            model.addAttribute("adresa", "");
+
         } catch (Exception e) {
-            model.addAttribute("error", "Error: Email or phone already exists!");
+            model.addAttribute("error", "Error: Registration failed!");
         }
 
         return "client-register";

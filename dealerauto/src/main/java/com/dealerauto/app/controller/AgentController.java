@@ -94,21 +94,30 @@ public class AgentController {
     @Autowired
     private FurnizorDAO furnizorDAO;
 
+    @GetMapping("/agent-dashboard/cars-management")
+    public String showCarsManagementPage(HttpSession session, Model model) {
 
-    @GetMapping("/agent-dashboard/car-inventory/search-model")
+        // Transmitem agentul către pagină (pentru Agent Badge)
+        Object agent = session.getAttribute("agent");
+        model.addAttribute("agent", agent);
+
+        return "cars-management"; // fișierul sales.html
+    }
+
+    @GetMapping("/agent-dashboard/cars-management/car-inventory/search-model")
     @ResponseBody
     public List<String> searchModelSuggestions(@RequestParam String query) {
         return masinaDAO.searchModels(query);  // returnează lista de modele filtrate
     }
 
-    @GetMapping("/agent-dashboard/car-inventory/search-vin")
+    @GetMapping("/agent-dashboard/cars-management/car-inventory/search-vin")
     @ResponseBody
     public List<String> searchVinSuggestions(@RequestParam String query) {
         return masinaDAO.searchVins(query);
     }
 
 
-    @GetMapping("/agent-dashboard/car-inventory")
+    @GetMapping("/agent-dashboard/cars-management/car-inventory")
     public String carInventory(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "8") int pageSize,
@@ -377,5 +386,9 @@ public class AgentController {
 
         return list.stream().sorted(comparator).toList();
     }
+
+
+
+
 
 }

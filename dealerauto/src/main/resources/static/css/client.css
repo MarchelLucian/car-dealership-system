@@ -6,19 +6,39 @@ body {
     display: flex;
 }
 
+.client-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 44px;
+    font-size: 38px;
+    color: #0a44c9;
+    text-decoration: none;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.client-back-btn:hover {
+    color: #05308e;
+    transform: translateX(-3px);
+}
+
 /* --------------------- LEFT SIDEBAR --------------------- */
 .sidebar {
-    width: 260px;
-    background: white;
+    width: 320px;
+    background:  #ddfafd;
+
     padding: 20px;
-    margin: 180px 20px 20px 20px; /* TOP 120px */
+    margin: 280px 20px 20px 20px;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
     height: fit-content;
+    border: 2px solid #0a44c9;
+    flex-shrink: 0;
 }
 
 .sidebar h2 {
     text-align: center;
+    font-size: 30px;
     margin-bottom: 15px;
 }
 
@@ -191,16 +211,7 @@ body {
 h1 {
     text-align: center;
     margin-top: 20px;
-    font-size: 28px;
-}
-
-.car-box {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 20px auto;
-    width: 100%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-size: 32px;
 }
 
 #loadMore {
@@ -244,7 +255,7 @@ h1 {
 .sort-box {
     width: 99%;
     margin: 0 auto 20px auto;
-    background: white;
+    background: #ddfafd;
     padding: 12px 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -253,11 +264,13 @@ h1 {
     align-items: center;
     justify-content: center;
     font-size: 18px;
+
+    border: 2px solid #0a44c9;
 }
 
 .sort-box label {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
 }
 
 .sort-box select {
@@ -265,16 +278,19 @@ h1 {
     border-radius: 6px;
     border: 1px solid #bbb;
     font-size: 18px;
+
+    background: #94e6fa;
+    border: 2px solid #0a44c9;
 }
 
 .sort-btn {
-    background: #4444ff;
+    background: #0a44c9;
     color: white;
     padding: 6px 12px;   /* păstrat EXACT */
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     transition: background 0.25s ease, transform 0.15s ease;
 }
 
@@ -310,6 +326,7 @@ h1 {
     font-weight: bold;
     border: 1px solid #ccc;
     transition: background 0.2s, transform 0.2s;
+
 }
 
 .auth-btn:hover {
@@ -330,11 +347,12 @@ h1 {
 
 /* Avatar rotund */
 .avatar {
+    position: relative;
     background: #0a44c9;
     color: white;
-    font-size: 24px;
-    width: 50px;
-    height: 50px;
+    font-size: 32px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -365,14 +383,14 @@ h1 {
     display: block;
     text-align: center;
     padding: 10px 14px;
-    background: #f3f3f3;
+    background: #ddfafd;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 2px solid #0a44c9;
     color: #0a44c9;
     font-weight: bold;
     text-decoration: none;
-    font-size: 14px;
-    min-width: 120px;
+    font-size: 20px;
+    width: 190px;
 }
 
 /* Butoane mici pentru orizontală */
@@ -383,7 +401,7 @@ h1 {
 
 /* Hover */
 .auth-btn:hover {
-    background: #e7e7e7;
+    background: #b7eef3;
 }
 
 /* Logout roșu */
@@ -397,32 +415,33 @@ h1 {
 }
 
 .main-content {
-    margin-top: 80px;   /* modifică valoarea după cum îți place */
+    margin-top: 180px;   /* modifică valoarea după cum îți place */
 }
 
 .auth-btn i {
     margin-right: 6px;
 }
 .auth-icon {
-    font-size: 20px;
+    font-size: 28px;
     margin-right: 6px;
 }
 
 
 /* === LAYOUT GENERAL === */
 .page-wrapper {
-    max-width: 1600px;        /* limitează lățimea TOTALĂ */
+    max-width: 1800px;        /* limitează lățimea TOTALĂ */
     width: 100%;
     margin: 0 auto;           /* centrează pe ecran */
     display: flex;
     position: relative;
 
-}
+    padding: 10px 20px;
 
-/* sidebar pe stânga */
-.sidebar {
-    width: 260px;
-    flex-shrink: 0;           /* nu se micșorează la zoom */
+
+    border: 2px solid #005DFF;
+    border-left: 3px solid #d0d0d0;   /* bordura stânga */
+    border-right: 3px solid #d0d0d0;  /* bordura dreapta */
+
 }
 
 /* zona de content */
@@ -435,7 +454,7 @@ h1 {
 /* bara de autentificare poziționată fix în wrapper */
 .auth-container {
     position: absolute;
-    top: 20px;
+    top: 65px;
     right: 20px;
     display: flex;
     align-items: center;
@@ -445,17 +464,20 @@ h1 {
 /* SEARCH BAR CONTAINER */
 .search-wrapper {
     position: absolute;
-    top: 25px;
-    left: 60px; /* Ajustează dacă sidebar-ul se modifică */
+    top: 95px;
+    left: 40px; /* Ajustează dacă sidebar-ul se modifică */
     display: flex;
     align-items: center;
-    width: 450px;
+    width: 440px;
     height: 40px;
-    background: white;
+
     padding: 8px 12px;
     border-radius: 50px;
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    border: 1px solid #ccd7ff;
+    border: 2px solid #0a44c9;
+
+    background: #ddfafd;
+
 }
 
 /* SEARCH INPUT */
@@ -464,7 +486,9 @@ h1 {
     left: 100px;
     border: none;
     outline: none;
-    font-size: 18px;
+    font-size: 20px;
+    background: #ddfafd;
+
 }
 
 /* BUTTON */
@@ -482,16 +506,18 @@ h1 {
     background: #0839ab;
 }
 
-
-.page-wrapper {
-    border: 2px solid #005DFF;
-    border-left: 3px solid #d0d0d0;   /* bordura stânga */
-    border-right: 3px solid #d0d0d0;  /* bordura dreapta */
-    padding: 40px;                    /* spațiu interior frumos */
-}
-
 .spin-icon {
     font-size: 18px;
+    animation: spin 0.8s linear infinite;
+}
+
+.spin-iconita {
+    font-size: 24px;
+    animation: spin 0.8s linear infinite;
+}
+
+.spin-iconSearch {
+    font-size: 16px;
     animation: spin 0.8s linear infinite;
 }
 
@@ -541,7 +567,7 @@ h1 {
     align-items: center;
     gap: 8px;          /* spațiu între checkbox și text */
     margin-bottom: 12px; /* reduce spațiul între branduri */
-    font-size: 16px;
+    font-size: 19px;
 }
 .brand-option span {
     font-weight: bold;     /* face numele brandului bold */
@@ -551,6 +577,7 @@ h1 {
     width: 18px;
     height: 18px;
     cursor: pointer;
+
 }
 
 .show-more-brands {
@@ -583,7 +610,7 @@ h1 {
     color: #0a44c9;
 }
 .loading-box i {
-    font-size: 50px;
+    font-size: 60px;
 }
 
 .search-btn {
@@ -637,7 +664,7 @@ h1 {
     display: flex;
     justify-content: space-between;   /* left-right alignment */
     align-items: center;              /* perfect vertical alignment */
-    margin-top: 8px;
+    margin-top: -16px;
     margin-bottom: 18px;
     width: 100%;
 }
@@ -653,4 +680,576 @@ h1 {
 .show-less-brands:hover {
     color: #a70f0f;
     text-decoration: underline;
+}
+
+.filter-item input,
+.filter-section input {
+    width: 120px;
+    background: #94e6fa;
+    border: 2px solid #0a44c9;
+    font-size : 18px;
+}
+
+.filter-section.mileage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -25px;
+
+}
+
+.filter-section.mileage  input {
+    width: 110px;
+}
+
+
+.filter-section.mileage  label {
+    font-size: 20px;
+}
+
+
+.filter-row.years{
+    margin-top: -25px;
+}
+
+.labelAvailableBrands
+{
+    margin-bottom : 12px;
+    font-size: 21px;
+}
+
+.show-more-brands {
+    font-size: 18px;
+}
+
+.show-less-brands{
+    font-size: 18px;
+}
+.filter-row label {
+    font-size: 20px;
+}
+
+
+.filter-section label {
+    font-size: 20px;
+}
+
+.advanced-toggle {
+    font-size: 20px;
+}
+
+
+.filter-section.a
+{
+    margin-top: -20px;
+    margin-bottom: 0px;
+}
+
+.seat-item {
+    font-size:20px;
+}
+
+.fuel-grid{
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.filter-btn {
+    font-size: 22px;
+}
+
+.reset-filters {
+    font-size: 22px;
+}
+
+.lista-wrapper {
+    position: relative;
+    min-height: 300px;
+}
+
+.lista-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 103%;
+    height: 100%;
+    background: rgb(170, 228, 216 , 0.5); /* semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.spin-icon {
+    font-size: 100px;
+    color: #0a44c9;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.tipSort{
+    width: 132px;
+}
+
+.criteriuSort{
+    width: 132px;
+}
+
+.sign-in{
+    font-size: 20px;
+    border: 2px solid #0a44c9;
+}
+
+/* Poziționare specifică pentru avatarul cu inițiale (logged mode) */
+.avatar span:not(:empty) {
+    position: relative;
+    top: 2px; /* ajustează această valoare cum vrei */
+}
+
+/* SAU dacă vrei să poziționezi întregul avatar în logged mode */
+.auth-container:has(.auth-buttons-horizontal) .avatar {
+    position: relative;
+    top: 20px; /* ajustează această valoare */
+}
+
+/* Poziționare specifică pentru butoanele din logged mode */
+.auth-buttons-horizontal {
+    position: relative;
+    top: 16px; /* ajustează această valoare */
+    /* sau margin-top: 10px; dacă preferi */
+}
+
+.auth-buttons-horizontal .auth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    line-height: 1.2;
+}
+
+
+
+.car-box {
+
+    padding: 15px;
+
+    margin: 20px auto;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+
+}
+/* ========================================
+   CARD DESIGN PROFESIONAL PENTRU MAȘINI
+   ======================================== */
+
+.car-box {
+    position: relative;
+    /*background: linear-gradient(135deg, #ddfafd 0%, #7ec1cd 100%); */
+    background: #ddfafd;
+    border: 2px solid #0a44c9;
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+}
+
+.car-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border-color: #133b95;
+}
+
+/* Header cu Brand și Model */
+.car-box .car-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -10px;
+    padding-bottom: 10px;
+   /* border-bottom: 2px solid #133b95; */
+}
+
+.car-box .car-title {
+    font-size: 29px;
+    font-weight: 700;
+    color: #133b95;
+    margin: 10px;
+    margin-left: 20px;
+}
+
+.car-box .car-model {
+    font-size: 28px;
+    font-weight: 600;
+    color: #0a44c9;
+    margin: 0;
+    margin-left: 20px;
+}
+
+/* Buton Favorite */
+.favorite-btn {
+    position: absolute;
+    top: 45px;
+    right: 40px;
+    background: #eef3ff;
+    border: 2px solid #133b95;
+    border-radius: 50%;
+    width: 78px;
+    height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.favorite-btn i {
+    font-size: 32px;
+
+    transition: all 0.3s ease;
+    color: #133b95;
+}
+
+.favorite-btn:hover {
+    border-color: #e74c3c;
+    background: #ffe5e5;
+    transform: scale(1.1);
+}
+
+.favorite-btn:hover i {
+    color: #e74c3c;
+}
+
+/* Când este favorit (checked) */
+.favorite-btn.active {
+    border-color: #e74c3c;
+    background: #ffe5e5;
+}
+
+.favorite-btn.active:hover {
+    background: #eef3ff;
+}
+
+.favorite-btn.active i {
+    color: #e74c3c;
+}
+
+/* Detalii mașină */
+.car-box p {
+    margin: 10px 0 10px 0;
+    font-size: 23px;
+    color: #495057;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+
+}
+
+.car-box p b {
+    color: #212529;
+    font-weight: 600;
+    min-width: 170px;
+    font-size: 24px;
+}
+
+/* Iconițe pentru fiecare detaliu */
+.car-box p i {
+    color: #133b95;
+    width: 20px;
+    text-align: center;
+    font-size: 26px;
+    margin-right: 8px;
+
+}
+/* Prețul - special styling */
+.car-box .car-price {
+    position: absolute; /* ADĂUGAT - ca la favorite-btn */
+    top: 40px;
+
+    left: 40%;
+
+    font-weight: 700;
+    color: #157c2a;
+    text-align: center;
+    border: 2px solid #133b95;
+    margin: 0; /* SCHIMBAT - nu mai e nevoie de margin cu absolute */
+    padding: 20px 80px;
+    width: fit-content;
+    border-radius: 80px;
+    z-index: 9; /* ADĂUGAT - sub favorite-btn */
+}
+
+.car-price {
+    font-size: 34px;
+
+
+    background-image: url('/images/logos/money.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* Ajustează opacitatea background-ului */
+    background-blend-mode: lighten; /* sau overlay, multiply, screen */
+    background-color: rgba(255, 255, 255, 0.5); /* Alb transparent */
+}
+
+
+
+.car-box .car-price i {
+    margin-right: 5px;
+}
+
+/* Responsive pentru ecrane mici */
+@media (max-width: 768px) {
+    .car-box {
+        grid-template-columns: 1fr;
+    }
+
+    .car-box .car-title {
+        font-size: 1.2rem;
+    }
+
+    .favorite-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+
+/* Poziționare orizontală pentru detalii */
+.car-main-details {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+    gap: 180px;
+    border: 2px solid #133b95;
+    border-radius : 80px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.car-main-details p {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+}
+
+.car-main-details p i {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.car-main-details p b {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* pt LOGO */
+.car-title-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.car-logo {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+
+    border-radius: 54px;
+    padding: 6px;
+
+    margin-left:15px;
+    margin-top:20px;
+}
+
+
+
+/* Loading state */
+.car-logo[src*="loading.gif"] {
+    opacity: 0.5;
+}
+
+
+/* ================================
+   CAROUSEL IMAGINI MAȘINĂ
+   ================================ */
+
+.car-images-carousel {
+    width: 40%;
+    margin: 30px auto 0px auto;
+    grid-column: 1 / -1;
+
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 378px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ddfafd;
+   /*background: linear-gradient(135deg, #95e3e8 0%, #ffe0ff 100%); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #133b95;
+}
+
+.carousel-images {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-image.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #2b4b8f;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn i {
+    font-size: 18px;
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #66c6ae;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.carousel-dot:hover {
+    background: #999;
+    transform: scale(1.2);
+}
+
+.carousel-dot.active {
+    background: #007bff;
+    width: 25px;
+    border-radius: 5px;
+}
+
+.carousel-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    background: #f0f0f0;
+}
+
+.carousel-loading i {
+    font-size: 40px;
+    color: #999;
+}
+
+.carousel-btn-hidden {
+    display: none;
+}
+
+/* ================================
+   BADGE DATA ACTUALIZARE PREȚ
+   ================================ */
+
+.price-update-badge {
+    position: absolute;
+    bottom: 25px; /* Sub butonul favorite */
+    left: 40px;
+    background: transparent;
+    color: #133b95;
+    padding: 8px 16px;
+    border-radius: 15px;
+    font-size: 22px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+    /*box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px); */
+    white-space: nowrap;
+}
+
+.price-update-badge i {
+    font-size: 25px;
+    margin-right:6px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .price-update-badge {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
 }

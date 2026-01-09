@@ -1,6 +1,7 @@
 package com.dealerauto.app.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Vanzare {
 
@@ -9,7 +10,7 @@ public class Vanzare {
     private Integer clientId;
     private Integer agentId;
 
-    private Date dataVanzare;
+    private LocalDate dataVanzare;
     private Double pretFinal;
     private String tipTranzactie;
 
@@ -24,7 +25,7 @@ public class Vanzare {
     }
 
     public Vanzare(Integer masinaId, Integer clientId, Integer agentId,
-                   Date dataVanzare, Double pretFinal,
+                   LocalDate dataVanzare, Double pretFinal,
                    String tipTranzactie, Double pretAchizitieMasina) {
         this.masinaId = masinaId;
         this.clientId = clientId;
@@ -56,7 +57,7 @@ public class Vanzare {
         return agentId;
     }
 
-    public Date getDataVanzare() {
+    public LocalDate getDataVanzare() {
         return dataVanzare;
     }
 
@@ -96,7 +97,7 @@ public class Vanzare {
         this.agentId = agentId;
     }
 
-    public void setDataVanzare(Date dataVanzare) {
+    public void setDataVanzare(LocalDate dataVanzare) {
         this.dataVanzare = dataVanzare;
     }
 

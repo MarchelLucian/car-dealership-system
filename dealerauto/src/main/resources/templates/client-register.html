@@ -1,66 +1,125 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Create Client Account</title>
-    <link rel="stylesheet" th:href="@{/css/client-register.css}" />
-    <script src="/js/client-register.js"></script>
+    <link rel="stylesheet" th:href="@{/css/add-car.css}"/>
+
+    <link rel="stylesheet" th:href="@{/css/client-login.css}"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script th:src="@{/js/client-register.js}"></script>
 </head>
 
-<body>
+<body onload="toggleClientType()">
 <div class="page-wrapper">
-    <div class="register-box">
-        <h1>Create Client Account</h1>
 
-        <p th:if="${success}" th:text="${success}" class="success-message"></p>
-        <a th:if="${success}" href="/client-login" class="go-login-btn"
-        >→ Go sign in to see what we offer!</a
-        >
-        <p th:if="${error}" th:text="${error}" class="error-message"></p>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <!-- Go Back -->
+        <a href="/client" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+    </div>
 
-        <form action="/client-register" method="post">
-            <label>Client Type</label>
-            <select
-                    name="tip_client"
-                    id="tip_client"
-                    onchange="updateClientType()"
-                    required
-            >
-                <option value="persoana fizica">Individual</option>
-                <option value="firma">Company</option>
+    <div class="container">
+
+        <h1>Create Client Account <i class="fa-solid fa-user-plus"></i></h1>
+
+        <!-- SUCCESS -->
+        <p id="successMessage"
+           th:if="${success}"
+           th:text="${success}"
+           class="success-message"></p>
+
+        <!-- Link to Login after success -->
+        <a th:if="${success}" href="/client-login" class="go-login-btn">
+            Go sign in to see what we offer!
+        </a>
+
+        <!-- ERROR -->
+        <p id="errorMessage"
+           th:if="${error}"
+           th:text="${error}"
+           class="error-message-big"></p>
+
+        <!-- FORM -->
+        <form action="/client-register"
+              method="post"
+              onsubmit="validateClientRegister(event)">
+
+            <!-- CLIENT TYPE -->
+            <span class="error-msg" id="error-tip"></span>
+            <label>Client Type:</label>
+            <select name="tip_client" id="tipClient" onchange="toggleClientType()">
+                <option value="" disabled>Select type</option>
+                <option value="persoana fizica" th:selected="${tip_client == 'persoana fizica' or tip_client == null}" selected>Individual</option>
+                <option value="firma" th:selected="${tip_client == 'firma'}">Company</option>
             </select>
 
-            <label>Email</label>
-            <input type="email" name="email" required />
+            <!-- EMAIL -->
+            <span class="error-msg" id="error-email"></span>
+            <label>Email:</label>
+            <input type="email" name="email" placeholder="email@example.com" th:value="${email}"/>
 
-            <label>Password</label>
-            <input type="password" name="password" required />
+            <!-- PASSWORD -->
+            <span class="error-msg" id="error-password"></span>
+            <label>Password:</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="Enter password"/>
+                <i id="togglePassword" class="fa-solid fa-eye-slash password-toggle"></i>
+            </div>
 
-            <label>First Name</label>
-            <input type="text" name="nume" required />
+            <!-- LAST NAME / NAME -->
+            <span class="error-msg" id="error-nume"></span>
+            <label id="labelNume">Name:</label>
+            <input type="text" name="nume" placeholder="e.g. Popescu / SC Auto SRL" th:value="${nume}"/>
 
-            <label>Last Name</label>
-            <input type="text" id="prenume" name="prenume" />
+            <!-- FIRST NAME (PF only) -->
+            <div id="prenumeBlock" style="display:none;">
+                <span class="error-msg" id="error-prenume"></span>
+                <label id="labelPrenume">First Name:</label>
+                <input type="text" name="prenume" id="prenumeInput" placeholder="e.g. Mihai" th:value="${prenume}"/>
+            </div>
 
-            <label>CNP</label>
-            <input type="text" id="cnp" name="cnp" />
+            <!-- CNP (PF only) -->
+            <div id="cnpBlock" style="display:none;">
+                <span class="error-msg" id="error-cnp"></span>
+                <label>CNP:</label>
+                <input type="text" name="cnp" id="cnpInput" placeholder="e.g. 1990715123456" th:value="${cnp}"/>
+            </div>
 
-            <label>CUI</label>
-            <input type="text" id="cui" name="cui" />
+            <!-- CUI (Firma only) -->
+            <div id="cuiBlock" style="display:none;">
+                <span class="error-msg" id="error-cui"></span>
+                <label>CUI:</label>
+                <input type="text" name="cui" id="cuiInput" placeholder="e.g. RO12345678" th:value="${cui}"/>
+            </div>
 
-            <label>Phone</label>
-            <input type="text" name="telefon" required />
+            <!-- PHONE -->
+            <span class="error-msg" id="error-telefon"></span>
+            <label>Phone:</label>
+            <input type="text" name="telefon" placeholder="+40721110005" th:value="${telefon}"/>
 
-            <label>Address</label>
-            <input type="text" name="adresa" />
+            <!-- ADDRESS -->
+            <span class="error-msg" id="error-adresa"></span>
+            <label>Address:</label>
+            <input type="text" name="adresa" placeholder="City, Street, No" th:value="${adresa}"/>
 
-            <button type="submit">Create Account</button>
+            <!-- RESET -->
+            <button type="button" class="reset-btn" onclick="clearRegisterForm()">Clear Form</button>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="submit-btn registerButton" id="registerBtn">
+                <i class="fa-solid fa-plus" id="registerPlus"></i>
+                <span id="registerText">Create Account</span>
+                <i class="fa-solid fa-spinner spin-icon" id="registerSpinner"></i>
+            </button>
+
         </form>
     </div>
-
-    <div class="back-container">
-        <a href="/client" class="back-btn">← Back to offers</a>
-    </div>
 </div>
+
 </body>
 </html>

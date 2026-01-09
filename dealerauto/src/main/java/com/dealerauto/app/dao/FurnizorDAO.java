@@ -39,4 +39,22 @@ public class FurnizorDAO {
                 f.getTara()
         );
     }
+
+    public Furnizor findById(int id) {
+
+        String sql = """
+        SELECT id, nume, tip_furnizor, telefon, cui_cnp
+        FROM furnizor
+        WHERE id = ?
+    """;
+
+        List<Furnizor> result = jdbcTemplate.query(
+                sql,
+                new Object[]{id},
+                new FurnizorRowMapper()
+        );
+
+        return result.isEmpty() ? null : result.get(0);
+    }
+
 }

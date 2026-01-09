@@ -14,7 +14,7 @@ function toggleStatus(carId, iconElem) {
     btn.disabled = true;
 
     //  FACEM REQUEST LA BACKEND
-    fetch(`/agent-dashboard/car-inventory/toggle-status/${carId}`, { method: "POST" })
+    fetch(`/agent-dashboard/cars-management/car-inventory/toggle-status/${carId}`, { method: "POST" })
         .then(response => response.text())
         .then(result => {
 
@@ -70,7 +70,7 @@ function showSpinner() {
 
 function changePageSize() {
     const size = document.getElementById("pageSizeSelect").value;
-    window.location.href = `/agent-dashboard/car-inventory?page=1&pageSize=` + size;
+    window.location.href = `/agent-dashboard/cars-management/car-inventory?page=1&pageSize=` + size;
 }
 
 function updatePageSize() {
@@ -97,7 +97,7 @@ function updatePageSize() {
     params.set("pageSize", size);
 
     setTimeout(() => {
-        window.location.href = `/agent-dashboard/car-inventory?${params.toString()}`;
+        window.location.href = `/agent-dashboard/cars-management/car-inventory?${params.toString()}`;
     }, 700);
 }
 
@@ -123,7 +123,7 @@ function searchById() {
 
     // Redirect către backend
     setTimeout(() => {
-        window.location.href = `/agent-dashboard/car-inventory?searchId=${id}`;
+        window.location.href = `/agent-dashboard/cars-management/car-inventory?searchId=${id}`;
     }, 700); // <-- aici controlezi durata (în milisecunde)
 }
 
@@ -191,7 +191,7 @@ function resetFilters() {
     document.querySelectorAll("input[type='checkbox']").forEach(cb => cb.checked = false);
 
     // dacă vrei și să reaplici filtrarea după reset:
-    // applyFilters();
+     applyFilters();
 }
 
 function toggleFilters() {
@@ -218,7 +218,7 @@ function selectModel(model) {
     document.getElementById("modelSuggestions").style.display = "none";
 
     // trimitem formularul de căutare direct spre backend
-    window.location.href = `/agent-dashboard/car-inventory?searchModel=${model}`;
+    window.location.href = `/agent-dashboard/cars-management/car-inventory?searchModel=${model}`;
 }
 
 // AUTOCOMPLETE
@@ -231,7 +231,7 @@ document.getElementById("modelSearchInput").addEventListener("input", function (
         return;
     }
 
-    fetch(`/agent-dashboard/car-inventory/search-model?query=` + query)
+    fetch(`/agent-dashboard/cars-management/car-inventory/search-model?query=` + query)
         .then(res => res.json())
         .then(data => {
             box.innerHTML = "";
@@ -260,7 +260,7 @@ document.getElementById("modelSearchInput").addEventListener("input", function (
                     // redirect cu delay
                     setTimeout(() => {
                         window.location.href =
-                            `/agent-dashboard/car-inventory?modelSearch=${encodeURIComponent(model)}`;
+                            `/agent-dashboard/cars-management/car-inventory?modelSearch=${encodeURIComponent(model)}`;
                     }, 500);
                 };
 
@@ -282,14 +282,14 @@ document.getElementById("modelSearchInput").addEventListener("keydown", function
         if (model === "") {
             // input gol → pagina default
             setTimeout(() => {
-                window.location.href = `/agent-dashboard/car-inventory`;
+                window.location.href = `/agent-dashboard/cars-management/car-inventory`;
             }, 500);
         } else {
             // redirect filtrat
             resetFilters();
             setTimeout(() => {
                 window.location.href =
-                    `/agent-dashboard/car-inventory?modelSearch=${encodeURIComponent(model)}`;
+                    `/agent-dashboard/cars-management/car-inventory?modelSearch=${encodeURIComponent(model)}`;
             }, 700);
         }
     }
@@ -303,13 +303,13 @@ document.getElementById("modelSearchButton").addEventListener("click", function 
 
     if (model === "") {
         setTimeout(() => {
-            window.location.href = `/agent-dashboard/car-inventory`;
+            window.location.href = `/agent-dashboard/cars-management/car-inventory`;
         }, 500);
     } else {
         setTimeout(() => {
             resetFilters();
             window.location.href =
-                `/agent-dashboard/car-inventory?modelSearch=${encodeURIComponent(model)}`;
+                `/agent-dashboard/cars-management/car-inventory?modelSearch=${encodeURIComponent(model)}`;
         }, 700);
     }
 });
@@ -379,7 +379,7 @@ function applyFilters() {
 
     // redirect
     setTimeout(() => {
-        window.location.href = "/agent-dashboard/car-inventory?" + params.toString();
+        window.location.href = "/agent-dashboard/cars-management/car-inventory?" + params.toString();
     }, 700);
 }
 
@@ -414,7 +414,7 @@ function applySort() {
     params.set("pageSize", pageSize);
 
     // 4) Construim noul URL
-    const newUrl = "/agent-dashboard/car-inventory?" + params.toString();
+    const newUrl = "/agent-dashboard/cars-management/car-inventory?" + params.toString();
 
     // 5) Timeout scurt – overlay să rămână vizibil o fracțiune înainte de redirect
     setTimeout(() => {
@@ -432,7 +432,7 @@ document.getElementById("vinSearchInput").addEventListener("input", function () 
         return;
     }
 
-    fetch(`/agent-dashboard/car-inventory/search-vin?query=` + query)
+    fetch(`/agent-dashboard/cars-management/car-inventory/search-vin?query=` + query)
         .then(res => res.json())
         .then(data => {
             box.innerHTML = "";
@@ -460,7 +460,7 @@ document.getElementById("vinSearchInput").addEventListener("input", function () 
 
                     setTimeout(() => {
                         window.location.href =
-                            `/agent-dashboard/car-inventory?vinSearch=${encodeURIComponent(vin)}`;
+                            `/agent-dashboard/cars-management/car-inventory?vinSearch=${encodeURIComponent(vin)}`;
                     }, 500);
                 };
 
@@ -481,13 +481,13 @@ document.getElementById("vinSearchInput").addEventListener("keydown", function (
 
         if (vin === "") {
             setTimeout(() => {
-                window.location.href = `/agent-dashboard/car-inventory`;
+                window.location.href = `/agent-dashboard/cars-management/car-inventory`;
             }, 500);
         } else {
             resetFilters();
             setTimeout(() => {
                 window.location.href =
-                    `/agent-dashboard/car-inventory?vinSearch=${encodeURIComponent(vin)}`;
+                    `/agent-dashboard/cars-management/car-inventory?vinSearch=${encodeURIComponent(vin)}`;
             }, 700);
         }
     }
@@ -501,13 +501,13 @@ document.getElementById("vinSearchButton").addEventListener("click", function ()
 
     if (vin === "") {
         setTimeout(() => {
-            window.location.href = `/agent-dashboard/car-inventory`;
+            window.location.href = `/agent-dashboard/cars-management/car-inventory`;
         }, 500);
     } else {
         setTimeout(() => {
             resetFilters();
             window.location.href =
-                `/agent-dashboard/car-inventory?vinSearch=${encodeURIComponent(vin)}`;
+                `/agent-dashboard/cars-management/car-inventory?vinSearch=${encodeURIComponent(vin)}`;
         }, 700);
     }
 });

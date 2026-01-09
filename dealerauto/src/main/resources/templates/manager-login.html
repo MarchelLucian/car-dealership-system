@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Manager Login</title>
+
+    <link rel="stylesheet" th:href="@{/css/agent-login.css}" />
     <link rel="stylesheet" th:href="@{/css/manager-login.css}" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script th:src="@{/js/manager-login.js}"></script>
 </head>
 
 <body>
 <div class="page-wrapper">
-<div class="login-box">
-    <h1>Manager Login</h1>
 
-    <!-- Error message -->
-    <p th:if="${error}" th:text="${error}" class="error-message"></p>
+    <div class="top-bar">
+        <a href="/" class="back-btn top-back">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+    </div>
+    <div class="login-center">
+        <div class="login-box">
+            <h1>Manager Login</h1>
 
-    <form action="/manager-login" method="post">
+            <!-- Error message -->
+            <p th:if="${error}" th:text="${error}" class="error-message"></p>
 
-        <label>Username</label>
-        <input type="text" name="username" required>
+            <form id="loginForm" action="/manager-login" method="post">
+                <label>Username</label>
+                <input type="text" id="username" name="username" required />
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" required />
 
-        <button type="submit">Sign In</button>
-    </form>
-</div>
+                    <i id="togglePassword"
+                       class="fa-solid fa-eye-slash password-toggle"></i>
+                </div>
 
-<a href="/" class="back-btn">← Back to Home</a>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+
+        <button type="button" id="demoLoginBtn" class="demo-btn">
+            Demo Login
+        </button>
+    </div>
 </div>
 
 </body>
