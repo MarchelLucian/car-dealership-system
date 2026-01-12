@@ -1,41 +1,53 @@
+/* ====== OVERRIDE COLORS FOR MANAGER ====== */
+
 body {
-    background: #fff7d6;
+    background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
 }
 
-.page-wrapper{
-    border: 3px solid #f4da28;
+.page-wrapper {
+    /*border: 3px solid #f4da28;
     border-left: 3px solid #d0d0d0;
-    border-right: 3px solid #d0d0d0;
+    border-right: 3px solid #d0d0d0; */
+
 }
 
 .back-btn {
     background-color: #b8860b;
 }
+
 .back-btn:hover {
     background-color: #775809;
 }
 
 h1 {
-    color:  #b8860b;
+    color: #b8860b;
 }
 
 button {
-    background: #f4da28;
+    background: linear-gradient(135deg, #f4da28 0%, #baa61d 100%);
+    box-shadow: 0 4px 15px rgba(225, 209, 26, 0.3);
 }
+
 button:hover {
-    background: #baa61d;
+    background: linear-gradient(135deg, #baa61d 0%, #8b6508 100%);
+    box-shadow: 0 6px 20px rgba(225, 209, 26, 0.5);
 }
 
 .demo-btn {
-    background: #f4da28;
+    background: transparent;
+    border: 2px solid #ffe000;
+    color: #f4da28;
 }
 
 .demo-btn:hover {
-    background: #baa61d;
+    background: #f4da28;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(186, 166, 29, 0.3);
 }
 
 .password-toggle {
-    color:  #baa61d;
+    color: #baa61d;
 }
 
 .password-toggle:hover {
@@ -43,5 +55,21 @@ button:hover {
 }
 
 label {
-    color:  #b8860b;
+    color: #b8860b;
+}
+
+/*  Logo circle culoare galbenă */
+.logo-circle i {
+    color: #b8860b;
+}
+
+/* Input focus culoare galbenă */
+input:focus {
+    border-color: #b8860b;
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+}
+
+/* Background shapes tenta galbenă */
+.bg-shapes .shape {
+    background: rgba(244, 218, 40, 0.08);
 }

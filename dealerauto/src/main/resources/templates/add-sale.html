@@ -104,7 +104,7 @@
                 <div id="carInfoBox" class="car-info-box" style="display:none;"></div>
             </div>
 
-            <input type="hidden" name="masina_id" id="masina_id">
+            <input type="hidden" name="masina_id" id="masina_id" th:value="${masina_id}">
 
 
             <!-- CLIENT SELECT -->
@@ -137,24 +137,24 @@
                 <div id="clientInfoBox" class="car-info-box" style="display:none;"></div>
             </div>
 
-            <input type="hidden" name="client_id" id="client_id">
+            <input type="hidden" name="client_id" id="client_id"  th:value="${client_id}">
 
 
 
             <!-- PRICE -->
             <span class="error-msg" id="error-price"></span>
             <label>Final Price (€)</label>
-            <input type="number" name="pret_final" placeholder="e.g. 5500">
+            <input type="number" name="pret_final" placeholder="e.g. 5500" th:value="${pret_final}">
 
             <!-- PAYMENT -->
             <span class="error-msg" id="error-payment"></span>
             <label>Payment Method:</label>
             <select name="metoda_plata">
                 <option value="" disabled selected>Select method</option>
-                <option value="cash">Cash</option>
-                <option value="transfer bancar">Bank Transfer</option>
-                <option value="leasing">Leasing</option>
-                <option value="rate">Installments</option>
+                <option value="cash" th:selected="${metoda_plata == 'cash'}">Cash</option>
+                <option value="transfer bancar" th:selected="${metoda_plata == 'transfer bancar'}">Bank Transfer</option>
+                <option value="leasing" th:selected="${metoda_plata == 'leasing'}">Leasing</option>
+                <option value="rate" th:selected="${metoda_plata == 'rate'}">Installments</option>
             </select>
 
 

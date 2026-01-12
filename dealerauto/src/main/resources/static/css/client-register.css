@@ -1,0 +1,66 @@
+.page-wrapper {
+     border: 3px solid #0390ff;
+        border-left: 3px solid #d0d0d0;
+        border-right: 3px solid #d0d0d0;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #0353dc 0%, #133b95 100%);
+    box-shadow: 0 4px 15px rgba(3, 83, 220, 0.3);
+
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #133b95 0%, #09225a 100%);
+    box-shadow: 0 6px 20px rgba(3, 83, 220, 0.5);
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 94%;
+}
+
+
+/* Icon eye */
+.password-toggle {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: #0353dc;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    opacity: 0.7;
+}
+
+.password-toggle:hover {
+    color: #133b95;
+    opacity: 1;
+}
+
+.go-login-btn {
+    display: block;          /* devine element de rând */
+    width: fit-content;      /* se strânge pe text */
+    margin: 20px auto 10px;
+
+    color: #133b95;
+    text-align:center;
+    font-size: 22px;
+    text-decoration: none;
+    align-items:center;
+    justify-content: center;
+}
+
+.go-login-btn:hover{
+    color:#09225a;
+    text-decoration: underline;
+}
+body {
+    background: #eef3ff;
+}

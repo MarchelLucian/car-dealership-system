@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Providers - Manager Dashboard</title>
+
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<!-- Background decorativ -->
+<div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/manager-dashboard" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Back to Dashboard
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="dashboard-header">
+        <h1>
+            <i class="fa-solid fa-truck-field"></i>
+            Providers
+        </h1>
+        <p class="subtitle">Supplier Management & Performance</p>
+    </div>
+
+    <!-- Providers Information Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-address-card"></i>
+            Provider Details
+        </h2>
+
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Phone</th>
+                <th>CUI/CNP</th>
+                <th>Address</th>
+                <th>Country</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="provider : ${providers}">
+                <td><strong th:text="${provider.id}">1</strong></td>
+                <td th:text="${provider.nume}">Name</td>
+                <td>
+             <span class="provider-type-badge"
+                 th:classappend="${provider.tipFurnizor == 'persoana fizica'} ? ' individual' : ' company'"
+                 th:text="${provider.tipFurnizor}">
+                 Type
+             </span>
+                </td>
+
+                <td>
+                    <i class="fa-solid fa-phone" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${provider.telefon}">Phone</span>
+                </td>
+                <td th:text="${provider.cuiCnp}">CUI/CNP</td>
+                <td th:text="${provider.adresa}">Address</td>
+                <td>
+                    <i class="fa-solid fa-earth-europe" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${provider.tara}">Country</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Provider Performance Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-chart-simple"></i>
+            Performance Metrics
+        </h2>
+
+        <!-- Sorting Bar -->
+        <div class="sort-bar">
+            <div class="sort-group">
+                <label>Sort by:</label>
+                <select id="providerSortBy" class="sort-select">
+                    <option value="name">Provider Name</option>
+                    <option value="supplied">Cars Supplied</option>
+                    <option value="sold" selected>Cars Sold</option>
+                    <option value="conversion">Conversion Rate</option>
+                </select>
+            </div>
+
+            <div class="sort-group">
+                <label>Order:</label>
+                <select id="providerSortOrder" class="sort-select">
+                    <option value="asc">Ascending</option>
+                    <option value="desc" selected>Descending</option>
+                </select>
+                <i class="fa-solid fa-arrow-down-short-wide sort-icon" id="providerSortIcon"></i>
+            </div>
+
+            <button class="sort-apply-btn" onclick="applyProviderSort()">
+                <i class="fa-solid fa-check"></i>
+                Apply
+            </button>
+        </div>
+
+        <table class="data-table" id="providersTable">
+            <thead>
+            <tr>
+                <th>Provider Name</th>
+                <th>Cars Supplied</th>
+                <th>Cars Sold</th>
+                <th>Conversion Rate</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="provider : ${providerStats}" class="provider-row"
+                th:attr="data-name=${provider.providerName},
+                             data-supplied=${provider.carsSupplied},
+                             data-sold=${provider.carsSold},
+                             data-conversion=${provider.carsSupplied > 0 ? (provider.carsSold * 100.0 / provider.carsSupplied) : 0}">
+                <td><strong th:text="${provider.providerName}">Provider</strong></td>
+                <td th:text="${provider.carsSupplied}">0</td>
+                <td th:text="${provider.carsSold}">0</td>
+                <td>
+                        <span class="conversion-rate"
+                              th:text="${provider.carsSupplied > 0 ? #numbers.formatDecimal((provider.carsSold * 100.0 / provider.carsSupplied), 1, 2) + '%' : '0%'}">
+                            0%
+                        </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Provider Performance Chart -->
+    <div class="chart-container">
+        <h3 class="chart-title">
+            <i class="fa-solid fa-truck-fast"></i>
+            Provider Performance (Top 10 by supplied cars count)
+        </h3>
+        <canvas id="providerPerformanceChart"></canvas>
+    </div>
+
+
+</div>
+
+<script th:src="@{/js/manager-dashboard.js}"></script>
+<script th:src="@{/js/manager-providers.js}"></script>
+
+</body>
+</html>

@@ -3,34 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>DealerAuto - Home Page</title>
-    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
 
-<h1>Auto Dealer Web Platform </h1>
-<h2>Select your role and start exploring</h2>
+<!-- Background decorativ -->
+<div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
 
+<!-- Logo-uri plutitoare (generat de JS)-->
+<div class="floating-logos" id="floatingLogos"></div>
+
+<!-- Logo/Header -->
+<div class="header-section">
+    <div class="logo-circle">
+        <i class="fa-solid fa-car"></i>
+    </div>
+    <h1>DealerAuto Platform</h1>
+    <p class="subtitle">Choose your role and start exploring </p>
+    <p  class="subtitle">  ( use demo buttons ) </p>
+</div>
+
+<!-- Cards Container -->
 <div class="container">
 
-    <!-- Agent Card -->
+    <!-- Sales Agent Card -->
     <a href="/agent-login" class="card agent">
-        <h3>🟢 Sales Agent</h3>
-        <p>Manage the car inventory and process sales.</p>
+        <div class="card-icon">
+            <i class="fa-solid fa-user-tie"></i>
+        </div>
+        <h3>Sales Agent</h3>
+        <p>Manage inventory and process sales with powerful tools</p>
+        <div class="card-arrow">
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
     </a>
 
     <!-- Client Card -->
     <a href="/client" class="card client">
-        <h3>🔵 Client</h3>
-        <p>Browse available cars and find the perfect one for you.</p>
+        <div class="card-icon">
+            <i class="fa-solid fa-user"></i>
+        </div>
+        <h3>Client</h3>
+        <p>Browse cars and find your perfect match today</p>
+        <div class="card-arrow">
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
     </a>
 
     <!-- Manager Card -->
     <a href="/manager-login" class="card manager">
-        <h3>🟡 Manager / Administrator</h3>
-        <p>Analyze dealer performance and view sales reports.</p>
+        <div class="card-icon">
+            <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <h3>Manager</h3>
+        <p>Analyze performance and view detailed reports</p>
+        <div class="card-arrow">
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
     </a>
 
 </div>
-
+    <script src="/js/index.js"></script>
 </body>
 </html>

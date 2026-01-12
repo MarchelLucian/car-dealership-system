@@ -58,9 +58,9 @@ public class ClientController {
         boolean isLogged = clientId != null;
         model.addAttribute("isLogged", isLogged);
 
-        // ✅ Preia datele de actualizare (UN singur query)
+        //  Preia datele de actualizare (UN singur query)
         Map<Integer, LocalDateTime> dateActualizare = masinaDAO.findAllActualDates();
-        System.out.println("🔍 Date actualizare: " + dateActualizare);
+
         model.addAttribute("dateActualizare", dateActualizare);
 
         if (isLogged) {

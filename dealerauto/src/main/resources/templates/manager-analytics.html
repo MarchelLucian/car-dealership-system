@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics - Manager Dashboard</title>
+
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<!-- Background decorativ -->
+<div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/manager-dashboard" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Back to Dashboard
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="dashboard-header unfinishedTITLE">
+        <h1>
+            NOT DONE YET <br>
+            <i class="fa-solid fa-chart-pie"></i>
+            Analytics & Reports
+        </h1>
+        <p class="subtitle">Advanced Business Intelligence & Visualizations</p>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+
+        <!-- Monthly Sales Chart -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-calendar-days"></i>
+                Monthly Sales Trend
+            </h3>
+            <canvas id="monthlySalesChart"></canvas>
+        </div>
+
+        <!-- Top Brands Chart -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-ranking-star"></i>
+                Top Brands Performance
+            </h3>
+            <canvas id="topBrandsChart"></canvas>
+        </div>
+
+        <!-- Payment Methods Chart -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-credit-card"></i>
+                Payment Methods Distribution
+            </h3>
+            <canvas id="paymentMethodsChart"></canvas>
+        </div>
+
+        <!-- Fuel Type Distribution -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-gas-pump"></i>
+                Fuel Type in Stock
+            </h3>
+            <canvas id="fuelDistributionChart"></canvas>
+        </div>
+
+        <!-- Transmission Distribution -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-gear"></i>
+                Transmission Type in Stock
+            </h3>
+            <canvas id="transmissionDistributionChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script th:src="@{/js/manager-dashboard.js}"></script>
+
+<!-- Pass data to JavaScript -->
+<script th:inline="javascript">
+    const monthlySalesData = /*[[${monthlySales}]]*/ [];
+    const brandStatsData = /*[[${brandStats}]]*/ [];
+    const paymentMethodsData = /*[[${paymentMethods}]]*/ [];
+    const fuelDistributionData = /*[[${fuelDistribution}]]*/ {};
+    const transmissionDistributionData = /*[[${transmissionDistribution}]]*/ {};
+</script>
+
+<script th:src="@{/js/manager-dashboard.js}"></script>
+<script th:src="@{/js/manager-analytics.js}"></script>
+</body>
+</html>

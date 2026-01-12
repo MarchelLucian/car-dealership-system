@@ -57,7 +57,7 @@
 
         <!-- BRAND -->
         <span class="error-msg" id="error-brand"></span>
-        <label>Brand:</label>
+        <label class="goDown">Brand:</label>
         <select name="brandName">
             <!-- PLACEHOLDER -->
             <option value=""
@@ -75,12 +75,12 @@
 
         <!-- MODEL -->
         <span class="error-msg" id="error-model"></span>
-        <label>Model:</label>
+        <label class="goDown">Model:</label>
         <input type="text" name="model" placeholder="e.g. Model S"  th:value="${model}">
 
         <!-- PROVIDER -->
         <span class="error-msg" id="error-provider"></span>
-        <label>Provider:</label>
+        <label class="goDown">Provider:</label>
         <select name="providerName">
             <!-- PLACEHOLDER -->
             <option value=""
@@ -98,17 +98,17 @@
 
         <!-- YEAR -->
         <span class="error-msg" id="error-year"></span>
-        <label>Year:</label>
+        <label class="goDown">Year:</label>
         <input type="number" name="an" placeholder="e.g. 2019" th:value="${an}">
 
         <!-- KM -->
         <span class="error-msg" id="error-km"></span>
-        <label>Kilometers:</label>
+        <label class="goDown">Kilometers:</label>
         <input type="number" name="kilometraj"  placeholder="e.g. 150000" th:value="${kilometraj}">
 
         <!-- FUEL -->
         <span class="error-msg" id="error-fuel"></span>
-        <label>Fuel:</label>
+        <label class="goDown">Fuel:</label>
         <select name="combustibil">
             <option value="" disabled
                     th:selected="${combustibil == null}">
@@ -138,7 +138,7 @@
 
         <!-- TRANSMISSION -->
         <span class="error-msg" id="error-trans"></span>
-        <label>Transmission:</label>
+        <label class="goDown">Transmission:</label>
         <select name="transmisie">
             <option value="" disabled
                     th:selected="${transmisie == null}">
@@ -160,7 +160,7 @@
         <!-- COLOR -->
         <!-- COLOR -->
         <span class="error-msg" id="error-color"></span>
-        <label>Color:</label>
+        <label class="goDown">Color:</label>
         <input type="text"
                name="culoare"
                placeholder="e.g. White"
@@ -170,7 +170,7 @@
         <!-- PRICE -->
         <!-- PRICE -->
         <span class="error-msg" id="error-price"></span>
-        <label>Purchase Price (€):</label>
+        <label class="goDown">Purchase Price (€):</label>
         <input type="number"
                name="pretAchizitie"
                placeholder="e.g. 12500"
@@ -178,15 +178,16 @@
 
         <!-- SELLING PRICE -->
         <span class="error-msg" id="error-selling-price"></span>
-        <label>Selling Price (€):</label>
+        <label class="goDown">Selling Price (€):</label>
         <input type="number"
                name="pretVanzare"
                id="pretVanzare"
                placeholder="e.g. 15000"
                min="0"
-               step="0.01">
+               step="0.01"
+               th:value="${pretVanzare}">
 
-        <label>Markup (%):</label>
+        <label class="goDown">Markup (%):</label>
         <input type="text"
                id="priceMarkup"
                class="readonly-input"
@@ -197,7 +198,7 @@
 
         <!-- DOORS -->
         <span class="error-msg" id="error-doors"></span>
-        <label>Doors:</label>
+        <label class="goDown">Doors:</label>
         <input type="number"
                name="usi"
                placeholder="e.g. 4"
@@ -206,7 +207,7 @@
 
         <!-- SEATS -->
         <span class="error-msg" id="error-seats"></span>
-        <label>Seats:</label>
+        <label class="goDown">Seats:</label>
         <input type="number"
                name="locuri"
                placeholder="e.g. 5"
@@ -215,10 +216,14 @@
 
 
         <!-- VIN -->
-        <span class="error-msg" id="error-vin"></span>
-        <label>VIN:</label>
-        <input type="text" name="vin" placeholder="e.g. BMW2019X5X00007">
+        <span class="error-msg " id="error-vin"></span>
+        <label class="goDown">VIN:</label>
+        <input type="text" name="vin" placeholder="e.g. BMW2019X5X00007" th:value="${vin}">
 
+        <!-- Stock Entry Date -->
+        <span class="error-msg" id="error-entry-date"></span>
+        <label class="goDown" >Stock Entry Date:</label>
+        <input type="date" name="dataIntrare" th:value="${dataIntrare}">
 
         <button type="reset" class="reset-btn" onclick="clearCarForm()">Clear Form</button>
 

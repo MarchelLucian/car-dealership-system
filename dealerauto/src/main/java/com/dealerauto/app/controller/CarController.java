@@ -9,12 +9,14 @@ import com.dealerauto.app.model.Masina;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 @Controller
@@ -79,8 +81,187 @@ public class CarController {
             @RequestParam(required = false) Integer locuri,
             @RequestParam(required = false) String vin,
             @RequestParam(required = false) Double pretVanzare,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataIntrare,
             RedirectAttributes redirectAttributes
     ) {
+        if (an != null && an <= 1950) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Year must be greater than 1950."
+            );
+
+            redirectAttributes.addFlashAttribute("brandName", brandName);
+            redirectAttributes.addFlashAttribute("providerName", providerName);
+            redirectAttributes.addFlashAttribute("model", model);
+            redirectAttributes.addFlashAttribute("an", an);
+            redirectAttributes.addFlashAttribute("kilometraj", kilometraj);
+            redirectAttributes.addFlashAttribute("combustibil", combustibil);
+            redirectAttributes.addFlashAttribute("transmisie", transmisie);
+            redirectAttributes.addFlashAttribute("culoare", culoare);
+            redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
+            redirectAttributes.addFlashAttribute("pretVanzare", pretVanzare);
+            redirectAttributes.addFlashAttribute("usi", usi);
+            redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
+
+            return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
+        if ( kilometraj < 0) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Mileage must be zero or a positive number."
+            );
+
+            redirectAttributes.addFlashAttribute("brandName", brandName);
+            redirectAttributes.addFlashAttribute("providerName", providerName);
+            redirectAttributes.addFlashAttribute("model", model);
+            redirectAttributes.addFlashAttribute("an", an);
+            redirectAttributes.addFlashAttribute("kilometraj", kilometraj);
+            redirectAttributes.addFlashAttribute("combustibil", combustibil);
+            redirectAttributes.addFlashAttribute("transmisie", transmisie);
+            redirectAttributes.addFlashAttribute("culoare", culoare);
+            redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
+            redirectAttributes.addFlashAttribute("pretVanzare", pretVanzare);
+            redirectAttributes.addFlashAttribute("usi", usi);
+            redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
+
+            return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
+        if (pretAchizitie <= 0) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Purchase price must be greater than 0."
+            );
+
+            redirectAttributes.addFlashAttribute("brandName", brandName);
+            redirectAttributes.addFlashAttribute("providerName", providerName);
+            redirectAttributes.addFlashAttribute("model", model);
+            redirectAttributes.addFlashAttribute("an", an);
+            redirectAttributes.addFlashAttribute("kilometraj", kilometraj);
+            redirectAttributes.addFlashAttribute("combustibil", combustibil);
+            redirectAttributes.addFlashAttribute("transmisie", transmisie);
+            redirectAttributes.addFlashAttribute("culoare", culoare);
+            redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
+            redirectAttributes.addFlashAttribute("pretVanzare", pretVanzare);
+            redirectAttributes.addFlashAttribute("usi", usi);
+            redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
+
+            return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
+        if ( pretVanzare < pretAchizitie) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Selling price must be greater than or equal to purchase price."
+            );
+
+            redirectAttributes.addFlashAttribute("brandName", brandName);
+            redirectAttributes.addFlashAttribute("providerName", providerName);
+            redirectAttributes.addFlashAttribute("model", model);
+            redirectAttributes.addFlashAttribute("an", an);
+            redirectAttributes.addFlashAttribute("kilometraj", kilometraj);
+            redirectAttributes.addFlashAttribute("combustibil", combustibil);
+            redirectAttributes.addFlashAttribute("transmisie", transmisie);
+            redirectAttributes.addFlashAttribute("culoare", culoare);
+            redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
+            redirectAttributes.addFlashAttribute("pretVanzare", pretVanzare);
+            redirectAttributes.addFlashAttribute("usi", usi);
+            redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
+
+            return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
+        if ( usi < 1 || usi > 10 ) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Number of doors must be between 1 and 10."
+            );
+
+            redirectAttributes.addFlashAttribute("brandName", brandName);
+            redirectAttributes.addFlashAttribute("providerName", providerName);
+            redirectAttributes.addFlashAttribute("model", model);
+            redirectAttributes.addFlashAttribute("an", an);
+            redirectAttributes.addFlashAttribute("kilometraj", kilometraj);
+            redirectAttributes.addFlashAttribute("combustibil", combustibil);
+            redirectAttributes.addFlashAttribute("transmisie", transmisie);
+            redirectAttributes.addFlashAttribute("culoare", culoare);
+            redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
+            redirectAttributes.addFlashAttribute("pretVanzare", pretVanzare);
+            redirectAttributes.addFlashAttribute("usi", usi);
+            redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
+
+            return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
+        if ( locuri < 1 || locuri > 40 ) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Number of seats must be between 1 and 40."
+            );
+
+            redirectAttributes.addFlashAttribute("brandName", brandName);
+            redirectAttributes.addFlashAttribute("providerName", providerName);
+            redirectAttributes.addFlashAttribute("model", model);
+            redirectAttributes.addFlashAttribute("an", an);
+            redirectAttributes.addFlashAttribute("kilometraj", kilometraj);
+            redirectAttributes.addFlashAttribute("combustibil", combustibil);
+            redirectAttributes.addFlashAttribute("transmisie", transmisie);
+            redirectAttributes.addFlashAttribute("culoare", culoare);
+            redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
+            redirectAttributes.addFlashAttribute("pretVanzare", pretVanzare);
+            redirectAttributes.addFlashAttribute("usi", usi);
+            redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
+
+            return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
+        // =====================
+        // VALIDARE DATA INTRARE STOC >= 01.01.2020
+        // =====================
+        LocalDate minDate = LocalDate.of(2020, 1, 1);
+
+        if (dataIntrare != null && dataIntrare.isBefore(minDate)) {
+
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Stock entry date must be after 01.01.2020."
+            );
+
+            // ---- PĂSTRĂM DATELE DIN FORMULAR ----
+            redirectAttributes.addFlashAttribute("brandName", brandName);
+            redirectAttributes.addFlashAttribute("providerName", providerName);
+            redirectAttributes.addFlashAttribute("model", model);
+            redirectAttributes.addFlashAttribute("an", an);
+            redirectAttributes.addFlashAttribute("kilometraj", kilometraj);
+            redirectAttributes.addFlashAttribute("combustibil", combustibil);
+            redirectAttributes.addFlashAttribute("transmisie", transmisie);
+            redirectAttributes.addFlashAttribute("culoare", culoare);
+            redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
+            redirectAttributes.addFlashAttribute("pretVanzare", pretVanzare);
+            redirectAttributes.addFlashAttribute("usi", usi);
+            redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
+
+            return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
         // 1) VALIDARE SERVER-SIDE
         boolean invalid =
                 brandName == null || brandName.isBlank() ||
@@ -100,6 +281,13 @@ public class CarController {
             redirectAttributes.addFlashAttribute("errorMessage",
                     "All fields are required!");
             return "redirect:/agent-dashboard/cars-management/add-car";
+        }
+
+        // =====================
+        // FALLBACK DATA INTRARE STOC
+        // =====================
+        if (dataIntrare == null) {
+            dataIntrare = LocalDate.now();
         }
 
         // ===== VALIDARE VIN UNIC =====
@@ -122,11 +310,10 @@ public class CarController {
             redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
         }
-
-
 
         // 2) TRADUCERE ENG → RO
         // convertire pentru combustibil / transmisie ENG → RO
@@ -162,6 +349,8 @@ public class CarController {
         masina.setPret(pretAchizitie);
         masina.setNumarUsi(usi);
         masina.setNumarLocuri(locuri);
+        masina.setDataIntrareStoc(dataIntrare);
+
 
         int masinaId = masinaDAO.insert(masina);
 
@@ -323,6 +512,7 @@ public class CarController {
             response.put("combustibil", row.get("combustibil"));
             response.put("transmisie", row.get("transmisie"));
             response.put("numar_locuri", row.get("numar_locuri"));
+            response.put("data_intrare_stoc", row.get("data_intrare_stoc"));
 
 
             // PROVIDER
@@ -363,6 +553,7 @@ public class CarController {
             res.put("combustibil", row.get("combustibil"));
             res.put("transmisie", row.get("transmisie"));
             res.put("numar_locuri", row.get("numar_locuri"));
+            res.put("data_intrare_stoc", row.get("data_intrare_stoc"));
 
 
             // PROVIDER
@@ -397,10 +588,16 @@ public class CarController {
             @RequestParam int provider_id,
             @RequestParam String provider_nume,
             @RequestParam(name = "retract_reason") String motiv,
+            @RequestParam(required = false) Integer zile_in_stoc,
+            @RequestParam(required = false)double taxaStationare,
             RedirectAttributes redirectAttributes
     ) {
 
         try {
+            if (zile_in_stoc == null) {
+                zile_in_stoc = 0;
+            }
+
             masiniRetraseDAO.insert(
                     vin,
                     marca_nume,
@@ -414,7 +611,8 @@ public class CarController {
                     provider_id,
                     provider_nume,
                     motiv,
-                    0
+                    zile_in_stoc,
+                    taxaStationare
             );
 
             vinCorelareDAO.deleteByMasinaId(masina_id);

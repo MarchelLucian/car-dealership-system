@@ -28,10 +28,10 @@ public class MasiniRetraseDAO {
             int providerId,
             String providerNume,
             String motiv,
-            int zileInStock
+            int zile_in_stoc,
+            double taxaStationare
     ) {
-        //  CALCUL TAXĂ STATIONARE (2% din preț achiziție)
-        double taxaStationare = pretAchizitie * 0.02;
+
 
         String sql = """
             INSERT INTO masini_retrase (
@@ -47,8 +47,8 @@ public class MasiniRetraseDAO {
                 provider_id,
                 provider_nume,
                 motiv,
-                taxa_stationare,
-                zile_in_stock
+                zile_in_stock,
+                taxa_stationare
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
         """;
 
@@ -66,8 +66,8 @@ public class MasiniRetraseDAO {
                 providerId,
                 providerNume,
                 motiv,
-                taxaStationare,
-                zileInStock
+                zile_in_stoc,
+                taxaStationare
         );
     }
 

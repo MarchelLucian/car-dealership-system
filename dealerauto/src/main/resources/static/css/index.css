@@ -1,61 +1,435 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f2f4f7;
-    text-align: center;
+/* ================================
+   GLOBAL STYLES
+   ================================ */
+
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ================================
+   BACKGROUND SHAPES (DECORATIVE)
+   ================================ */
+
+.bg-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    top: -150px;
+    left: -100px;
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    right: -80px;
+    animation: float 15s infinite ease-in-out reverse;
+}
+
+.shape-3 {
+    width: 250px;
+    height: 250px;
+    top: 50%;
+    right: -50px;
+    animation: float 18s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-30px) translateX(20px);
+    }
+}
+
+/* ================================
+   HEADER SECTION
+   ================================ */
+
+.header-section {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+}
+.header-section p{
+    font-size: 22px;
+}
+
+.logo-circle {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+}
+
+.logo-circle i {
+    font-size: 48px;
+    color: #667eea;
+    animation: pulse 6s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.35);
+    }
 }
 
 h1 {
-    font-size: 32px;
-    color: #222;
-    margin-bottom: 10px;
+    font-size: 48px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: -1px;
 }
 
-h2 {
+.subtitle {
     font-size: 18px;
-    font-weight: normal;
-    color: #444;
-    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
 }
+
+/* ================================
+   CARDS CONTAINER
+   ================================ */
 
 .container {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 35px;
     flex-wrap: wrap;
-    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
 }
 
+/* ================================
+   CARDS
+   ================================ */
+
 .card {
-    width: 280px;
-    height: 220px;
+    width: 320px;
     background: white;
-    border-radius: 16px;
-    box-shadow: 0px 4px 20px rgba(0,0,0,0.12);
-    padding: 25px;
+    border-radius: 20px;
+    padding: 40px 30px;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     color: #222;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 14px;
 }
 
 .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 6px 28px rgba(0,0,0,0.25);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
+.card:hover::before {
+    height: 100%;
+    opacity: 0.2;
+}
+
+/* ================================
+   CARD ICONS
+   ================================ */
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    font-size: 32px;
+    transition: all 0.4s ease;
+}
+
+.card:hover .card-icon {
+    transform: scale(1.1) rotate(7deg);
+}
+
+/* ================================
+   CARD CONTENT
+   ================================ */
+
 .card h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 .card p {
-    font-size: 16px;
-    color: #555;
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* Different color for each role */
-.client { border-top: 10px solid #0080ff; }
-.agent { border-top: 10px solid #28a745; }
-.manager { border-top: 10px solid #f1c40f; }
+/* ================================
+   CARD ARROW
+   ================================ */
+
+.card-arrow {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.4s ease;
+    font-size: 18px;
+    color: white;
+}
+
+.card:hover .card-arrow {
+    transform: translateX(5px);
+}
+
+/* ================================
+   SPECIFIC CARD COLORS
+   ================================ */
+
+/* Sales Agent - Green */
+.card.agent::before {
+    background: #28a745;
+}
+
+.card.agent .card-icon {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.card.agent h3 {
+    color: #28a745;
+}
+
+.card.agent .card-arrow {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+/* Client - Blue */
+.card.client::before {
+    background: #0080ff;
+}
+
+.card.client .card-icon {
+    background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%);
+    color: white;
+}
+
+.card.client h3 {
+    color: #0080ff;
+}
+
+.card.client .card-arrow {
+    background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%);
+}
+
+/* Manager - Yellow */
+.card.manager::before {
+    background: #f1c40f;
+}
+
+.card.manager .card-icon {
+    background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+    color: white;
+}
+
+.card.manager h3 {
+    color: #f39c12;
+}
+
+.card.manager .card-arrow {
+    background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+}
+
+.card p{
+    font-size: 20px;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 1024px) {
+    .container {
+        gap: 25px;
+    }
+
+    .card {
+        width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .logo-circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    .logo-circle i {
+        font-size: 38px;
+    }
+
+    .container {
+        gap: 20px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+
+/* ================================
+   FLOATING LOGOS (BACKGROUND)
+   ================================ */
+
+.floating-logos {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.floating-logo {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    opacity: 0.12;
+    filter: grayscale(100%) brightness(200%);
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+
+    /*  CERC */
+    border-radius: 50%;
+    background: transparent;
+    padding: 0;
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+
+/* Animații generice (folosite random de JS) */
+@keyframes float-1 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(30px, -20px) rotate(5deg);
+    }
+    50% {
+        transform: translate(-20px, 30px) rotate(-5deg);
+    }
+    75% {
+        transform: translate(20px, 20px) rotate(3deg);
+    }
+}
+
+@keyframes float-2 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(-25px, 25px) rotate(-8deg);
+    }
+    66% {
+        transform: translate(30px, -15px) rotate(8deg);
+    }
+}
+
+@keyframes float-3 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(40px, -30px) rotate(10deg);
+    }
+}
+
+@keyframes float-4 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(-35px, -25px) rotate(-10deg);
+    }
+}
+
+/* Responsive - mai puține logo-uri pe mobile */
+@media (max-width: 768px) {
+    .floating-logo:nth-child(n+8) {
+        display: none;
+    }
+}

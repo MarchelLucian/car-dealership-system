@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <title>Client Login</title>
+    <meta charset="UTF-8"/>
+    <title>Client Login - DealerAuto</title>
 
-    <link rel="stylesheet" th:href="@{/css/agent-login.css}" />
-    <link rel="stylesheet" th:href="@{/css/client-login.css}" />
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link rel="stylesheet" th:href="@{/css/agent-login.css}"/>
+    <link rel="stylesheet" th:href="@{/css/client-login.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <script th:src="@{/js/client-login.js}"></script>
 </head>
 
 <body>
+
+<!-- 🆕 Background decorativ -->
+<div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+</div>
+
+<!-- 🆕 Logo-uri plutitoare -->
+<div class="floating-logos" id="floatingLogos"></div>
+
 <div class="page-wrapper">
 
     <div class="top-bar">
@@ -22,7 +29,14 @@
             Go Back
         </a>
     </div>
+
     <div class="login-center">
+
+        <!-- 🆕 Logo circle (fără puls) -->
+        <div class="logo-circle">
+            <i class="fa-solid fa-user"></i>
+        </div>
+
         <div class="login-box">
             <h1>Client Login</h1>
 
@@ -31,14 +45,12 @@
 
             <form id="loginForm" action="/client-login" method="post">
                 <label>Email</label>
-                <input type="text" id="email" name="email" required >
+                <input type="text" id="email" name="email" required/>
 
                 <label>Password</label>
                 <div class="password-wrapper">
-                    <input type="password" id="password" name="password" required >
-
-                    <i id="togglePassword"
-                       class="fa-solid fa-eye-slash password-toggle"></i>
+                    <input type="password" id="password" name="password" required/>
+                    <i id="togglePassword" class="fa-solid fa-eye-slash password-toggle"></i>
                 </div>
 
                 <button type="submit">Sign In</button>
@@ -49,7 +61,10 @@
             Demo Login
         </button>
     </div>
+
 </div>
+
+<script th:src="@{/js/index.js}"></script> <!-- Pentru logo-uri -->
 
 </body>
 </html>

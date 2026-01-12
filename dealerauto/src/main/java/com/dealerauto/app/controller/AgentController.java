@@ -328,23 +328,23 @@ public class AgentController {
         if (pageSize < 5) pageSize = 5;
         if (pageSize > 30) pageSize = 30;
 
-// 1. Luăm TOATE mașinile disponibile (nesortate, nepaginate)
+//  Luăm TOATE mașinile disponibile (nesortate, nepaginate)
         List<Masina> carsAll = masinaDAO.findAllAvailable();
 
-// 2. Aplicăm sortarea (dacă sortField e null, sortăm după price asc implicit)
+// Aplicăm sortarea (dacă sortField e null, sortăm după price asc implicit)
         carsAll = sortCars(carsAll, sortField, sortOrder);
 
-// 3. Calculăm paginarea
+//  Calculăm paginarea
         int totalCars = carsAll.size();
         int totalPages = (int) Math.ceil(totalCars / (double) pageSize);
 
         int start = (page - 1) * pageSize;
         int end = Math.min(start + pageSize, totalCars);
 
-// 4. Extragem DOAR mașinile paginii curente
+//  Extragem DOAR mașinile paginii curente
         List<Masina> cars = carsAll.subList(start, end);
 
-// 5. Trimitem în model
+//  Trimitem în model
         model.addAttribute("cars", cars);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);

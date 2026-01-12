@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Agents - Manager Dashboard</title>
+
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<!-- Background decorativ -->
+<div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/manager-dashboard" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-tie"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="dashboard-header">
+        <h1>
+            <i class="fa-solid fa-users-gear"></i>
+            Sales Agents
+        </h1>
+        <p class="subtitle">Team Overview & Performance Metrics</p>
+    </div>
+
+    <!-- Agents Information Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-address-card"></i>
+            Agent Details
+        </h2>
+
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Salary (EUR)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="agent : ${agents}">
+                <td><strong th:text="${agent.idAgent}">1</strong></td>
+                <td th:text="${agent.prenume}">First Name</td>
+                <td th:text="${agent.nume}">Last Name</td>
+                <td>
+                    <i class="fa-solid fa-phone" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${agent.telefon}">Phone</span>
+                </td>
+                <td>
+                    <i class="fa-solid fa-envelope" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${agent.email}">Email</span>
+                </td>
+                <td>
+                    <span class="salary-badge" th:text="${#numbers.formatDecimal(agent.salariu, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Agent Performance Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-trophy"></i>
+            Performance Metrics
+        </h2>
+
+        <!-- Sorting Bar -->
+        <div class="sort-bar">
+            <div class="sort-group">
+                <label>Sort by:</label>
+                <select id="agentSortBy" class="sort-select">
+                    <option value="salesCount" selected>Sales Count</option>
+                    <option value="totalRevenue">Total Revenue</option>
+                    <option value="totalProfit">Total Profit</option>
+                    <option value="averageMarkup">Avg Markup</option>
+                </select>
+            </div>
+
+            <div class="sort-group">
+                <label>Order:</label>
+                <select id="agentSortOrder" class="sort-select">
+                    <option value="asc">Ascending</option>
+                    <option value="desc" selected>Descending</option>
+                </select>
+                <i class="fa-solid fa-arrow-down-short-wide sort-icon" id="agentSortIcon"></i>
+            </div>
+
+            <button class="sort-apply-btn" onclick="applyAgentSort()">
+                Apply
+            </button>
+        </div>
+
+        <table class="data-table" id="agentsTable">
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Agent Name</th>
+                <th>Sales Count</th>
+                <th>Total Revenue (€)</th>
+                <th>Total Profit (€)</th>
+                <th>Avg Markup (%)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="agent, iterStat : ${agentPerformance}" class="agent-row"
+                th:attr="
+                     data-name=${agent.agentName},
+                     data-sales=${agent.salesCount},
+                     data-revenue=${agent.totalRevenue},
+                     data-profit=${agent.totalProfit},
+                     data-markup=${agent.averageMarkup}">
+                <td>
+                <span class="rank-badge"
+                      th:classappend="${iterStat.index == 0} ? 'rank-gold' : (${iterStat.index == 1} ? 'rank-silver' : (${iterStat.index == 2} ? 'rank-bronze' : ''))"
+                      th:text="'#' + ${iterStat.index + 1}">
+                    #1
+                </span>
+                </td>
+                <td><strong th:text="${agent.agentName}">Agent Name</strong></td>
+                <td th:text="${agent.salesCount}">0</td>
+                <td th:text="${#numbers.formatDecimal(agent.totalRevenue, 0, 'DEFAULT', 2, 'DEFAULT')}">0</td>
+                <td th:text="${#numbers.formatDecimal(agent.totalProfit, 0, 'DEFAULT', 2, 'DEFAULT')}">0</td>
+                <td>
+                    <span class="markup-badge" th:text="${#numbers.formatDecimal(agent.averageMarkup, 1, 2)} + '%'">0%</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Agent Performance Charts -->
+    <div class="charts-section">
+
+        <!-- Sales Count Chart (Left) -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-chart-column"></i>
+                Sales Count by Agent
+            </h3>
+            <canvas id="agentSalesChart"></canvas>
+        </div>
+
+        <!-- Profit Chart (Right) -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-sack-dollar"></i>
+                Profit by Agent
+            </h3>
+            <canvas id="agentProfitChart"></canvas>
+        </div>
+    </div>
+    <!-- Markup Comparison Chart -->
+    <div class="charts-section-centered">
+        <div class="chart-container-centered">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-percent"></i>
+                Average Markup Comparison
+            </h3>
+            <canvas id="agentMarkupChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script th:src="@{/js/manager-dashboard.js}"></script>
+
+<!-- Pass data to JavaScript -->
+<script th:inline="javascript">
+    const agentPerformanceData = /*[[${agentPerformance}]]*/ [];
+</script>
+
+<script th:src="@{/js/manager-sales-agents.js}"></script>
+
+</body>
+</html>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.MultiValueMap;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -529,8 +530,8 @@ public class MasinaDAO {
         INSERT INTO masina 
         (marca_id, furnizor_id, marca_nume, furnizor_nume, model, an_fabricatie,
          kilometraj, combustibil, transmisie, culoare, pret_achizitie,
-         numar_usi, numar_locuri)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         numar_usi, numar_locuri , data_intrare_stoc)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -553,6 +554,7 @@ public class MasinaDAO {
             ps.setDouble(11, m.getPret());
             ps.setInt(12, m.getNumarUsi());
             ps.setInt(13, m.getNumarLocuri());
+            ps.setDate(14, java.sql.Date.valueOf(m.getDataIntrareStoc()));
             return ps;
         }, keyHolder);
 
@@ -628,6 +630,7 @@ public class MasinaDAO {
             m.combustibil,
             m.transmisie,
             m.numar_locuri,
+            m.data_intrare_stoc,
 
             f.id AS provider_id,
             f.nume AS provider_nume,
@@ -661,6 +664,7 @@ public class MasinaDAO {
             m.combustibil,
             m.transmisie,
             m.numar_locuri,
+            m.data_intrare_stoc,
 
             f.id AS provider_id,
             f.nume AS provider_nume,
@@ -781,12 +785,18 @@ public class MasinaDAO {
             return List.of();
         }
 
-        String sql = "SELECT * FROM masina WHERE id = ANY(?)";
-
-        // Convertește List<Integer> la Array pentru PostgreSQL
+        //  Convertește lista la array pentru PostgreSQL
         Integer[] idsArray = ids.toArray(new Integer[0]);
 
-        return jdbcTemplate.query(sql, new MasinaRowMapper(), (Object) idsArray);
+        //  Folosește array_position pentru a păstra ordinea din lista ids
+        String sql = """
+        SELECT m.* 
+        FROM masina m
+        WHERE m.id = ANY(?)
+        ORDER BY array_position(?, m.id)
+    """;
+
+        return jdbcTemplate.query(sql, new MasinaRowMapper(), (Object) idsArray, (Object) idsArray);
     }
 
 
@@ -814,5 +824,16 @@ public class MasinaDAO {
 
         return dateActualizare;
     }
+
+    public LocalDate findDataIntrareStocById(int masinaId) {
+        String sql = """
+        SELECT data_intrare_stoc
+        FROM masina
+        WHERE id = ?
+    """;
+
+        return jdbcTemplate.queryForObject(sql, LocalDate.class, masinaId);
+    }
+
 
 }

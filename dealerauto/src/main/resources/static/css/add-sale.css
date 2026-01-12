@@ -481,3 +481,7 @@ margin-top: 40px;
 .modal-btn.confirm:hover {
     background: #219150;
 }
+
+#taxaStationare::after {
+    content: " €";
+}

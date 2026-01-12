@@ -337,9 +337,10 @@ document.addEventListener("DOMContentLoaded",async () => {
                 </p>
                 
                 <p>
-                    <i class="fa-solid fa-road"></i>
-                    <b>Mileage:</b> ${m.kilometraj} km
+                      <i class="fa-solid fa-road"></i>
+                       <b>Mileage:</b> ${Number(m.kilometraj).toLocaleString('ro-RO')} km
                 </p>
+
                 
                 <p>
                     <i class="fa-solid fa-gas-pump"></i>

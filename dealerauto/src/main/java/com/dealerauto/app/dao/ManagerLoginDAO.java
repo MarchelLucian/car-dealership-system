@@ -12,14 +12,20 @@ public class ManagerLoginDAO {
     private JdbcTemplate jdbcTemplate;
 
     public Manager findByUsername(String username) {
-        String sql = "SELECT * FROM manager_login WHERE username = ?";
+        String sql = "SELECT id, username, password, nume, prenume FROM manager_login WHERE username = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[]{username}, (rs, rowNum) ->
-                new Manager(
-                        rs.getInt("id"),
-                        rs.getString("username"),
-                        rs.getString("password")
-                )
-        );
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                Manager manager = new Manager();
+                manager.setId(rs.getInt("id"));
+                manager.setUsername(rs.getString("username"));
+                manager.setPassword(rs.getString("password"));
+                manager.setNume(rs.getString("nume"));           // 🆕
+                manager.setPrenume(rs.getString("prenume"));     // 🆕
+                return manager;
+            }, username);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

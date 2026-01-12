@@ -93,8 +93,9 @@
 
                     <p>
                         <i class="fa-solid fa-road"></i>
-                        <b>Mileage:</b> [[${order.masina.kilometraj}]] km
+                        <b>Mileage:</b> [[${#numbers.formatInteger(order.masina.kilometraj, 0, 'DEFAULT')}]] km
                     </p>
+
 
                     <p>
                         <i class="fa-solid fa-gas-pump"></i>

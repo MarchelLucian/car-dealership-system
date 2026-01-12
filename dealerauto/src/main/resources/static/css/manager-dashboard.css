@@ -1,0 +1,884 @@
+/* ================================
+   GLOBAL STYLES
+   ================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f3e3 0%, #fef9ed 100%); /* Galben foarte soft */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-30px) translateX(20px);
+    }
+}
+
+/* ================================
+   PAGE WRAPPER
+   ================================ */
+
+.page-wrapper {
+    position: relative;
+    max-width: 1800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border: 3px solid #f4da28;
+    border-left: 3px solid #d0d0d0;
+    border-right: 3px solid #d0d0d0;
+    min-height: 100vh;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* ================================
+   TOP BAR
+   ================================ */
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    margin: 20px;
+    padding: 8px 15px;
+    background-color: #b8860b;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 22px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.15);
+}
+
+.back-btn:hover {
+    background-color: #775809;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.2);
+}
+
+.back-btn i {
+    font-size: 30px;
+    margin-right: 8px;
+}
+
+.manager-greeting {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+}
+
+#managerNameBadge {
+    display: inline-block;
+    background: #b8860b;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 24px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.15);
+    letter-spacing: 0.5px;
+    cursor: default;
+    transition: all 0.25s ease;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+#managerNameBadge:hover {
+    background: #775809;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.2);
+}
+
+#managerNameBadge i {
+    font-size: 30px;
+    margin-right: 8px;
+}
+
+/* ================================
+   DASHBOARD HEADER
+   ================================ */
+
+.dashboard-header {
+    text-align: center;
+    margin: 40px 0 30px;
+    animation: fadeIn 0.6s ease;
+}
+
+.dashboard-header h1 {
+    font-size: 42px;
+    color: #b8860b;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-header h1 i {
+    color: #f4da28;
+    margin-right: 15px;
+}
+
+.subtitle {
+    font-size: 28px;
+    color: #8b6914;
+    margin-top:30px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================
+   SECTION TITLE
+   ================================ */
+
+.section-title {
+    font-size: 28px;
+    color: #b8860b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 3px solid #f4da28;
+    padding-bottom: 10px;
+}
+
+.section-title i {
+    color:  #b8860b;
+    font-size: 38px;
+    margin-left :20px;
+    margin-right: 10px;
+}
+
+.subtitleIndices {
+    font-size: 30px;
+    margin-top: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #b8860b;
+}
+
+/* ================================
+   KPI SECTION
+   ================================ */
+
+.kpi-section {
+    margin: 40px 0;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.kpi-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    animation: slideUp 0.6s ease;
+    border-left: 5px solid #f4da28;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpi-icon {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.kpi-icon.revenue {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+}
+
+.kpi-icon.profit {
+    background: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
+}
+
+.kpi-icon.sales {
+    background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+}
+
+.kpi-icon.stock {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+.kpi-icon.margin {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.kpi-icon.retracted {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+}
+
+.kpi-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.kpi-label {
+    font-size: 20px;
+    color: #7f8c8d;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.kpi-value {
+    font-size: 32px;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+/* ================================
+   CHARTS SECTION
+   ================================ */
+
+.charts-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 50px;
+    margin: 60px 0;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    animation: slideUp 0.8s ease;
+}
+
+.chart-title {
+    font-size: 25px;
+    color: #b8860b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid #f4da28;
+    padding-bottom: 10px;
+}
+
+.chart-title i {
+    color: #f4da28;
+    font-size: 30px;
+    margin-right: 20px;
+}
+
+/* ================================
+   TABLE SECTION
+   ================================ */
+
+.table-section {
+    margin: 40px 0;
+}
+
+.data-table {
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    animation: slideUp 1s ease;
+}
+
+.data-table thead {
+    background: linear-gradient(135deg, #f4da28 0%, #f1c40f 100%);
+}
+
+.data-table th {
+    padding: 18px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+    transition: background 0.2s ease;
+}
+
+.data-table tbody tr:hover {
+    background: #fef9ed;
+}
+
+.data-table td {
+    padding: 16px 18px;
+    font-size: 15px;
+    color: #34495e;
+}
+
+.rank-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 22px;
+    color: white;
+}
+
+.rank-gold {
+    background: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
+}
+
+.rank-silver {
+    background: linear-gradient(135deg, #95a5a6 0%, #bdc3c7 100%);
+}
+
+.rank-bronze {
+    background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+}
+
+.conversion-rate {
+    display: inline-block;
+    padding: 5px 12px;
+    background: linear-gradient(135deg, #3d8312 0%, #36da45 100%);
+
+    color: white;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 1024px) {
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header h1 {
+        font-size: 32px;
+    }
+
+    .kpi-value {
+        font-size: 24px;
+    }
+
+    .data-table {
+        font-size: 13px;
+    }
+
+    .chart-container {
+        min-width: 100%;
+    }
+}
+
+/* ================================
+   KPI ROW – CONTROL MANUAL
+   ================================ */
+
+.kpi-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+
+.kpi-row-first{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+/* toate cardurile la fel */
+.kpi-row-first .kpi-card {
+    width: 350px;
+}
+.kpi-row .kpi-card {
+    width: 350px;
+}
+
+.provCARDS .kpi-card {
+    width: 350px;
+}
+
+
+/* conținut centrat */
+.kpi-row-first .kpi-content {
+    align-items: center;
+}
+
+/* conținut centrat */
+.kpi-row .kpi-content {
+    align-items: center;
+}
+
+
+.kpi-icon.stock-value {
+    background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+}
+
+.kpi-icon.retracted-cost {
+    background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+}
+
+.kpi-icon.agents {
+    background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+}
+
+.kpi-icon.payroll {
+    background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+}
+
+.kpi-icon.customers {
+    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+}
+
+.kpi-icon.online-users {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+}
+
+.kpi-icon.providers {
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+}
+
+.kpi-icon.providers-company {
+    background: linear-gradient(135deg, #1e3799 0%, #4a69bd 100%);
+}
+
+.kpi-icon.providers-individual {
+    background: linear-gradient(135deg, #6ab04c 0%, #badc58 100%);
+}
+
+.cars-label {
+    margin-left: 24px;
+}
+.cars-value{
+    margin-left: 24px;
+}
+
+
+.stock-label {
+    margin-left: 24px;
+}
+.stock-values{
+    margin-left: 24px;
+}
+
+/* ================================
+   SORTING BAR
+   ================================ */
+
+.sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    justify-content: center;
+    padding: 18px 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
+}
+
+.sort-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-group label {
+    font-size: 24px;
+    font-weight: 600;
+    color: #b8860b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sort-select {
+    padding: 10px 15px;
+    font-size: 21px;
+    border: 2px solid #f4da28;
+    border-radius: 8px;
+    background: white;
+    color: #2c3e50;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    min-width: 180px;
+}
+
+.sort-select:hover {
+    border-color: #b8860b;
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+}
+
+.sort-select:focus {
+    border-color: #b8860b;
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.2);
+}
+
+.sort-icon {
+    font-size: 24px;
+    color: #b8860b;
+    margin-left: 5px;
+    transition: all 0.3s ease;
+}
+
+.sort-apply-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #f4da28 0%, #f1c40f 100%);
+    color: #2c3e50;
+    border: none;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(244, 218, 40, 0.3);
+
+}
+
+.sort-apply-btn:hover {
+    background: linear-gradient(135deg, #f1c40f 0%, #b8860b 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(244, 218, 40, 0.5);
+}
+
+.sort-apply-btn:active {
+    transform: translateY(0);
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sort-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sort-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sort-select {
+        width: 100%;
+    }
+
+    .sort-apply-btn {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ================================
+   NAVIGATION SECTION
+   ================================ */
+
+.navigation-section {
+    margin: 40px 0;
+}
+
+.nav-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.nav-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-top: 5px solid #f4da28;
+    animation: slideUp 0.6s ease;
+    text-align: center;
+}
+
+.nav-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(244, 218, 40, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-card:hover::before {
+    left: 100%;
+}
+
+.nav-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.nav-card-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    color: white;
+
+    transition: all 0.3s ease;
+
+    margin: 0 auto 20px;
+}
+
+.nav-card:hover .nav-card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.nav-card-icon.agents-icon {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.nav-card-icon.providers-icon {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.nav-card-icon.analytics-icon {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+.nav-card h3 {
+    font-size: 26px;
+    color: #b8860b;
+    margin-bottom: 12px;
+}
+
+.nav-card p {
+    font-size: 20px;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.nav-card-arrow {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #f4da28 0%, #f1c40f 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.nav-card-arrow i {
+    font-size: 25px;
+    color: #2c3e50;
+}
+
+.nav-card:hover .nav-card-arrow {
+    opacity: 1;
+    transform: translateX(5px);
+}
+/* ================================
+   ADDITIONAL BADGES
+   ================================ */
+
+.salary-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 21px;
+}
+
+.provider-type-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+/* FIRMA */
+.provider-type-badge.company {
+    background: linear-gradient(135deg, #3498db 0%, #7bc1ed 100%);
+    color: white;
+}
+
+/* PERSOANĂ FIZICĂ */
+.provider-type-badge.individual {
+    background: linear-gradient(135deg, #3d8312, #36da45);
+    color: white;
+}
+
+
+
+.fa-earth-europe {
+    font-size: 28px;
+}
+/* Rank badge fără culoare (pentru pozițiile 4+) */
+.rank-badge:not(.rank-gold):not(.rank-silver):not(.rank-bronze) {
+    background: transparent;
+    color: #2c3e50;
+    border: 2px solid #bdc3c7;
+    font-weight: 700;
+}
+
+/* Header coloană tabel */
+.data-table thead th {
+    font-size: 22px;       /* mărește titlurile */
+    font-weight: 700;
+    padding: 18px 20px;   /* puțin mai aerisit */
+}
+
+/* Celule tabel */
+.data-table tbody td {
+    font-size: 22px;
+    padding: 16px 20px;
+}
+
+.markup-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+    color: white;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.fa-phone {
+    font-size: 28px;
+}
+.fa-envelope {
+    font-size: 28px;
+}
+
+/* ================================
+   CENTERED CHART SECTION
+   ================================ */
+
+.charts-section-centered {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.chart-container-centered {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    animation: slideUp 0.8s ease;
+    width: 1200px;
+}
+
+.chart-container-centered .chart-title {
+    font-size: 25px;
+    color: #b8860b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid #f4da28;
+    padding-bottom: 10px;
+}
+
+.chart-container-centered .chart-title i {
+    color: #f4da28;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .chart-container-centered {
+        max-width: 100%;
+    }
+}
+.unfinishedTITLE{
+    color: RED; !important;
+}

@@ -157,15 +157,21 @@ function updateTaxaStationare(pretAchizitie) {
     const taxaInput = document.getElementById("taxaStationare");
     if (!taxaInput) return;
 
+    const storageDaysInput = document.getElementById("storageDays");
+
     if (!pretAchizitie || pretAchizitie <= 0) {
         taxaInput.value = "------";
         return;
     }
 
-    const taxa = pretAchizitie * 0.02;
+    const storageDays = Number(storageDaysInput.value) || 0;
 
-    taxaInput.value = `${taxa.toFixed(2)} €`;
+    const perioade = Math.floor(storageDays / 180) + 1;
+    const taxa = perioade * pretAchizitie * 0.02;
+
+    taxaInput.value = taxa.toFixed(2);
 }
+
 
 
 // ===============================
@@ -177,6 +183,9 @@ function searchCarById() {
     const infoBox = document.getElementById("carInfoBox");
     const providerInfoBox = document.getElementById("providerInfoBox");
     const hiddenId = document.getElementById("masina_id");
+
+    const entryDateInput = document.getElementById("entryDate");
+    const storageDaysInput = document.getElementById("storageDays");
 
     const btn = document.getElementById("searchIdBtn");
     const searchIcon = document.getElementById("idSearchIcon");
@@ -213,6 +222,29 @@ function searchCarById() {
                     lookupError.textContent = data.message;
                     return;
                 }
+
+                // ===============================
+                // STORAGE ENTRY DATE + STORAGE DAYS
+                // ===============================
+                if (data.data_intrare_stoc) {
+
+                    // afișăm data de intrare în stoc
+                    entryDateInput.value = data.data_intrare_stoc;
+
+                    // calcul zile de stocare
+                    const entry = new Date(data.data_intrare_stoc);
+                    const today = new Date();
+
+                    const diffMs = today - entry;
+                    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+                    storageDaysInput.value = diffDays;
+
+                } else {
+                    entryDateInput.value = "------";
+                    storageDaysInput.value = "------";
+                }
+
 
                 clearCarValidationError();
 
@@ -291,7 +323,7 @@ function searchCarById() {
                 searchIcon.style.display = "inline-block";
                 btn.disabled = false;
             });
-    }, 1400);
+    }, 1200);
 }
 
 // ===============================
@@ -303,6 +335,9 @@ function searchCarByVin() {
     const infoBox = document.getElementById("carInfoBox");
     const providerInfoBox = document.getElementById("providerInfoBox");
     const hiddenId = document.getElementById("masina_id");
+
+    const entryDateInput = document.getElementById("entryDate");
+    const storageDaysInput = document.getElementById("storageDays");
 
     const btn = document.getElementById("searchVinBtn");
     const searchIcon = document.getElementById("vinSearchIcon");
@@ -339,8 +374,31 @@ function searchCarByVin() {
                     return;
                 }
 
+
+
                 clearCarValidationError();
 
+                // ===============================
+                // STORAGE ENTRY DATE + STORAGE DAYS
+                // ===============================
+                if (data.data_intrare_stoc) {
+
+                    // afișăm data de intrare în stoc
+                    entryDateInput.value = data.data_intrare_stoc;
+
+                    // calcul zile de stocare
+                    const entry = new Date(data.data_intrare_stoc);
+                    const today = new Date();
+
+                    const diffMs = today - entry;
+                    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+                    storageDaysInput.value = diffDays;
+
+                } else {
+                    entryDateInput.value = "------";
+                    storageDaysInput.value = "------";
+                }
 
                 hiddenId.value = data.id;
 
@@ -417,7 +475,7 @@ function searchCarByVin() {
                 searchIcon.style.display = "inline-block";
                 btn.disabled = false;
             });
-    }, 1400);
+    }, 1200);
 }
 
 
@@ -465,6 +523,18 @@ function clearRetractForm() {
     if (taxaInput) {
         taxaInput.value = "";
     }
+
+    // reset storage entry date & storage days
+    const entryDateInput = document.getElementById("entryDate");
+    if (entryDateInput) {
+        entryDateInput.value = "";
+    }
+
+    const storageDaysInput = document.getElementById("storageDays");
+    if (storageDaysInput) {
+        storageDaysInput.value = "";
+    }
+
 
     // re-activează câmpurile de căutare
     enableVinSearch();

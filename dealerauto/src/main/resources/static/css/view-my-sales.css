@@ -16,13 +16,14 @@
 .sales-row {
     display: grid;
     grid-template-columns:
-     160px    /* Sale ID */
-    2.4fr    /* Car */
-    2.4fr    /* Client */
+     130px    /* Sale ID */
+    2.5fr    /* Car */
+    2.2fr    /* Client */
     1.5fr    /* Final Price */
     1.2fr    /* Profit */
-    1.2fr    /* Markup (%) */
-    1.5fr    /* Date */
+    1fr    /* Markup (%) */
+    1.5fr  /* Days in stock (%) */
+    1.4fr    /* Date */
     160px;   /* Status */
     padding: 16px 20px;
     align-items: center;

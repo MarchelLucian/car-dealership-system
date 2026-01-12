@@ -278,3 +278,7 @@ input.tax::placeholder {
     color: #999;           /* gri */
     font-weight: normal;
 }
+
+.goDown{
+    margin-top:8px;
+}

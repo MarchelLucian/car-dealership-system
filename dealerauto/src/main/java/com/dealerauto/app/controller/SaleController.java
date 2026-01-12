@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,6 +187,27 @@ public class SaleController {
         v.setTipTranzactie(metoda_plata);
         v.setPretAchizitieMasina(pretAchizitie);
         v.setProfit(pret_final - pretAchizitie);
+
+        // ================================
+// VALIDARE DATA VÂNZARE vs STOC
+// ================================
+        LocalDate dataIntrareStoc = masinaDAO.findDataIntrareStocById(masina_id);
+
+        if (dataIntrareStoc != null && data_vanzare.isBefore(dataIntrareStoc)) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Sale date cannot be earlier than stock entry date (" + dataIntrareStoc + ")."
+            );
+
+            // pastram valorile introduse
+            redirectAttributes.addFlashAttribute("masina_id", masina_id);
+            redirectAttributes.addFlashAttribute("client_id", client_id);
+            redirectAttributes.addFlashAttribute("pret_final", pret_final);
+            redirectAttributes.addFlashAttribute("metoda_plata", metoda_plata);
+
+            return "redirect:/agent-dashboard/sales/add-sale";
+        }
+
 
         // ===== 4) Insert Vanzare =====
         vanzareDAO.insert(v);

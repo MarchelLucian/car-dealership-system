@@ -1,6 +1,8 @@
 package com.dealerauto.app.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
+
 
 public class SaleViewDTO {
 
@@ -23,6 +25,7 @@ public class SaleViewDTO {
     private String paymentType;
     private String status;
 
+    private LocalDate dataIntrareStoc;
 
     // ===== GETTERS =====
     public Integer getSaleId() { return saleId; }
@@ -43,6 +46,10 @@ public class SaleViewDTO {
         return status;
     }
 
+    public LocalDate getDataIntrareStoc() {
+        return dataIntrareStoc;
+    }
+
     // ===== SETTERS =====
     public void setSaleId(Integer saleId) { this.saleId = saleId; }
     public void setMasinaId(Integer masinaId) { this.masinaId = masinaId; }
@@ -54,6 +61,11 @@ public class SaleViewDTO {
     public void setClientType(String clientType) { this.clientType = clientType; }
 
     public void setSaleDate(Date saleDate) { this.saleDate = saleDate; }
+
+    public void setDataIntrareStoc(LocalDate dataIntrareStoc) {
+        this.dataIntrareStoc = dataIntrareStoc;
+    }
+
     public void setFinalPrice(Double finalPrice) { this.finalPrice = finalPrice; }
     public void setProfit(Double profit) { this.profit = profit; }
     public void setPaymentType(String paymentType) { this.paymentType = paymentType; }

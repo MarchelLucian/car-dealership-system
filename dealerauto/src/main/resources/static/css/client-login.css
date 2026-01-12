@@ -1,11 +1,13 @@
+/* ====== OVERRIDE COLORS FOR CLIENT ====== */
+
 body {
-    background: #eef3ff;
+    background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%);
 }
 
-.page-wrapper{
-    border: 3px solid #005dff;
+.page-wrapper {
+   /* border: 3px solid #005dff;
     border-left: 3px solid #d0d0d0;
-    border-right: 3px solid #d0d0d0;
+    border-right: 3px solid #d0d0d0; */
 }
 
 .back-btn {
@@ -17,21 +19,30 @@ body {
 }
 
 h1 {
-    color:  #133b95;
+    color: #133b95;
 }
 
 button {
-    background: #0353dc;
+    background: linear-gradient(135deg, #0353dc 0%, #133b95 100%);
+    box-shadow: 0 4px 15px rgba(3, 83, 220, 0.3);
 }
+
 button:hover {
-    background: #133b95;
+    background: linear-gradient(135deg, #133b95 0%, #09225a 100%);
+    box-shadow: 0 6px 20px rgba(3, 83, 220, 0.5);
 }
 
 .demo-btn {
-    background: #0353dc;
+    background: transparent;
+    border: 2px solid #0353dc;
+    color: #0353dc;
 }
+
 .demo-btn:hover {
-    background: #133b95;
+    background: #0353dc;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(3, 83, 220, 0.3);
 }
 
 .password-toggle {
@@ -43,65 +54,22 @@ button:hover {
 }
 
 label {
-    color:  #133b95;
-}
-
-.registerButton {
-    background: #0353dc;
-}
-
-.registerButton:hover{
-    background: #133b95;
-}
-
-
-.password-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.password-wrapper input {
-    width: 94%;
-}
-
-/* Icon eye */
-.password-toggle {
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 22px;
-    color: #0353dc;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-
-.password-toggle:hover {
     color: #133b95;
 }
 
-.password-toggle {
-    opacity: 0.7;
-}
-
-.password-toggle:hover {
-    opacity: 1;
-}
-
-/* Stilizare pentru linkul către login după success */
-.go-login-btn {
-    display: block;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 600;
+/*  Logo circle culoare albastră */
+.logo-circle i {
     color: #133b95;
-    text-decoration: none;
-    margin: 20px auto;
-    padding: 12px 20px;
-    transition: all 0.3s ease;
-    max-width: 400px;
 }
 
-.go-login-btn:hover {
-    text-decoration: underline;
+/*  Input focus culoare albastră */
+input:focus {
+    border-color: #133b95;
+    box-shadow: 0 0 0 3px rgba(19, 59, 149, 0.1);
 }
+
+/*  Background shapes tenta albastră */
+.bg-shapes .shape {
+    background: rgba(0, 93, 255, 0.08);
+}
+

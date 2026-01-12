@@ -132,7 +132,7 @@ public class ClientAddedByAgentController {
                 redirectAttributes.addFlashAttribute("telefon", telefon);
             } else {
                 redirectAttributes.addFlashAttribute(
-                        "errorMessage", "Client already exists (duplicate data)."
+                        "errorMessage", "Client already exists (duplicate data) / Inputs are too long"
                 );
                 redirectAttributes.addFlashAttribute("cnp_cui", cnp_cui);
                 redirectAttributes.addFlashAttribute("telefon", telefon);

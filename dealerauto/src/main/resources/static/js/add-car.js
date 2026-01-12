@@ -33,9 +33,11 @@ function validateAddCarForm(event) {
         { name: "transmisie", errorId: "error-trans", label: "Please select transmission" },
         { name: "culoare", errorId: "error-color", label: "Color required" },
         { name: "pretAchizitie", errorId: "error-price", label: "Price required" },
+        { name: "pretVanzare", errorId: "error-selling-price", label: "Selling price required" },
         { name: "usi", errorId: "error-doors", label: "Doors required" },
         { name: "locuri", errorId: "error-seats", label: "Seats required" },
-        { name: "vin", errorId: "error-vin", label: "VIN is required" }
+        { name: "vin", errorId: "error-vin", label: "VIN is required" },
+        { name: "dataIntrare", errorId: "error-entry-date", label: "Entry Date is required" }
     ];
 
     // Rulăm validarea
@@ -65,7 +67,7 @@ function validateAddCarForm(event) {
     // Pornește spinnerul
     showAddCarSpinner();
 
-    // Așteptăm 500 ms înainte să permite submit-ul
+    // timeout
     event.preventDefault();
     setTimeout(() => {
         event.target.submit();

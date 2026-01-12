@@ -188,6 +188,7 @@
                 <option value="price">Final price</option>
                 <option value="profit">Profit</option>
                 <option value="markup">Markup (%)</option>
+                <option value="days">Days in stock</option>
                 <option value="status">Status</option>
 
             </select>
@@ -220,8 +221,9 @@
             <div>Client</div>
             <div>Final Price (€)</div>
             <div>Profit (€)</div>
-            <div>Markup (%)</div>
-            <div>Date (y-m-d)</div>
+            <div>Markup </div>
+            <div>Days in Stock</div>
+            <div>Sale Date </div>
             <div>Status</div>
         </div>
 
@@ -262,7 +264,7 @@
                        style="display:none;"></i>
                 </div>
 
-                <div th:text="${s.finalPrice}"></div>
+                <div class="adjust-righttwo" th:text="${s.finalPrice}"></div>
 
                 <div th:text="${s.profit}"
                      th:classappend="${s.profit >= 0} ? ' profit-positive' : ' profit-negative'">
@@ -273,8 +275,15 @@
               data-profit=${s.profit}">
                 </div>
 
+                <div class="days-in-stock adjust-right"
+                     th:attr="
+                        data-entry-date=${s.dataIntrareStoc},
+                         data-sale-date=${s.saleDate}">
+                </div>
 
-                <div th:text="${s.saleDate}"></div>
+
+                <div th:text="${#dates.format(s.saleDate, 'MM-dd-yyyy')}"></div>
+
 
                 <div class="status"
                      th:classappend="${s.status == 'PENDING'} ? ' pending' : ' paid'"

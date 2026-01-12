@@ -57,4 +57,18 @@ public class FurnizorDAO {
         return result.isEmpty() ? null : result.get(0);
     }
 
+    public List<Furnizor> findAll() {
+        String sql = "SELECT * FROM furnizor ORDER BY nume";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Furnizor furnizor = new Furnizor();
+            furnizor.setId(rs.getInt("id"));
+            furnizor.setNume(rs.getString("nume"));
+            furnizor.setTipFurnizor(rs.getString("tip_furnizor"));
+            furnizor.setTelefon(rs.getString("telefon"));
+            furnizor.setCuiCnp(rs.getString("cui_cnp"));
+            furnizor.setAdresa(rs.getString("adresa"));
+            furnizor.setTara(rs.getString("tara"));
+            return furnizor;
+        });
+    }
 }

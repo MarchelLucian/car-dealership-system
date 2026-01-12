@@ -209,14 +209,19 @@ function sortSales() {
                     );
                     break;
 
+                case "days":
+                    valA = parseInt(a.children[6]?.innerText || 0);
+                    valB = parseInt(b.children[6]?.innerText || 0);
+                    break;
+
                 case "date":
-                    valA = new Date(a.children[6]?.innerText || "1970-01-01");
-                    valB = new Date(b.children[6]?.innerText || "1970-01-01");
+                    valA = new Date(a.children[7]?.innerText || "1970-01-01");
+                    valB = new Date(b.children[7]?.innerText || "1970-01-01");
                     break;
 
                 case "status":
-                    valA = a.children[7]?.innerText || "";
-                    valB = b.children[7]?.innerText || "";
+                    valA = a.children[8]?.innerText || "";
+                    valB = b.children[8]?.innerText || "";
                     break;
             }
 
@@ -269,7 +274,7 @@ function clearPredefinedRange() {
 
 
 function getSaleDate(row) {
-    const cell = row.children[6];
+    const cell = row.children[7];
     if (!cell) return null;
     return new Date(cell.innerText);
 }
@@ -734,7 +739,7 @@ function updateSalesSummary() {
     });
 
     document.getElementById("totalProfit").innerText =
-        totalProfit.toFixed(2);
+        Math.round(totalProfit).toLocaleString("de-DE") + " €";
 
     document.getElementById("salesCount").innerText = count;
 }
@@ -757,6 +762,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         cell.textContent = `${sign}${markup.toFixed(2)}%`;
         cell.classList.add(markup >= 0 ? "markup-positive" : "markup-negative");
+    });
+
+    document.querySelectorAll(".days-in-stock").forEach(cell => {
+
+        const entryDateStr = cell.dataset.entryDate;
+        const saleDateStr = cell.dataset.saleDate;
+
+        if (!entryDateStr || !saleDateStr) {
+            cell.textContent = "-";
+            return;
+        }
+
+        const entryDate = new Date(entryDateStr);
+        const saleDate = new Date(saleDateStr);
+
+        const diffMs = saleDate - entryDate;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        cell.textContent = diffDays >= 0 ? diffDays : "-";
     });
 
 });

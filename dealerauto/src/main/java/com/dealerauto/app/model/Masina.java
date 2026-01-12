@@ -1,5 +1,6 @@
 package com.dealerauto.app.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Masina {
@@ -26,6 +27,9 @@ public class Masina {
     private String vin;
 
     private LocalDateTime dataActualizare;
+
+    private LocalDate dataIntrareStoc;
+
 
     // Constructor gol (necesar pentru RowMapper)
     public Masina() {}
@@ -127,4 +131,14 @@ public class Masina {
     public void setDataActualizare(LocalDateTime dataActualizare) {
         this.dataActualizare = dataActualizare;
     }
+
+
+    public LocalDate getDataIntrareStoc() {
+        return dataIntrareStoc;
+    }
+
+    public void setDataIntrareStoc(LocalDate dataIntrareStoc) {
+        this.dataIntrareStoc = dataIntrareStoc;
+    }
+
 }

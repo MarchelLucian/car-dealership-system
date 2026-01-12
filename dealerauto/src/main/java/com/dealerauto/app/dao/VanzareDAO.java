@@ -6,10 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -90,6 +87,7 @@ public class VanzareDAO {
        END AS client_name,
        c.tip_client AS client_type,
        v.data_vanzare,
+       m.data_intrare_stoc,
        v.pret_final,
        v.profit,
        v.tip_tranzactie
@@ -111,6 +109,12 @@ public class VanzareDAO {
             dto.setClientName(rs.getString("client_name"));
             dto.setClientType(rs.getString("client_type"));
             dto.setSaleDate(rs.getDate("data_vanzare"));
+
+            Date entryDate = rs.getDate("data_intrare_stoc");
+            dto.setDataIntrareStoc(
+                    entryDate != null ? entryDate.toLocalDate() : null
+            );
+
             dto.setFinalPrice(rs.getDouble("pret_final"));
             dto.setProfit(rs.getDouble("profit"));
             dto.setPaymentType(rs.getString("tip_tranzactie"));
