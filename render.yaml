@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: dealerauto
+    runtime: docker
+    region: frankfurt
+    plan: free
+    dockerfilePath: ./Dockerfile
