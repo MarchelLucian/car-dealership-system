@@ -7,6 +7,7 @@
  */
 package com.dealerauto.app.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.Map;
@@ -14,7 +15,8 @@ import java.util.Map;
 @Service
 public class CarLogoService {
 
-    private static final String API_KEY = "pk_cgOeSLYJQ-KDrK3Q6vlXzw"; // Logo.dev
+    @Value("${LOGODEV_API_KEY:pk_cgOeSLYJQ-KDrK3Q6vlXzw}")
+    private String apiKey;
 
     // Exact același map ca în JavaScript
     private static final Map<String, String> BRAND_DOMAIN_MAP = Map.ofEntries(
@@ -81,7 +83,7 @@ public class CarLogoService {
 
             // Construiește exact același URL ca în JavaScript
             String url = "https://img.logo.dev/" + domain
-                    + "?token=" + API_KEY
+                    + "?token=" + apiKey
                     + "&size=128&retina=true";
 
             RestTemplate restTemplate = new RestTemplate();

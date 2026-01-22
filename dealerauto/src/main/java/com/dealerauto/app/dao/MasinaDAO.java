@@ -8,6 +8,7 @@
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Masina;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -22,97 +23,62 @@ import java.util.*;
 @Repository
 public class MasinaDAO {
 
-    private final String url = "jdbc:postgresql://localhost:5432/DealerAuto";
-    private final String username = "postgres";
-    private final String password = "parola123";
-
-
     public List<Masina> getAllDisponibile() {
-        List<Masina> masini = new ArrayList<>();
-
         String sql = """
-    SELECT 
-        m.id,
-        m.marca_nume,
-        m.model,
-        m.an_fabricatie,
-        m.kilometraj,
-        pv.pret_vanzare AS pret,
-        m.combustibil,
-        m.transmisie,
-        m.culoare,
-        m.stare,
-        m.numar_usi,
-        m.numar_locuri
-    FROM masina m
-    LEFT JOIN preturi_vanzare pv 
-        ON pv.masina_id = m.id
-    WHERE m.stare = 'disponibila'
-    ORDER BY m.id;
+        SELECT 
+            m.id,
+            m.marca_nume,
+            m.model,
+            m.an_fabricatie,
+            m.kilometraj,
+            pv.pret_vanzare AS pret,
+            m.combustibil,
+            m.transmisie,
+            m.culoare,
+            m.stare,
+            m.numar_usi,
+            m.numar_locuri
+        FROM masina m
+        LEFT JOIN preturi_vanzare pv ON pv.masina_id = m.id
+        WHERE m.stare = 'disponibila'
+        ORDER BY m.id
     """;
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Masina m = new Masina();
 
-            while (rs.next()) {
+            m.setId(rs.getInt("id"));
+            m.setMarca(rs.getString("marca_nume"));
+            m.setModel(rs.getString("model"));
+            m.setAn(rs.getInt("an_fabricatie"));
+            m.setKilometraj(rs.getInt("kilometraj"));
 
-                Masina m = new Masina();   // folosim constructorul gol
-
-                m.setId(rs.getInt("id"));
-                m.setMarca(rs.getString("marca_nume"));
-                m.setModel(rs.getString("model"));
-                m.setAn(rs.getInt("an_fabricatie"));
-                m.setKilometraj(rs.getInt("kilometraj"));
-
-                double pret = rs.getDouble("pret");
-                if (rs.wasNull()) {
-                    pret = 0.0; // sau alt default (ex: -1, null dacă schimbi tipul)
-                }
-                m.setPret(pret);
-
-                m.setCombustibil(rs.getString("combustibil"));
-                m.setTransmisie(rs.getString("transmisie"));
-                m.setCuloare(rs.getString("culoare"));
-                m.setStare(rs.getString("stare"));
-                m.setNumarUsi(rs.getInt("numar_usi"));
-                m.setNumarLocuri(rs.getInt("numar_locuri"));
-
-                masini.add(m);
+            double pret = rs.getDouble("pret");
+            if (rs.wasNull()) {
+                pret = 0.0;
             }
+            m.setPret(pret);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            m.setCombustibil(rs.getString("combustibil"));
+            m.setTransmisie(rs.getString("transmisie"));
+            m.setCuloare(rs.getString("culoare"));
+            m.setStare(rs.getString("stare"));
+            m.setNumarUsi(rs.getInt("numar_usi"));
+            m.setNumarLocuri(rs.getInt("numar_locuri"));
 
-        return masini;
+            return m;
+        });
     }
 
-
     public List<String> getAllBrands() {
-        List<String> brands = new ArrayList<>();
-
         String sql = """
         SELECT DISTINCT marca_nume
         FROM masina
         WHERE stare = 'disponibila'
-        ORDER BY marca_nume ASC;
+        ORDER BY marca_nume ASC
     """;
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                brands.add(rs.getString("marca_nume"));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return brands;
+        return jdbcTemplate.queryForList(sql, String.class);
     }
 
     private final JdbcTemplate jdbcTemplate;
@@ -178,56 +144,47 @@ public class MasinaDAO {
     }
 
     public Masina findById(int id) {
-        String sql = "SELECT  m.*, vc.vin FROM Masina m  LEFT JOIN vin_corelare vc ON vc.masina_id = m.id WHERE m.id = ? ";
+        String sql = """
+        SELECT m.*, vc.vin 
+        FROM Masina m 
+        LEFT JOIN vin_corelare vc ON vc.masina_id = m.id 
+        WHERE m.id = ?
+    """;
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Masina(
-                        rs.getInt("id"),
-                        rs.getString("marca_nume"),
-                        rs.getString("model"),
-                        rs.getInt("an_fabricatie"),
-                        rs.getInt("kilometraj"),
-                        rs.getDouble("pret_achizitie"),
-                        rs.getString("combustibil"),
-                        rs.getString("transmisie"),
-                        rs.getString("culoare"),
-                        rs.getString("stare"),
-                        rs.getInt("numar_usi"),
-                        rs.getInt("numar_locuri"),
-                        rs.getString("furnizor_nume"),
-                        rs.getString("vin")
-                );
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                            new Masina(
+                                    rs.getInt("id"),
+                                    rs.getString("marca_nume"),
+                                    rs.getString("model"),
+                                    rs.getInt("an_fabricatie"),
+                                    rs.getInt("kilometraj"),
+                                    rs.getDouble("pret_achizitie"),
+                                    rs.getString("combustibil"),
+                                    rs.getString("transmisie"),
+                                    rs.getString("culoare"),
+                                    rs.getString("stare"),
+                                    rs.getInt("numar_usi"),
+                                    rs.getInt("numar_locuri"),
+                                    rs.getString("furnizor_nume"),
+                                    rs.getString("vin")
+                            ),
+                    id
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
-
-        return null;
     }
 
     public List<String> findAllProviders() {
-        List<String> providers = new ArrayList<>();
-        String sql = "SELECT DISTINCT furnizor_nume FROM Masina WHERE stare != 'vanduta' ORDER BY furnizor_nume";
+        String sql = """
+        SELECT DISTINCT furnizor_nume 
+        FROM Masina 
+        WHERE stare != 'vanduta' 
+        ORDER BY furnizor_nume
+    """;
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                providers.add(rs.getString("furnizor_nume"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return providers;
+        return jdbcTemplate.queryForList(sql, String.class);
     }
 
     private Masina mapRowToMasina(ResultSet rs) throws SQLException {
@@ -249,25 +206,9 @@ public class MasinaDAO {
     }
 
     public List<Masina> findByProvider(String provider) {
-        List<Masina> list = new ArrayList<>();
-
         String sql = "SELECT * FROM Masina WHERE furnizor_nume = ? AND stare != 'vanduta'";
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, provider);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                list.add(mapRowToMasina(rs));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return list;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> mapRowToMasina(rs), provider);
     }
 
     public int countFiltered(String marca,
@@ -278,7 +219,6 @@ public class MasinaDAO {
                              Integer pretMax) {
 
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Masina WHERE stare != 'vanduta' ");
-
         List<Object> params = new ArrayList<>();
 
         if (marca != null && !marca.isEmpty()) {
@@ -311,25 +251,9 @@ public class MasinaDAO {
             params.add(pretMax);
         }
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
-
-            for (int i = 0; i < params.size(); i++) {
-                stmt.setObject(i + 1, params.get(i));
-            }
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
+        Integer count = jdbcTemplate.queryForObject(sql.toString(), Integer.class, params.toArray());
+        return count != null ? count : 0;
     }
-
 
     public List<Masina> searchFiltered(String marca,
                                        String provider,
@@ -340,10 +264,7 @@ public class MasinaDAO {
                                        int page,
                                        int pageSize) {
 
-        List<Masina> list = new ArrayList<>();
-
         StringBuilder sql = new StringBuilder("SELECT * FROM Masina WHERE stare != 'vanduta' ");
-
         List<Object> params = new ArrayList<>();
 
         if (marca != null && !marca.isEmpty()) {
@@ -381,24 +302,7 @@ public class MasinaDAO {
         params.add(pageSize);
         params.add((page - 1) * pageSize);
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
-
-            for (int i = 0; i < params.size(); i++) {
-                stmt.setObject(i + 1, params.get(i));
-            }
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                list.add(mapRowToMasina(rs));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return list;
+        return jdbcTemplate.query(sql.toString(), (rs, rowNum) -> mapRowToMasina(rs), params.toArray());
     }
 
     public List<String> searchModels(String query) {

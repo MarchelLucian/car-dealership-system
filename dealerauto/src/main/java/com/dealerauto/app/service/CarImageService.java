@@ -7,6 +7,7 @@
  */
 package com.dealerauto.app.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
@@ -19,7 +20,9 @@ import java.util.List;
 @Service
 public class CarImageService {
 
-    private static final String PEXELS_API_KEY = "n7ehKn42oBcP3W1pVxdnvOKWkiKbKq4Rbn0G7wRXBgSsCFdQmMjT8yCB"; // Înlocuiește cu cheia ta
+    @Value("${PEXELS_API_KEY:n7ehKn42oBcP3W1pVxdnvOKWkiKbKq4Rbn0G7wRXBgSsCFdQmMjT8yCB}")
+    private String pexelsApiKey;
+
     private static final String PEXELS_API_URL = "https://api.pexels.com/v1/search";
 
     public List<String> fetchCarImages(String brand, String model) {
@@ -30,7 +33,7 @@ public class CarImageService {
 
             // Setează header-ul cu API key
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", PEXELS_API_KEY);
+            headers.set("Authorization", pexelsApiKey);
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             // Face request
