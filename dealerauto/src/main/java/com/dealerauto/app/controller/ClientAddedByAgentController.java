@@ -1,3 +1,10 @@
+/**
+ * Controller pentru gestionarea clienților adăugați de către agenți.
+ * Oferă funcționalități de creare, editare și vizualizare clienți în sistem.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
 import com.dealerauto.app.dao.ClientDAO;

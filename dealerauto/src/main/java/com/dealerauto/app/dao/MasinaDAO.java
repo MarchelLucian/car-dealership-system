@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea operațiunilor de acces la date pentru entitatea Masina.
+ * Oferă metode CRUD complete, filtrare, sortare și interogări complexe pentru vehicule.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Masina;
@@ -114,8 +121,21 @@ public class MasinaDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /*
     public List<Masina> findAllAvailable() {
         String sql = "SELECT * FROM masina WHERE stare != 'vanduta' ORDER BY id";
+        return jdbcTemplate.query(sql, new MasinaRowMapper());
+    }
+    */
+    public List<Masina> findAllAvailable() {
+        String sql = """
+        SELECT m.*, vc.vin
+        FROM masina m
+        LEFT JOIN vin_corelare vc ON vc.masina_id = m.id
+        WHERE m.stare != 'vanduta'
+        ORDER BY m.id
+    """;
+
         return jdbcTemplate.query(sql, new MasinaRowMapper());
     }
 
@@ -124,10 +144,11 @@ public class MasinaDAO {
         int offset = (page - 1) * pageSize;
 
         String sql = """
-        SELECT * 
-        FROM masina 
-        WHERE stare != 'vanduta'
-        ORDER BY id 
+        SELECT  m.*, vc.vin
+        FROM masina m
+         LEFT JOIN vin_corelare vc ON vc.masina_id = m.id
+        WHERE m.stare != 'vanduta'
+        ORDER BY m.id 
         LIMIT ? OFFSET ?
         """;
         return jdbcTemplate.query(sql, new MasinaRowMapper(), pageSize, offset);
@@ -157,7 +178,7 @@ public class MasinaDAO {
     }
 
     public Masina findById(int id) {
-        String sql = "SELECT * FROM Masina WHERE id = ? ";
+        String sql = "SELECT  m.*, vc.vin FROM Masina m  LEFT JOIN vin_corelare vc ON vc.masina_id = m.id WHERE m.id = ? ";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -179,7 +200,8 @@ public class MasinaDAO {
                         rs.getString("stare"),
                         rs.getInt("numar_usi"),
                         rs.getInt("numar_locuri"),
-                        rs.getString("furnizor_nume")
+                        rs.getString("furnizor_nume"),
+                        rs.getString("vin")
                 );
             }
 
@@ -385,9 +407,18 @@ public class MasinaDAO {
     }
 
     public List<Masina> findByModel(String model) {
-        String sql = "SELECT * FROM masina WHERE LOWER(model) = LOWER(?)";
+        String sql = """
+        SELECT 
+            m.*,
+            vc.vin
+        FROM masina m
+        LEFT JOIN vin_corelare vc ON vc.masina_id = m.id
+        WHERE LOWER(m.model) = LOWER(?)
+    """;
+
         return jdbcTemplate.query(sql, new MasinaRowMapper(), model);
     }
+
 
     public List<String> searchVins(String query) {
         String sql = """
@@ -400,10 +431,10 @@ public class MasinaDAO {
     }
     public List<Masina> findByVin(String vin) {
         String sql = """
-        SELECT m.*
+        SELECT m.*,vc.vin
         FROM masina m
-        JOIN vin_corelare v ON v.masina_id = m.id
-        WHERE LOWER(v.vin) = LOWER(?)
+        JOIN vin_corelare vc ON vc.masina_id = m.id
+        WHERE LOWER(vc.vin) = LOWER(?)
     """;
         return jdbcTemplate.query(sql, new MasinaRowMapper(), vin);
     }
@@ -412,44 +443,43 @@ public class MasinaDAO {
 
     public List<Masina> filterCars(MultiValueMap<String, String> filters) {
 
-        StringBuilder sql = new StringBuilder("SELECT * FROM masina WHERE 1=1 ");
-        sql.append(" AND stare <> 'vanduta' ");
+        StringBuilder sql = new StringBuilder("SELECT m.*,vc.vin FROM masina m" +
+                " LEFT JOIN vin_corelare vc ON vc.masina_id = m.id WHERE 1=1 ");
+        sql.append(" AND m.stare <> 'vanduta' ");
         List<Object> params = new ArrayList<>();
 
 
         // ---------- NUMERIC ----------
         if (filters.containsKey("priceMin")) {
-            sql.append(" AND pret_achizitie >= ? ");
+            sql.append(" AND m.pret_achizitie >= ? ");
             params.add(Integer.parseInt(filters.getFirst("priceMin")));
         }
 
         if (filters.containsKey("priceMax")) {
-            sql.append(" AND pret_achizitie <= ? ");
+            sql.append(" AND m.pret_achizitie <= ? ");
             params.add(Integer.parseInt(filters.getFirst("priceMax")));
         }
 
         if (filters.containsKey("yearMin")) {
-            sql.append(" AND an_fabricatie >= ? ");
+            sql.append(" AND m.an_fabricatie >= ? ");
             params.add(Integer.parseInt(filters.getFirst("yearMin")));
         }
 
         if (filters.containsKey("yearMax")) {
-            sql.append(" AND an_fabricatie <= ? ");
+            sql.append(" AND m.an_fabricatie <= ? ");
             params.add(Integer.parseInt(filters.getFirst("yearMax")));
         }
 
         if (filters.containsKey("kmMax")) {
-            sql.append(" AND kilometraj <= ? ");
+            sql.append(" AND m.kilometraj <= ? ");
             params.add(Integer.parseInt(filters.getFirst("kmMax")));
         }
-
-
 
         // ---------- LISTE MULTIPLE ----------
 
         if (filters.containsKey("brands")) {
             List<String> arr = filters.get("brands");
-            sql.append(" AND marca_nume IN (")
+            sql.append(" AND m.marca_nume IN (")
                     .append("?,".repeat(arr.size()));
             sql.setLength(sql.length() - 1);
             sql.append(") ");
@@ -459,7 +489,7 @@ public class MasinaDAO {
 
         if (filters.containsKey("providers")) {
             List<String> arr = filters.get("providers");
-            sql.append(" AND furnizor_nume IN (")
+            sql.append(" AND m.furnizor_nume IN (")
                     .append("?,".repeat(arr.size()));
             sql.setLength(sql.length() - 1);
             sql.append(") ");
@@ -469,7 +499,7 @@ public class MasinaDAO {
 
         if (filters.containsKey("fuels")) {
             List<String> arr = filters.get("fuels");  // MultiValueMap -> List<String>
-            sql.append(" AND combustibil IN (")
+            sql.append(" AND m.combustibil IN (")
                     .append("?,".repeat(arr.size()));
             sql.setLength(sql.length() - 1);
             sql.append(") ");
@@ -479,7 +509,7 @@ public class MasinaDAO {
 
         if (filters.containsKey("transmissions")) {
             List<String> arr = filters.get("transmissions");
-            sql.append(" AND transmisie IN (")
+            sql.append(" AND m.transmisie IN (")
                     .append("?,".repeat(arr.size()));
             sql.setLength(sql.length() - 1);
             sql.append(") ");
@@ -490,7 +520,7 @@ public class MasinaDAO {
 
         if (filters.containsKey("doors")) {
             List<String> arr = filters.get("doors");
-            sql.append(" AND numar_usi IN (")
+            sql.append(" AND m.numar_usi IN (")
                     .append("?,".repeat(arr.size()));
             sql.setLength(sql.length() - 1);
             sql.append(") ");
@@ -502,7 +532,7 @@ public class MasinaDAO {
 
         if (filters.containsKey("seats")) {
             List<String> arr = filters.get("seats");
-            sql.append(" AND numar_locuri IN (")
+            sql.append(" AND m.numar_locuri IN (")
                     .append("?,".repeat(arr.size()));
             sql.setLength(sql.length() - 1);
             sql.append(") ");
@@ -513,7 +543,7 @@ public class MasinaDAO {
         }
 
 
-        sql.append(" ORDER BY id ASC ");
+        sql.append(" ORDER BY m.id ASC ");
 
         return jdbcTemplate.query(
                 sql.toString(),
@@ -566,10 +596,11 @@ public class MasinaDAO {
 
     public Masina findAvailableById(Integer id) {
         String sql = """
-            SELECT *
-            FROM masina
-            WHERE id = ?
-              AND stare = 'disponibila'
+            SELECT m.*,vc.vin
+            FROM masina m
+            LEFT JOIN vin_corelare vc ON vc.masina_id = m.id
+            WHERE m.id = ?
+              AND m.stare = 'disponibila'
         """;
 
         List<Masina> result = jdbcTemplate.query(
@@ -584,7 +615,7 @@ public class MasinaDAO {
     public Masina findAvailableByVin(String vin) {
 
         String sql = """
-        SELECT m.*
+        SELECT m.*,v.vin
         FROM masina m
         JOIN vin_corelare v ON v.masina_id = m.id
         WHERE v.vin = ?
@@ -637,7 +668,6 @@ public class MasinaDAO {
             f.tip_furnizor AS provider_tip,
             f.telefon AS provider_telefon,
             f.cui_cnp AS provider_cui_cnp
-                
         
         FROM masina m
         JOIN vin_corelare vc ON vc.masina_id = m.id
@@ -790,8 +820,9 @@ public class MasinaDAO {
 
         //  Folosește array_position pentru a păstra ordinea din lista ids
         String sql = """
-        SELECT m.* 
+        SELECT m.* , vc.vin
         FROM masina m
+        LEFT JOIN vin_corelare vc ON vc.masina_id = m.id
         WHERE m.id = ANY(?)
         ORDER BY array_position(?, m.id)
     """;

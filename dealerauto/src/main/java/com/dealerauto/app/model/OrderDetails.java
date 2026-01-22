@@ -1,3 +1,10 @@
+/**
+ * Model reprezentând detaliile complete ale unei comenzi/vânzări.
+ * Agregă informații despre client, mașină, agent și preț pentru o tranzacție.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.model;
 
 import java.time.LocalDate;

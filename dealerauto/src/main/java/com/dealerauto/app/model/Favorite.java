@@ -1,3 +1,10 @@
+/**
+ * Model reprezentând o mașină din lista de favorite a unui client.
+ * Mapează relația many-to-many între clienți și mașinile preferate.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.model;
 
 import java.time.LocalDateTime;

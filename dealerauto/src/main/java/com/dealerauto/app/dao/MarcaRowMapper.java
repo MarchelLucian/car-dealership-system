@@ -1,3 +1,10 @@
+/**
+ * RowMapper pentru maparea rezultatelor SQL către obiecte de tip Marca.
+ * Transformă ResultSet în instanțe POJO pentru branduri auto.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Marca;

@@ -1,3 +1,10 @@
+/**
+ * Service pentru gestionarea operațiunilor business legate de comenzi/vânzări.
+ * Orchestrează procesul complet de la comandă la finalizare tranzacție.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.service;
 
 import com.dealerauto.app.dao.VanzareDAO;

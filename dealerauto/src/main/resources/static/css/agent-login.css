@@ -285,9 +285,9 @@ button:hover {
 }
 
 .demo-btn {
-    background: transparent;
-    border: 2px solid #05f427;
-    color: #05f427;
+    background: linear-gradient(135deg, #0f9d23 0%, #0b7a1b 100%);
+    border: 4px solid #0f9d23;
+    color: white;
     width: 220px;
     padding: 10px 16px;
     border-radius: 40px;
@@ -299,7 +299,7 @@ button:hover {
 }
 
 .demo-btn:hover {
-    background: #05f427;
+    background: linear-gradient(135deg, #0b7a1b 0%, #085a14 100%);
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(15, 157, 35, 0.3);

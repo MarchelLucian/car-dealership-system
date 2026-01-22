@@ -1,3 +1,10 @@
+/**
+ * Controller pentru pagina de vânzări a dealership-ului.
+ * Centralizează toate operațiunile legate de procesul de vânzare.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
 import com.dealerauto.app.dao.*;
@@ -51,14 +58,16 @@ public class SaleController {
     private final ClientRegisterDAO clientDAO;
     private final MasinaDAO masinaDAO;
     private final VanzareDAO vanzareDAO;
+    private final FavoriteDAO favoriteDAO;
 
     //  CONSTRUCTOR INJECTION
     public SaleController(ClientRegisterDAO clientDAO,
                           MasinaDAO masinaDAO,
-                          VanzareDAO vanzareDAO) {
+                          VanzareDAO vanzareDAO ,FavoriteDAO favoriteDAO ) {
         this.clientDAO = clientDAO;
         this.masinaDAO = masinaDAO;
         this.vanzareDAO = vanzareDAO;
+        this.favoriteDAO = favoriteDAO;
     }
 
     @GetMapping("/agent-dashboard/sales/lookup-client")
@@ -88,7 +97,7 @@ public class SaleController {
     public Map<String, Object> lookupCar(@RequestParam Integer id) {
         Map<String, Object> res = new HashMap<>();
 
-        Masina m = masinaDAO.findAvailableById(id); // faci funcția în DAO
+        Masina m = masinaDAO.findAvailableById(id);
         if (m == null) {
             res.put("found", false);
             res.put("message", "No registered available car with this ID.");
@@ -215,6 +224,9 @@ public class SaleController {
         // ===== 5) Schimbăm starea mașinii =====
         masinaDAO.markAsSold(masina_id);
 
+        // ===== 6) ȘTERGE TOATE FAVORITELE PENTRU ACEASTĂ MAȘINĂ =====
+        favoriteDAO.deleteByMasinaId(masina_id);
+
         redirectAttributes.addFlashAttribute(
                 "successMessage",
                 "Sale successfully registered and car marked as sold."
@@ -298,6 +310,7 @@ public class SaleController {
     public List<String> searchClients(@RequestParam String query) {
         return vanzareDAO.findDistinctClientNames(query);
     }
+
 
 
 

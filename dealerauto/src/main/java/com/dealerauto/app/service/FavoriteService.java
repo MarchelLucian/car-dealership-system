@@ -1,3 +1,10 @@
+/**
+ * Service pentru gestionarea sistemului de favorite al clienților.
+ * Coordonează adăugarea, ștergerea și sincronizarea mașinilor favorite.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.service;
 
 import com.dealerauto.app.dao.FavoriteDAO;

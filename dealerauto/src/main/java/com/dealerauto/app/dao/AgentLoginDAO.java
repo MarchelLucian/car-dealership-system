@@ -1,3 +1,10 @@
+/**
+ * DAO pentru autentificarea agenților în sistem.
+ * Verifică credențiale și gestionează procesul de login pentru agenți.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Agent;

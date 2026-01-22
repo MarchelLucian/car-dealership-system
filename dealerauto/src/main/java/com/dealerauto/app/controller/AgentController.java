@@ -1,3 +1,11 @@
+/**
+ * Controller pentru gestionarea dashboard-ului și operațiunilor agentului de vânzări.
+ * Oferă funcționalități CRUD pentru mașini, clienți și rapoarte de vânzări.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
+
 package com.dealerauto.app.controller;
 
 import com.dealerauto.app.dao.*;
@@ -208,7 +216,6 @@ public class AgentController {
             return "car-inventory";
         }
 
-
         /* ====== 3) FILTER CARD ====== */
 
         boolean hasFilters =
@@ -241,9 +248,6 @@ public class AgentController {
             });
 
             model.addAttribute("queryString", qs.toString());
-
-
-
             model.addAttribute("filtersOpen", true);
 
             // ================================
@@ -281,10 +285,12 @@ public class AgentController {
             // EXECUTĂM FILTRAREA COMPLETĂ
             // ================================
             List<Masina> filteredCars = masinaDAO.filterCars(allParams);
+            // ================================
+            // Aplicam Sortarea aleasa in pagina : default Price Ascending
+            // ================================
             filteredCars = sortCars(filteredCars, sortField, sortOrder);
 
             model.addAttribute("filtersNotFound", filteredCars.isEmpty());
-
 
             // ================================
             // PAGINARE PE LISTA FILTRATĂ
@@ -304,25 +310,6 @@ public class AgentController {
             return "car-inventory";
         }
 
-
-
-        /* ====== 4) PAGINATION ====== */
-        /*
-        if (pageSize < 5) pageSize = 5;
-        if (pageSize > 30) pageSize = 30;
-
-        List<Masina> cars = masinaDAO.findPage(page, pageSize);
-        int totalCars = masinaDAO.countAvailable();
-        int totalPages = (int) Math.ceil(totalCars / (double) pageSize);
-
-        model.addAttribute("cars", cars);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("pageSize", pageSize);
-
-        return "car-inventory";
-        */
-        ///
         /* ====== 4) PAGINATION (LISTĂ NORMALĂ FĂRĂ FILTRE) ====== */
 
         if (pageSize < 5) pageSize = 5;

@@ -1,0 +1,51 @@
+.agent-filters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 20px;
+    background: #f8f3e3;
+    border-radius: 8px;
+    border: 2px solid #b8860b;
+    font-size: 25px;
+    color: #b8860b;
+    font-weight: 600;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.agent-filters select,
+.agent-filters input[type="number"] {
+    padding: 6px 10px;
+    border: 2px solid #b8860b;
+    border-radius: 6px;
+    font-size: 22px;
+    font-weight: 600;
+    background: white;
+    transition: all 0.3s ease;
+    width: 100px;
+}
+
+.agent-filters input[type="number"] {
+    width: 70px;
+    text-align: center;
+}
+
+#agentPerformanceChart {
+    max-height: 950px !important;
+    height: 950px !important;
+}
+
+.chart-header-with-filter {
+
+    position: relative;
+}
+.apply-btn {
+    position: absolute;
+    right: 20px;
+    top: 72px;
+}

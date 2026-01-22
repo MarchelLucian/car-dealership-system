@@ -1,3 +1,11 @@
+/**
+ * Model reprezentând entitatea Client din baza de date.
+ * Conține informațiile despre clienții dealership-ului (persoane fizice și juridice).
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
+
 package com.dealerauto.app.model;
 
 public class Client {

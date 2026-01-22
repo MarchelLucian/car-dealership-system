@@ -1,3 +1,10 @@
+/**
+ * Service pentru obținerea dinamică a logo-urilor brandurilor auto.
+ * Consumă Logo.dev API, implementează caching și mapare automată branduri-domenii.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.service;
 
 import org.springframework.stereotype.Service;
@@ -7,7 +14,7 @@ import java.util.Map;
 @Service
 public class CarLogoService {
 
-    private static final String API_KEY = "pk_cgOeSLYJQ-KDrK3Q6vlXzw";
+    private static final String API_KEY = "pk_cgOeSLYJQ-KDrK3Q6vlXzw"; // Logo.dev
 
     // Exact același map ca în JavaScript
     private static final Map<String, String> BRAND_DOMAIN_MAP = Map.ofEntries(

@@ -1,3 +1,10 @@
+/**
+ * RowMapper pentru maparea rezultatelor SQL către obiecte de tip Masina.
+ * Transformă ResultSet în instanțe POJO pentru vehicule din stoc.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Masina;
@@ -33,6 +40,8 @@ public class MasinaRowMapper implements RowMapper<Masina> {
 
         m.setNumarUsi(rs.getInt("numar_usi"));
         m.setNumarLocuri(rs.getInt("numar_locuri"));
+
+        m.setVin(rs.getString("vin")); // vine din vin_corelare
 
         return m;
     }

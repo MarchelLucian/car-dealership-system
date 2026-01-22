@@ -1,3 +1,8 @@
+/**
+ * Service pentru gestionarea conturilor de utilizator ale clienților
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.service;
 
 import com.dealerauto.app.dao.ClientUserDAO;

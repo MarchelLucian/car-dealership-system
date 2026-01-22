@@ -306,7 +306,7 @@ function searchCarById() {
                 searchIcon.style.display = "inline-block";
                 btn.disabled = false;
             });
-    }, 1400);
+    }, 1200);
 }
 
 
@@ -382,7 +382,7 @@ function searchCarByVin() {
                 searchIcon.style.display = "inline-block";
                 btn.disabled = false;
             });
-    }, 1400);
+    }, 1200);
 }
 
 

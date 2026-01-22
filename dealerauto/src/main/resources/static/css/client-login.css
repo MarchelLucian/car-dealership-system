@@ -33,16 +33,15 @@ button:hover {
 }
 
 .demo-btn {
-    background: transparent;
-    border: 2px solid #0353dc;
-    color: #0353dc;
+    background: linear-gradient(135deg, #0353dc 0%, #133b95 100%);
+    box-shadow: 0 4px 15px rgba(3, 83, 220, 0.3);
+    color:white;
+    border: 4px solid #0353dc;
 }
 
 .demo-btn:hover {
-    background: #0353dc;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(3, 83, 220, 0.3);
+    background: linear-gradient(135deg, #133b95 0%, #09225a 100%);
+    box-shadow: 0 6px 20px rgba(3, 83, 220, 0.5);
 }
 
 .password-toggle {

@@ -24,7 +24,7 @@
 
         <div class="manager-greeting">
             <span id="managerNameBadge">
-                <i class="fa-solid fa-user-tie"></i>
+                <i class="fa-solid fa-user-shield"></i>
                 Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
             </span>
         </div>
@@ -41,15 +41,22 @@
 
     <!-- Navigation Cards -->
     <div class="navigation-section">
-        <h2 class="section-title">
-            <i class="fa-solid fa-compass"></i>
-            Detailed Reports & Analytics
-        </h2>
 
         <div class="nav-cards-grid">
+            <!-- All Sales Card -->
+            <div class="nav-card allSalesNavCard" onclick="location.href='/manager-dashboard/all-sales'">
+                <div class="nav-card-icon sales-icon">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <h3>All Sales</h3>
+                <p>View complete sales history with detailed information and filtering options</p>
+                <div class="nav-card-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
 
             <!-- Sales Agents Card -->
-            <div class="nav-card" onclick="location.href='/manager-dashboard/sales-agents'">
+            <div class="nav-card salesAgentsNavCard" onclick="location.href='/manager-dashboard/sales-agents'">
                 <div class="nav-card-icon agents-icon">
                     <i class="fa-solid fa-users-gear"></i>
                 </div>
@@ -60,8 +67,20 @@
                 </div>
             </div>
 
+            <!-- Analytics Card -->
+            <div class="nav-card analyticsNavCard"  onclick="location.href='/manager-dashboard/analytics'">
+                <div class="nav-card-icon analytics-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <h3>Analytics & Charts</h3>
+                <p>Advanced visualizations and comprehensive business reports</p>
+                <div class="nav-card-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
             <!-- Providers Card -->
-            <div class="nav-card" onclick="location.href='/manager-dashboard/providers'">
+            <div class="nav-card providersNavCard" onclick="location.href='/manager-dashboard/providers'">
                 <div class="nav-card-icon providers-icon">
                     <i class="fa-solid fa-truck-field"></i>
                 </div>
@@ -72,13 +91,13 @@
                 </div>
             </div>
 
-            <!-- Analytics Card -->
-            <div class="nav-card" onclick="location.href='/manager-dashboard/analytics'">
-                <div class="nav-card-icon analytics-icon">
-                    <i class="fa-solid fa-chart-pie"></i>
+            <!-- Add Staff Card -->
+            <div class="nav-card  staffNavCard" onclick="location.href='/manager-dashboard/add-staff'">
+                <div class="nav-card-icon staff-icon">
+                    <i class="fa-solid fa-user-plus"></i>
                 </div>
-                <h3>Analytics & Charts</h3>
-                <p>Advanced visualizations and comprehensive business reports</p>
+                <h3>Manage Staff</h3>
+                <p>Register/remove sales agents or managers to the system</p>
                 <div class="nav-card-arrow">
                     <i class="fa-solid fa-arrow-right"></i>
                 </div>
@@ -91,9 +110,43 @@
     <div class="kpi-section">
         <h2 class="section-title">
             <i class="fa-solid fa-gauge-high"></i>
-            Key Indicators
+            Business Overview
         </h2>
 
+
+        <!-- Perioada -->
+        <div class="time-period-selector">
+            <div class="selector-container">
+                <!-- Select dropdown pe stânga -->
+                <div class="period-select-wrapper">
+                    <label for="periodSelect">Select the period:</label>
+                    <select id="periodSelect" class="period-select">
+                        <option value="today">Today</option>
+                        <option value="week">Last Week</option>
+                        <option value="month">Last Month</option>
+                        <option value="2months">Last 2 Months</option>
+                        <option value="3months">Last 3 Months</option>
+                        <option value="6months">Last 6 Months</option>
+                        <option value="year">Last Year</option>
+                        <option value="all" selected>All Time</option>
+                    </select>
+                </div>
+
+                <!-- Custom date range pe dreapta -->
+                <div class="custom-range">
+                    <label>From:</label>
+                    <input type="date" id="dateFrom" class="date-input">
+
+                    <label>To:</label>
+                    <input type="date" id="dateTo" class="date-input">
+
+                    <button id="applyCustomRange" class="apply-btn">Apply</button>
+                </div>
+            </div>
+        </div>
+
+    <div class="kpi-sections-row">
+        <div class="kpi-section-col">
         <p class="subtitleIndices">Sales </p>
 
         <div class="kpi-row-first">
@@ -103,7 +156,7 @@
                 </div>
                 <div class="kpi-content">
                     <span class="kpi-label cars-label">Cars Sold</span>
-                    <span class="kpi-value cars-value" th:text="${dashboardStats.totalCarsSold}">0</span>
+                    <span class="kpi-value cars-value" id="carsSoldValue" th:text="${dashboardStats.totalCarsSold}">0</span>
                 </div>
             </div>
 
@@ -113,7 +166,7 @@
                 </div>
                 <div class="kpi-content">
                     <span class="kpi-label">Total Revenue</span>
-                    <span class="kpi-value" th:text="${#numbers.formatDecimal(dashboardStats.totalSalesRevenue, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                    <span class="kpi-value tot-rev" id="totalRevenueValue" th:text="${#numbers.formatDecimal(dashboardStats.totalSalesRevenue, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
                 </div>
             </div>
 
@@ -125,7 +178,7 @@
                 </div>
                 <div class="kpi-content">
                     <span class="kpi-label">Total Profit</span>
-                    <span class="kpi-value" th:text="${#numbers.formatDecimal(dashboardStats.totalProfit, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                    <span class="kpi-value" id="totalProfitValue" th:text="${#numbers.formatDecimal(dashboardStats.totalProfit, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
                 </div>
             </div>
             <div class="kpi-card">
@@ -134,33 +187,35 @@
                 </div>
                 <div class="kpi-content">
                     <span class="kpi-label">Profit Margin</span>
-                    <span class="kpi-value" th:text="${#numbers.formatDecimal(kpis.averageProfitMargin, 1, 2)} + '%'">0%</span>
+                    <span class="kpi-value" id="profitMarginValue" th:text="${#numbers.formatDecimal(kpis.averageProfitMargin, 1, 2)} + '%'">0%</span>
                 </div>
             </div>
 
         </div>
-
+        </div>
+        <div class="kpi-section-col">
         <p class="subtitleIndices">Inventory</p>
 
         <div class="kpi-row-first">
+            <!-- NEW: New Cars Added -->
             <div class="kpi-card">
-                <div class="kpi-icon stock">
-                    <i class="fa-solid fa-warehouse"></i>
+                <div class="kpi-icon sales">
+                    <i class="fa-solid fa-car-side"></i>
                 </div>
                 <div class="kpi-content">
-                    <span class="kpi-label stock-label">Cars in Stock</span>
-                    <span class="kpi-value stock-values" th:text="${dashboardStats.carsInStock}">0</span>
+                    <span class="kpi-label new-cars-label" >New Cars</span>
+                    <span class="kpi-value new-cars-values" id="newCarsValue" th:text="${dashboardStats.newCarsAdded}">0</span>
                 </div>
             </div>
 
-            <!-- Current Stock Value -->
+            <!-- NEW: New Cars Value -->
             <div class="kpi-card">
                 <div class="kpi-icon stock-value">
                     <i class="fa-solid fa-sack-dollar"></i>
                 </div>
                 <div class="kpi-content">
-                    <span class="kpi-label">Stock Value</span>
-                    <span class="kpi-value" th:text="${#numbers.formatDecimal(dashboardStats.currentStockValue, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                    <span class="kpi-label">New Cars Value</span>
+                    <span class="kpi-value stockValueResize" id="newCarsValueAmount" th:text="${#numbers.formatDecimal(dashboardStats.newCarsValue, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
                 </div>
             </div>
 
@@ -174,7 +229,7 @@
                 </div>
                 <div class="kpi-content">
                     <span class="kpi-label">Retracted Cars</span>
-                    <span class="kpi-value" th:text="${dashboardStats.carsRetracted}">0</span>
+                    <span class="kpi-value"  id="retractedCarsValue" th:text="${dashboardStats.carsRetracted}">0</span>
                 </div>
             </div>
 
@@ -185,11 +240,35 @@
                 </div>
                 <div class="kpi-content">
                     <span class="kpi-label">Retraction Costs</span>
-                    <span class="kpi-value" th:text="${#numbers.formatDecimal(dashboardStats.totalRetractedCost, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                    <span class="kpi-value" id="retractionCostsValue" th:text="${#numbers.formatDecimal(dashboardStats.totalRetractedCost, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
                 </div>
             </div>
         </div>
+        </div>
+    </div>
+        <div class="kpi-row-first">
+            <div class="kpi-card">
+                <div class="kpi-icon stock">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+                <div class="kpi-content">
+                    <span class="kpi-label stock-label">Total Cars Handled</span>
+                    <span class="kpi-value " id="carsInStockValue" th:text="${dashboardStats.carsInStock}">0</span>
+                </div>
+            </div>
 
+            <!-- Current Stock Value -->
+            <div class="kpi-card">
+                <div class="kpi-icon stock-value">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                </div>
+                <div class="kpi-content">
+                    <span class="kpi-label ">Total Value</span>
+                    <span class="kpi-value stockValueResize"  id="stockValueAmount" th:text="${#numbers.formatDecimal(dashboardStats.currentStockValue, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                </div>
+            </div>
+
+        </div>
         <p class="subtitleIndices">Agents</p>
         <div class="kpi-row-first">
 

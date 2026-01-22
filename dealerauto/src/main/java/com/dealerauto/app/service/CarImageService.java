@@ -1,3 +1,10 @@
+/**
+ * Service pentru gestionarea operațiunilor business legate de imagini mașini.
+ * Orchestrează upload, stocare și asociere imagini cu vehiculele.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.service;
 
 import org.springframework.stereotype.Service;

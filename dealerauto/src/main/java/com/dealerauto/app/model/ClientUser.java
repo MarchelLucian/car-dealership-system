@@ -1,3 +1,10 @@
+/**
+ * Model reprezentând contul de utilizator al unui client pentru autentificare.
+ * Gestionează credențialele de login (email, parolă) pentru clienți.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.model;
 
 public class ClientUser {

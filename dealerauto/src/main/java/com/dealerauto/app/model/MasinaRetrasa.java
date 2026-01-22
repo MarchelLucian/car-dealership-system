@@ -1,3 +1,10 @@
+/**
+ * Model reprezentând o mașină retrasă din vânzare.
+ * Stochează informații despre vehicule returnate sau anulate din tranzacții.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.model;
 
 import java.time.LocalDateTime;

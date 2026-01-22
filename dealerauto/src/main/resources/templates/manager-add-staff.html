@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Staff - Manager Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/css/manager-add-staff.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/manager-dashboard" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-shield"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="dashboard-header">
+        <h1>
+            <i class="fa-solid fa-users-gear"></i>
+            Staff Management
+        </h1>
+        <p class="subtitle">Add or remove sales agents and managers</p>
+    </div>
+
+    <!-- Navigation Cards Grid -->
+    <div class="nav-cards-grid">
+
+        <!-- Add Agent Card -->
+        <div class="nav-card" onclick="location.href='/manager-dashboard/add-staff/add-agent'">
+            <div class="nav-card-icon agents-icon">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <h3>Add Sales Agent</h3>
+            <p>Register a new sales agent with credentials</p>
+            <div class="nav-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </div>
+
+        <!-- Add Manager Card -->
+        <div class="nav-card" onclick="location.href='/manager-dashboard/add-staff/add-manager'">
+            <div class="nav-card-icon providers-icon">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h3>Add Manager</h3>
+            <p>Register a new manager with system access</p>
+            <div class="nav-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </div>
+
+        <!-- Remove Agent Card -->
+        <div class="nav-card rem" onclick="location.href='/manager-dashboard/add-staff/remove-agent'" >
+            <div class="nav-card-icon" >
+                <i class="fa-solid fa-user-minus"></i>
+            </div>
+            <h3>Remove Sales Agent</h3>
+            <p>Remove existing sales agents from the system</p>
+            <div class="nav-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </div>
+
+        <!-- Remove Manager Card -->
+        <div class="nav-card rem" onclick="location.href='/manager-dashboard/add-staff/remove-manager'" >
+            <div class="nav-card-icon">
+                <i class="fa-solid fa-user-slash"></i>
+            </div>
+            <h3>Remove Manager</h3>
+            <p>Remove existing managers from the system</p>
+            <div class="nav-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

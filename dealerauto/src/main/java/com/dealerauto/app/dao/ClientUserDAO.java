@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea conturilor de utilizator ale clienților.
+ * Gestionează autentificare, parole și sesiuni pentru clienți.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.ClientUser;

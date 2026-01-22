@@ -1,6 +1,14 @@
+/**
+ * DAO pentru gestionarea operațiunilor de vânzare a mașinilor.
+ * Coordonează procesul complet de vânzare: stoc, client, agent, preț.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.dto.SaleViewDTO;
+import com.dealerauto.app.model.SaleDetail;
 import com.dealerauto.app.model.Vanzare;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -42,9 +51,9 @@ public class VanzareDAO {
                 v.getMasinaId(),
                 v.getClientId(),
                 v.getAgentId(),
-                v.getDataVanzare(),   // java.sql.Date ✔
+                v.getDataVanzare(),
                 v.getPretFinal(),
-                v.getTipTranzactie(), // "cash", "leasing", etc.
+                v.getTipTranzactie(),
                 v.getPretAchizitieMasina()
         );
     }
@@ -180,6 +189,96 @@ public class VanzareDAO {
             v.setTipTranzactie(rs.getString("tip_tranzactie"));
 
             return v;
+        }
+    }
+
+    public List<SaleDetail> getSalesWithDetails(int offset, int limit, Integer agentId, String sortBy, String sortOrder, LocalDate startDate, LocalDate endDate) {
+        StringBuilder sql = new StringBuilder("""
+    SELECT 
+        v.id AS sale_id,
+        v.data_vanzare,
+        v.pret_final,
+        v.profit,
+        v.tip_tranzactie,
+        m.marca_nume,
+        m.model,
+        m.pret_achizitie,
+        m.data_intrare_stoc,
+        (v.data_vanzare - m.data_intrare_stoc) AS days_in_stock,
+        CONCAT(c.prenume, ' ', c.nume) AS client_name,
+        CONCAT(a.prenume, ' ', a.nume) AS agent_name,
+        f.nume AS provider_name,
+        ((v.pret_final - m.pret_achizitie) / m.pret_achizitie * 100) AS markup_percentage
+    FROM vanzare v
+    JOIN masina m ON v.masina_id = m.id
+    JOIN client c ON v.client_id = c.id
+    JOIN agentdevanzare a ON v.agent_id = a.id_agent
+    LEFT JOIN furnizor f ON m.furnizor_id = f.id
+    WHERE 1=1
+""");
+
+        List<Object> params = new ArrayList<>();
+
+        if (agentId != null) {
+            sql.append(" AND v.agent_id = ? ");
+            params.add(agentId);
+        }
+
+        // Filtrare pe perioadă
+        if (startDate != null) {
+            sql.append(" AND v.data_vanzare >= ? ");
+            params.add(startDate);
+        }
+
+        if (endDate != null) {
+            sql.append(" AND v.data_vanzare <= ? ");
+            params.add(endDate);
+        }
+
+        // Validare sortBy pentru SQL injection
+        String validatedSortBy = switch(sortBy) {
+            case "pret_final" -> "v.pret_final";
+            case "profit" -> "v.profit";
+            case "markup" -> "markup_percentage";
+            case "days_in_stock" -> "days_in_stock";
+            default -> "v.data_vanzare";
+        };
+
+        String validatedOrder = sortOrder.equalsIgnoreCase("ASC") ? "ASC" : "DESC";
+
+        sql.append(" ORDER BY ").append(validatedSortBy).append(" ").append(validatedOrder);
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(limit);
+        params.add(offset);
+
+        return jdbcTemplate.query(sql.toString(), params.toArray(), new SaleDetailRowMapper());
+    }
+
+    public int getTotalSalesCount(Integer agentId, LocalDate startDate, LocalDate endDate) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM vanzare WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        if (agentId != null) {
+            sql.append(" AND agent_id = ?");
+            params.add(agentId);
+        }
+
+        // ADAUGĂ FILTRARE PE PERIOADĂ
+        if (startDate != null) {
+            sql.append(" AND data_vanzare >= ?");
+            params.add(startDate);
+        }
+
+        if (endDate != null) {
+            sql.append(" AND data_vanzare <= ?");
+            params.add(endDate);
+        }
+
+        try {
+            return jdbcTemplate.queryForObject(sql.toString(), Integer.class, params.toArray());
+        } catch (Exception e) {
+            System.err.println(" Error counting sales: " + e.getMessage());
+            return 0;
         }
     }
 

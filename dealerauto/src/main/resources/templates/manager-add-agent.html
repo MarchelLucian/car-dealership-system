@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Sales Agent</title>
+    <link rel="stylesheet" th:href="@{/css/add-car.css}">
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/add-manager.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="top-bar">
+        <a href="/manager-dashboard/add-staff" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-shield"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <h1>New Sales Agent <i class="fa-solid fa-user-tie"></i></h1>
+
+        <!-- SUCCESS MESSAGE -->
+        <p id="successMessage" th:if="${successMessage}" th:utext="${successMessage}" class="success-message"></p>
+
+        <!-- ERROR MESSAGE -->
+        <p id="errorMessage" th:if="${errorMessage}" th:utext="${errorMessage}" class="error-message-big"></p>
+
+        <!-- FORM -->
+        <form th:action="@{/manager-dashboard/add-staff/add-agent}" method="post" onsubmit="validateAddAgent(event)">
+
+            <!-- NUME -->
+            <span class="error-msg" id="error-nume"></span>
+            <label>Last Name:</label>
+            <input type="text" name="nume" th:value="${nume}" placeholder="e.g. Popescu">
+
+            <!-- PRENUME -->
+            <span class="error-msg" id="error-prenume"></span>
+            <label>First Name:</label>
+            <input type="text" name="prenume" th:value="${prenume}" placeholder="e.g. Ion">
+
+            <!-- TELEFON -->
+            <span class="error-msg" id="error-telefon"></span>
+            <label>Phone:</label>
+            <input type="text" name="telefon" th:value="${telefon}" placeholder="e.g. 0712345678">
+
+            <!-- EMAIL -->
+            <span class="error-msg" id="error-email"></span>
+            <label>Email:</label>
+            <input type="email" name="email" th:value="${email}" placeholder="e.g. agent@dealership.com">
+
+            <!-- SALARIU -->
+            <span class="error-msg" id="error-salariu"></span>
+            <label>Salary (€):</label>
+            <input type="number" step="0.01" name="salariu" th:value="${salariu}" placeholder="e.g. 2500.00">
+
+            <!-- USERNAME -->
+            <span class="error-msg" id="error-username"></span>
+            <label>Username:</label>
+            <input type="text" name="username" placeholder="e.g. ionpopescu">
+
+            <!-- PASSWORD -->
+            <span class="error-msg" id="error-password"></span>
+            <label>Password:</label>
+            <div class="password-wrapper">
+                <input type="password" name="password" placeholder="Minimum 6 characters">
+                <i id="togglePassword" class="fa-solid fa-eye-slash password-toggle"></i>
+            </div>
+
+            <!-- RESET -->
+            <button type="button" class="reset-btn" onclick="clearAgentForm()">Clear Form</button>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="submit-btn" id="addAgentBtn">
+                <i class="fa-solid fa-plus" id="addAgentPlus"></i>
+                <span id="addAgentText">Add Agent</span>
+                <i class="fa-solid fa-spinner spin-icon" id="addAgentSpinner"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script th:src="@{/js/add-agent.js}"></script>
+</body>
+</html>

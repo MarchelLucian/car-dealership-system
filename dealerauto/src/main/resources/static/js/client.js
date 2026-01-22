@@ -680,10 +680,11 @@ document.addEventListener("DOMContentLoaded",async () => {
         // NO RESULTS
         if (filteredCars.length === 0) {
             container.innerHTML = `
-            <div class="car-box" style="text-align:center; padding:20px; font-size:18px;">
-                No result for these filters
-            </div>
-        `;
+                <div class="loading-box">
+                    <i class="fa-solid fa-magnifying-glass" style="font-size:60px;"></i>
+                    <p style="font-size:18px; margin-top:10px;">No result found for these filters</p>
+                </div>
+            `;
             visible = 0;
             loadMoreBtn.disabled = true;
             loadMoreBtn.innerText = "No more offers";

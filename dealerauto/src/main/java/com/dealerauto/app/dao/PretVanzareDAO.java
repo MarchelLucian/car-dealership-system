@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea istoricului de prețuri al mașinilor.
+ * Stochează și interogează evoluția prețurilor pentru fiecare vehicul.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.PretVanzare;

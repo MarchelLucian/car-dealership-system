@@ -1,3 +1,11 @@
+/**
+ * Controller pentru gestionarea paginii de adăugare imagini pentru mașini.
+ * Permite upload și asociere imagini cu vehiculele din stoc.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
+
 package com.dealerauto.app.controller;
 
 import com.dealerauto.app.service.CarImageService;

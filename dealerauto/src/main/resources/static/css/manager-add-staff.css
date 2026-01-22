@@ -1,0 +1,25 @@
+.nav-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    gap: 60px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.nav-card {
+    width: 400px;
+}
+
+@media (max-width: 900px) {
+    .nav-cards-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+}
+
+.nav-card-icon {
+    background: linear-gradient(135deg, #c62828 0%, #f44336 100%);
+}
+.rem{
+    border-color: #f44336;
+}

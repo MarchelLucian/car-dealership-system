@@ -1,3 +1,10 @@
+/**
+ * Controller pentru autentificarea clienților în sistem.
+ * Gestionează procesul de login și crearea sesiunilor pentru clienți.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
 import com.dealerauto.app.dao.ClientUserDAO;

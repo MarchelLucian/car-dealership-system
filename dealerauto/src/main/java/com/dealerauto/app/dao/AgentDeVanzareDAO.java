@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea relației dintre agenți și vânzările efectuate.
+ * Mapează date pentru rapoarte și statistici agenți-vânzări.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Agent;

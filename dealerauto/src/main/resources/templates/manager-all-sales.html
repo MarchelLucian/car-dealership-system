@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Sales - Manager Dashboard</title>
+
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/css/manager-all-sales.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/manager-dashboard" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-shield"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="dashboard-header">
+        <h1>
+            <i class="fa-solid fa-chart-line"></i>
+            All Sales
+        </h1>
+        <p class="subtitle">Complete Sales History & Detailed Information</p>
+    </div>
+
+    <!-- Sales Information Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-chart-line"></i>
+            Sales Details
+        </h2>
+
+        <!-- Sorting Bar -->
+        <div class="sort-bar">
+            <!-- Agent Filter -->
+            <div class="sort-group">
+                <label>Filter by Agent:</label>
+                <select id="agentFilter" class="sort-select">
+                    <option value="all" selected>All Agents</option>
+                    <option th:each="agent : ${agents}"
+                            th:value="${agent.idAgent}"
+                            th:text="${agent.prenume + ' ' + agent.nume}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- Sort By -->
+            <div class="sort-group">
+                <label>Sort by:</label>
+                <select id="sortBy" class="sort-select">
+                    <option value="data_vanzare" selected>Sale Date</option>
+                    <option value="pret_final">Final Price</option>
+                    <option value="profit">Profit</option>
+                    <option value="markup">Markup %</option>
+                    <option value="days_in_stock">Days in Stock</option>
+                </select>
+            </div>
+
+            <!-- Sort Order -->
+            <div class="sort-group">
+                <label>Order:</label>
+                <select id="sortOrder" class="sort-select">
+                    <option value="DESC" selected>Descending</option>
+                    <option value="ASC">Ascending</option>
+                </select>
+                <i class="fa-solid fa-arrow-down-wide-short sort-icon" id="sortIcon"></i>
+            </div>
+
+            <!-- Apply Button -->
+            <button class="sort-apply-btn" id="applyFilters">
+                <i class="fa-solid fa-check"></i>
+                Apply
+            </button>
+        </div>
+        <!-- Period Filter Bar -->
+        <div class="sort-bar period-filter-bar">
+            <!-- Period Select -->
+            <div class="period-left-group">
+            <div class="sort-group">
+                <label>Period:</label>
+                <select id="periodFilter" class="sort-select">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">Last Week</option>
+                    <option value="month" selected>Last Month</option>
+                    <option value="3months" >Last 3 Months</option>
+                    <option value="6months" >Last 6 Months</option>
+                    <option value="year">Last Year</option>
+                    <option value="" disabled>-</option>
+                </select>
+            </div>
+            </div>
+
+            <div class="period-right-group">
+            <!-- Custom Date Range -->
+            <div class="sort-group">
+                <label>From:</label>
+                <input type="date" id="dateFrom" class="sort-select date-input">
+            </div>
+
+            <div class="sort-group">
+                <label>To:</label>
+                <input type="date" id="dateTo" class="sort-select date-input">
+            </div>
+
+            <!-- Apply Period Button -->
+            <button class="sort-apply-btn" id="applyPeriod">
+                <i class="fa-solid fa-check"></i>
+                Apply
+            </button>
+            </div>
+        </div>
+        <!-- Chart Section  -->
+        <div class="chart-section">
+            <div class="chart-container" style="position: relative;">
+                <canvas id="salesChart"></canvas>
+
+                <!-- Overlay pentru chart -->
+                <div id="chartOverlay" class="chart-overlay" style="display: none;">
+                    <div class="spinner-container">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Updating chart...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- KPI Bar - Indicatori pentru vânzările filtrate -->
+        <div class="sort-bar kpi-bar">
+            <div class="kpi-item">
+                <div class="kpi-content">
+                    <span class="kpi-label">Number of Sales</span>
+                    <span class="kpi-value" id="filteredSalesCount">0</span>
+                </div>
+            </div>
+
+            <div class="kpi-item">
+                <div class="kpi-content">
+                    <span class="kpi-label">Revenue</span>
+                    <span class="kpi-value" id="filteredRevenue">0.00 €</span>
+                </div>
+            </div>
+
+            <div class="kpi-item">
+                <div class="kpi-content">
+                    <span class="kpi-label">Profit</span>
+                    <span class="kpi-value" id="filteredProfit">0.00 €</span>
+                </div>
+            </div>
+
+            <div class="kpi-item">
+                <div class="kpi-content">
+                    <span class="kpi-label">Markup</span>
+                    <span class="kpi-value" id="filteredMarkup">0.00%</span>
+                </div>
+            </div>
+        </div>
+        <p id="salesCount" class="sales-count"></p>
+        <div style="position: relative;">
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sale Date</th>
+                <th>Brand & Model</th>
+                <th>Client</th>
+                <th>Agent</th>
+                <th>Provider</th>
+                <th>Purchase Price</th>
+                <th>Days in Stock</th>
+                <th>Final Price</th>
+                <th>Profit</th>
+                <th>Markup</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody id="salesTableBody">
+            <!-- Loading indicator -->
+            <tr class="loading-row">
+                <td colspan="12" style="text-align: center; padding: 40px;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: #ff6600;"></i>
+                    <p style="margin-top: 10px; color: #666;">Loading sales data...</p>
+                </td>
+            </tr>
+            <!-- JavaScript will populate sales here -->
+            </tbody>
+        </table>
+
+        <!-- Overlay cu spinner -->
+        <div id="tableOverlay" class="table-overlay" style="display: none;">
+            <div class="spinner-container">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Loading sales...</p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Load More Button -->
+    <div class="load-more-container">
+        <button id="loadMoreBtn" class="load-more-btn">
+            <i class="fa-solid fa-plus"></i> Load More
+        </button>
+    </div>
+
+</div>
+
+<script th:src="@{/js/manager-all-sales.js}"></script>
+</body>
+</html>

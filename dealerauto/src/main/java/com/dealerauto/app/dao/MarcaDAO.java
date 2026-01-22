@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea operațiunilor de acces la date pentru brandurile de mașini.
+ * Gestionează lista de mărci disponibile în sistem.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Marca;

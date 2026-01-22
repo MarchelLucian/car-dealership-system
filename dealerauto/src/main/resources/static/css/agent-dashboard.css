@@ -199,3 +199,9 @@ body {
     font-size: 26px;
     margin-left: 6px;
 }
+
+.dashboard-card i {
+    margin-top:-24px;
+    font-size:50px;
+    color:  #0f5f0f;
+}

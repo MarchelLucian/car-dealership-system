@@ -5,14 +5,15 @@ import java.util.List;
 public class DashboardStats {
 
     // Overview Stats
-    private Double totalSalesRevenue;
-    private Integer totalCarsSold;
-    private Double totalProfit;
-    private Integer carsInStock;
-    private Integer carsRetracted;
+    private Double totalSalesRevenue=0.0;
+    private Integer totalCarsSold=0;
+    private Double totalProfit=0.0;
+    private Integer carsInStock=0;
+    private Integer carsRetracted=0;
+    private Double profitMargin=0.0;
 
-    private Double totalRetractedCost;
-    private Double currentStockValue;
+    private Double totalRetractedCost=0.0;
+    private Double currentStockValue=0.0;
     private Integer totalSalesAgents;
     private Double totalMonthlySalaries;
     private Integer totalCustomers;
@@ -22,6 +23,8 @@ public class DashboardStats {
     private Integer companyProviders;
     private Integer individualProviders;
 
+    private Integer newCarsAdded = 0;
+    private Double newCarsValue = 0.0;
 
     // Top Agents
     private List<AgentPerformance> topAgents;
@@ -43,6 +46,21 @@ public class DashboardStats {
     public DashboardStats() {
     }
 
+    public DashboardStats(int totalCarsSold, double totalSalesRevenue, double totalProfit,
+                             double profitMargin, int carsInStock, double currentStockValue,
+                             int carsRetracted, double totalRetractedCost , int newCarsAdded , double newCarsValue) {
+        this.totalCarsSold = totalCarsSold;
+        this.totalSalesRevenue = totalSalesRevenue;
+        this.totalProfit = totalProfit;
+        this.profitMargin = profitMargin;
+        this.carsInStock = carsInStock;
+        this.currentStockValue= currentStockValue;
+        this.carsRetracted = carsRetracted;
+        this.totalRetractedCost = totalRetractedCost;
+        this.newCarsAdded= newCarsAdded;
+        this.newCarsValue = newCarsValue;
+    }
+
     // ===== GETTERS & SETTERS =====
 
     public Double getTotalSalesRevenue() {
@@ -51,6 +69,14 @@ public class DashboardStats {
 
     public void setTotalSalesRevenue(Double totalSalesRevenue) {
         this.totalSalesRevenue = totalSalesRevenue;
+    }
+
+    public Double getProfitMargin() {
+        return profitMargin;
+    }
+
+    public void setProfitMargin(Double profitMargin) {
+        this.profitMargin = profitMargin;
     }
 
     public Integer getTotalCarsSold() {
@@ -198,4 +224,19 @@ public class DashboardStats {
         this.individualProviders = individualProviders;
     }
 
+    public Integer getNewCarsAdded() {
+        return newCarsAdded;
+    }
+
+    public void setNewCarsAdded(Integer newCarsAdded) {
+        this.newCarsAdded = newCarsAdded;
+    }
+
+    public Double getNewCarsValue() {
+        return newCarsValue;
+    }
+
+    public void setNewCarsValue(Double newCarsValue) {
+        this.newCarsValue = newCarsValue;
+    }
 }

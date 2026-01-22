@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Analytics - Manager Dashboard</title>
-
     <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/css/manager-analytics.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
 </head>
 
 <body>
-
-<!-- Background decorativ -->
-<div class="bg-shapes">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-</div>
 
 <div class="page-wrapper">
 
@@ -24,91 +19,130 @@
     <div class="top-bar">
         <a href="/manager-dashboard" class="back-btn">
             <i class="fa-regular fa-circle-left"></i>
-            Back to Dashboard
+            Go Back
         </a>
 
         <div class="manager-greeting">
             <span id="managerNameBadge">
-                <i class="fa-solid fa-user-tie"></i>
+                <i class="fa-solid fa-user-shield"></i>
                 Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
             </span>
         </div>
     </div>
 
     <!-- Page Header -->
-    <div class="dashboard-header unfinishedTITLE">
+    <div class="dashboard-header">
         <h1>
-            NOT DONE YET <br>
-            <i class="fa-solid fa-chart-pie"></i>
+            <i class="fa-solid fa-chart-line"></i>
             Analytics & Reports
         </h1>
         <p class="subtitle">Advanced Business Intelligence & Visualizations</p>
     </div>
 
-    <!-- Charts Section -->
-    <div class="charts-section">
-
-        <!-- Monthly Sales Chart -->
-        <div class="chart-container">
-            <h3 class="chart-title">
-                <i class="fa-solid fa-calendar-days"></i>
-                Monthly Sales Trend
-            </h3>
-            <canvas id="monthlySalesChart"></canvas>
+    <!-- Category Toggle Buttons -->
+    <div class="category-toggle">
+        <button class="category-btn active" id="soldBtn" onclick="switchCategory('sold')">
+            <i class="fa-solid fa-handshake"></i>
+            Cars Sold
+        </button>
+        <button class="category-btn" id="stockBtn" onclick="switchCategory('stock')">
+            <i class="fa-solid fa-warehouse"></i>
+            Cars in Stock
+        </button>
+    </div>
+    <!-- Chart Selector Cards -->
+    <div class="chart-selector">
+        <div class="chart-option-card active" data-chart="topBrands" onclick="switchChart('topBrands')">
+            <i class="fa-solid fa-ranking-star"></i>
+            <h4>Top Brands</h4>
         </div>
 
-        <!-- Top Brands Chart -->
-        <div class="chart-container">
-            <h3 class="chart-title">
+        <div class="chart-option-card" data-chart="fuelDistribution" onclick="switchChart('fuelDistribution')">
+            <i class="fa-solid fa-gas-pump"></i>
+            <h4>Fuel Types</h4>
+        </div>
+
+        <div class="chart-option-card" data-chart="transmission" onclick="switchChart('transmission')">
+            <i class="fa-solid fa-gear"></i>
+            <h4>Transmission Types</h4>
+        </div>
+
+        <div class="chart-option-card" data-chart="paymentMethods" onclick="switchChart('paymentMethods')">
+            <i class="fa-solid fa-credit-card"></i>
+            <h4>Payment Methods</h4>
+        </div>
+
+    </div>
+    <!-- Main Chart Display -->
+    <div class="main-chart-container">
+        <div class="chart-header">
+            <h3 class="main-chart-title" id="mainChartTitle">
                 <i class="fa-solid fa-ranking-star"></i>
-                Top Brands Performance
+                <span>Top Brands by Sales Count</span>
             </h3>
-            <canvas id="topBrandsChart"></canvas>
-        </div>
 
-        <!-- Payment Methods Chart -->
-        <div class="chart-container">
-            <h3 class="chart-title">
-                <i class="fa-solid fa-credit-card"></i>
-                Payment Methods Distribution
-            </h3>
-            <canvas id="paymentMethodsChart"></canvas>
-        </div>
+            <!-- SELECTOR AN (ascuns inițial) -->
+            <div class="year-filter" id="yearFilter" >
+                <label>Year:</label>
+                <select id="yearSelect" onchange="reloadDataForYear()">
+                    <option value="2026" th:selected="${selectedYear == 2026}">2026</option>
+                    <option value="2025" th:selected="${selectedYear == 2025}">2025</option>
+                    <option value="2024" th:selected="${selectedYear == 2024}">2024</option>
+                    <option value="2023" th:selected="${selectedYear == 2023}">2023</option>
+                    <option value="2022" th:selected="${selectedYear == 2022}">2022</option>
+                </select>
 
-        <!-- Fuel Type Distribution -->
-        <div class="chart-container">
-            <h3 class="chart-title">
-                <i class="fa-solid fa-gas-pump"></i>
-                Fuel Type in Stock
-            </h3>
-            <canvas id="fuelDistributionChart"></canvas>
-        </div>
+                <div class="separator"></div>
 
-        <!-- Transmission Distribution -->
-        <div class="chart-container">
-            <h3 class="chart-title">
-                <i class="fa-solid fa-gear"></i>
-                Transmission Type in Stock
-            </h3>
-            <canvas id="transmissionDistributionChart"></canvas>
-        </div>
+                <label>Min Sales:</label>
+                <input type="number"
+                       id="minSalesInput"
+                       min="1"
+                       max="20"
+                       th:value="${selectedMinSales}"
+                       onchange="reloadDataForYear()">
+            </div>
 
+            <!-- SELECTOR STOCK COUNT (pentru Stock) -->
+            <div class="year-filter" id="stockCountFilter">
+                <label>Min Cars in Stock :</label>
+                <select id="stockCountSelect" onchange="reloadDataForStockCount()">
+                    <option value="1" th:selected="${selectedStockCount == 1}">1+</option>
+                    <option value="3" th:selected="${selectedStockCount == 3}">3+</option>
+                    <option value="5" th:selected="${selectedStockCount == 5}">5+</option>
+                    <option value="10" th:selected="${selectedStockCount == 10}">10+</option>
+                    <option value="15" th:selected="${selectedStockCount == 15}">15+</option>
+                </select>
+            </div>
+        </div>
+        <div class="chart-canvas-wrapper active" id="chartWrapper">
+            <canvas id="mainChart"></canvas>
+        </div>
     </div>
 
 </div>
 
-<script th:src="@{/js/manager-dashboard.js}"></script>
-
 <!-- Pass data to JavaScript -->
 <script th:inline="javascript">
-    const monthlySalesData = /*[[${monthlySales}]]*/ [];
-    const brandStatsData = /*[[${brandStats}]]*/ [];
-    const paymentMethodsData = /*[[${paymentMethods}]]*/ [];
-    const fuelDistributionData = /*[[${fuelDistribution}]]*/ {};
-    const transmissionDistributionData = /*[[${transmissionDistribution}]]*/ {};
+    // DATE PENTRU SOLD
+    const soldData = {
+        monthlySales: /*[[${soldMonthlySales}]]*/ [],
+        brandStats: /*[[${soldBrandStats}]]*/ [],
+        paymentMethods: /*[[${soldPaymentMethods}]]*/ [],
+        fuelDistribution: /*[[${soldFuelDistribution}]]*/ {},
+        transmissionDistribution: /*[[${soldTransmissionDistribution}]]*/ {}
+    };
+
+    // DATE PENTRU STOCK
+    const stockData = {
+        brandStats: /*[[${stockBrandStats}]]*/ [],
+        fuelDistribution: /*[[${stockFuelDistribution}]]*/ {},
+        transmissionDistribution: /*[[${stockTransmissionDistribution}]]*/ {}
+    };
+
 </script>
 
-<script th:src="@{/js/manager-dashboard.js}"></script>
 <script th:src="@{/js/manager-analytics.js}"></script>
+
 </body>
 </html>

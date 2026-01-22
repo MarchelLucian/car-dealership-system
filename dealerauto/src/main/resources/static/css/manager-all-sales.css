@@ -1,0 +1,464 @@
+/* All Sales Page Styles */
+/* Sales Table Column Widths - cu Sale ID */
+.data-table th:nth-child(1),
+.data-table td:nth-child(1) { width: 3%; }   /* ID - */
+
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) { width: 14%; }   /* Sale Date */
+
+.data-table th:nth-child(3),
+.data-table td:nth-child(3) { width: 13%; }  /* Brand & Model */
+
+.data-table th:nth-child(4),
+.data-table td:nth-child(4) { width: 13%; }  /* Client */
+
+.data-table th:nth-child(5),
+.data-table td:nth-child(5) { width: 13%; }  /* Agent */
+
+.data-table th:nth-child(6),
+.data-table td:nth-child(6) { width: 10%; }  /* Provider */
+
+.data-table th:nth-child(7),
+.data-table td:nth-child(7) { width: 9%; }   /* Purchase Price */
+
+.data-table th:nth-child(8),
+.data-table td:nth-child(8) { width: 7%; }   /* Days in Stock */
+
+.data-table th:nth-child(9),
+.data-table td:nth-child(9) { width: 9%; }   /* Final Price */
+
+.data-table th:nth-child(10),
+.data-table td:nth-child(10) { width: 6%; }  /* Profit */
+
+.data-table th:nth-child(11),
+.data-table td:nth-child(11) { width: 6%; }  /* Markup */
+
+.data-table th:nth-child(12),
+.data-table td:nth-child(12) { width: 5%; }  /* Type */
+
+/* Text wrapping pentru coloane mai mici */
+.data-table td:nth-child(1),
+.data-table td:nth-child(7),
+.data-table td:nth-child(8),
+.data-table td:nth-child(9),
+.data-table td:nth-child(10),
+.data-table td:nth-child(11),
+.data-table td:nth-child(12){
+    white-space: nowrap;
+}
+
+/* Table Overlay */
+.table-section {
+    position: relative;
+}
+
+.table-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 12px;
+}
+
+.spinner-container {
+    text-align: center;
+}
+
+.spinner-container i {
+    font-size: 48px;
+    color: #eac608;
+    margin-bottom: 15px;
+    animation: spin 1s linear infinite;
+}
+
+.spinner-container p {
+    font-size: 26px;
+    font-weight: 600;
+    color: #666;
+    margin: 0;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.fa-spin {
+    animation: spin 0.5s linear infinite;
+}
+
+/* Text wrapping pentru coloane mai largi */
+.data-table td:nth-child(4),
+.data-table td:nth-child(5),
+.data-table td:nth-child(6) {
+    white-space: normal;
+    word-wrap: break-word;
+}
+.data-table th {
+    text-align: center;
+    vertical-align: middle; /* centru pe verticală */
+}
+
+
+.filters-section {
+    background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+    border: 2px solid #ff9933;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ff6600;
+}
+
+.filter-select {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 2px solid #ff9933;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+}
+
+.filter-select:hover {
+    border-color: #ff6600;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #ff6600;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+}
+
+.apply-btn {
+    padding: 10px 25px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #ff6600 0%, #ff9933 100%);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-end;
+}
+
+.apply-btn:hover {
+    background: linear-gradient(135deg, #ff5500 0%, #ff8822 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+}
+
+.sales-table-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sales-table thead {
+    background: linear-gradient(135deg, #ff6600 0%, #ff9933 100%);
+    color: white;
+}
+
+.sales-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.sales-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.sales-table tbody tr:hover {
+    background-color: #fff5e6;
+}
+
+.sales-table td {
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.profit-positive {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.profit-negative {
+    color: #f44336;
+    font-weight: 600;
+}
+
+.markup-badge {
+    background: #4CAF50;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.load-more-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.load-more-btn {
+    padding: 12px 30px;
+    font-size: 22px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #f4da28 0%, #f1c40f 100%);
+    color: #2c3e50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background: linear-gradient(135deg, #f1c40f 0%, #b8860b 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+}
+
+.load-more-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.sales-count {
+    margin-top: 15px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Sales Table Specific Styles */
+.profit-positive {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.profit-negative {
+    color: #f44336;
+    font-weight: 600;
+}
+
+.data-table tbody tr:hover {
+    background-color: #fff5e6;
+    transition: background-color 0.2s ease;
+}
+
+.data-table td strong {
+    font-weight: 600;
+}
+
+.data-table td small {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Loading row */
+.loading-row td {
+    text-align: center !important;
+    padding: 40px !important;
+}
+
+/* Empty state */
+.data-table tbody tr td[colspan] {
+    text-align: center;
+    color: #666;
+}
+
+/* KPI Bar */
+.kpi-bar {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    z-index: 1000;
+}
+
+.kpi-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #fffefd;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(255, 102, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid #b8860b;
+}
+
+.kpi-content {
+    display: flex;
+    align-items: baseline;
+    flex-direction: row !important;
+    gap: 10px;
+    margin-left: 60px;
+    flex: 1;
+}
+
+.kpi-label {
+    font-size: 23px;
+    font-weight: 600;
+    color: #b8860b;
+    white-space: nowrap;
+}
+
+.kpi-value {
+    font-size: 25px;
+    margin-left: 10px;
+    font-weight: 700;
+    color: #333;
+    animation: fadeIn 0.6s ease;
+}
+
+/* Animație fade in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .kpi-bar {
+        flex-wrap: wrap;
+    }
+
+    .kpi-item {
+        flex: 1 1 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 768px) {
+    .kpi-item {
+        flex: 1 1 100%;
+    }
+
+    .kpi-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+/* Period Filter Bar - Layout */
+.period-filter-bar {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.period-left-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 218px;
+}
+
+.period-right-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 218px;
+}
+
+/* Date input styling */
+.date-input {
+    cursor: pointer;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(41%) sepia(89%) saturate(1425%) hue-rotate(356deg) brightness(102%) contrast(104%);
+}
+
+.date-input:hover::-webkit-calendar-picker-indicator {
+    filter: invert(27%) sepia(97%) saturate(2345%) hue-rotate(6deg) brightness(99%) contrast(106%);
+}
+.sort-group input{
+    font-size:22px;
+}
+
+
+.chart-container {
+    position: relative;
+    height: 640px;
+    margin-top: 20px;
+    margin-bottom: -20px;
+}
+
+/* Chart Overlay */
+.chart-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 8px;
+}
+
+.chart-overlay .spinner-container i {
+    font-size: 88px;
+    color: #eac608;
+    margin-bottom: 15px;
+    animation: spin 1.3s linear infinite;
+}
+
+.chart-overlay .spinner-container p {
+    font-size: 32px;
+    font-weight: 600;
+    color: #666;
+    margin: 0;
+}

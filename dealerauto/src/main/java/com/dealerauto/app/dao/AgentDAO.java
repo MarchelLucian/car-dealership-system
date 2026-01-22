@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea operațiunilor de acces la date pentru entitatea Agent.
+ * Oferă metode CRUD și interogări specifice pentru agenții de vânzări.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Agent;
@@ -42,5 +49,13 @@ public class AgentDAO {
             agent.setSalariu(rs.getBigDecimal("salariu").doubleValue());
             return agent;
         });
+    }
+    /**
+     * Verifică dacă username-ul există deja în agent_login
+     */
+    public boolean usernameExists(String username) {
+        String sql = "SELECT COUNT(*) FROM agent_login WHERE username = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, username);
+        return count != null && count > 0;
     }
 }

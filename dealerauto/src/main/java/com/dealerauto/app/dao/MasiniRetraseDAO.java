@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea operațiunilor de retrasare (retur) a mașinilor din vânzare.
+ * Implementează logica pentru anularea vânzărilor și returnarea stocului.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;

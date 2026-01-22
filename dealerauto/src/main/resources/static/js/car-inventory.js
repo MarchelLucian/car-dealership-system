@@ -87,11 +87,14 @@ function updatePageSize() {
     const url = new URL(window.location.href);
     const params = url.searchParams;
 
-    //  Șterge complet căutarea după ID
+    //  sterge cautarea dupa ID
     params.delete("searchId");
 
-    //  Șterge complet search by model
+    //  sterge search by model
     params.delete("modelSearch");
+
+    //  sterge cautarea dupa vin
+    params.delete("vinSearch");
 
     params.set("page", 1);
     params.set("pageSize", size);

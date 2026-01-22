@@ -9,6 +9,31 @@ document.addEventListener('DOMContentLoaded', () => {
     initTopBrandsChart();
     initPaymentMethodsChart();
     initAgentPerformanceChart();
+
+
+
+    // Încarcă Overview la start (All Time)
+    loadStats();
+
+    // Select period dropdown
+    const periodSelect = document.getElementById('periodSelect');
+    periodSelect.addEventListener('change', function() {
+        const period = this.value;
+        loadStatsByPeriod(period);
+    });
+
+    // Custom date range
+    document.getElementById('applyCustomRange').addEventListener('click', () => {
+        const dateFrom = document.getElementById('dateFrom').value;
+        const dateTo = document.getElementById('dateTo').value;
+
+        if (!dateFrom || !dateTo) {
+            alert('Please select both dates!');
+            return;
+        }
+
+        loadStatsByCustomRange(dateFrom, dateTo);
+    });
 });
 
 // ====================================================
@@ -19,7 +44,7 @@ function initMonthlySalesChart() {
     const ctx = document.getElementById('monthlySalesChart');
 
     if (!ctx || !monthlySalesData || monthlySalesData.length === 0) {
-        console.log('No monthly sales data available');
+
         return;
     }
 
@@ -128,7 +153,7 @@ function initTopBrandsChart() {
     const ctx = document.getElementById('topBrandsChart');
 
     if (!ctx || !brandStatsData || brandStatsData.length === 0) {
-        console.log('No brand stats data available');
+
         return;
     }
 
@@ -260,7 +285,7 @@ function initPaymentMethodsChart() {
     const ctx = document.getElementById('paymentMethodsChart');
 
     if (!ctx || !paymentMethodsData || paymentMethodsData.length === 0) {
-        console.log('No payment methods data available');
+
         return;
     }
 
@@ -351,7 +376,7 @@ function initAgentPerformanceChart() {
     const ctx = document.getElementById('agentPerformanceChart');
 
     if (!ctx || !topAgentsData || topAgentsData.length === 0) {
-        console.log('No agent performance data available');
+
         return;
     }
 
@@ -532,54 +557,6 @@ function updateSortIcon(order, iconElement) {
 }
 
 /**
- * Apply sorting for Agents table
- */
-function applyAgentSort() {
-    const sortBy = document.getElementById('agentSortBy').value;
-    const sortOrder = document.getElementById('agentSortOrder').value;
-    const tbody = document.querySelector('#agentsTable tbody');
-    const rows = Array.from(tbody.querySelectorAll('.agent-row'));
-
-    rows.sort((a, b) => {
-        let aValue, bValue;
-
-        switch(sortBy) {
-            case 'salesCount':
-                aValue = parseInt(a.dataset.sales);
-                bValue = parseInt(b.dataset.sales);
-                break;
-            case 'totalRevenue':
-                aValue = parseFloat(a.dataset.revenue);
-                bValue = parseFloat(b.dataset.revenue);
-                break;
-            case 'totalProfit':
-                aValue = parseFloat(a.dataset.profit);
-                bValue = parseFloat(b.dataset.profit);
-                break;
-            case 'averageMarkup':
-                aValue = parseFloat(a.dataset.markup);
-                bValue = parseFloat(b.dataset.markup);
-                break;
-            default:
-                return 0;
-        }
-
-        if (sortOrder === 'asc') {
-            return aValue - bValue;
-        } else {
-            return bValue - aValue;
-        }
-    });
-
-    // Clear tbody and append sorted rows
-    tbody.innerHTML = '';
-    rows.forEach(row => tbody.appendChild(row));
-
-    // Visual feedback
-    showSortFeedback('agentsTable');
-}
-
-/**
  * Apply sorting for Providers table
  */
 function applyProviderSort() {
@@ -642,4 +619,125 @@ function showSortFeedback(tableId) {
             table.style.animation = 'slideUp 0.5s ease';
         }, 10);
     }
+}
+
+// Funcție pentru calcularea datelor perioadelor
+function calculateDateRange(period) {
+    const endDate = new Date();
+    let startDate = new Date();
+
+    switch(period) {
+        case 'today':
+            startDate.setDate(endDate.getDate());
+            break;
+        case 'week':
+            startDate.setDate(endDate.getDate() - 7);
+            break;
+        case 'month':
+            startDate.setMonth(endDate.getMonth() - 1);
+            break;
+        case '2months':
+            startDate.setMonth(endDate.getMonth() - 2);
+            break;
+        case '3months':
+            startDate.setMonth(endDate.getMonth() - 3);
+            break;
+        case '6months':
+            startDate.setMonth(endDate.getMonth() - 6);
+            break;
+        case 'year':
+            startDate.setFullYear(endDate.getFullYear() - 1);
+            break;
+        case 'all':
+        default:
+            startDate = new Date(2020, 0, 1); // 01 ianuarie 2020
+            endDate.setDate(endDate.getDate() + 30); // azi + 30 zile
+
+            return {
+                start: startDate.toISOString().split('T')[0],
+                end: endDate.toISOString().split('T')[0]
+            };
+    }
+
+    return {
+        start: startDate.toISOString().split('T')[0],
+        end: endDate.toISOString().split('T')[0]
+    };
+}
+
+// Încarcă statistici pentru perioadă
+async function loadStatsByPeriod(period) {
+    const dateRange = calculateDateRange(period);
+
+    let url = '/api/dashboard/stats';
+    if (dateRange) {
+        url += `?startDate=${dateRange.start}&endDate=${dateRange.end}`;
+    }
+
+    try {
+        const response = await fetch(url);
+        const stats = await response.json();
+        updateDashboard(stats);
+    } catch (error) {
+        console.error(' Error loading stats:', error);
+    }
+}
+
+// Încarcă statistici pentru interval custom
+async function loadStatsByCustomRange(startDate, endDate) {
+    const url = `/api/dashboard/stats?startDate=${startDate}&endDate=${endDate}`;
+
+    try {
+        const response = await fetch(url);
+        const stats = await response.json();
+        updateDashboard(stats);
+    } catch (error) {
+        console.error('Error loading stats:', error);
+    }
+}
+function updateDashboard(stats) {
+    // SALES
+    document.querySelector('.cars-value').textContent = stats.totalCarsSold || 0;
+
+    // Caută și actualizează fiecare valoare
+    updateKpiValue('Total Revenue', formatNumber(stats.totalSalesRevenue) + ' €');
+    updateKpiValue('Total Profit', formatNumber(stats.totalProfit) + ' €');
+    updateKpiValue('Profit Margin', formatNumber(stats.profitMargin) + '%');
+
+
+    document.getElementById('stockValueAmount').textContent = formatNumber(stats.currentStockValue) + ' €';
+    document.getElementById('carsInStockValue').textContent = stats.carsInStock || 0;
+    updateKpiValue('New Cars', stats.newCarsAdded || 0);
+    updateKpiValue('New Cars Value', formatNumber(stats.newCarsValue) + ' €');
+
+    updateKpiValue('Retracted Cars', stats.carsRetracted || 0);
+    updateKpiValue('Retraction Costs', formatNumber(stats.totalRetractedCost) + ' €');
+}
+
+// Helper function
+function updateKpiValue(label, value) {
+    const cards = document.querySelectorAll('.kpi-card');
+    cards.forEach(card => {
+        const labelEl = card.querySelector('.kpi-label');
+        if (labelEl && labelEl.textContent.trim() === label) {
+            card.querySelector('.kpi-value').textContent = value;
+        }
+    });
+}
+
+// Format număr RO: mii cu punct, zecimale cu virgulă
+function formatNumber(num) {
+    if (num == null || isNaN(num)) {
+        return "0,00";
+    }
+
+    return num
+        .toFixed(2)                 // 68650.00
+        .replace('.', ',')          // 68650,00
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // 68.650,00
+}
+
+// Încărcare inițială
+function loadStats() {
+    loadStatsByPeriod('all');
 }

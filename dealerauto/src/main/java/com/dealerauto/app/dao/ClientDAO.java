@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea operațiunilor de acces la date pentru entitatea Client.
+ * Oferă metode CRUD, validări unicitate (email, telefon, CNP, CUI).
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Client;

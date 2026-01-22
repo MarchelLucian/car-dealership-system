@@ -1,3 +1,11 @@
+/**
+ * Model reprezentând entitatea Furnizor din baza de date.
+ * Conține informațiile despre furnizorii de vehicule ai dealership-ului.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
+
 package com.dealerauto.app.model;
 
 public class Furnizor {

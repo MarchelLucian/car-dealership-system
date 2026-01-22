@@ -1,0 +1,59 @@
+.chart-header-with-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;  /* Fără margin */
+    padding-bottom: 15px;  /* Padding pentru spațiu */
+    border-bottom: 3px solid  #b8860b; /* Border aici */
+}
+
+.chart-title {
+    font-size: 30px;
+    color: #b8860b;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;  /* Fără margin */
+    padding: 0;  /* Fără padding */
+    border: none;  /* Fără border propriu */
+}
+
+.min-cars-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 30px;
+    background: #f8f3e3;
+    border-radius: 8px;
+    border: 2px solid #b8860b;
+}
+
+.min-cars-filter label {
+    font-weight: 600;
+    color: #b8860b;
+    font-size: 27px;
+}
+
+.min-cars-filter input {
+    width: 90px;
+    padding: 6px 10px;
+    border: 2px solid  #b8860b;
+    border-radius: 6px;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    background: white;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.min-cars-filter input:hover {
+    border-color: #ff6600;
+}
+
+.min-cars-filter input:focus {
+    outline: none;
+    border-color: #ff6600;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+}

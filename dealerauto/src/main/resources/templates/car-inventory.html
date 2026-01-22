@@ -440,10 +440,10 @@
                 <th>Mileage (km)</th>
                 <th>Fuel</th>
                 <th>Transmission</th>
-                <th>Color</th>
                 <th>Purchase Price <i class="fa-solid fa-euro-sign"></i></th>
                 <th>Doors</th>
                 <th>Seats</th>
+                <th>VIN</th>
                 <th>Status</th>
             </tr>
             </thead>
@@ -464,19 +464,19 @@
 
                 <td th:text="${car.an}"></td>
 
-                <td th:text="${car.kilometraj}"></td>
+                <td th:text="${#numbers.formatInteger(car.kilometraj, 0, 'POINT')}"></td>
 
                 <td th:text="${car.combustibil}"></td>
 
                 <td th:text="${car.transmisie}"></td>
 
-                <td th:text="${car.culoare}"></td>
-
-                <td th:text="${car.pret}"></td>
+                <td th:text="${#numbers.formatDecimal(car.pret, 0, 'POINT', 0, 'POINT')}"></td>
 
                 <td th:text="${car.numarUsi}"></td>
 
                 <td th:text="${car.numarLocuri}"></td>
+
+                <td th:text="${car.vin}"></td>
 
                 <td>
                     <div class="status-wrapper">

@@ -1,3 +1,10 @@
+/**
+ * Controller pentru pagina publică de vizualizare oferte pentru clienți.
+ * Gestionează afișarea catalogului de mașini disponibile cu filtre și sortare.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
 import com.dealerauto.app.dao.PretVanzareDAO;
@@ -86,11 +93,7 @@ public class ClientController {
             @RequestParam Integer masinaId,
             HttpSession session) {
 
-
-
-
         Integer clientId = (Integer) session.getAttribute("clientId");
-
 
         if (clientId == null) {
             return ResponseEntity.status(401).body(Map.of("error", "Not logged in"));
@@ -103,8 +106,6 @@ public class ClientController {
             response.put("success", true);
             response.put("isAdded", isAdded);
             response.put("message", isAdded ? "Added to favorites" : "Removed from favorites");
-
-
 
             return ResponseEntity.ok(response);
 

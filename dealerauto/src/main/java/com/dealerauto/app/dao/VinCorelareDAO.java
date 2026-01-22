@@ -1,3 +1,9 @@
+/**
+ * DAO pentru gestionarea legaturii unei masini cu VIN ul sau unic  (VEHICLE IDENTIFICATIONA NUMBER)
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;

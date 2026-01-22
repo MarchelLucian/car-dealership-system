@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Manager</title>
+    <link rel="stylesheet" th:href="@{/css/add-car.css}">
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/add-manager.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="top-bar">
+        <a href="/manager-dashboard/add-staff" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-shield"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <h1>New Manager <i class="fa-solid fa-user-shield"></i></h1>
+
+        <p id="successMessage" th:if="${successMessage}" th:utext="${successMessage}" class="success-message"></p>
+        <p id="errorMessage" th:if="${errorMessage}" th:utext="${errorMessage}" class="error-message-big"></p>
+
+        <form th:action="@{/manager-dashboard/add-staff/add-manager}" method="post" onsubmit="validateAddManager(event)">
+
+            <span class="error-msg" id="error-nume"></span>
+            <label>Last Name:</label>
+            <input type="text" name="nume" th:value="${nume}" placeholder="e.g. Ionescu">
+
+            <span class="error-msg" id="error-prenume"></span>
+            <label>First Name:</label>
+            <input type="text" name="prenume" th:value="${prenume}" placeholder="e.g. Maria">
+
+            <span class="error-msg" id="error-username"></span>
+            <label>Username:</label>
+            <input type="text" name="username" placeholder="e.g. mariaionescu">
+
+            <span class="error-msg" id="error-password"></span>
+            <label>Password:</label>
+            <div class="password-wrapper">
+                <input type="password" name="password" placeholder="Minimum 6 characters">
+                <i id="togglePassword" class="fa-solid fa-eye-slash password-toggle"></i>
+            </div>
+
+            <button type="button" class="reset-btn" onclick="clearManagerForm()">Clear Form</button>
+
+            <button type="submit" class="submit-btn" id="addManagerBtn">
+                <i class="fa-solid fa-plus" id="addManagerPlus"></i>
+                <span id="addManagerText">Add Manager</span>
+                <i class="fa-solid fa-spinner spin-icon" id="addManagerSpinner"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script th:src="@{/js/add-manager.js}"></script>
+</body>
+</html>

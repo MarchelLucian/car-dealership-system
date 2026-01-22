@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea înregistrării clienților noi în sistem.
+ * Implementează logica de creare conturi și validare date client.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Client;

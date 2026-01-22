@@ -1,3 +1,11 @@
+/**
+ * Model reprezentând entitatea Manager din baza de date.
+ * Conține informațiile despre managerii dealership-ului cu acces administrativ.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
+
 package com.dealerauto.app.model;
 
 public class Manager {

@@ -584,7 +584,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!input || !suggestionsBox) return;
 
     const allCars = getAllCarsFromTable();
-    console.log("All cars:", allCars); // debug
 
     input.addEventListener("input", () => {
         const query = input.value.trim().toLowerCase();

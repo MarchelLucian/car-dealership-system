@@ -1,3 +1,10 @@
+/**
+ * Controller pentru gestionarea operațiunilor generale pe mașini.
+ * Coordonează logica de afișare și manipulare a stocului de vehicule.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
 
@@ -59,11 +66,14 @@ public class CarController {
         model.addAttribute("agent", agent);
 
         model.addAttribute("masina", new Masina());
-        model.addAttribute("brands", marcaDAO.getAllBrands());
-        model.addAttribute("providers", furnizorDAO.getAllProviders());
+        model.addAttribute("brands", marcaDAO.getAllBrands()); // face rost de toate brandurile din baza de date
+        model.addAttribute("providers", furnizorDAO.getAllProviders()); // toti providerii inregistrati
 
         return "add-car";  // templates/add-car.html
     }
+
+    @Autowired
+    private MarcaFurnizorDAO marcaFurnizorDAO;
 
     // ===== SALVARE MAȘINĂ =====
     @PostMapping("/add-car")
@@ -361,6 +371,12 @@ public class CarController {
             vinCorelareDAO.insert(masinaId, vin);
         }
 
+
+        //  INSERT în marcafurnizor , daca nu exista
+        marcaFurnizorDAO.insertIfNotExists(
+                masina.getMarcaId(),
+                masina.getFurnizorId()
+        );
 
         redirectAttributes.addFlashAttribute(
                 "successMessage",

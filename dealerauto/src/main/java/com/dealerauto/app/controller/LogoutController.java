@@ -1,3 +1,10 @@
+/**
+ * Controller pentru gestionarea logout-ului utilizatorilor (agenți și clienți).
+ * Invalidează sesiunile și redirecționează către paginile de autentificare.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
 import jakarta.servlet.http.HttpSession;

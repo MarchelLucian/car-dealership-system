@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove Manager - Manager Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/css/manager-remove-manager.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="top-bar">
+        <a href="/manager-dashboard/add-staff" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-shield"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="dashboard-header">
+        <h1>
+            <i class="fa-solid fa-user-slash"></i>
+            Remove Manager
+        </h1>
+        <p class="subtitle">Manage system managers</p>
+    </div>
+
+    <!-- SUCCESS MESSAGE -->
+    <div th:if="${successMessage}" class="alert alert-success" style="max-width: 800px; font-size: 24px; margin: 20px auto; padding: 15px; background: #4CAF50; color: white; border-radius: 8px; text-align: center;">
+        <i class="fa-solid fa-check-circle"></i>
+        <span th:text="${successMessage}"></span>
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    <div th:if="${errorMessage}" class="alert alert-error" style="max-width: 800px; font-size: 24px;margin: 20px auto; padding: 15px; background: #f44336; color: white; border-radius: 8px; text-align: center;">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <!-- Managers Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-users-cog"></i>
+            System Managers
+        </h2>
+
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="manager : ${managers}">
+                <td><strong th:text="${manager.id}">1</strong></td>
+                <td>
+                    <i class="fa-solid fa-user-shield"  style=" color: #b8860b; font-size:32px ; margin-right: 12px;"></i>
+                    <span th:text="${manager.username}">Username</span>
+                </td>
+                <td th:text="${manager.prenume}">First Name</td>
+                <td th:text="${manager.nume}">Last Name</td>
+                <td>
+                    <!-- Dezactiveaza butonul pentru managerul curent -->
+                    <button class="remove-btn"
+                            th:if="${manager.id != currentManagerId}"
+                            th:data-id="${manager.id}"
+                            th:data-name="${manager.prenume + ' ' + manager.nume}"
+                            onclick="confirmRemoveManager(this)">
+                        <i class="fa-solid fa-trash"></i>
+                        Remove
+                    </button>
+                    <span th:if="${manager.id == currentManagerId}" style="color: #666; font-style: italic;">
+                        (Current User)
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Hidden form for deletion -->
+<form id="removeManagerForm" method="post" th:action="@{/manager-dashboard/add-staff/remove-manager}">
+    <input type="hidden" name="id" id="managerIdToRemove">
+</form>
+
+<script th:src="@{/js/manager-remove-manager.js}"></script>
+
+</body>
+</html>

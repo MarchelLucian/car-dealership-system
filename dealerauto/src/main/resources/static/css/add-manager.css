@@ -1,0 +1,65 @@
+body {
+    min-height: 100vh;
+    overflow-y: scroll;
+}
+
+
+.submit-btn {
+    background: linear-gradient(135deg, #da8c12 0%, #dcb20e 100%);
+    box-shadow: 0 4px 15px rgb(255, 236, 0, 0.3);
+
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #c8840e 0%, #aa8808 100%);
+    box-shadow: 0 4px 15px rgb(255, 236, 0, 0.5);
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 94%;
+}
+ h1 {
+   color: #a67a0a;
+ }
+
+ label{
+     color: #a67a0a;
+}
+/* Icon eye */
+.password-toggle {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: #c8840e;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    opacity: 0.7;
+}
+
+.password-toggle:hover {
+    color: #875b0a;
+    opacity: 1;
+}
+.container{
+    margin-top:40px;
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    flex: 1;
+    padding-right: 45px; /* Space pentru iconița */
+}
+

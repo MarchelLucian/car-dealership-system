@@ -1,3 +1,10 @@
+/**
+ * Model reprezentând entitatea Masina din baza de date.
+ * Conține toate detaliile tehnice și comerciale ale unui vehicul din stoc.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.model;
 
 import java.time.LocalDate;
@@ -56,12 +63,12 @@ public class Masina {
         this.furnizor = furnizor;
     }
     // Constructor complet (EXTINS cu VIN)
-    public Masina(int id, String vin, String marca, String model,
+    public Masina(int id, String marca, String model,
                   int an, int kilometraj, double pret,
                   String combustibil, String transmisie,
                   String culoare, String stare,
                   int numarUsi, int numarLocuri,
-                  String furnizor) {
+                  String furnizor ,String vin) {
 
         this.id = id;
         this.vin = vin;

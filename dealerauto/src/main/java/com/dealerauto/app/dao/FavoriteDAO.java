@@ -1,3 +1,10 @@
+/**
+ * DAO pentru gestionarea sistemului de favorite al clienților.
+ * Permite salvarea și gestionarea mașinilor preferate de fiecare client.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.dao;
 
 import com.dealerauto.app.model.Favorite;
@@ -68,7 +75,14 @@ public class FavoriteDAO {
      * Găsește ID-urile mașinilor favorite ale unui client
      */
     public List<Integer> findMasinaIdsByClientId(Integer clientId) {
-        String sql = "SELECT masina_id FROM favorite WHERE client_id = ? ORDER BY data_adaugare DESC";
+        String sql = """
+        SELECT f.masina_id 
+        FROM favorite f
+        INNER JOIN masina m ON f.masina_id = m.id
+        WHERE f.client_id = ? 
+        AND m.stare = 'disponibila'
+        ORDER BY f.data_adaugare DESC
+    """;
         return jdbcTemplate.queryForList(sql, Integer.class, clientId);
     }
 
@@ -94,4 +108,11 @@ public class FavoriteDAO {
         }
     }
 
+    /**
+     * Șterge toate favoritele pentru o mașină (când e vândută)
+     */
+    public void deleteByMasinaId(Integer masinaId) {
+        String sql = "DELETE FROM favorite WHERE masina_id = ?";
+        jdbcTemplate.update(sql, masinaId);
+    }
 }

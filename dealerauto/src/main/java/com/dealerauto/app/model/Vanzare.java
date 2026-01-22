@@ -1,3 +1,10 @@
+/**
+ * Model reprezentând o tranzacție de vânzare completă.
+ * Conține toate informațiile despre o vânzare finalizată în sistem.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.model;
 
 import java.sql.Date;
@@ -20,7 +27,6 @@ public class Vanzare {
     // ========================
     // CONSTRUCTORI
     // ========================
-
     public Vanzare() {
     }
 

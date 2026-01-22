@@ -62,7 +62,7 @@ body {
 .back-btn {
     display: inline-flex;
     align-items: center;
-    margin: 20px;
+    margin: 28px;
     padding: 8px 15px;
     background-color: #b8860b;
     color: white;
@@ -72,6 +72,7 @@ body {
     font-size: 22px;
     transition: all 0.25s ease;
     box-shadow: 0 4px 15px rgba(184, 134, 11, 0.15);
+
 }
 
 .back-btn:hover {
@@ -345,6 +346,10 @@ body {
     background: linear-gradient(135deg, #f4da28 0%, #f1c40f 100%);
 }
 
+.staff-icon {
+    background: linear-gradient(135deg, #f4da28 0%, #d8af0a 100%);
+}
+
 .data-table th {
     padding: 18px;
     text-align: left;
@@ -396,6 +401,7 @@ body {
     padding: 5px 12px;
     background: linear-gradient(135deg, #3d8312 0%, #36da45 100%);
 
+    width: 220px;
     color: white;
     border-radius: 12px;
     font-weight: 600;
@@ -524,7 +530,9 @@ body {
 
 
 .stock-label {
-    margin-left: 24px;
+    margin-left: -15px;
+    margin-right: -15px;
+    text-align: center;
 }
 .stock-values{
     margin-left: 24px;
@@ -673,22 +681,8 @@ body {
     text-align: center;
 }
 
-.nav-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(244, 218, 40, 0.1), transparent);
-    transition: left 0.5s ease;
-}
-
-.nav-card:hover::before {
-    left: 100%;
-}
-
 .nav-card:hover {
+    background: #faf4d5; /* galben foarte deschis */
     transform: translateY(-8px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
@@ -714,15 +708,25 @@ body {
 
 .nav-card-icon.agents-icon {
     background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    font-size: 42px;
 }
 
 .nav-card-icon.providers-icon {
-    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    background: linear-gradient(135deg, #e46f6f 0%, #c35f5f 100%);
+    font-size: 44px;
 }
 
 .nav-card-icon.analytics-icon {
     background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    font-size: 42px;
 }
+
+
+.nav-card-icon.sales-icon {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    font-size: 44px;
+}
+
 
 .nav-card h3 {
     font-size: 26px;
@@ -760,6 +764,21 @@ body {
 .nav-card:hover .nav-card-arrow {
     opacity: 1;
     transform: translateX(5px);
+}
+
+.staffNavCard {
+    margin-top:-100px;
+    margin-bottom: 100px;
+}
+
+.allSalesNavCard{
+    margin-top:-100px;
+    margin-bottom: 100px;
+}
+
+.analyticsNavCard{
+    margin-top: 40px;
+    margin-bottom: -40px;
 }
 /* ================================
    ADDITIONAL BADGES
@@ -830,6 +849,7 @@ body {
     border-radius: 12px;
     font-weight: 600;
     font-size: 24px;
+    width: 200px;
 }
 
 .fa-phone {
@@ -881,4 +901,349 @@ body {
 }
 .unfinishedTITLE{
     color: RED; !important;
+}
+
+.kpi-sections-row {
+    display: flex;
+    gap: 60px;           /* spațiu între Sales și Inventory */
+    align-items: flex-start;
+}
+
+.kpi-section-col {
+    flex: 1;             /* stânga / dreapta egale */
+}
+.stockValueResize {
+    margin-left:-10px;
+    margin-right: -20px;
+}
+
+/* ========================================
+   TIME PERIOD SELECTOR
+   ======================================== */
+
+.time-period-selector {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.time-period-selector h3 {
+    margin: 0 0 15px 0;
+    color: #133b95;
+    font-size: 1.2rem;
+}
+
+/* Quick Filters */
+.quick-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.period-btn {
+    padding: 10px 20px;
+    border: 2px solid #133b95;
+    background: white;
+    color: #133b95;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.period-btn:hover {
+    background: #133b95;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.period-btn.active {
+    background: #133b95;
+    color: white;
+    box-shadow: 0 4px 8px rgba(19, 59, 149, 0.3);
+}
+
+/* Custom Date Range */
+.custom-range {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding-top: 15px;
+}
+
+.custom-range label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.date-input {
+    padding: 8px 12px;
+    border: 2px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: #133b95;
+    box-shadow: 0 0 0 3px rgba(19, 59, 149, 0.1);
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .quick-filters {
+        flex-direction: column;
+    }
+
+    .period-btn {
+        width: 100%;
+    }
+
+    .custom-range {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .apply-btn {
+        width: 100%;
+    }
+}
+
+/* CSS pentru time-period-selector - tema portocalie manager */
+.time-period-selector {
+    background: linear-gradient(135deg, #fff5e6 0%, #fff7cc 100%);
+    border: 2px solid #b8860b;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(255, 153, 51, 0.1);
+}
+
+.selector-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Select dropdown pe stânga */
+.period-select-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.period-select-wrapper label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff6600;
+    white-space: nowrap;
+}
+
+.period-select {
+    padding: 10px 35px 10px 15px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    background-color: white;
+    border: 2px solid #b8860b;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.period-select:hover {
+    border-color: #ff6600;
+    box-shadow: 0 2px 8px rgba(255, 102, 0, 0.2);
+}
+
+.period-select:focus {
+    outline: none;
+    border-color: #ff6600;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+}
+
+.date-input {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 2px solid #b8860b;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.date-input:hover {
+    border-color: #ff6600;
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: #ff6600;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+}
+
+.apply-btn {
+    padding: 12px 24px;
+    font-size: 22px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #f4da28 0%, #f1c40f 100%);
+    color: #2c3e50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(255, 102, 0, 0.2);
+}
+
+.apply-btn:hover {
+    background: linear-gradient(135deg, #f1c40f 0%, #b8860b 100%);
+    color: white;
+    box-shadow: 0 4px 8px rgba(255, 102, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+.apply-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 102, 0, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .selector-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .period-select-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .custom-range {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .date-input, .apply-btn {
+        width: 100%;
+    }
+}
+/* Select period */
+.selector-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.period-select-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.period-select-wrapper label {
+    font-size: 26px;
+    color: #b8860b;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.period-select {
+    padding: 10px 35px 10px 15px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    background-color: white;
+    border: 2px solid #b8860b;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ff6600' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.period-select:hover {
+    border-color: #ff6600;
+    box-shadow: 0 2px 8px rgba(255, 102, 0, 0.2);
+}
+
+.period-select:focus {
+    outline: none;
+    border-color: #ff6600;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+}
+
+.period-select {
+    font-size: 22px;
+}
+
+.custom-range  label {
+    margin-left: auto;
+    font-size: 26px;
+    color: #b8860b;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.custom-range button{
+    font-size: 21px;
+}
+
+.custom-range input{
+    font-size: 22px;
+}
+/* Iconițe pentru cardurile noi */
+.kpi-icon.new-cars {
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+}
+
+.kpi-icon.new-cars-value {
+    background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
+}
+
+.new-cars-label{
+    margin-left:25px;
+}
+.new-cars-values{
+    margin-left:20px;
+}
+.period-select-wrapper label {
+    margin-bottom:-10px;
+    font-size: 28px;
+}
+.period-select-wrapper select{
+    margin-bottom:-8px;
+}
+.time-period-selector {
+    margin-bottom:-8px;
+}
+
+.tot-rev {
+    margin-left:-10px;
+    margin-right: -20px;
 }

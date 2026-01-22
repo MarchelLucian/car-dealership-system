@@ -1,9 +1,20 @@
+/**
+ * Controller pentru gestionarea operațiunilor managerului de dealership.
+ * Oferă acces la statistici avansate, rapoarte și gestionare personal.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
+import com.dealerauto.app.dao.DashboardDAO;
 import com.dealerauto.app.dao.ManagerLoginDAO;
+import com.dealerauto.app.dao.VanzareDAO;
 import com.dealerauto.app.model.Manager;
+import com.dealerauto.app.model.SaleDetail;
 import com.dealerauto.app.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +25,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -380,7 +395,48 @@ public class ManagerController {
         return ResponseEntity.ok(metrics);
     }
 
+    @Autowired
+    private VanzareDAO vanzareDAO;
+    @GetMapping("/api/manager/sales")
+    @ResponseBody
+    public Map<String, Object> getSalesPaginated(
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestParam(defaultValue = "5") int limit,
+            @RequestParam(required = false) Integer agentId,
+            @RequestParam(defaultValue = "data_vanzare") String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortOrder,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
+       // System.out.println(" API called: offset=" + offset + ", limit=" + limit + ", agentId=" + agentId +
+             //   ", startDate=" + startDate + ", endDate=" + endDate);
+
+        try {
+            List<SaleDetail> sales = vanzareDAO.getSalesWithDetails(offset, limit, agentId, sortBy, sortOrder, startDate, endDate);
+            int totalSales = vanzareDAO.getTotalSalesCount(agentId, startDate, endDate);
+
+           // System.out.println(" Returning " + sales.size() + " sales out of " + totalSales);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("sales", sales);
+            response.put("hasMore", (offset + limit) < totalSales);
+            response.put("total", totalSales);
+
+            return response;
+
+        } catch (Exception e) {
+            System.err.println(" Error: " + e.getMessage());
+            e.printStackTrace();
+
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            errorResponse.put("sales", new ArrayList<>());
+            errorResponse.put("hasMore", false);
+            errorResponse.put("total", 0);
+
+            return errorResponse;
+        }
+    }
 
 
 

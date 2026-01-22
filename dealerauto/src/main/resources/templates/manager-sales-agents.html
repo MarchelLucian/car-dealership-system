@@ -5,18 +5,13 @@
     <title>Sales Agents - Manager Dashboard</title>
 
     <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/css/manager-sales-agents.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
 
-<!-- Background decorativ -->
-<div class="bg-shapes">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-</div>
 
 <div class="page-wrapper">
 
@@ -29,7 +24,7 @@
 
         <div class="manager-greeting">
             <span id="managerNameBadge">
-                <i class="fa-solid fa-user-tie"></i>
+                <i class="fa-solid fa-user-shield"></i>
                 Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
             </span>
         </div>
@@ -154,6 +149,16 @@
         </table>
     </div>
 
+    <!-- Markup Comparison Chart -->
+    <div class="charts-section-centered">
+        <div class="chart-container-centered">
+            <h3 class="chart-title">
+                <i class="fa-solid fa-percent"></i>
+                Average Markup Comparison
+            </h3>
+            <canvas id="agentMarkupChart"></canvas>
+        </div>
+    </div>
     <!-- Agent Performance Charts -->
     <div class="charts-section">
 
@@ -175,24 +180,98 @@
             <canvas id="agentProfitChart"></canvas>
         </div>
     </div>
-    <!-- Markup Comparison Chart -->
-    <div class="charts-section-centered">
-        <div class="chart-container-centered">
+
+    <!-- Agent Performance Chart -->
+    <div class="chart-container">
+        <div class="chart-header-with-filter">
             <h3 class="chart-title">
-                <i class="fa-solid fa-percent"></i>
-                Average Markup Comparison
+                <i class="fa-solid fa-chart-line"></i>
+                Top Agents Performance Timeline (by sales count)
             </h3>
-            <canvas id="agentMarkupChart"></canvas>
+
+            <div class="agent-filters">
+                <div class="filter-group">
+                    <span class="filter-label">From:</span>
+                    <select id="fromMonthSelect" >
+                        <option value="1" th:selected="${selectedFromMonth == 1}">Jan</option>
+                        <option value="2" th:selected="${selectedFromMonth == 2}">Feb</option>
+                        <option value="3" th:selected="${selectedFromMonth == 3}">Mar</option>
+                        <option value="4" th:selected="${selectedFromMonth == 4}">Apr</option>
+                        <option value="5" th:selected="${selectedFromMonth == 5}">May</option>
+                        <option value="6" th:selected="${selectedFromMonth == 6}">Jun</option>
+                        <option value="7" th:selected="${selectedFromMonth == 7}">Jul</option>
+                        <option value="8" th:selected="${selectedFromMonth == 8}">Aug</option>
+                        <option value="9" th:selected="${selectedFromMonth == 9}">Sep</option>
+                        <option value="10" th:selected="${selectedFromMonth == 10}">Oct</option>
+                        <option value="11" th:selected="${selectedFromMonth == 11}">Nov</option>
+                        <option value="12" th:selected="${selectedFromMonth == 12}">Dec</option>
+                    </select>
+
+                    <select id="fromYearSelect" >
+                        <option value="2026" th:selected="${selectedFromYear == 2026}">2026</option>
+                        <option value="2025" th:selected="${selectedFromYear == 2025}">2025</option>
+                        <option value="2024" th:selected="${selectedFromYear == 2024}">2024</option>
+                        <option value="2023" th:selected="${selectedFromYear == 2023}">2023</option>
+                    </select>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="filter-group">
+                    <span class="filter-label labelTO">To:</span>
+                    <select id="toMonthSelect" >
+                        <option value="1" th:selected="${selectedToMonth == 1}">Jan</option>
+                        <option value="2" th:selected="${selectedToMonth == 2}">Feb</option>
+                        <option value="3" th:selected="${selectedToMonth == 3}">Mar</option>
+                        <option value="4" th:selected="${selectedToMonth == 4}">Apr</option>
+                        <option value="5" th:selected="${selectedToMonth == 5}">May</option>
+                        <option value="6" th:selected="${selectedToMonth == 6}">Jun</option>
+                        <option value="7" th:selected="${selectedToMonth == 7}">Jul</option>
+                        <option value="8" th:selected="${selectedToMonth == 8}">Aug</option>
+                        <option value="9" th:selected="${selectedToMonth == 9}">Sep</option>
+                        <option value="10" th:selected="${selectedToMonth == 10}">Oct</option>
+                        <option value="11" th:selected="${selectedToMonth == 11}">Nov</option>
+                        <option value="12" th:selected="${selectedToMonth == 12}">Dec</option>
+                    </select>
+
+                    <select id="toYearSelect" >
+                        <option value="2026" th:selected="${selectedToYear == 2026}">2026</option>
+                        <option value="2025" th:selected="${selectedToYear == 2025}">2025</option>
+                        <option value="2024" th:selected="${selectedToYear == 2024}">2024</option>
+                        <option value="2023" th:selected="${selectedToYear == 2023}">2023</option>
+                    </select>
+                </div>
+
+                <div class="separator"></div>
+
+                <label>Top:</label>
+                <input type="number"
+                       id="topAgentsInput"
+                       min="2"
+                       max="10"
+                       th:value="${selectedTopAgents}">
+            </div>
+            <!-- BUTON APPLY  -->
+            <button id="applyCustomRange" class="apply-btn" onclick="reloadAgentChart()">
+                Apply
+            </button>
         </div>
+
+        <canvas id="agentPerformanceChart"></canvas>
     </div>
+
 
 </div>
 
-<script th:src="@{/js/manager-dashboard.js}"></script>
 
 <!-- Pass data to JavaScript -->
 <script th:inline="javascript">
     const agentPerformanceData = /*[[${agentPerformance}]]*/ [];
+    const topAgentsData = /*[[${topAgentsData}]]*/ [];
+    const selectedFromMonth = /*[[${selectedFromMonth}]]*/ 1;
+    const selectedFromYear = /*[[${selectedFromYear}]]*/ 2025;
+    const selectedToMonth = /*[[${selectedToMonth}]]*/ 1;
+    const selectedToYear = /*[[${selectedToYear}]]*/ 2026;
 </script>
 
 <script th:src="@{/js/manager-sales-agents.js}"></script>

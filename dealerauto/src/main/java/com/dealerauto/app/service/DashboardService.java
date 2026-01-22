@@ -1,3 +1,10 @@
+/**
+ * Service pentru agregarea și procesarea datelor statistice din dashboard.
+ * Calculează KPI-uri, metrici de performanță și generează rapoarte.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.service;
 
 import com.dealerauto.app.dao.DashboardDAO;
@@ -343,4 +350,5 @@ public class DashboardService {
 
         return kpis;
     }
+
 }

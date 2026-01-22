@@ -1,3 +1,10 @@
+/**
+ * Model reprezentând un preț de vânzare asociat unei mașini.
+ * Stochează istoricul prețurilor și prețul curent de vânzare.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.model;
 
 import java.time.LocalDateTime;

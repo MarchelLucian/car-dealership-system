@@ -1,3 +1,10 @@
+/**
+ * Service pentru gestionarea operațiunilor business complexe legate de clienți.
+ * Coordonează validări, autentificare și procesare date client.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.service;
 
 import com.dealerauto.app.dao.ClientDAO;

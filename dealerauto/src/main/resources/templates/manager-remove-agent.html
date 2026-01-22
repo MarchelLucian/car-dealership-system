@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove Sales Agent - Manager Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/css/manager-remove-manager.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/manager-dashboard/add-staff" class="back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+            Go Back
+        </a>
+
+        <div class="manager-greeting">
+            <span id="managerNameBadge">
+                <i class="fa-solid fa-user-shield"></i>
+                Manager: <span th:text="${managerName} + ' ' + ${managerSecondName}">Manager</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="dashboard-header">
+        <h1>
+            <i class="fa-solid fa-user-minus"></i>
+            Remove Sales Agent
+        </h1>
+        <p class="subtitle">Manage sales agents in the system</p>
+    </div>
+
+    <!-- SUCCESS MESSAGE -->
+    <div th:if="${successMessage}" class="alert alert-success" style="max-width: 800px;font-size: 24px; margin: 20px auto; padding: 15px; background: #4CAF50; color: white; border-radius: 8px; text-align: center;">
+        <i class="fa-solid fa-check-circle"></i>
+        <span th:text="${successMessage}"></span>
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    <div th:if="${errorMessage}" class="alert alert-error" style="max-width: 800px;font-size: 24px; margin: 20px auto; padding: 15px; background: #f44336; color: white; border-radius: 8px; text-align: center;">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <!-- Agents Information Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-address-card"></i>
+            Sales Agents
+        </h2>
+
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Salary (€)</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="agent : ${agents}">
+                <td><strong th:text="${agent.idAgent}">1</strong></td>
+                <td th:text="${agent.prenume}">First Name</td>
+                <td th:text="${agent.nume}">Last Name</td>
+                <td>
+                    <i class="fa-solid fa-phone ics" ></i>
+                    <span th:text="${agent.telefon}">Phone</span>
+                </td>
+                <td>
+                    <i class="fa-solid fa-envelope ics" ></i>
+                    <span th:text="${agent.email}">Email</span>
+                </td>
+                <td>
+                    <span class="salary-badge" th:text="${#numbers.formatDecimal(agent.salariu, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                </td>
+                <td>
+                    <button class="remove-btn"
+                            th:data-id="${agent.idAgent}"
+                            th:data-name="${agent.prenume + ' ' + agent.nume}"
+                            onclick="confirmRemoveAgent(this)">
+                        <i class="fa-solid fa-trash"></i>
+                        Remove
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Hidden form for deletion -->
+<form id="removeAgentForm" method="post" th:action="@{/manager-dashboard/add-staff/remove-agent}">
+    <input type="hidden" name="idAgent" id="agentIdToRemove">
+</form>
+
+<script th:src="@{/js/manager-remove-agent.js}"></script>
+
+</body>
+</html>

@@ -1,3 +1,11 @@
+/**
+ * Model reprezentând un brand (marcă) de mașini din sistem.
+ * Conține informațiile despre producătorii de vehicule disponibili.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
+
 package com.dealerauto.app.model;
 
 public class Marca {

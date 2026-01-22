@@ -1,3 +1,10 @@
+/**
+ * Controller pentru înregistrarea clienților noi în platformă.
+ * Validează datele și creează conturi pentru persoane fizice și juridice.
+ *
+ * @author Marchel Lucian
+ * @version 12 Ianuarie 2026
+ */
 package com.dealerauto.app.controller;
 
 import com.dealerauto.app.dao.ClientRegisterDAO;
