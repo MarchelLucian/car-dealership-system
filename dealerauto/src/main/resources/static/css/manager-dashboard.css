@@ -171,6 +171,7 @@ body {
     gap: 12px;
     border-bottom: 3px solid #f4da28;
     padding-bottom: 10px;
+    animation: fadeIn 0.9s ease;
 }
 
 .section-title i {
@@ -927,6 +928,7 @@ body {
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
+    animation: fadeIn 1.2s ease;
 }
 
 .time-period-selector h3 {

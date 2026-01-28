@@ -117,7 +117,7 @@ public class DashboardService {
      * (Necesită date despre câte lead-uri a avut fiecare agent - optional)
      */
     public Map<Integer, Double> getAgentConversionRates() {
-        // Placeholder - implementează dacă ai tabelă de leads
+        // Placeholder
         Map<Integer, Double> conversionRates = new HashMap<>();
         List<AgentPerformance> agents = dashboardDAO.getAllAgentsPerformance();
 

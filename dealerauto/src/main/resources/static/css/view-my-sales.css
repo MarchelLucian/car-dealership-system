@@ -1,3 +1,13 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 /* ===== SALES LIST ===== */
 
 .sales-container {
@@ -10,8 +20,8 @@
     margin-bottom : 120px;
     border:2px solid #1a531b;
     position: relative;
+    animation: fadeIn 0.6s ease;
 }
-
 /* GRID ROW */
 .sales-row {
     display: grid;
@@ -401,6 +411,7 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
+    animation: fadeIn 0.6s ease;
 }
 
 .filter-row label {
@@ -455,7 +466,7 @@
     margin-top: 10px;
     margin-left: 18px;
     margin-bottom: 30px;
-
+    animation: fadeIn 0.6s ease;
 }
 
 /* Input-ul */
@@ -608,6 +619,7 @@
 
     /* Centrează vertical față de blocul de filtre */
     margin-top: -4px;
+    animation: fadeIn 0.6s ease;
 }
 
 
@@ -630,6 +642,7 @@
 
     /* Centrează vertical față de blocul de filtre */
     margin-top: 30px;
+    animation: fadeIn 0.6s ease;
 }
 
 .page-title-new {
