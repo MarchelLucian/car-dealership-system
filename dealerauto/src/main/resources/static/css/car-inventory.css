@@ -1011,3 +1011,27 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+/* ================================
+   RESPONSIVE (doar @media)
+   ================================ */
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: 10px 12px;
+    }
+
+    .car-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .car-table {
+        font-size: 16px;
+    }
+
+    .car-table th,
+    .car-table td {
+        padding: 8px 6px;
+    }
+}

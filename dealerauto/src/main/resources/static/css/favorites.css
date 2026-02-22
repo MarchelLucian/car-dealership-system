@@ -1,64 +1,174 @@
 /* ================================
-   OVERRIDE PAGE-WRAPPER PENTRU FAVORITES
+   OVERRIDE PAGE-WRAPPER + FONT FAVORITES
    ================================ */
 
 .page-wrapper {
-    flex-direction: column !important; /* ✅ Stack pe verticală */
+    flex-direction: column !important;
+}
+
+/* Font modern, aliniat cu /client */
+body.fav-page,
+.fav-page .page-wrapper {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* ================================
-   TOP BAR FAVORITES (UNIC)
+   STRATURI FUNDAL – gradient, blob-uri, pattern (doar Favorites)
    ================================ */
 
+/* 1. Gradient discret pe body: alb în centru → albastru foarte deschis în colțuri */
+body.fav-page {
+    background: radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 252, 255, 0.95) 40%, rgba(232, 248, 255, 0.85) 100%);
+    min-height: 100vh;
+}
+
+.fav-page .page-wrapper {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* 2. Container pentru blob-uri + pattern – sub conținut */
+.fav-bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* 2b. Pattern dots discret */
+.fav-bg-layer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(10, 68, 201, 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
+    opacity: 1;
+}
+
+/* 3. Blob-uri decorative – cercuri blurate, semi-transparente */
+.fav-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.35;
+}
+
+.fav-blob-1 {
+    width: 320px;
+    height: 320px;
+    background: rgba(170, 228, 240, 0.5);
+    top: -80px;
+    right: -60px;
+}
+
+.fav-blob-2 {
+    width: 280px;
+    height: 280px;
+    background: rgba(200, 230, 255, 0.45);
+    bottom: 15%;
+    left: -80px;
+}
+
+.fav-blob-3 {
+    width: 200px;
+    height: 200px;
+    background: rgba(220, 240, 255, 0.4);
+    bottom: -40px;
+    right: 20%;
+}
+
+/* Conținutul peste stratul de fundal */
+.fav-page .fav-top-bar,
+.fav-page .fav-header,
+.fav-page .fav-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* ================================
+   TOP BAR FAVORITES – strat fundal + stil client
+   ================================ */
+
+/* 4. Glassmorphism pe top bar – sticlă + blur */
 .fav-top-bar {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
-    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-    background: linear-gradient(135deg, #b2c8df 0%, #598cbf 100%);
     width: 100%;
     box-sizing: border-box;
-
-    border : 2px solid #133b95;
+    border: 2px solid rgba(10, 68, 201, 0.2);
     border-bottom: none;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(248, 250, 253, 0.7) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 -2px 20px rgba(10, 68, 201, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    overflow: hidden;
+}
+
+/* Strat suplimentar de adâncime (subtle) */
+.fav-top-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: 18px 18px 0 0;
 }
 
 .fav-avatar {
     width: 80px;
     height: 80px;
-    background: #ddfafd;
-    color: #133b95;
+    background: linear-gradient(145deg, #0a44c9 0%, #0839ab 100%);
+    color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 28px;
     font-weight: 700;
-    border : 2px solid #133b95;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 16px rgba(10, 68, 201, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fav-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(10, 68, 201, 0.4);
 }
 
 .fav-back-btn {
-
     display: inline-flex;
     align-items: center;
     margin: 20px;
     padding: 8px 15px;
-    background-color: #ddfafd;
-    color: #133b95;
+    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
+    color: white;
     text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-weight: 600;
     font-size: 22px;
-    transition: background 0.25s, transform 0.25s;
-    border : 2px solid #133b95;
+    transition: box-shadow 0.25s ease, transform 0.2s ease;
+    border: none;
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.3);
 }
 
 .fav-back-btn:hover {
-    background-color: #acced5;
-    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.4);
+    transform: translateY(-2px);
 }
 
 .fav-back-btn i {
@@ -67,28 +177,46 @@
 }
 
 /* ================================
-   HEADER FAVORITES (UNIC)
+   HEADER FAVORITES – două straturi vizuale
    ================================ */
 
+/* 4b. Glassmorphism pe header – sticlă + blur */
 .fav-header {
+    position: relative;
     text-align: center;
     padding: 40px 20px;
-    background: linear-gradient(135deg, #ddfafd 0%, #c9e9ed 100%);
     width: 100%;
     box-sizing: border-box;
-
-    border : 2px solid #133b95;
-    border-top:none;
+    border: 2px solid rgba(10, 68, 201, 0.2);
+    border-top: none;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 250, 253, 0.68) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(10, 68, 201, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    overflow: hidden;
+}
 
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+/* Accent discret pe jumătatea superioară a header-ului */
+.fav-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+    pointer-events: none;
 }
 
 .fav-header h1 {
+    position: relative;
     font-size: 42px;
     color: #133b95;
     margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 }
 
 .fav-header h1 i {
@@ -97,15 +225,36 @@
 }
 
 .fav-count {
-    font-size: 26px;
-    color: #495057;
+    position: relative;
+    font-size: 30px;
+    color: #374151;
     margin-top: 30px;
-    margin-bottom : 0px;
+    margin-bottom: 0;
 }
 
 .fav-count strong {
-    color: #e74c3c;
-    font-size: 28px;
+    color: #0839ab;
+    font-size: 32px;
+    margin-left: 12px;
+}
+
+.fav-total-line {
+    position: relative;
+    font-size: 30px;
+    color: #374151;
+    margin-top: 24px;
+    margin-bottom: 0;
+}
+
+.fav-total-line strong {
+    color: #047857;
+    font-size: 32px;
+    margin-left: 12px;
+}
+
+.fav-total-line i {
+    color: #047857;
+    margin-right: 8px;
 }
 
 /* ================================
@@ -120,10 +269,11 @@
     width: 100%;
 }
 
+/* Grid: o singură coloană, aceeași lățime ca cardurile pe /client */
 .fav-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
     width: 100%;
 }
 
@@ -132,6 +282,19 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    opacity: 0;
+    animation: favCardIn 0.5s ease forwards;
+}
+
+@keyframes favCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ================================
@@ -141,46 +304,50 @@
 .fav-empty {
     text-align: center;
     padding: 80px 20px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    border: 2px dashed #dee2e6;
+    background: linear-gradient(180deg, #f8fcff 0%, #eef5ff 100%);
+    border-radius: 20px;
+    border: 2px solid rgba(10, 68, 201, 0.15);
     max-width: 600px;
     margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(10, 68, 201, 0.06);
 }
 
 .fav-empty i {
     font-size: 80px;
-    color: #8a91a1;
+    color: #0a44c9;
     margin-bottom: 20px;
+    opacity: 0.7;
 }
 
 .fav-empty h2 {
     font-size: 32px;
-    color: #495057;
+    color: #133b95;
     margin-bottom: 10px;
+    font-weight: 700;
 }
 
 .fav-empty p {
     font-size: 24px;
-    color: #6c757d;
+    color: #374151;
     margin-bottom: 30px;
 }
 
 .fav-btn-browse {
     display: inline-block;
     padding: 15px 40px;
-    background: linear-gradient(135deg, #b2c8df 0%, #598cbf 100%);
+    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
     color: white;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 24px;
     font-weight: 600;
-    transition: transform 0.3s;
+    transition: box-shadow 0.25s ease, transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.3);
 }
 
 .fav-btn-browse:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.4);
 }
 
 /* ================================
@@ -188,11 +355,6 @@
    ================================ */
 
 .fav-remove-btn {
-    position: absolute;
-    bottom: 30px;
-    right: 40px;
-
-
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
     color: white;
     border: none;
@@ -205,7 +367,13 @@
     align-items: center;
     gap: 8px;
     transition: all 0.3s ease;
-    z-index: 5;
+    flex-shrink: 0;
+}
+
+/* În carduri: footer-ul e sub galerie, Remove în dreapta */
+.fav-card-footer .fav-remove-btn {
+    position: static;
+    margin-right: 10px;
 }
 
 .fav-remove-btn:hover {
@@ -239,9 +407,26 @@
     }
 }
 
+/* Carduri favorite: footer-ul (badge-uri + Remove) rămâne sub galerie */
+@media (max-width: 1200px) {
+    .fav-grid .car-box .fav-card-footer {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
+
 @media (max-width: 768px) {
     .fav-content {
         padding: 0 20px;
+    }
+
+    .fav-total-line {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+
+    .fav-total-line strong {
+        font-size: 30px;
     }
 
     .fav-grid {
@@ -262,9 +447,59 @@
         font-size: 20px;
     }
 
+    .fav-back-btn {
+        padding: 6px 12px;
+        font-size: 16px;
+    }
+
+    .fav-back-btn i {
+        font-size: 22px;
+    }
+
     .fav-remove-btn {
         padding: 8px 15px;
-        font-size: 12px;
+        font-size: 14px;
+    }
+
+    .fav-empty {
+        padding: 40px 16px;
+    }
+
+    .fav-empty h2 {
+        font-size: 24px;
+    }
+
+    .fav-empty p {
+        font-size: 18px;
+    }
+
+    .fav-btn-browse {
+        padding: 12px 28px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .fav-content {
+        padding: 0 12px;
+    }
+
+    .fav-top-bar {
+        padding: 12px 12px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .fav-header h1 {
+        font-size: 26px;
+    }
+
+    .fav-header h1 i {
+        margin-right: 8px;
+    }
+
+    .fav-count {
+        font-size: 22px;
     }
 }
 /* ================================
@@ -375,10 +610,26 @@
    BADGE DATA ADAUGARE (
    ================================ */
 
-.fav-date-badge {
-    position: absolute;
-    bottom: 25px; /* Sub butonul favorite */
-    left: 40px;
+/* Rând sub galerie: badge-uri stânga, Remove dreapta */
+.fav-card-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 18px;
+    padding: 0 8px;
+    gap: 16px;
+}
+
+.fav-badges-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fav-date-badge,
+.fav-card-footer .price-update-badge {
+    position: static;
     background: transparent;
     color: #0a44c9;
     padding: 8px 16px;
@@ -388,13 +639,11 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    z-index: 10;
-    /*box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px); */
     white-space: nowrap;
 }
 
-.fav-date-badge i {
+.fav-date-badge i,
+.fav-card-footer .price-update-badge i {
     font-size: 25px;
     margin-right: 6px;
 }
@@ -445,26 +694,7 @@
     font-size: 18px;
 }
 
-.price-update-badge {
-    position: absolute;
-    bottom: 85px; /* Sub butonul favorite */
-    left: 40px;
-    background: transparent;
-    color: #0a44c9;
-    padding: 8px 16px;
-    border-radius: 15px;
-    font-size: 22px;
-    font-weight: 600;
+/* Badge-uri în footer (consolidat mai sus) */
+.fav-grid .car-box .price-update-badge:not([style*="display: none"]) {
     display: flex;
-    align-items: center;
-    gap: 5px;
-    z-index: 10;
-    /*box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px); */
-    white-space: nowrap;
-}
-
-.price-update-badge i {
-    font-size: 25px;
-    margin-right:6px;
 }

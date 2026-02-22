@@ -687,3 +687,22 @@
     color: #d00000;
     font-weight: bold;
 }
+
+/* ================================
+   RESPONSIVE (doar @media)
+   ================================ */
+@media (max-width: 768px) {
+    .sales-container {
+        max-width: 100%;
+        margin-bottom: 60px;
+    }
+
+    .sort-bar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .sort-container {
+        flex-wrap: wrap;
+    }
+}

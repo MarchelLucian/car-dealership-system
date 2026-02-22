@@ -218,3 +218,95 @@ body {
     font-size:50px;
     color:  #0f5f0f;
 }
+
+/* ================================
+   RESPONSIVE (doar @media – valorile tale rămân la 100% zoom)
+   ================================ */
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: 10px 12px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 0 16px;
+    }
+
+    .agent-greeting {
+        position: relative;
+        top: auto;
+        right: auto;
+        order: -1;
+        text-align: center;
+    }
+
+    #agentNameBadge {
+        margin-top: 0;
+        margin-right: 0;
+    }
+
+    .back-btn {
+        margin: 12px 0;
+    }
+
+    .dashboard-title {
+        font-size: 32px;
+        margin-top: 24px;
+    }
+
+    .dashboard-subtitle {
+        font-size: 18px;
+        margin-bottom: 28px;
+    }
+
+    .dashboard-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .dashboard-card {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        min-height: 160px;
+        padding: 28px 20px;
+    }
+
+    .dashboard-card h2 {
+        font-size: 22px;
+    }
+
+    .dashboard-card p {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-title {
+        font-size: 26px;
+    }
+
+    .dashboard-subtitle {
+        font-size: 16px;
+    }
+
+    .dashboard-card {
+        max-width: 100%;
+        padding: 24px 16px;
+    }
+
+    .dashboard-card h2 {
+        font-size: 20px;
+    }
+
+    .dashboard-card p {
+        font-size: 16px;
+    }
+
+    .dashboard-card i {
+        font-size: 42px;
+    }
+}

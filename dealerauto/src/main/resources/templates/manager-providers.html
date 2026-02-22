@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Providers - Manager Dashboard</title>
 
     <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
@@ -36,52 +37,6 @@
             Providers
         </h1>
         <p class="subtitle">Supplier Management & Performance</p>
-    </div>
-
-    <!-- Providers Information Table -->
-    <div class="table-section">
-        <h2 class="section-title">
-            <i class="fa-solid fa-address-card"></i>
-            Provider Details
-        </h2>
-
-        <table class="data-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Phone</th>
-                <th>CUI/CNP</th>
-                <th>Address</th>
-                <th>Country</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="provider : ${providers}">
-                <td><strong th:text="${provider.id}">1</strong></td>
-                <td th:text="${provider.nume}">Name</td>
-                <td>
-             <span class="provider-type-badge"
-                 th:classappend="${provider.tipFurnizor == 'persoana fizica'} ? ' individual' : ' company'"
-                 th:text="${provider.tipFurnizor}">
-                 Type
-             </span>
-                </td>
-
-                <td>
-                    <i class="fa-solid fa-phone" style="color: #b8860b; margin-right: 5px;"></i>
-                    <span th:text="${provider.telefon}">Phone</span>
-                </td>
-                <td th:text="${provider.cuiCnp}">CUI/CNP</td>
-                <td th:text="${provider.adresa}">Address</td>
-                <td>
-                    <i class="fa-solid fa-earth-europe" style="color: #b8860b; margin-right: 5px;"></i>
-                    <span th:text="${provider.tara}">Country</span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 
     <!-- Provider Performance Table -->
@@ -177,6 +132,51 @@
         <canvas id="providerPerformanceChart"></canvas>
     </div>
 
+    <!-- Providers Information Table -->
+    <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-address-card"></i>
+            Provider Details
+        </h2>
+
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Phone</th>
+                <th>CUI/CNP</th>
+                <th>Address</th>
+                <th>Country</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="provider : ${providers}">
+                <td><strong th:text="${provider.id}">1</strong></td>
+                <td th:text="${provider.nume}">Name</td>
+                <td>
+             <span class="provider-type-badge"
+                 th:classappend="${provider.tipFurnizor == 'persoana fizica'} ? ' individual' : ' company'"
+                 th:text="${provider.tipFurnizor}">
+                 Type
+             </span>
+                </td>
+
+                <td>
+                    <i class="fa-solid fa-phone" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${provider.telefon}">Phone</span>
+                </td>
+                <td th:text="${provider.cuiCnp}">CUI/CNP</td>
+                <td th:text="${provider.adresa}">Address</td>
+                <td>
+                    <i class="fa-solid fa-earth-europe" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${provider.tara}">Country</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script th:inline="javascript">

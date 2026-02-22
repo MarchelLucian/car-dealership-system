@@ -141,17 +141,15 @@ function updateFavoriteDateBadges() {
 document.addEventListener("DOMContentLoaded", () => {
     console.log('🎯 Favorites page loaded');
 
-    // Încarcă logo-urile și imaginile
     loadCarLogos();
     loadCarImages();
 
-    // Actualizează contorul
     updateFavoritesCount();
+    updateFavoritesStats();
+    setupFavStagger();
 
-    //  Actualizează badge-urile cu date
-    updateFavoriteDateBadges(); // Data adăugare la favorite
-    updatePriceUpdateBadges();  //  Data actualizare preț
-
+    updateFavoriteDateBadges();
+    updatePriceUpdateBadges();
     updateCarCount();
 
     document.querySelectorAll('.fuel-text').forEach(el => {
@@ -171,15 +169,48 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ====================================================
-// ACTUALIZEAZĂ CONTORUL DE FAVORITE
+// ACTUALIZEAZĂ CONTORUL DE FAVORITE (în header)
 // ====================================================
 function updateFavoritesCount() {
-    const carBoxes = document.querySelectorAll('.car-box');
-    const countElement = document.querySelector('.favorites-count strong');
-
-    if (countElement) {
-        countElement.textContent = carBoxes.length;
+    const carBoxes = document.querySelectorAll('.fav-grid .car-box');
+    const countInHeader = document.querySelector('.fav-count strong');
+    if (countInHeader) {
+        countInHeader.textContent = carBoxes.length;
     }
+}
+
+// ====================================================
+// STATISTICI: număr mașini + total valoare (din DOM)
+// ====================================================
+function updateFavoritesStats() {
+    const totalEl = document.getElementById('favStatsTotal');
+    if (!totalEl) return;
+
+    const boxes = document.querySelectorAll('.fav-grid .car-box');
+    let total = 0;
+    boxes.forEach(box => {
+        const priceEl = box.querySelector('.car-price');
+        if (priceEl) {
+            const text = priceEl.textContent.replace(/[^\d]/g, '');
+            const num = parseInt(text, 10);
+            if (!isNaN(num)) total += num;
+        }
+    });
+
+    if (total > 0) {
+        totalEl.textContent = total.toLocaleString('de-DE') + ' €';
+    } else {
+        totalEl.textContent = '—';
+    }
+}
+
+// ====================================================
+// ANIMAȚIE INTRARE: delay progresiv pe carduri
+// ====================================================
+function setupFavStagger() {
+    document.querySelectorAll('.fav-grid .car-box').forEach((box, i) => {
+        box.style.animationDelay = `${i * 0.06}s`;
+    });
 }
 
 // ====================================================
@@ -217,17 +248,13 @@ function toggleFavoriteOnFavoritesPage(button, carId) {
                         setTimeout(() => {
                             carBox.remove();
 
-                            // Actualizează contorul
                             updateFavoritesCount();
-
-                            // Actualizează array-ul
+                            updateFavoritesStats();
                             const index = favoriteMasinaIds.indexOf(carId);
                             if (index > -1) {
                                 favoriteMasinaIds.splice(index, 1);
                             }
-
-                            // Dacă nu mai sunt mașini, reload pentru "No favorites"
-                            const remainingCars = document.querySelectorAll('.car-box').length;
+                            const remainingCars = document.querySelectorAll('.fav-grid .car-box').length;
                             if (remainingCars === 0) {
                                 setTimeout(() => {
                                     window.location.reload();
@@ -235,7 +262,6 @@ function toggleFavoriteOnFavoritesPage(button, carId) {
                             }
                         }, 500);
 
-                        // Notificare succes
                         showNotification('Removed from favorites!', 'success');
                     }
                 })
@@ -248,7 +274,6 @@ function toggleFavoriteOnFavoritesPage(button, carId) {
                 });
         },
         () => {
-            // === ON CANCEL ===
             isTogglingFavoriteOnFavoritesPage = false;
         }
     );
@@ -292,18 +317,13 @@ function removeFromFavorites(button, carId) {
 
                         setTimeout(() => {
                             carBox.remove();
-
-                            // Actualizează contorul
                             updateFavoritesCount();
-
-                            // Actualizează array-ul
+                            updateFavoritesStats();
                             const index = favoriteMasinaIds.indexOf(carId);
                             if (index > -1) {
                                 favoriteMasinaIds.splice(index, 1);
                             }
-
-                            // Dacă nu mai sunt mașini, reload pentru "No favorites"
-                            const remainingCars = document.querySelectorAll('.car-box').length;
+                            const remainingCars = document.querySelectorAll('.fav-grid .car-box').length;
                             if (remainingCars === 0) {
                                 setTimeout(() => {
                                     window.location.reload();
@@ -311,10 +331,8 @@ function removeFromFavorites(button, carId) {
                             }
                         }, 500);
 
-                        // Notificare succes
                         showNotification('Removed from favorites!', 'success');
                     } else {
-                        // Eroare - resetează butonul
                         button.disabled = false;
                         button.innerHTML = '<i class="fa-solid fa-trash-can"></i> Remove';
                         showNotification('Failed to remove. Please try again.', 'error');

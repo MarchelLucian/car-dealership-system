@@ -1,6 +1,39 @@
 const allCarsPromise = fetch("/client/all").then(r => r.json());
 
 // ====================================================
+// POPUP "SIGN IN TO ADD FAVORITES" (în loc de alert)
+// ====================================================
+function showSignInRequiredPopup() {
+    const overlay = document.getElementById('signInRequiredOverlay');
+    if (!overlay) return;
+    overlay.style.display = 'flex';
+    requestAnimationFrame(function () {
+        overlay.classList.add('active');
+    });
+}
+
+function closeSignInRequiredPopup() {
+    const overlay = document.getElementById('signInRequiredOverlay');
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    setTimeout(function () {
+        overlay.style.display = 'none';
+    }, 300);
+}
+
+function initSignInRequiredPopup() {
+    const overlay = document.getElementById('signInRequiredOverlay');
+    if (!overlay) return;
+    const btnOk = document.getElementById('signInRequiredOk');
+    if (btnOk) {
+        btnOk.addEventListener('click', closeSignInRequiredPopup);
+    }
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeSignInRequiredPopup();
+    });
+}
+
+// ====================================================
 // FUNCȚIE PENTRU TOGGLE FAVORITE
 // ====================================================
 
@@ -12,8 +45,7 @@ function toggleFavorite(button, carId) {
     const isLogged = document.querySelector('.auth-buttons-horizontal') !== null; // sau alt indicator
 
     if (!isLogged) {
-        alert('Please sign in to add favorites!');
-        //window.location.href = '/client';
+        showSignInRequiredPopup();
         return;
     }
 
@@ -103,20 +135,102 @@ async function loadCarImages() {
 
             if (response.ok) {
                 const imageUrls = await response.json();
-                initializeCarousel(carousel, imageUrls);
+                if (carousel.classList.contains('car-images-gallery')) {
+                    initializeImageGallery(carousel, imageUrls);
+                } else {
+                    initializeCarousel(carousel, imageUrls);
+                }
             } else {
-                // Fallback la placeholder
-                initializeCarousel(carousel, ['/images/logos/car-placeholder.png']);
+                const fallback = ['/images/logos/car-placeholder.png'];
+                if (carousel.classList.contains('car-images-gallery')) {
+                    initializeImageGallery(carousel, fallback);
+                } else {
+                    initializeCarousel(carousel, fallback);
+                }
             }
         } catch (error) {
             console.error('Failed to load images:', error);
-            initializeCarousel(carousel, ['/images/logos/car-placeholder.png']);
+            const fallback = ['/images/logos/car-placeholder.png'];
+            if (carousel.classList.contains('car-images-gallery')) {
+                initializeImageGallery(carousel, fallback);
+            } else {
+                initializeCarousel(carousel, fallback);
+            }
         }
     }
 }
 
 // ================================
-// INITIALIZE CAROUSEL
+// INITIALIZE IMAGE GALLERY (pagina /client: 3 stânga | 1 centru | 3 dreapta)
+// Initial: centrul = prima poză (top-left). Click pe oricare din 6 = apare în centru.
+// ================================
+function initializeImageGallery(galleryElement, imageUrls) {
+    const leftEl = galleryElement.querySelector('.car-gallery-left');
+    const centerEl = galleryElement.querySelector('.car-gallery-center');
+    const rightEl = galleryElement.querySelector('.car-gallery-right');
+    if (!leftEl || !centerEl || !rightEl) return;
+
+    leftEl.innerHTML = '';
+    centerEl.innerHTML = '';
+    rightEl.innerHTML = '';
+
+    const placeholder = '/images/logos/car-placeholder.png';
+    if (!imageUrls.length) {
+        imageUrls = [placeholder];
+    }
+
+    // Centru: o singură imagine mare (inițial = prima = index 0 = top-left)
+    const mainImg = document.createElement('img');
+    mainImg.src = imageUrls[0];
+    mainImg.alt = 'Car image';
+    mainImg.className = 'car-gallery-main-img';
+    centerEl.appendChild(mainImg);
+
+    // Stânga: max 3 imagini (indici 0, 1, 2)
+    const leftUrls = imageUrls.slice(0, 3);
+    leftUrls.forEach((url, i) => {
+        const index = i;
+        const thumb = createGalleryThumb(url, index, index === 0, () => {
+            mainImg.src = url;
+            setActiveThumb(galleryElement, index);
+        });
+        leftEl.appendChild(thumb);
+    });
+
+    // Dreapta: max 3 imagini (indici 3, 4, 5)
+    const rightUrls = imageUrls.slice(3, 6);
+    rightUrls.forEach((url, i) => {
+        const index = 3 + i;
+        const thumb = createGalleryThumb(url, index, false, () => {
+            mainImg.src = url;
+            setActiveThumb(galleryElement, index);
+        });
+        rightEl.appendChild(thumb);
+    });
+}
+
+function createGalleryThumb(url, index, isActive, onClick) {
+    const thumb = document.createElement('button');
+    thumb.type = 'button';
+    thumb.className = 'car-gallery-thumb' + (isActive ? ' active' : '');
+    thumb.setAttribute('data-gallery-index', index);
+    thumb.setAttribute('aria-label', 'View image ' + (index + 1));
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = '';
+    thumb.appendChild(img);
+    thumb.addEventListener('click', onClick);
+    return thumb;
+}
+
+function setActiveThumb(galleryElement, activeIndex) {
+    galleryElement.querySelectorAll('.car-gallery-thumb').forEach((t) => {
+        t.classList.toggle('active', parseInt(t.getAttribute('data-gallery-index'), 10) === activeIndex);
+    });
+}
+
+// ================================
+// INITIALIZE CAROUSEL (favorites, my-orders – păstrat pentru compatibilitate)
 // ================================
 function initializeCarousel(carouselElement, imageUrls) {
     const container = carouselElement.querySelector('.carousel-images');
@@ -299,17 +413,7 @@ document.addEventListener("DOMContentLoaded",async () => {
                 <i class="${iconClass}"></i>
             </button>
             
-             <!-- 🆕 BADGE DATA ACTUALIZARE -->
-        ${dataActualizare ? `
-        <div class="price-update-badge" data-update-date="${dataActualizare}">
-            <i class="fa-regular fa-clock"></i>
-            
-            <span>Updated recently</span>
-        </div>
-        ` : ''}
-            
-          
-             <!-- Pret -->
+             <!-- Preț -->
             <div class="car-price">
             ${Math.round(m.pret).toLocaleString('ro-RO')} €
             </div>
@@ -353,29 +457,27 @@ document.addEventListener("DOMContentLoaded",async () => {
                 </p>
             </div>
             
-             <!--  CAROUSEL IMAGINI MAȘINĂ -->
-            <div class="car-images-carousel" 
+             <!-- GALERIE: 3 stânga | 1 centru | 3 dreapta (6 imagini din API) -->
+            <div class="car-images-carousel car-images-gallery" 
                  data-brand="${m.marca}" 
                  data-model="${m.model}">
-                
-                <div class="carousel-container">
-                    <button class="carousel-btn prev-btn carousel-btn-hidden">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    
-                    <div class="carousel-images">
-                        <div class="carousel-loading">
+                <div class="car-gallery">
+                    <div class="car-gallery-left"></div>
+                    <div class="car-gallery-center">
+                        <div class="car-gallery-loading">
                             <i class="fa-solid fa-spinner fa-spin"></i>
                         </div>
                     </div>
-                    
-                    <button class="carousel-btn next-btn carousel-btn-hidden">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
+                    <div class="car-gallery-right"></div>
                 </div>
-                
-                <div class="carousel-dots"></div>
             </div>
+            
+            ${dataActualizare ? `
+            <div class="price-update-badge" data-update-date="${dataActualizare}">
+                <i class="fa-regular fa-clock"></i>
+                <span>Updated recently</span>
+            </div>
+            ` : ''}
             
         </div>
     `;
@@ -976,7 +1078,7 @@ document.addEventListener("DOMContentLoaded",async () => {
         const carVerb = count === 1 ? "matches" : "match";
 
         if (count === allCars.length && queryText === "") {
-            resultsDiv.innerHTML = `Showing all ${count} available ${carWord}.`;
+            resultsDiv.innerHTML = `Showing all ${count} available ${carWord}`;
             return;
         }
 
@@ -1004,4 +1106,5 @@ document.addEventListener("DOMContentLoaded",async () => {
         }
     });
 
+    initSignInRequiredPopup();
 });

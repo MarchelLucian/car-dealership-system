@@ -286,6 +286,14 @@ public class ClientController {
         List<OrderDetails> orders = orderService.getClientOrders(clientId);
         model.addAttribute("orders", orders);
 
+        // Total valoare achiziții (suma pretFinal)
+        long totalPurchasesAmount = orders.stream()
+                .mapToLong(o -> o.getVanzare() != null && o.getVanzare().getPretFinal() != null
+                        ? o.getVanzare().getPretFinal().longValue()
+                        : 0L)
+                .sum();
+        model.addAttribute("totalPurchasesAmount", totalPurchasesAmount);
+
         return "my-orders"; // my-orders.html
     }
 

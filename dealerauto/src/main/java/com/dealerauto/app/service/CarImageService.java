@@ -1,9 +1,8 @@
 /**
  * Service pentru gestionarea operațiunilor business legate de imagini mașini.
- * Orchestrează upload, stocare și asociere imagini cu vehiculele.
- *
- * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * Folosește Pexels API (gratuit, cheie pe https://www.pexels.com/api/).
+ * Alternative gratuite: Unsplash API (unsplash.com/developers), sau pentru imagini
+ * auto specifice: CarsXE / GetCarImages (triale gratuite, apoi plată).
  */
 package com.dealerauto.app.service;
 
@@ -29,7 +28,7 @@ public class CarImageService {
         try {
             // Construiește query-ul de căutare
             String query = brand + " " + model + " car";
-            String url = PEXELS_API_URL + "?query=" + query.replace(" ", "+") + "&per_page=3";
+            String url = PEXELS_API_URL + "?query=" + query.replace(" ", "+") + "&per_page=6";
 
             // Setează header-ul cu API key
             HttpHeaders headers = new HttpHeaders();

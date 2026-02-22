@@ -2,30 +2,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>My Account - DealerAuto</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/client.css}"/>
+    <link rel="stylesheet" th:href="@{/css/favorites.css}"/>
     <link rel="stylesheet" th:href="@{/css/my-account.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 
-<body>
+<body class="fav-page">
 <div class="page-wrapper">
 
-    <!-- Top Bar -->
-    <div class="acc-top-bar">
-        <a href="/client" class="acc-back-btn">
+    <!-- Top Bar (aceeași temă ca Favorites) -->
+    <div class="fav-top-bar">
+        <a href="/client" class="fav-back-btn">
             <i class="fa-regular fa-circle-left"></i>
             Go Back
         </a>
 
-        <div class="acc-avatar">
+        <div class="fav-avatar">
             <span th:text="${clientInitials}">MC</span>
         </div>
     </div>
 
-    <!-- Header -->
-    <div class="acc-header">
+    <!-- Header (aceeași temă ca Favorites) -->
+    <div class="fav-header acc-header">
         <h1>
             <i class="fa-solid fa-circle-info"></i>
             My Account
@@ -33,7 +38,7 @@
     </div>
 
     <!-- Content -->
-    <div class="acc-content">
+    <div class="fav-content acc-content">
 
         <!-- Personal Information -->
         <div class="acc-section">

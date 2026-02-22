@@ -201,3 +201,58 @@ body {
 .adjust-righttwo {
     margin-left: 15px;
 }
+
+/* ================================
+   RESPONSIVE (doar @media)
+   ================================ */
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: 10px 12px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 0 16px;
+    }
+
+    .top-back {
+        position: relative;
+        left: auto;
+        top: auto;
+    }
+
+    .agent-greeting {
+        position: relative;
+        right: auto;
+        top: auto;
+        order: -1;
+        text-align: center;
+    }
+
+    .back-btn {
+        margin: 12px 0;
+        margin-left: 0;
+    }
+
+    .option-card {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .option-card {
+        max-width: 100%;
+        padding: 24px 16px;
+    }
+
+    .option-card h2 {
+        font-size: 22px;
+    }
+
+    .option-card p {
+        font-size: 18px;
+    }
+}

@@ -1,10 +1,8 @@
 /* ================================
-   OVERRIDE PAGE-WRAPPER
+   ACELAȘI TEMA CA FAVORITES – fundal, font (prin body.fav-page din favorites.css)
    ================================ */
 
-.page-wrapper {
-
-}
+/* Pagina my-orders folosește .fav-page pe body => același fundal și header ca favorites */
 
 /* ================================
    TOP BAR
@@ -52,7 +50,7 @@
 }
 
 .orders-count strong {
-    color: #3498db;
+    color: #0839ab;
 }
 
 /* ================================
@@ -79,6 +77,7 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    overflow-x: hidden; /* conține detaliile și carouselul în card */
 }
 
 /* ================================
@@ -141,12 +140,9 @@
 
 .order-details-section {
     background: transparent;
-    /*background: linear-gradient(135deg, #f8f9fa 0%, #6897ca 100%);*/
     border-radius: 12px;
     padding: 25px;
-
-    border: 2px solid #133b95;;
-
+    border: 2px solid #133b95;
     width: fit-content;
 }
 
@@ -179,10 +175,8 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-
     padding: 15px;
-
-    width : 320px;
+    width: 320px;
 }
 
 .order-info-item > i {
@@ -247,8 +241,98 @@
 }
 
 /* ================================
-   RESPONSIVE
+   RESPONSIVE (doar la ecran îngust / zoom – aspect 100% zoom păstrat pe desktop)
    ================================ */
+
+@media (max-width: 1280px) {
+    .orders-grid .car-box {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .orders-grid .car-box .car-header { order: 1; }
+    .orders-grid .car-box .sold-badge { order: 2; }
+    .orders-grid .car-box .car-price { order: 3; }
+    .orders-grid .car-box .car-main-details { order: 4; }
+    .orders-grid .car-box .order-flex-container { order: 5; grid-column: 1 / -1; }
+
+    .order-flex-container {
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        margin-left: 0;
+        margin-top: 24px;
+        gap: 24px;
+        min-width: 0;
+    }
+    .order-flex-container .car-images-carousel.purchases-cars {
+        flex: 1 1 55%;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    .order-flex-container .car-images-carousel.purchases-cars .carousel-container {
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    .order-flex-container .car-images-carousel.purchases-cars .carousel-images {
+        max-width: 100%;
+        overflow: hidden;
+    }
+    .order-details-section {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        flex: 1 1 40%;
+        box-sizing: border-box;
+    }
+    .order-info-item {
+        width: 100%;
+        max-width: 320px;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    /* car-main-details: rămân în card – gap mic, wrap 2x2, nu mai ies la dreapta */
+    .orders-grid .car-box .car-main-details {
+        gap: 20px;
+        margin-left: 12px;
+        margin-right: 12px;
+        padding-left: 12px;
+        padding-right: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .orders-grid .car-box .car-main-details p {
+        max-width: 50%;
+        flex: 1 1 45%;
+        min-width: 0;
+    }
+}
+
+/* La zoom / ecran mai îngust: car-main-details pe coloană, totul în card */
+@media (max-width: 900px) {
+    .orders-grid .car-box .car-main-details {
+        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .orders-grid .car-box .car-main-details p {
+        max-width: 100%;
+        flex: 1 1 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+    }
+    .orders-grid .car-box .car-main-details p i {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+    .orders-grid .car-box .car-main-details p b {
+        display: inline;
+    }
+}
 
 @media (max-width: 1024px) {
     .orders-content {
@@ -264,6 +348,18 @@
 
     .orders-grid {
         gap: 25px;
+    }
+
+    .orders-grid .car-box .car-main-details {
+        margin-left: 8px;
+        margin-right: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .order-details-section {
+        padding: 16px;
+        max-width: 100%;
     }
 
     .orders-header h1 {
@@ -286,6 +382,37 @@
 
     .order-agent-info {
         grid-column: 1;
+    }
+
+    .order-flex-container {
+        flex-direction: column;
+        margin-left: 0;
+    }
+
+    .order-flex-container .car-images-carousel.purchases-cars {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .order-details-section {
+        flex: 1 1 100%;
+    }
+
+    .order-info-item {
+        max-width: 100%;
+    }
+
+    .sold-badge {
+        right: 16px;
+        font-size: 18px;
+    }
+
+    .sold-title {
+        font-size: 18px;
+    }
+
+    .sold-date {
+        font-size: 20px;
     }
 }
 
@@ -363,7 +490,7 @@
 }
 
 /* ================================
-   CONTAINER FLEX - CAROUSEL + SALE DETAILS
+   CONTAINER FLEX - CAROUSEL + SALE DETAILS (aspect 100% zoom restaurat)
    ================================ */
 
 .order-flex-container {
@@ -374,7 +501,6 @@
     margin-top: 40px;
     margin-left: 24px;
 }
-/* Carousel ocupă 55% din spațiu */
 .order-flex-container .car-images-carousel.purchases-cars {
     flex: 0 0 55%;
     max-width: 55%;

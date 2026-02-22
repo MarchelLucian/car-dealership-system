@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sales Agents - Manager Dashboard</title>
 
     <link rel="stylesheet" th:href="@{/css/manager-dashboard.css}"/>
@@ -37,45 +38,6 @@
             Sales Agents
         </h1>
         <p class="subtitle">Team Overview & Performance Metrics</p>
-    </div>
-
-    <!-- Agents Information Table -->
-    <div class="table-section">
-        <h2 class="section-title">
-            <i class="fa-solid fa-address-card"></i>
-            Agent Details
-        </h2>
-
-        <table class="data-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Salary (EUR)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="agent : ${agents}">
-                <td><strong th:text="${agent.idAgent}">1</strong></td>
-                <td th:text="${agent.prenume}">First Name</td>
-                <td th:text="${agent.nume}">Last Name</td>
-                <td>
-                    <i class="fa-solid fa-phone" style="color: #b8860b; margin-right: 5px;"></i>
-                    <span th:text="${agent.telefon}">Phone</span>
-                </td>
-                <td>
-                    <i class="fa-solid fa-envelope" style="color: #b8860b; margin-right: 5px;"></i>
-                    <span th:text="${agent.email}">Email</span>
-                </td>
-                <td>
-                    <span class="salary-badge" th:text="${#numbers.formatDecimal(agent.salariu, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 
     <!-- Agent Performance Table -->
@@ -260,7 +222,44 @@
         <canvas id="agentPerformanceChart"></canvas>
     </div>
 
+     <!-- Agents Information Table -->
+     <div class="table-section">
+        <h2 class="section-title">
+            <i class="fa-solid fa-address-card"></i>
+            Agent Details
+        </h2>
 
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Salary (EUR)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="agent : ${agents}">
+                <td><strong th:text="${agent.idAgent}">1</strong></td>
+                <td th:text="${agent.prenume}">First Name</td>
+                <td th:text="${agent.nume}">Last Name</td>
+                <td>
+                    <i class="fa-solid fa-phone" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${agent.telefon}">Phone</span>
+                </td>
+                <td>
+                    <i class="fa-solid fa-envelope" style="color: #b8860b; margin-right: 5px;"></i>
+                    <span th:text="${agent.email}">Email</span>
+                </td>
+                <td>
+                    <span class="salary-badge" th:text="${#numbers.formatDecimal(agent.salariu, 0, 'DEFAULT', 2, 'DEFAULT')} + ' €'">0 €</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 

@@ -326,3 +326,74 @@ button:hover {
     color: #0b7a1b;
     opacity: 1;
 }
+
+/* ================================
+   RESPONSIVE (doar @media – valorile tale rămân la 100% zoom)
+   ================================ */
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: 10px 12px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 0 16px;
+    }
+
+    .back-btn {
+        margin: 12px 0;
+    }
+
+    .login-center {
+        margin-top: 40px;
+    }
+
+    .login-box {
+        width: 100%;
+        max-width: 380px;
+        padding: 24px 20px;
+        box-sizing: border-box;
+    }
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .password-wrapper input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar {
+        padding: 0 12px;
+    }
+
+    .login-box {
+        padding: 20px 16px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    label {
+        font-size: 20px;
+    }
+
+    input {
+        font-size: 18px;
+    }
+
+    button {
+        font-size: 22px;
+    }
+
+    .demo-btn {
+        width: 100%;
+        max-width: 220px;
+    }
+}

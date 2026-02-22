@@ -19,7 +19,7 @@ body {
     justify-content: center;
     padding: 40px 20px;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden; /* doar orizontal ascuns; vertical se poate da scroll */
 }
 
 /* ================================
@@ -321,6 +321,14 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding: 24px 16px;
+    }
+
+    .header-section {
+        margin-bottom: 40px;
+    }
+
     h1 {
         font-size: 36px;
     }
@@ -340,11 +348,40 @@ h1 {
 
     .container {
         gap: 20px;
+        flex-direction: column;
+        align-items: center;
     }
 
     .card {
         width: 100%;
         max-width: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px 12px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .header-section p {
+        font-size: 14px;
+    }
+
+    .card {
+        max-width: 100%;
+        padding: 28px 20px;
+    }
+
+    .card h3 {
+        font-size: 20px;
+    }
+
+    .card p {
+        font-size: 14px;
     }
 }
 

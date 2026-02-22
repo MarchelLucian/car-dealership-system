@@ -2,73 +2,65 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Available Offers</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/client.css}" />
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 <div class="page-wrapper">
 
-    <!-- Buton Go Back cu position absolute -->
-    <a href="/" class="client-back-btn">
-        <i class="fa-regular fa-circle-left"></i>
-    </a>
-    <!-- AUTH BOX -->
-    <div class="auth-container">
-        <!-- Avatar -->
-        <div class="avatar">
-            <span th:if="${isLogged}" th:text="${clientInitials} "></span>
-            <span th:unless="${isLogged}">?</span>
+    <!-- Zonă top: Back + Search + Auth (stivuite logic la zoom / ecran mic) -->
+    <header class="client-top">
+        <a href="/" class="client-back-btn">
+            <i class="fa-regular fa-circle-left"></i>
+        </a>
+        <div class="search-wrapper">
+            <input
+                    type="text"
+                    id="searchInput"
+                    class="search-bar"
+                    placeholder="Search by Brand, Model or Year..."
+                    autocomplete="off"
+            />
+            <button id="searchBtn" class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <div id="autocompleteList" class="autocomplete-list"></div>
         </div>
-
-        <!-- --------------------- GUEST MODE (vertical) --------------------- -->
-        <div class="auth-buttons-vertical" th:unless="${isLogged}">
-            <a href="/client-login" class="auth-btn sign-in">Sign In</a>
-            <a href="/client-register" class="auth-btn sign-in">Create Account</a>
+        <div class="auth-container">
+            <div class="avatar">
+                <span th:if="${isLogged}" th:text="${clientInitials} "></span>
+                <span th:unless="${isLogged}">?</span>
+            </div>
+            <div class="auth-buttons-vertical" th:unless="${isLogged}">
+                <a href="/client-login" class="auth-btn sign-in">Sign In</a>
+                <a href="/client-register" class="auth-btn sign-in">Create Account</a>
+            </div>
+            <div class="auth-buttons-horizontal" th:if="${isLogged}">
+                <a href="/client/favorites" class="auth-btn small-btn">
+                    <i class="fa-regular fa-heart auth-icon"></i>
+                    Favorites
+                </a>
+                <a href="/client/my-orders" class="auth-btn small-btn">
+                    <i class="fa-solid fa-car-side auth-icon"></i>
+                    My Purchases
+                </a>
+                <a href="/client/my-account" class="auth-btn small-btn">
+                    <i class="fa-solid fa-circle-info auth-icon"></i>
+                    My Account
+                </a>
+                <a href="/logout" class="auth-btn logout-btn small-btn">
+                    <i class="fa-solid fa-door-open auth-icon"></i>
+                    Logout
+                </a>
+            </div>
         </div>
-
-        <!-- --------------------- LOGGED MODE (horizontal) --------------------- -->
-        <div class="auth-buttons-horizontal" th:if="${isLogged}">
-            <a href="/client/favorites" class="auth-btn small-btn">
-                <i class="fa-regular fa-heart auth-icon"></i>
-                Favorites
-            </a>
-            <a href="/client/my-orders" class="auth-btn small-btn">
-                <i class="fa-solid fa-car-side auth-icon"></i>
-                My Purchases
-            </a>
-            <a href="/client/my-account" class="auth-btn small-btn">
-                <i class="fa-solid fa-circle-info auth-icon"></i>
-                My Account
-            </a>
-
-            <a href="/logout" class="auth-btn logout-btn small-btn">
-                <i class="fa-solid fa-door-open auth-icon"></i>
-                Logout
-            </a>
-        </div>
-    </div>
-
-    <!-- SEARCH BAR -->
-    <div class="search-wrapper">
-        <input
-                type="text"
-                id="searchInput"
-                class="search-bar"
-                placeholder="Search by Brand, Model or Year..."
-                autocomplete="off"
-        />
-        <button id="searchBtn" class="search-btn">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <!-- containerul pentru sugestii -->
-        <div id="autocompleteList" class="autocomplete-list"></div>
-    </div>
-
+    </header>
 
     <!-- Left Sidebar -->
     <div class="sidebar">
@@ -108,14 +100,13 @@
 
 
         <!-- BRANDS -->
-        <div class="filter-section">
+        <div class="filter-section filter-section-brands">
             <label class=" labelAvailableBrands">Available Brands:</label>
             <div  id="brandsContainer"></div>
-        </div>
-
-        <div class="brands-controls">
-            <div id="showMoreBrands" class="show-more-brands">Show more brands...</div>
-            <div id="showLessBrands" class="show-less-brands">Show less brands</div>
+            <div class="brands-controls">
+                <div id="showMoreBrands" class="show-more-brands">Show more brands...</div>
+                <div id="showLessBrands" class="show-less-brands">Show less brands</div>
+            </div>
         </div>
 
 
@@ -132,7 +123,7 @@
 
 
         <!-- TRANSMISSION -->
-        <div class="filter-section">
+        <div class="filter-section transmission-section">
             <label>Transmission Type:</label>
 
             <div class="filter-inline centered">
@@ -149,7 +140,7 @@
 
 
         <!-- NUMBER OF DOORS -->
-        <div class="filter-section">
+        <div class="filter-section doors-section">
             <label>Number of Doors:</label>
 
             <div class="filter-inline centered">
@@ -293,14 +284,6 @@
                         <i th:class="${favoriteMasinaIds.contains(m.id)} ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
                     </button>
 
-                    <!--  BADGE DATA ACTUALIZARE -->
-                    <div class="price-update-badge"
-                         th:if="${dateActualizare.containsKey(m.id)}"
-                         th:attr="data-update-date=${dateActualizare.get(m.id)}">
-                        <i class="fa-regular fa-clock"></i>
-                        <span>Loading...</span>
-                    </div>
-
                     <!-- Preț -->
                     <div class="car-price">
                         [[${#numbers.formatInteger(m.pret, 0, 'DEFAULT')}]] €
@@ -345,28 +328,27 @@
                         </p>
                     </div>
 
-                    <!-- CAROUSEL IMAGINI MAȘINĂ -->
-                    <div class="car-images-carousel"
+                    <!-- GALERIE: 3 stânga | 1 centru | 3 dreapta (click pe margini = centru) -->
+                    <div class="car-images-carousel car-images-gallery"
                          th:data-brand="${m.marca}"
                          th:data-model="${m.model}">
-
-                        <div class="carousel-container">
-                            <button class="carousel-btn prev-btn carousel-btn-hidden">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-
-                            <div class="carousel-images">
-                                <div class="carousel-loading">
+                        <div class="car-gallery">
+                            <div class="car-gallery-left"></div>
+                            <div class="car-gallery-center">
+                                <div class="car-gallery-loading">
                                     <i class="fa-solid fa-spinner fa-spin"></i>
                                 </div>
                             </div>
-
-                            <button class="carousel-btn next-btn carousel-btn-hidden">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
+                            <div class="car-gallery-right"></div>
                         </div>
+                    </div>
 
-                        <div class="carousel-dots"></div>
+                    <!-- "Updated on" dedesubtul imaginilor -->
+                    <div class="price-update-badge"
+                         th:if="${dateActualizare.containsKey(m.id)}"
+                         th:attr="data-update-date=${dateActualizare.get(m.id)}">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>Loading...</span>
                     </div>
 
                 </div>
@@ -384,7 +366,21 @@
             Back to Home</a>
     </div>
 </div>
->
+
+<!-- Popup "Sign in to add favorites" (în loc de alert) -->
+<div id="signInRequiredOverlay" class="client-signin-overlay" style="display: none;">
+    <div class="client-signin-popup">
+        <div class="client-signin-icon">
+            <i class="fa-solid fa-heart-circle-exclamation"></i>
+        </div>
+        <h3 class="client-signin-title">Sign in required</h3>
+        <p class="client-signin-message">Please sign in to add favorites!</p>
+        <div class="client-signin-buttons">
+            <button type="button" class="client-signin-btn client-signin-btn-ok" id="signInRequiredOk">OK</button>
+            <a href="/client-login" class="client-signin-btn client-signin-btn-primary">Sign In</a>
+        </div>
+    </div>
+</div>
 
 <script th:inline="javascript">
     // Trimite favoriteMasinaIds la JavaScript

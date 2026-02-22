@@ -2,15 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>My Favorites - DealerAuto</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/client.css}"/>
     <link rel="stylesheet" th:href="@{/css/favorites.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 
-<body>
+<body class="fav-page">
 <div class="page-wrapper">
+    <!-- Straturi fundal (gradient, blob-uri, pattern) – doar Favorites -->
+    <div class="fav-bg-layer" aria-hidden="true">
+        <span class="fav-blob fav-blob-1"></span>
+        <span class="fav-blob fav-blob-2"></span>
+        <span class="fav-blob fav-blob-3"></span>
+    </div>
 
     <!-- Top Bar cu Go Back și Avatar -->
     <div class="fav-top-bar">
@@ -33,6 +43,9 @@
         <p th:if="${masini.size() > 0}" class="fav-count">
             You have <strong th:text="${masini.size()}">0</strong> favorite <span class="car-text">car(s)</span>
         </p>
+        <p th:if="${masini.size() > 0}" class="fav-total-line">
+            <i class="fa-solid fa-money-bill-wave"></i> Total <strong id="favStatsTotal">—</strong>
+        </p>
     </div>
 
     <!-- Lista de mașini favorite -->
@@ -46,37 +59,14 @@
         </div>
 
         <!-- Lista de mașini -->
-        <div th:if="${!masini.isEmpty()}" class="fav-grid">
-            <div th:each="m : ${masini}" class="car-box" th:attr="data-car-id=${m.id}">
+        <div th:if="${!masini.isEmpty()}" class="fav-grid" id="favGrid">
+            <div th:each="m : ${masini}" class="car-box" th:attr="data-car-id=${m.id}, data-price=${m.pret}, data-year=${m.an}, data-added=${favoriteDates.get(m.id)}">
 
                 <!-- Buton Favorite -->
                 <button class="favorite-btn active"
                         th:onclick="'toggleFavoriteOnFavoritesPage(this, ' + ${m.id} + ')'"
                         title="Click to remove from favorites">
                     <i class="fa-solid fa-heart"></i>
-                </button>
-
-                <!--  BADGE CU DATA ADĂUGĂRII -->
-                <div class="fav-date-badge"
-                     th:attr="data-date=${favoriteDates.get(m.id)}">
-                    <i class="fa-regular fa-clock"></i>
-                    <span>Loading...</span>
-                </div>
-
-                <!--  BADGE DATA ACTUALIZARE PREȚ -->
-                <div class="price-update-badge "
-                     th:if="${dateActualizare.containsKey(m.id)}"
-                     th:attr="data-update-date=${dateActualizare.get(m.id)}">
-                    <i class="fa-regular fa-clock"></i>
-                    <span>Loading...</span>
-                </div>
-
-                <!-- Buton Remove -->
-                <button class="fav-remove-btn"
-                        th:onclick="'removeFromFavorites(this, ' + ${m.id} + ')'"
-                        title="Remove from favorites">
-                    <i class="fa-solid fa-trash-can"></i>
-                    Remove
                 </button>
 
                 <!-- Preț -->
@@ -121,28 +111,42 @@
                     </p>
                 </div>
 
-                <!-- Carousel imagini -->
-                <div class="car-images-carousel"
+                <!-- Galerie imagini (aceeași structură ca pe pagina /client: 3 stânga | 1 centru | 3 dreapta) -->
+                <div class="car-images-carousel car-images-gallery"
                      th:data-brand="${m.marca}"
                      th:data-model="${m.model}">
-
-                    <div class="carousel-container">
-                        <button class="carousel-btn prev-btn carousel-btn-hidden">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </button>
-
-                        <div class="carousel-images">
-                            <div class="carousel-loading">
+                    <div class="car-gallery">
+                        <div class="car-gallery-left"></div>
+                        <div class="car-gallery-center">
+                            <div class="car-gallery-loading">
                                 <i class="fa-solid fa-spinner fa-spin"></i>
                             </div>
                         </div>
-
-                        <button class="carousel-btn next-btn carousel-btn-hidden">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
+                        <div class="car-gallery-right"></div>
                     </div>
+                </div>
 
-                    <div class="carousel-dots"></div>
+                <!-- Rând sub imagine: badge-uri stânga, Remove dreapta -->
+                <div class="fav-card-footer">
+                    <div class="fav-badges-left">
+                        <div class="price-update-badge"
+                             th:if="${dateActualizare.containsKey(m.id)}"
+                             th:attr="data-update-date=${dateActualizare.get(m.id)}">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>Loading...</span>
+                        </div>
+                        <div class="fav-date-badge"
+                             th:attr="data-date=${favoriteDates.get(m.id)}">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                    <button class="fav-remove-btn"
+                            th:onclick="'removeFromFavorites(this, ' + ${m.id} + ')'"
+                            title="Remove from favorites">
+                        <i class="fa-solid fa-trash-can"></i>
+                        Remove
+                    </button>
                 </div>
 
             </div>

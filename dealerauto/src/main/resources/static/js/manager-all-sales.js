@@ -342,7 +342,7 @@ function displaySales(sales, append) {
 }
 
 let salesChart = null;
-let currentPeriodType = 'month';
+let currentPeriodType = '6months';
 
 // Helper pentru parsing date românești
 function parseRomanianDate(dateStr) {
@@ -913,10 +913,10 @@ function hideChartOverlay() {
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Initial load
-    const dateRange = calculateDateRange('month');
+    const dateRange = calculateDateRange('6months');
     allFilters.startDate = dateRange.startDate;
     allFilters.endDate = dateRange.endDate;
-    currentPeriodType = 'month';
+    currentPeriodType = '6months';
 
     loadSales();
     loadAllFilteredSales();

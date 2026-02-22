@@ -3,6 +3,8 @@
 // ====================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Spinner pe cei 10 indici și la load/reload
+    setKpiValuesLoading(true);
 
     // Inițializează toate graficele
     initMonthlySalesChart();
@@ -10,19 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
     initPaymentMethodsChart();
     initAgentPerformanceChart();
 
-
-
-    // Încarcă Overview la start (All Time)
+    // Încarcă Overview la start (All Time) – la final scoate spinnerul
     loadStats();
 
-    // Select period dropdown
+    // Select period dropdown – la schimbare, resetează From/To ca să nu rămână date vechi
     const periodSelect = document.getElementById('periodSelect');
     periodSelect.addEventListener('change', function() {
         const period = this.value;
+        document.getElementById('dateFrom').value = '';
+        document.getElementById('dateTo').value = '';
         loadStatsByPeriod(period);
     });
 
-    // Custom date range
+    // Custom date range – la Apply valid, pune select-ul pe "-Select" ca să reflecte că e perioadă custom
     document.getElementById('applyCustomRange').addEventListener('click', () => {
         const dateFrom = document.getElementById('dateFrom').value;
         const dateTo = document.getElementById('dateTo').value;
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         loadStatsByCustomRange(dateFrom, dateTo);
+        periodSelect.value = '';
     });
 });
 
@@ -665,6 +668,12 @@ function calculateDateRange(period) {
     };
 }
 
+function setKpiValuesLoading(loading) {
+    document.querySelectorAll('.kpi-value-period').forEach(el => {
+        el.classList.toggle('kpi-value--loading', loading);
+    });
+}
+
 // Încarcă statistici pentru perioadă
 async function loadStatsByPeriod(period) {
     const dateRange = calculateDateRange(period);
@@ -674,12 +683,18 @@ async function loadStatsByPeriod(period) {
         url += `?startDate=${dateRange.start}&endDate=${dateRange.end}`;
     }
 
+    setKpiValuesLoading(true);
+    const minSpinnerMs = 750;
+    const start = Date.now();
     try {
         const response = await fetch(url);
         const stats = await response.json();
         updateDashboard(stats);
     } catch (error) {
         console.error(' Error loading stats:', error);
+    } finally {
+        const elapsed = Date.now() - start;
+        setTimeout(() => setKpiValuesLoading(false), Math.max(0, minSpinnerMs - elapsed));
     }
 }
 
@@ -687,12 +702,18 @@ async function loadStatsByPeriod(period) {
 async function loadStatsByCustomRange(startDate, endDate) {
     const url = `/api/dashboard/stats?startDate=${startDate}&endDate=${endDate}`;
 
+    setKpiValuesLoading(true);
+    const minSpinnerMs = 750;
+    const start = Date.now();
     try {
         const response = await fetch(url);
         const stats = await response.json();
         updateDashboard(stats);
     } catch (error) {
         console.error('Error loading stats:', error);
+    } finally {
+        const elapsed = Date.now() - start;
+        setTimeout(() => setKpiValuesLoading(false), Math.max(0, minSpinnerMs - elapsed));
     }
 }
 function updateDashboard(stats) {

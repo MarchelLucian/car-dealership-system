@@ -1,9 +1,11 @@
+/* ===== MODERNIZARE VIZUALĂ: font, fundal, consistență ===== */
 body {
-    font-family: Arial, serif;
-    background: #eef3ff;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(160deg, #e8f4ff 0%, #eef3ff 50%, #e5f0fa 100%);
     margin: 0;
     padding: 0;
     display: flex;
+    min-height: 100vh;
 }
 @keyframes fadeInUn {
     from {
@@ -15,6 +17,25 @@ body {
         transform: translateY(0);
     }
 }
+/* Header: glassmorphism + delimitare prin umbră (fără linie simplă) */
+.client-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 196px;
+    width: 100%;
+    z-index: 10;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 40px -8px rgba(10, 68, 201, 0.12), 0 4px 16px -4px rgba(0, 0, 0, 0.06);
+}
+.client-top > * {
+    pointer-events: auto;
+}
+
 .client-back-btn {
     position: absolute;
     top: 20px;
@@ -33,36 +54,53 @@ body {
 
 /* --------------------- LEFT SIDEBAR --------------------- */
 .sidebar {
-    width: 320px;
-    background:  #ddfafd;
-
-    padding: 20px;
-    margin: 280px 20px 20px 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    width: 340px;
+    background: linear-gradient(180deg, rgba(232, 252, 254, 0.95) 0%, rgba(221, 250, 253, 0.95) 100%);
+    padding: 24px;
+    margin: 326px 20px 20px 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(10, 68, 201, 0.1), 0 2px 8px rgba(0,0,0,0.06);
     height: fit-content;
-    border: 2px solid #0a44c9;
+    border: 2px solid rgba(10, 68, 201, 0.25);
     flex-shrink: 0;
+    backdrop-filter: blur(8px);
 }
 
 .sidebar h2 {
     text-align: center;
     font-size: 30px;
-    margin-bottom: 15px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #133b95;
+    letter-spacing: 0.02em;
 }
 
 .sidebar label {
-    font-weight: bold;
+    font-weight: 600;
     margin-top: 10px;
     display: block;
+    color: #133b95;
 }
 
 .sidebar input {
     width: 95%;
-    padding: 6px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-top: 3px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(10, 68, 201, 0.22);
+    margin-top: 4px;
+    background: linear-gradient(180deg, #f8fcff 0%, #eef5ff 100%);
+    color: #1f2937;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sidebar input::placeholder {
+    color: #64748b;
+}
+
+.sidebar input:focus {
+    outline: none;
+    border-color: #0a44c9;
+    box-shadow: 0 0 0 3px rgba(10, 68, 201, 0.15);
 }
 
 .sidebar button {
@@ -80,6 +118,25 @@ body {
     background: #004ec2;
 }
 
+/* Filter groups: carduri albe discrete, umbră ușoară */
+.sidebar .filter-row,
+.sidebar .filter-section {
+    background: rgba(255,255,255,0.85);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(10, 68, 201, 0.1);
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.04);
+}
+
+/* Minimum Year / Maximum Year pe un singur rând */
+.sidebar .filter-row .filter-item {
+    min-width: 135px;
+}
+.sidebar .filter-row label {
+    white-space: nowrap;
+}
+
 /* --- NEW styling for horizontal filters --- */
 
 .filter-inline.centered {
@@ -94,6 +151,13 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
+}
+
+/* Doar Transmission Type și Number of Doors: valorile (Manual, Automatic, 2, 4) în negru */
+.sidebar .filter-section.transmission-section .filter-inline label,
+.sidebar .filter-section.doors-section .filter-inline label {
+    color: #374151;
+    font-weight: normal;
 }
 
 /* Apply same size as brand checkboxes to all new filters */
@@ -156,16 +220,24 @@ body {
 /* Button for advanced options */
 .advanced-toggle {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     margin-top: 15px;
     margin-bottom: 10px;
     color: #0a44c9;
     user-select: none;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(10, 68, 201, 0.08);
+    border: 1px solid rgba(10, 68, 201, 0.2);
+    transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .advanced-toggle:hover {
-    text-decoration: underline;
+    background: rgba(10, 68, 201, 0.12);
+    border-color: rgba(10, 68, 201, 0.35);
 }
 
 /* Hidden section */
@@ -188,25 +260,26 @@ body {
 
 .filter-btn {
     width: 100%;
-    padding: 10px 0;
-    background: #4444ff;       /* culoarea ta */
+    padding: 12px 0;
+    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.25s ease, transform 0.15s ease;
-    margin-top: 15px;
+    transition: box-shadow 0.25s ease, transform 0.15s ease;
+    margin-top: 18px;
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.35);
 }
 
 .filter-btn:hover {
-    background: #2e2ed1;       /* mai închis la hover */
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.45);
     transform: translateY(-2px);
 }
 
 .filter-btn:active {
-    transform: translateY(0px);
+    transform: translateY(0);
 }
 
 
@@ -217,27 +290,31 @@ body {
     padding: 20px;
 }
 
-h1 {
+.main-content h1 {
     text-align: center;
     margin-top: 20px;
     font-size: 32px;
+    font-weight: 700;
+    color: #133b95;
+    letter-spacing: 0.02em;
 }
 
 #loadMore {
     display: block;
     margin: 20px auto;
-    background: #4444ff;          /* aceeași culoare ca celelalte */
+    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
     color: white;
     border: none;
-    padding: 10px 20px;           /* păstrat */
-    border-radius: 8px;           /* păstrat */
+    padding: 10px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 20px;              /* păstrat */
-    transition: background 0.25s ease, transform 0.15s ease;
+    font-size: 20px;
+    transition: box-shadow 0.25s ease, transform 0.15s ease;
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.3);
 }
 
 #loadMore:hover {
-    background: #2e2ed1;          /* aceeași culoare la hover */
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.4);
     transform: translateY(-2px);
 }
 
@@ -247,64 +324,82 @@ h1 {
 
 
 .back-btn {
-    display : block ;
+    display: block;
     font-size: 22px;
-    text-decoration: none;        /* fără underline normal */
-    color: #4444ff;               /* culoare link elegantă */
+    text-decoration: none;
+    color: #0a44c9;
     font-weight: bold;
     text-align: center;
-    transition: text-decoration 0.2s ease;
+    transition: text-decoration 0.2s ease, color 0.2s ease;
 }
 
 .back-btn:hover {
-    text-decoration: underline;   /* underline DOAR la hover */
+    color: #0839ab;
+    text-decoration: underline;
 }
 
 
 .sort-box {
-    width: 99%;
-    margin: 0 auto 20px auto;
-    background: #ddfafd;
-    padding: 12px 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 20px 0;
+    background: linear-gradient(180deg, rgba(232, 252, 254, 0.95) 0%, rgba(221, 250, 253, 0.95) 100%);
+    padding: 16px 24px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(10, 68, 201, 0.1), 0 2px 8px rgba(0,0,0,0.06);
     display: flex;
-    gap: 10px;
+    gap: 14px;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-
-    border: 2px solid #0a44c9;
+    border: 2px solid rgba(10, 68, 201, 0.25);
+    flex-wrap: wrap;
+    backdrop-filter: blur(8px);
 }
 
 .sort-box label {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 24px;
+    color: #133b95;
 }
 
 .sort-box select {
-    padding: 6px;
-    border-radius: 6px;
-    border: 1px solid #bbb;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 2px solid rgba(10, 68, 201, 0.4);
     font-size: 18px;
+    background: rgba(255,255,255,0.8);
+    color: #133b95;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
-    background: #94e6fa;
-    border: 2px solid #0a44c9;
+.sort-box select:hover,
+.sort-box select:focus {
+    outline: none;
+    border-color: #0a44c9;
+    box-shadow: 0 0 0 2px rgba(10, 68, 201, 0.15);
 }
 
 .sort-btn {
-    background: #0a44c9;
+    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
     color: white;
-    padding: 6px 12px;   /* păstrat EXACT */
+    padding: 8px 18px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 20px;
-    transition: background 0.25s ease, transform 0.15s ease;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: box-shadow 0.25s ease, transform 0.15s ease;
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.3);
 }
 
 .sort-btn:hover {
-    background: #2e2ed1;
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.4);
     transform: translateY(-2px);
 }
 
@@ -313,7 +408,7 @@ h1 {
 }
 
 
-<!-- -->
+/* --- Auth bar (legacy/fallback) --- */
 .auth-bar {
     position: fixed;
     top: 15px;
@@ -355,10 +450,10 @@ h1 {
     animation: fadeInUn 0.6s ease;
 }
 
-/* Avatar rotund */
+/* Avatar rotund – accent vizual, hover discret */
 .avatar {
     position: relative;
-    background: #0a44c9;
+    background: linear-gradient(145deg, #0a44c9 0%, #0839ab 100%);
     color: white;
     font-size: 32px;
     width: 80px;
@@ -368,6 +463,13 @@ h1 {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    box-shadow: 0 4px 16px rgba(10, 68, 201, 0.35);
+    border: 3px solid rgba(255,255,255,0.5);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(10, 68, 201, 0.4);
 }
 
 /* ----------------- GUEST MODE (VERTICAL) ---------------- */
@@ -388,44 +490,53 @@ h1 {
     margin-top: 10px;
 }
 
-/* Butoane generale */
+/* Butoane generale – look modern, tranziții line */
 .auth-btn {
     display: block;
     text-align: center;
     padding: 10px 14px;
-    background: #ddfafd;
-    border-radius: 8px;
-    border: 2px solid #0a44c9;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    border: 2px solid rgba(10, 68, 201, 0.35);
     color: #0a44c9;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 24px;
     width: 190px;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.08);
 }
 
-/* Butoane mici pentru orizontală */
+/* Butoane mici pentru orizontală – pill style */
 .small-btn {
-    padding: 8px 12px;
+    padding: 10px 16px;
     min-width: auto;
+    border-radius: 999px;
+    font-size: 20px;
 }
 
 /* Hover */
 .auth-btn:hover {
-    background: #b7eef3;
+    background: #e8f4ff;
+    border-color: #0a44c9;
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.15);
+    transform: translateY(-1px);
 }
 
 /* Logout roșu */
 .logout-btn {
-    color: #d00000;
-    border-color: #d00000;
+    color: #c41e3a;
+    border-color: rgba(196, 30, 58, 0.5);
 }
 
 .logout-btn:hover {
-    background: #ffe5e5;
+    background: #fff0f3;
+    border-color: #c41e3a;
+    box-shadow: 0 4px 14px rgba(196, 30, 58, 0.12);
 }
 
 .main-content {
-    margin-top: 180px;   /* modifică valoarea după cum îți place */
+    margin-top: 226px;   /* sub top bar + 30px în plus */
 }
 
 .auth-btn i {
@@ -461,7 +572,7 @@ h1 {
     margin-right: 20px;
 }
 
-/* bara de autentificare poziționată fix în wrapper */
+/* bara de autentificare (poziționare în .client-top) */
 .auth-container {
     position: absolute;
     top: 65px;
@@ -471,35 +582,35 @@ h1 {
     gap: 15px;
     animation: fadeInUn 0.6s ease;
 }
-/* bara de cautare */
-/* SEARCH BAR CONTAINER */
+/* bara de cautare (poziționare în .client-top) */
 .search-wrapper {
     position: absolute;
     top: 95px;
-    left: 40px; /* Ajustează dacă sidebar-ul se modifică */
+    left: 40px;
     display: flex;
     align-items: center;
     width: 440px;
-    height: 40px;
-
-    padding: 8px 12px;
+    height: 44px;
+    padding: 8px 14px;
     border-radius: 50px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    border: 2px solid #0a44c9;
-
-    background: #ddfafd;
-
+    box-shadow: 0 2px 14px rgba(10, 68, 201, 0.1), 0 1px 3px rgba(0,0,0,0.05);
+    border: 2px solid rgba(10, 68, 201, 0.35);
+    background: #ffffff;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.search-wrapper:focus-within {
+    box-shadow: 0 0 0 4px rgba(10, 68, 201, 0.12), 0 4px 20px rgba(10, 68, 201, 0.1);
+    border-color: #0a44c9;
 }
 
-/* SEARCH INPUT */
+/* SEARCH INPUT – același fundal alb ca wrapper-ul, un singur câmp vizual */
 .search-bar {
     flex: 1;
     left: 100px;
     border: none;
     outline: none;
     font-size: 20px;
-    background: #ddfafd;
-
+    background: #ffffff;
 }
 
 /* BUTTON */
@@ -581,7 +692,8 @@ h1 {
     font-size: 19px;
 }
 .brand-option span {
-    font-weight: bold;     /* face numele brandului bold */
+    font-weight: bold;
+    color: #374151;
 }
 
 .brand-option input[type="checkbox"] {
@@ -603,16 +715,21 @@ h1 {
     text-decoration: underline;
 }
 .reset-filters {
-    margin-top: 10px;
+    margin-top: 12px;
     text-align: center;
     color: #0a44c9;
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
+    padding: 6px 0;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .reset-filters:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    background: rgba(10, 68, 201, 0.18);
+    color: #0839ab;
 }
 .loading-box {
     text-align: center;
@@ -662,21 +779,34 @@ h1 {
 .autocomplete-item:hover {
     background: #f5f5f5;
 }
-/* results count */
-   .results-count {
-       font-size: 22px;
-       margin: 10px 0 20px;
-       color: #444;
-       font-weight: 500;
-       text-align: center;
-   }
+/* results count – invizibil când e gol, apare doar după ce JS pune numărul */
+#resultsCount:empty,
+.results-count:empty {
+    display: none !important;
+}
+.results-count {
+    font-size: 21px;
+    margin: 12px auto 20px;
+    color: #133b95;
+    font-weight: 600;
+    text-align: center;
+    display: block;
+    width: fit-content;
+    padding: 12px 24px;
+    background: linear-gradient(180deg, #e8fcfe 0%, #ddfafd 100%);
+    border-radius: 20px;
+    border: 2px solid rgba(10, 68, 201, 0.25);
+    box-shadow: 0 8px 32px rgba(10, 68, 201, 0.1), 0 2px 8px rgba(0,0,0,0.06);
+    backdrop-filter: blur(8px);
+}
 
 .brands-controls {
     display: flex;
-    justify-content: space-between;   /* left-right alignment */
-    align-items: center;              /* perfect vertical alignment */
-    margin-top: -16px;
-    margin-bottom: 18px;
+    justify-content: flex-start;   /* în colțul stânga jos al dreptunghiului */
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    margin-bottom: 0;
     width: 100%;
 }
 
@@ -696,17 +826,31 @@ h1 {
 .filter-item input,
 .filter-section input {
     width: 120px;
-    background: #94e6fa;
-    border: 2px solid #0a44c9;
-    font-size : 18px;
+    background: linear-gradient(180deg, #f8fcff 0%, #eef5ff 100%);
+    border: 1px solid rgba(10, 68, 201, 0.22);
+    color: #1f2937;
+    font-size: 18px;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 2px rgba(10, 68, 201, 0.06);
+}
+
+.filter-item input::placeholder,
+.filter-section input::placeholder {
+    color: #64748b;
+}
+
+.filter-item input:focus,
+.filter-section input:focus {
+    outline: none;
+    border-color: #0a44c9;
+    box-shadow: 0 0 0 2px rgba(10, 68, 201, 0.15), inset 0 1px 2px rgba(10, 68, 201, 0.06);
 }
 
 .filter-section.mileage {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: -25px;
-
+    margin-top: 0;
 }
 
 .filter-section.mileage  input {
@@ -719,14 +863,14 @@ h1 {
 }
 
 
-.filter-row.years{
-    margin-top: -25px;
+.filter-row.years {
+    margin-top: 0;
 }
 
-.labelAvailableBrands
-{
-    margin-bottom : 12px;
+.labelAvailableBrands {
+    margin-bottom: 12px;
     font-size: 21px;
+    color: #133b95;
 }
 
 .show-more-brands {
@@ -738,11 +882,13 @@ h1 {
 }
 .filter-row label {
     font-size: 20px;
+    color: #133b95;
 }
 
 
 .filter-section label {
     font-size: 20px;
+    color: #133b95;
 }
 
 .advanced-toggle {
@@ -750,14 +896,14 @@ h1 {
 }
 
 
-.filter-section.a
-{
-    margin-top: -20px;
-    margin-bottom: 0px;
+.filter-section.a {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .seat-item {
-    font-size:20px;
+    font-size: 20px;
+    color: #374151;
 }
 
 .fuel-grid{
@@ -783,7 +929,7 @@ h1 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 103%;
+    width: 100%;
     height: 100%;
     background: rgb(170, 228, 216 , 0.5); /* semi-transparent */
     display: flex;
@@ -830,7 +976,7 @@ h1 {
 
 .auth-buttons-horizontal {
     position: relative;
-    top: 16px; /
+    top: 16px;
 }
 
 .auth-buttons-horizontal .auth-btn {
@@ -843,40 +989,31 @@ h1 {
 
 
 
-.car-box {
-
-    padding: 15px;
-
-    margin: 20px auto;
-    width: 100%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-
-
-}
 /* ========================================
    CARD DESIGN PROFESIONAL PENTRU MAȘINI
    ======================================== */
-
 .car-box {
     position: relative;
-    /*background: linear-gradient(135deg, #ddfafd 0%, #7ec1cd 100%); */
-    background: #ddfafd;
-    border: 2px solid #0a44c9;
-    border-radius: 12px;
-
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    background: linear-gradient(180deg, rgba(232, 252, 254, 0.98) 0%, rgba(221, 250, 253, 0.98) 100%);
+    border: 2px solid rgba(10, 68, 201, 0.2);
+    border-radius: 20px;
+    padding: 20px 20px 24px 20px;
+    margin: 20px auto;
+    margin-bottom: 24px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-
+    gap: 16px;
+    box-shadow: 0 4px 24px rgba(10, 68, 201, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .car-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    border-color: #133b95;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(10, 68, 201, 0.14), 0 6px 20px rgba(0, 0, 0, 0.06);
+    border-color: rgba(19, 59, 149, 0.4);
 }
 
 /* Header cu Brand și Model */
@@ -886,8 +1023,8 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: -10px;
-    padding-bottom: 10px;
-   /* border-bottom: 2px solid #133b95; */
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(19, 59, 149, 0.15);
 }
 
 .car-box .car-title {
@@ -896,6 +1033,7 @@ h1 {
     color: #133b95;
     margin: 10px;
     margin-left: 20px;
+    letter-spacing: 0.01em;
 }
 
 .car-box .car-model {
@@ -904,6 +1042,7 @@ h1 {
     color: #0a44c9;
     margin: 0;
     margin-left: 20px;
+    letter-spacing: 0.01em;
 }
 
 /* Buton Favorite */
@@ -922,6 +1061,7 @@ h1 {
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 10;
+    box-shadow: 0 2px 10px rgba(10, 68, 201, 0.2);
 }
 
 .favorite-btn i {
@@ -970,8 +1110,16 @@ h1 {
 .car-box p b {
     color: #212529;
     font-weight: 600;
-    min-width: 170px;
     font-size: 24px;
+}
+
+/* min-width doar pentru p-uri în afara car-main-details (ex. alte liste) */
+.car-box > p b {
+    min-width: 170px;
+}
+
+.car-main-details p b {
+    min-width: 0;
 }
 
 /* Iconițe pentru fiecare detaliu */
@@ -985,34 +1133,29 @@ h1 {
 }
 /* Prețul - special styling */
 .car-box .car-price {
-    position: absolute; /* ADĂUGAT - ca la favorite-btn */
+    position: absolute;
     top: 40px;
-
     left: 40%;
-
     font-weight: 700;
     color: #157c2a;
     text-align: center;
     border: 2px solid #133b95;
-    margin: 0; /* SCHIMBAT - nu mai e nevoie de margin cu absolute */
+    margin: 0;
     padding: 20px 80px;
     width: fit-content;
     border-radius: 80px;
-    z-index: 9; /* ADĂUGAT - sub favorite-btn */
+    z-index: 9;
+    box-shadow: 0 2px 10px rgba(19, 59, 149, 0.15);
 }
 
 .car-price {
     font-size: 34px;
-
-
     background-image: url('/images/logos/money.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    /* Ajustează opacitatea background-ului */
-    background-blend-mode: lighten; /* sau overlay, multiply, screen */
-    background-color: rgba(255, 255, 255, 0.5); /* Alb transparent */
+    background-blend-mode: lighten;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 
@@ -1021,7 +1164,7 @@ h1 {
     margin-right: 5px;
 }
 
-/* Responsive pentru ecrane mici */
+/* Responsive pentru ecrane mici - card mașină */
 @media (max-width: 768px) {
     .car-box {
         grid-template-columns: 1fr;
@@ -1037,30 +1180,83 @@ h1 {
     }
 }
 
+/* car-main-details: doar în media queries reducem gap/margini ca să rămână în card */
+@media (max-width: 1200px) {
+    .car-main-details {
+        gap: 60px;
+    }
+}
 
-/* Poziționare orizontală pentru detalii */
+@media (max-width: 900px) {
+    .car-main-details {
+        gap: 24px;
+    }
+
+    .car-main-details p {
+        max-width: 50%;
+        flex: 1 1 45%;
+    }
+}
+
+@media (max-width: 500px) {
+    .car-main-details {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-left: 12px;
+        margin-right: 12px;
+        border-radius: 12px;
+        padding: 12px;
+    }
+
+    .car-main-details p {
+        max-width: 100%;
+        flex: 1 1 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 8px;
+        text-align: left;
+    }
+
+    .car-main-details p i {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+
+    .car-main-details p b {
+        display: inline;
+    }
+}
+
+
+/* Poziționare orizontală pentru detalii (Year, Mileage, Fuel, Transmission) – padding simetric stânga/dreapta */
 .car-main-details {
     grid-column: 1 / -1;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-left: 20px;
     margin-top: 20px;
     margin-right: 20px;
     gap: 180px;
     border: 2px solid #133b95;
-    border-radius : 80px;
+    border-radius: 80px;
+    padding-left: 40px;
     padding-right: 40px;
     padding-top: 10px;
     padding-bottom: 10px;
+    min-width: 0;
+    background: rgba(255,255,255,0.4);
+    box-shadow: 0 1px 4px rgba(10, 68, 201, 0.06);
 }
 
 .car-main-details p {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-
 }
 
 .car-main-details p i {
@@ -1071,6 +1267,7 @@ h1 {
 .car-main-details p b {
     display: block;
     margin-bottom: 5px;
+    min-width: 0;
 }
 
 /* pt LOGO */
@@ -1102,29 +1299,137 @@ h1 {
 
 
 /* ================================
-   CAROUSEL IMAGINI MAȘINĂ
+   GALERIE IMAGINI (pagina /client: 3 stânga | 1 centru | 3 dreapta)
+   Ocupă spațiul alocat pe card, simetrică, bine centrată.
+   ================================ */
+.car-images-carousel.car-images-gallery {
+    width: 100%;
+    max-width: 100%;
+    margin: 24px 0 0 0;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+.car-images-gallery .car-gallery {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr 1fr;
+    grid-template-rows: 400px;
+    gap: 16px;
+    align-items: stretch;
+    justify-items: center;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.car-images-gallery .car-gallery-left,
+.car-images-gallery .car-gallery-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 180px;
+    min-height: 0;
+}
+
+.car-images-gallery .car-gallery-center {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #e8fcfe 0%, #ddfafd 100%);
+    border: 2px solid #133b95;
+    box-shadow: 0 4px 20px rgba(10, 68, 201, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.car-images-gallery .car-gallery-main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.25s ease;
+}
+
+.car-images-gallery .car-gallery-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #bbefef;
+}
+
+.car-images-gallery .car-gallery-loading i {
+    font-size: 48px;
+    color: #133b95;
+}
+
+/* Thumbnails stânga/dreapta – înalțime egală (flex: 1), centrul = înălțimea celor 3 */
+.car-images-gallery .car-gallery-thumb {
+    padding: 0;
+    border: 2px solid rgba(19, 59, 149, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+.car-images-gallery .car-gallery-thumb:hover {
+    border-color: #0a44c9;
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.25);
+    transform: scale(1.02);
+}
+
+/* Imaginea laterală selectată (cea afișată în centru) – evidențiere mai puternică */
+.car-images-gallery .car-gallery-thumb.active {
+    border-width: 3px;
+    border-color: #0a44c9;
+    box-shadow: 0 0 0 4px rgba(10, 68, 201, 0.4), 0 4px 16px rgba(10, 68, 201, 0.3);
+}
+
+.car-images-gallery .car-gallery-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+/* ================================
+   CAROUSEL IMAGINI (favorites, my-orders)
    ================================ */
 
 .car-images-carousel {
     width: 40%;
     margin: 30px auto 0px auto;
     grid-column: 1 / -1;
-
 }
 
 .carousel-container {
     position: relative;
     width: 100%;
     height: 378px;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
-    background: #ddfafd;
-   /*background: linear-gradient(135deg, #95e3e8 0%, #ffe0ff 100%); */
+    background: linear-gradient(180deg, #e8fcfe 0%, #ddfafd 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-
     border: 2px solid #133b95;
+    box-shadow: 0 2px 12px rgba(10, 68, 201, 0.08);
 }
 
 .carousel-images {
@@ -1231,13 +1536,9 @@ h1 {
 }
 
 /* ================================
-   BADGE DATA ACTUALIZARE PREȚ
+   BADGE DATA ACTUALIZARE PREȚ ("Updated on" – dedesubtul galeriei pe /client)
    ================================ */
-
 .price-update-badge {
-    position: absolute;
-    bottom: 25px; /* Sub butonul favorite */
-    left: 40px;
     background: transparent;
     color: #133b95;
     padding: 8px 16px;
@@ -1247,10 +1548,18 @@ h1 {
     display: flex;
     align-items: center;
     gap: 5px;
-    z-index: 10;
-    /*box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px); */
     white-space: nowrap;
+}
+
+/* În card mașină: badge "Updated on" DEDESUBTUL imaginilor, în flux (nu peste galerie) */
+.car-box .price-update-badge {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: 18px;
+    margin-bottom: 0;
+    grid-column: 1 / -1;
+    z-index: 1;
 }
 
 .price-update-badge i {
@@ -1271,4 +1580,429 @@ h1 {
 }
 .acc-content{
     animation: fadeInUn 0.6s ease;
+}
+
+/* ================================
+   POPUP "SIGN IN TO ADD FAVORITES" (temă pagină client: albastru / #0a44c9, #ddfafd)
+   ================================ */
+.client-signin-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.client-signin-overlay.active {
+    opacity: 1;
+}
+
+.client-signin-popup {
+    background: #ddfafd;
+    border: 2px solid #0a44c9;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+.client-signin-overlay.active .client-signin-popup {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.client-signin-icon {
+    margin-bottom: 20px;
+}
+.client-signin-icon i {
+    font-size: 60px;
+    color: #0a44c9;
+}
+
+.client-signin-title {
+    font-size: 28px;
+    color: #133b95;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.client-signin-message {
+    font-size: 22px;
+    color: #494d51;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.client-signin-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.client-signin-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+}
+.client-signin-btn-ok {
+    background: #95a5a6;
+    color: white;
+}
+.client-signin-btn-ok:hover {
+    background: #7f8c8d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(149, 165, 166, 0.4);
+}
+.client-signin-btn-primary {
+    background: #0a44c9;
+    color: white;
+    border: 2px solid #133b95;
+}
+.client-signin-btn-primary:hover {
+    background: #0839ab;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10, 68, 201, 0.4);
+}
+
+/* ================================
+   RESPONSIVE PAGINĂ CLIENT (layout general, zoom, mobile)
+   Ordine clară: top (back, search, auth) → sidebar → main; în card: badge nu se suprapune peste carousel
+   ================================ */
+
+/* De la 1400px: layout complet stivuit (header → filtre → conținut) – ordine logică, inclusiv la zoom 150% */
+@media (max-width: 1400px) {
+    .page-wrapper {
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 12px;
+    }
+
+    .client-top {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        min-height: 0;
+        padding: 12px 0;
+        order: 1;
+    }
+
+    .client-back-btn {
+        position: relative;
+        top: auto;
+        left: auto;
+        align-self: flex-start;
+    }
+
+    .search-wrapper {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .auth-container {
+        position: relative;
+        top: auto;
+        right: auto;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .auth-buttons-horizontal {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .auth-btn.small-btn {
+        width: auto;
+        min-width: 120px;
+    }
+
+    .sidebar {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 0;
+        order: 2;
+    }
+
+    .main-content {
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        order: 3;
+    }
+
+    .sort-box {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 12px;
+    }
+
+    .sort-box label,
+    .sort-box select {
+        font-size: 16px;
+    }
+
+    .car-box .car-price {
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 40px;
+        font-size: 26px;
+    }
+
+    .car-images-carousel {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Badge "Updated on" dedesubtul imaginilor */
+    .car-box .price-update-badge {
+        order: 6;
+    }
+
+    .car-box .car-header { order: 1; }
+    .car-box .favorite-btn { order: 2; }
+    .car-box .car-price { order: 3; }
+    .car-box .car-main-details { order: 4; }
+    .car-box .car-images-carousel { order: 5; }
+}
+
+/* De la 1200px: header stivuit (Back, Search, Auth una sub alta), sidebar sub header, fără suprapuneri */
+@media (max-width: 1200px) {
+    .page-wrapper {
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 12px;
+    }
+
+    .client-top {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        min-height: 0;
+        padding: 12px 0;
+        order: 1;
+    }
+
+    .client-back-btn {
+        position: relative;
+        top: auto;
+        left: auto;
+        align-self: flex-start;
+    }
+
+    .search-wrapper {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .auth-container {
+        position: relative;
+        top: auto;
+        right: auto;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .auth-buttons-horizontal {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .auth-btn.small-btn {
+        width: auto;
+        min-width: 120px;
+    }
+
+    .sidebar {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 0;
+        order: 2;
+    }
+
+    .main-content {
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        order: 3;
+    }
+
+    .sort-box {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 12px;
+    }
+
+    .sort-box label,
+    .sort-box select {
+        font-size: 16px;
+    }
+
+    .car-box .car-price {
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 40px;
+        font-size: 26px;
+    }
+
+    .car-images-carousel {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Badge "Updated on" dedesubtul imaginilor */
+    .car-box .price-update-badge { order: 6; }
+
+    .car-box .car-header { order: 1; }
+    .car-box .favorite-btn { order: 2; }
+    .car-box .car-price { order: 3; }
+    .car-box .car-main-details { order: 4; }
+    .car-box .car-images-carousel { order: 5; }
+}
+
+@media (max-width: 768px) {
+    .page-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .client-top {
+        padding: 10px 0;
+        gap: 10px;
+    }
+
+    .client-back-btn {
+        font-size: 28px;
+    }
+
+    .auth-container {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .avatar {
+        width: 56px;
+        height: 56px;
+        font-size: 22px;
+    }
+
+    .search-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .sidebar {
+        margin-top: 16px;
+    }
+
+    .main-content {
+        margin-top: 16px;
+    }
+
+    .car-box .car-header {
+        flex-wrap: wrap;
+    }
+
+    .car-box .car-title {
+        font-size: 20px;
+    }
+
+    .car-box .car-model {
+        font-size: 18px;
+    }
+
+    .car-logo {
+        width: 56px;
+        height: 56px;
+    }
+
+    .favorite-btn {
+        top: 35px;
+        right: 16px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .favorite-btn i {
+        font-size: 22px;
+    }
+
+    .car-box .car-price {
+        padding: 10px 24px;
+        font-size: 20px;
+    }
+
+    .car-images-carousel {
+        width: 100%;
+    }
+
+    .car-images-gallery .car-gallery {
+        max-width: 100%;
+        gap: 10px;
+        grid-template-rows: 300px;
+    }
+
+    .car-images-gallery .car-gallery-left,
+    .car-images-gallery .car-gallery-right {
+        max-width: 120px;
+    }
+
+    .car-images-gallery .car-gallery-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .carousel-container {
+        height: 260px;
+    }
+
+    .carousel-loading {
+        height: 260px;
+    }
+
+    .car-box .price-update-badge {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
 }
