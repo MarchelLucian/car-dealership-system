@@ -5,60 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sales Processing</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/sales.css}">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/agent-page-wrapper.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-dashboard-bg.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-top-bar.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-cards.css}" />
 </head>
 
 <body>
 
 <div class="page-wrapper">
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
-
-        <!-- Go Back -->
-        <a href="/agent-dashboard" class="back-btn top-back">
-            <i class="fa-regular fa-circle-left"></i>
-            Go Back
-        </a>
-
-        <!-- Agent Badge -->
-        <div class="agent-greeting">
-            <span id="agentNameBadge">
-                <i class="fa-solid fa-user-tie"></i>
-                Agent :
-                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
-            </span>
+    <!-- Fundal (ca pe agent-dashboard) -->
+    <div class="agent-dashboard-bg" aria-hidden="true">
+        <div class="bg-gradient"></div>
+        <div class="bg-mesh"></div>
+        <div class="bg-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+            <span class="shape shape-4"></span>
+            <span class="shape shape-5"></span>
         </div>
-
+        <div class="bg-grid"></div>
     </div>
 
-    <!-- TITLE -->
-    <h1 class="page-title">
-        Sales Management <i class="fa-solid fa-money-bill-wave"></i>
-    </h1>
+    <div class="agent-dashboard-content">
 
-    <!-- INSTRUCTIONS -->
-    <p class="subtitle">
-        Manage customer sales, record payments and track your performance
-    </p>
+        <!-- TOP BAR -->
+        <div class="top-bar">
 
-    <!-- MAIN OPTIONS -->
-    <div class="options-wrapper">
+            <!-- Go Back -->
+            <a href="/agent-dashboard" class="back-btn top-back">
+                <i class="fa-regular fa-circle-left"></i>
+                Go Back
+            </a>
+
+            <!-- Agent Badge -->
+            <div class="agent-greeting">
+                <span id="agentNameBadge">
+                    <i class="fa-solid fa-user-tie"></i>
+                    Agent :
+                    <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+                </span>
+            </div>
+
+        </div>
+
+        <!-- TITLE -->
+        <h1 class="page-title">
+            Sales Management <i class="fa-solid fa-money-bill-wave"></i>
+        </h1>
+
+        <!-- INSTRUCTIONS -->
+        <p class="subtitle">
+            Manage customer sales, record payments and track your performance
+        </p>
+
+        <!-- MAIN OPTIONS -->
+        <div class="options-wrapper">
 
         <!-- ROW 1 -->
         <div class="options-container">
             <!-- ADD SALE -->
             <a href="/agent-dashboard/sales/add-sale" class="option-card">
-                <i class="fa-solid fa-file-circle-plus option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-file-circle-plus option-icon"></i>
+                </div>
                 <h2>Record New Sale</h2>
                 <p>Register a new transaction and update the vehicle stock</p>
             </a>
 
             <!-- VIEW SALES -->
             <a href="/agent-dashboard/sales/view-my-sales" class="option-card">
-                <i class="fa-solid fa-clipboard-list option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-clipboard-list option-icon"></i>
+                </div>
                 <h2>View My Sales</h2>
                 <p>Browse all recorded sales, filter results and analyze trends</p>
             </a>
@@ -67,17 +94,20 @@
         <!-- ROW 2 (CENTRAT) -->
         <div class="options-container single">
             <a href="/agent-dashboard/sales/add-client" class="option-card">
-
-                <i class="fa-solid fa-person-circle-plus option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-person-circle-plus option-icon"></i>
+                </div>
                 <h2>Register New Client</h2>
-                <p>Create a new customer account</p><br>
+                <p>Create a new customer account</p>
             </a>
         </div>
 
     </div>
 
+    </div>
 
 </div>
 
+    <script th:src="@{/js/agent-dashboard-bg.js}"></script>
 </body>
 </html>

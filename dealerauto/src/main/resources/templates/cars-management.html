@@ -5,58 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cars Management</title>
 
-    <!-- Păstrăm CSS-ul existent -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/sales.css}">
     <link rel="stylesheet" th:href="@{/css/cars-management.css}">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/agent-page-wrapper.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-dashboard-bg.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-top-bar.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-cards.css}" />
 </head>
 
 <body>
 
 <div class="page-wrapper">
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
-
-        <!-- Go Back -->
-        <a href="/agent-dashboard" class="back-btn top-back">
-            <i class="fa-regular fa-circle-left"></i>
-            Go Back
-        </a>
-
-        <!-- Agent Badge -->
-        <div class="agent-greeting">
-            <span id="agentNameBadge">
-                <i class="fa-solid fa-user-tie"></i>
-                Agent :
-                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
-            </span>
+    <!-- Fundal (ca pe agent-dashboard) -->
+    <div class="agent-dashboard-bg" aria-hidden="true">
+        <div class="bg-gradient"></div>
+        <div class="bg-mesh"></div>
+        <div class="bg-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+            <span class="shape shape-4"></span>
+            <span class="shape shape-5"></span>
         </div>
-
+        <div class="bg-grid"></div>
     </div>
 
-    <!-- TITLE -->
-    <h1 class="page-title">
-        Cars Management <i class="fa-solid fa-car-side"></i>
-    </h1>
+    <div class="agent-dashboard-content">
 
-    <!-- INSTRUCTIONS -->
+        <!-- TOP BAR -->
+        <div class="top-bar">
 
-    <!-- MAIN OPTIONS -->
-    <div class="options-wrapper">
+            <!-- Go Back -->
+            <a href="/agent-dashboard" class="back-btn top-back">
+                <i class="fa-regular fa-circle-left"></i>
+                Go Back
+            </a>
+
+            <!-- Agent Badge -->
+            <div class="agent-greeting">
+                <span id="agentNameBadge">
+                    <i class="fa-solid fa-user-tie"></i>
+                    Agent :
+                    <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+                </span>
+            </div>
+
+        </div>
+
+        <!-- TITLE -->
+        <h1 class="page-title">
+            Cars Management <i class="fa-solid fa-car-side"></i>
+        </h1>
+
+        <!-- INSTRUCTIONS -->
+
+        <!-- MAIN OPTIONS -->
+        <div class="options-wrapper">
         <!-- ROW 1 -->
         <div class="options-container first_row">
 
             <a href="/agent-dashboard/cars-management/car-inventory" class="option-card">
-                <i class="fa-solid fa-warehouse option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-warehouse option-icon"></i>
+                </div>
                 <h2>Car Inventory</h2>
                 <p>Access the full vehicle inventory with advanced filters</p>
             </a>
 
             <!-- EDIT LISTINGS -->
             <a href="/agent-dashboard/cars-management/edit-listings" class="option-card">
-                <i class="fa-solid fa-tags option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-tags option-icon"></i>
+                </div>
                 <h2>Edit Listings</h2>
                 <p>Update selling prices</p>
             </a>
@@ -72,24 +98,30 @@
 
             <!-- ADD CAR -->
             <a href="/agent-dashboard/cars-management/add-car" class="option-card">
-                <i class="fa-solid fa-plus option-icon"></i>
-                <i class="fa-solid fa-car-rear option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-plus option-icon"></i>
+                    <i class="fa-solid fa-car-rear option-icon"></i>
+                </div>
                 <h2>Add Car</h2>
                 <p>Add a new vehicle to the inventory</p>
             </a>
 
             <!-- ADD BRAND -->
             <a href="/agent-dashboard/cars-management/add-brand" class="option-card">
-                <i class="fa-solid fa-plus option-icon"></i>
-                <i class="fa-solid fa-registered  option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-plus option-icon"></i>
+                    <i class="fa-solid fa-registered option-icon"></i>
+                </div>
                 <h2>Add Brand</h2>
                 <p>Register a new car manufacturer</p>
             </a>
 
             <!-- ADD PROVIDER -->
             <a href="/agent-dashboard/cars-management/add-provider" class="option-card">
-                <i class="fa-solid fa-plus option-icon"></i>
-                <i class="fa-solid fa-truck option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-plus option-icon"></i>
+                    <i class="fa-solid fa-truck option-icon"></i>
+                </div>
                 <h2>Add Provider</h2>
                 <p>Register a new vehicle supplier</p>
             </a>
@@ -101,8 +133,10 @@
 
             <!-- Retract car -->
             <a href="/agent-dashboard/cars-management/retract-car" class="option-card">
-                <i class="fa-solid fa-minus  option-icon"></i>
-                <i class="fa-solid fa-car-rear option-icon"></i>
+                <div class="option-icon-wrap">
+                    <i class="fa-solid fa-minus option-icon"></i>
+                    <i class="fa-solid fa-car-rear option-icon"></i>
+                </div>
                 <h2>Retract Car</h2>
                 <p>Withdraw a vehicle from active inventory</p>
             </a>
@@ -111,7 +145,10 @@
 
     </div>
 
+    </div>
+
 </div>
 
+    <script th:src="@{/js/agent-dashboard-bg.js}"></script>
 </body>
 </html>

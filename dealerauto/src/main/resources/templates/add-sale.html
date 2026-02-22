@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Add Sale</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/add-car.css}">
     <link rel="stylesheet" th:href="@{/css/add-sale.css}">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/agent-page-wrapper.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-dashboard-bg.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-top-bar.css}" />
     <script th:src="@{/js/add-sale.js}"></script>
 </head>
 
@@ -15,28 +22,36 @@
 
 <div class="page-wrapper">
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
-
-        <!-- Go Back to SALES HOME -->
-        <a href="/agent-dashboard/sales" class="back-btn top-back">
-            <i class="fa-regular fa-circle-left"></i>
-            Go Back
-        </a>
-
-        <!-- Agent badge -->
-        <div class="agent-greeting">
-            <span id="agentNameBadge">
-                <i class="fa-solid fa-user-tie"></i>
-                Agent :
-                <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
-            </span>
+    <div class="agent-dashboard-bg" aria-hidden="true">
+        <div class="bg-gradient"></div>
+        <div class="bg-mesh"></div>
+        <div class="bg-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+            <span class="shape shape-4"></span>
+            <span class="shape shape-5"></span>
         </div>
-
+        <div class="bg-grid"></div>
     </div>
 
-    <!-- CONTAINER -->
-    <div class="container">
+    <div class="agent-dashboard-content">
+
+        <div class="top-bar">
+            <a href="/agent-dashboard/sales" class="back-btn top-back">
+                <i class="fa-regular fa-circle-left"></i>
+                Go Back
+            </a>
+            <div class="agent-greeting">
+                <span id="agentNameBadge">
+                    <i class="fa-solid fa-user-tie"></i>
+                    Agent :
+                    <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="container">
 
         <h1>New Sale <i class="fa-solid fa-money-bill-wave"></i></h1>
 
@@ -176,9 +191,12 @@
 
         </form>
 
+        </div>
+
     </div>
 
 </div>
 
+    <script th:src="@{/js/agent-dashboard-bg.js}"></script>
 </body>
 </html>

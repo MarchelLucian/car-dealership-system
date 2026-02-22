@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Car Inventory</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/car-inventory.css}" />
     <script th:src="@{/js/car-inventory.js}" defer></script>
-
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/agent-page-wrapper.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-dashboard-bg.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-top-bar.css}" />
 </head>
 
 <body>
@@ -19,23 +21,36 @@
 
 <div class="page-wrapper">
 
-    <div class="top-bar">
-        <a href="/agent-dashboard/cars-management" class="back-btn">
-            <i class="fa-regular fa-circle-left"></i>
-            Go Back
-        </a>
-
-        <div class="agent-greeting">
-           <span id="agentNameBadge">
-          <i class="fa-solid fa-user-tie"></i>
-          Agent :
-           <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}">
-          </span>
-        </span>
+    <div class="agent-dashboard-bg" aria-hidden="true">
+        <div class="bg-gradient"></div>
+        <div class="bg-mesh"></div>
+        <div class="bg-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+            <span class="shape shape-4"></span>
+            <span class="shape shape-5"></span>
         </div>
+        <div class="bg-grid"></div>
     </div>
 
-    <div class="page-size-box">
+    <div class="agent-dashboard-content">
+
+        <div class="top-bar">
+            <a href="/agent-dashboard/cars-management" class="back-btn top-back">
+                <i class="fa-regular fa-circle-left"></i>
+                Go Back
+            </a>
+            <div class="agent-greeting">
+                <span id="agentNameBadge">
+                    <i class="fa-solid fa-user-tie"></i>
+                    Agent :
+                    <span th:text="${agent != null ? agent.prenume + ' ' + agent.nume : 'Unknown Agent'}"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="page-size-box">
         <label for="pageSizeInput" class="show-label">Rows per page:</label>
 
         <input type="number"
@@ -552,8 +567,7 @@
 
         <!-- PREV (funcționalitatea veche păstrată) -->
         <a th:if="${currentPage > 1}"
-           th:href="|/agent-dashboard/cars-management/car-inventory?page=${currentPage - 1}&pageSize=${pageSize}
-            &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
+           th:href="|/agent-dashboard/cars-management/car-inventory?page=${currentPage - 1}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
            class="page-btn prev-next"
            onclick="goToPage(this.href); return false;">
             Prev
@@ -568,8 +582,7 @@
 
         <!-- NUMERE PAGINI (NEATINSE) -->
         <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:href="|/agent-dashboard/cars-management/car-inventory?page=${i}&pageSize=${pageSize}
-                 &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
+          <a th:href="|/agent-dashboard/cars-management/car-inventory?page=${i}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
            th:text="${i}"
            th:classappend="${i == currentPage} ? 'active' : ''"
            class="page-btn"
@@ -580,8 +593,7 @@
 
         <!-- NEXT (funcționalitatea veche păstrată) -->
         <a th:if="${currentPage < totalPages}"
-           th:href="|/agent-dashboard/cars-management/car-inventory?page=${currentPage + 1}&pageSize=${pageSize}
-            &sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
+           th:href="|/agent-dashboard/cars-management/car-inventory?page=${currentPage + 1}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
            class="page-btn prev-next"
            onclick="goToPage(this.href); return false;">
             Next
@@ -595,8 +607,10 @@
 
     </div>
 
-
+    </div>
 
 </div>
+
+    <script th:src="@{/js/agent-dashboard-bg.js}"></script>
 </body>
 </html>

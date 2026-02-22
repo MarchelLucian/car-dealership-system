@@ -1,0 +1,21 @@
+/* ===== Încadrare unitară pentru toate paginile agentului de vânzare ===== */
+/* Se încarcă ultimul pe paginile agentului ca să aibă același page-wrapper. */
+
+/* Scrollbar vertical mereu vizibil (evită săritura layout-ului între pagini cu mult/puțin conținut) */
+html {
+    overflow-y: scroll;
+}
+
+.page-wrapper {
+    position: relative;
+    max-width: 1800px;
+    width: 100%;
+    margin: 0 auto;
+    min-height: 100vh;
+    border-top: 3px solid #166534;
+    border-bottom: 3px solid #166534;
+    border-left: 3px solid #94a3b8;
+    border-right: 3px solid #94a3b8;
+    border-radius: 10px;
+    box-sizing: border-box;
+}

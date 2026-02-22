@@ -1,0 +1,114 @@
+/* ===== Carduri în stil agent-dashboard (fără buton "Open →") ===== */
+/* Folosit pe cars-management și sales. Variabile și stiluri aliniate la agent-dashboard. */
+
+:root {
+    --ag-card-green-950: #052e16;
+    --ag-card-green-800: #166534;
+    --ag-card-green-600: #16a34a;
+    --ag-card-green-400: #4ade80;
+    --ag-card-green-200: #bbf7d0;
+    --ag-card-green-100: #dcfce7;
+    --ag-card-glass-border: rgba(255, 255, 255, 0.2);
+    --ag-card-slate-600: #475569;
+    --ag-card-shadow: 0 4px 24px rgba(5, 46, 22, 0.08);
+    --ag-card-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+    --ag-card-radius: 28px;
+}
+
+/* Card link – același look ca .card-inner de pe agent-dashboard */
+.option-card {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    width: 380px;
+    height: 260px;
+    min-height: 260px;
+    padding: 40px 32px 4px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--ag-card-glass-border);
+    border-top: 7px solid var(--ag-card-green-950);
+    border-radius: var(--ag-card-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--ag-card-shadow);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease, border-color 0.35s ease;
+}
+
+.option-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--ag-card-shadow-lg);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(34, 197, 94, 0.35);
+}
+
+/* Wrapper icoane – același stil ca .card-icon-wrap */
+.option-icon-wrap {
+    width: 84px;
+    height: 84px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, var(--ag-card-green-100), var(--ag-card-green-200));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 22px;
+    color: var(--ag-card-green-800);
+    font-size: 40px;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.option-card:hover .option-icon-wrap {
+    transform: scale(1.08);
+    background: linear-gradient(145deg, var(--ag-card-green-200), var(--ag-card-green-400));
+    color: var(--ag-card-green-950);
+}
+
+.option-icon-wrap .option-icon {
+    font-size: 1em;
+}
+
+/* Două icoane în același wrap – puțin mai mici */
+.option-icon-wrap .option-icon:first-child:nth-last-child(2),
+.option-icon-wrap .option-icon:first-child:nth-last-child(2) ~ .option-icon {
+    font-size: 0.75em;
+}
+
+/* Titlu – același font-size și culoare ca pe agent-dashboard */
+.option-card h2 {
+    font-size: 31px;
+    font-weight: 700;
+    color: var(--ag-card-green-950);
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+}
+
+/* Descriere – același font-size ca pe agent-dashboard (fără flex:1 ca să nu rămână spațiu gol unde era Open) */
+.option-card p {
+    font-size: 23px;
+    line-height: 1.5;
+    color: var(--ag-card-slate-600);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .option-card {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .option-card h2 {
+        font-size: 25px;
+    }
+
+    .option-card p {
+        font-size: 21px;
+    }
+}

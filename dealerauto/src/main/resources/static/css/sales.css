@@ -104,18 +104,18 @@ body {
     font-size: 26px;
 }
 
-/* PAGE TITLE */
+/* PAGE TITLE – aceeași culoare ca "Welcome, Sales Agent!" (green-950) */
 .page-title {
     text-align: center;
-    color: #0f5f0f;
-    margin-top: 120px;
+    color: #052e16;
+    margin-top: 80px;
     font-size: 42px;
     animation: fadeIn 0.6s ease;
 }
 
 .subtitle {
     text-align: center;
-    font-size: 22px;
+    font-size: clamp(25px, 2.2vw, 29px);
     color: #064f06;
     margin-bottom: 40px;
     animation: fadeIn 0.6s ease;
@@ -130,40 +130,7 @@ body {
     animation: fadeIn 0.6s ease;
 }
 
-.option-card {
-    width: 340px;
-    padding: 25px;
-    background: white;
-    border-radius: 18px;
-    text-align: center;
-    text-decoration: none;
-    color: black;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    transition: 0.25s ease-in-out;
-    border-top: 7px solid #136f31;
-}
-
-.option-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 7px 22px rgba(0,0,0,0.22);
-}
-
-.option-icon {
-    font-size: 55px;
-    color: #0f5f0f;
-    margin-bottom: 10px;
-}
-
-.option-card h2 {
-    margin-top: 10px;
-    color: #064f06;
-}
-
-.option-card p {
-    font-size: 22px;
-
-}
-
+/* Card styles: agent-cards.css (stil agent-dashboard, fără "Open →") */
 
 /* Responsive */
 @media (max-width: 900px) {

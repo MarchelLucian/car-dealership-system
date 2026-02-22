@@ -5,55 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Agent Dashboard</title>
 
-    <!-- CSS specific -->
-    <link rel="stylesheet" href="/css/agent-dashboard.css">
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/agent-page-wrapper.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-top-bar.css}" />
+    <link rel="stylesheet" href="/css/agent-dashboard.css"/>
 </head>
 <body>
 
 <div class="page-wrapper">
 
-    <div class="top-bar">
-    <a href="/" class="back-btn top-back">
-        <i class="fa-regular fa-circle-left"></i>
-        Go Back
-    </a>
-
-    <div class="agent-greeting">
-    <span id="agentNameBadge">
-        Hello, <span th:text="${agent.prenume} + ' ' + ${agent.nume}">Agent</span>!
-        <i class="fa-regular fa-hand-spock"></i>
-    </span>
-    </div>
-
-    </div>
-
-
-    <h1 class="dashboard-title">Welcome, Sales Agent!</h1>
-    <p class="dashboard-subtitle">Choose a management area</p>
-
-    <div class="dashboard-grid">
-
-        <div class="dashboard-card" onclick="location.href='/agent-dashboard/cars-management'">
-            <i class="fa-solid fa-car-on"></i>
-            <h2>Cars Management</h2>
-            <p>
-                Add new vehicles, manage brands and providers,edit listings and control the inventory lifecycle
-            </p>
+    <!-- Layer 1: complex background -->
+    <div class="agent-dashboard-bg" aria-hidden="true">
+        <div class="bg-gradient"></div>
+        <div class="bg-mesh"></div>
+        <div class="bg-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+            <span class="shape shape-4"></span>
+            <span class="shape shape-5"></span>
         </div>
+        <div class="bg-grid"></div>
+    </div>
 
-        <div class="dashboard-card" onclick="location.href='/agent-dashboard/sales'">
-            <i class="fa-solid fa-file-invoice-dollar"></i>
-            <h2>Sales Management</h2>
-            <p>Register sales, assign customers, view your results and analyze trends</p>
+    <!-- Layer 2: content -->
+    <div class="agent-dashboard-content">
+
+        <header class="top-bar">
+            <a href="/" class="back-btn top-back">
+                <i class="fa-regular fa-circle-left"></i>
+                Go Back
+            </a>
+            <div class="agent-greeting">
+                <span id="agentNameBadge">
+                    Hello, <span th:text="${agent.prenume} + ' ' + ${agent.nume}">Agent</span>!
+                    <i class="fa-regular fa-hand-spock"></i>
+                </span>
+            </div>
+        </header>
+
+        <section class="dashboard-hero">
+            <span class="hero-label">Dashboard</span>
+            <h1 class="dashboard-title">Welcome, Sales Agent!</h1>
+            <p class="dashboard-subtitle">Choose a management area</p>
+        </section>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card" onclick="location.href='/agent-dashboard/cars-management'">
+                <div class="card-glow"></div>
+                <div class="card-inner">
+                    <div class="card-icon-wrap">
+                        <i class="fa-solid fa-car-on"></i>
+                    </div>
+                    <h2>Cars Management</h2>
+                    <p>
+                        Add new vehicles, manage brands and providers, edit listings and control the inventory lifecycle
+                    </p>
+                </div>
+            </div>
+
+            <div class="dashboard-card" onclick="location.href='/agent-dashboard/sales'">
+                <div class="card-glow"></div>
+                <div class="card-inner">
+                    <div class="card-icon-wrap">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <h2>Sales Management</h2>
+                    <p>Register sales, assign customers, view your results and analyze trends</p>
+                </div>
+            </div>
         </div>
 
     </div>
 
 </div>
 
+    <script th:src="@{/js/agent-dashboard-bg.js}"></script>
 </body>
 </html>

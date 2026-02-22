@@ -52,7 +52,7 @@ body {
 
 h1 {
     text-align: center;
-    color: #0f5f0f;
+    color: #0f766e;
     margin-bottom: 30px;
 }
 
@@ -69,7 +69,7 @@ form {
 label {
     font-weight: bold;
     font-size: 22px;
-    color: #064f06;
+    color: #0f766e;
 }
 
 input, select {
@@ -82,18 +82,22 @@ input, select {
 .submit-btn {
     grid-column: span 2;
     padding: 12px;
-    background: #0f5f0f;
+    background: linear-gradient(135deg, #166534, #0d9488);
     color: white;
     font-size: 28px;
     border: none;
-    border-radius: 8px;
+    border-radius: 14px;
     cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .submit-btn:hover {
-    background: #0c4c0c;
+    background: linear-gradient(135deg, #052e16, #0f766e);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.35);
 }
 
 .submit-btn i{

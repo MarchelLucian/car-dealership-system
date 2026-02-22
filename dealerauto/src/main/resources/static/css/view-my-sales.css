@@ -1,3 +1,8 @@
+/* Font ca pe celelalte pagini agent */
+body {
+    font-family: 'Outfit', 'DM Sans', system-ui, sans-serif;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -8,17 +13,49 @@
         transform: translateY(0);
     }
 }
+
+/* Butoanele Go Back și Agent greeting: stil + poziționare din agent-top-bar.css (identic cu Car Inventory) */
+
+.search-btn {
+    background: linear-gradient(135deg, #166534, #0d9488) !important;
+    color: #fff !important;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease !important;
+    box-shadow: 0 2px 10px rgba(13, 148, 136, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.search-btn:hover {
+    background: linear-gradient(135deg, #052e16, #0f766e) !important;
+    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+}
+
+.sort-btn {
+    background: linear-gradient(135deg, #166534, #0d9488) !important;
+    color: #fff !important;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease !important;
+    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sort-btn:hover {
+    background: linear-gradient(135deg, #052e16, #0f766e) !important;
+    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+}
+
 /* ===== SALES LIST ===== */
 
 .sales-container {
-    max-width: 95%;
-    margin: 0 auto;
-    background: #b8ffb8;
+    width: 95% !important;
+    max-width: 95% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    background: #ccfbf1;
     border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 18px rgba(15, 118, 110, 0.2);
     overflow: hidden;
-    margin-bottom : 120px;
-    border:2px solid #1a531b;
+    margin-bottom: 120px;
+    border: 2px solid #0f766e;
     position: relative;
     animation: fadeIn 0.6s ease;
 }
@@ -38,7 +75,7 @@
     padding: 16px 20px;
     align-items: center;
     font-size: 24px;
-    border-bottom: 1px solid #1a531b;
+    border-bottom: 1px solid #0f766e;
 }
 
 .sales-row:last-child {
@@ -47,7 +84,7 @@
 
 /* HEADER */
 .sales-header {
-    background: #1a531b;
+    background: #0f766e;
     color: white;
     font-weight: bold;
     font-size: 24px;
@@ -55,7 +92,7 @@
 
 /* HOVER EFFECT */
 .sales-row:not(.sales-header):hover {
-    background: #9afc9a;
+    background: #99f6e4;
 }
 
 /* STATUS */
@@ -83,13 +120,13 @@
 }
 
 .status.paid {
-    background: #60fa60;
-    color: #1a531b;
+    background: #5eead4;
+    color: #0f766e;
 }
 
 .status.pending {
-    background-color: #ffd859;
-    color: #815000;
+    background-color: #fcd34d;
+    color: #92400e;
 }
 /* EMPTY STATE */
 .empty-state {
@@ -114,7 +151,7 @@
         content: attr(data-label);
         font-weight: bold;
         display: block;
-        color: #0f5f0f;
+        color: #0f766e;
         margin-bottom: 3px;
     }
 }
@@ -136,7 +173,7 @@
 
 .info-btn {
     margin-right: 50px;
-    color: #1a531b;
+    color: #0f766e;
     cursor: pointer;
     font-size: 16px;
     transition: transform 0.2s ease, background 0.2s ease;
@@ -144,7 +181,7 @@
 
 .info-btn:hover {
     transform: scale(1.2);
-    color: #0d3a0e;
+    color: #052e16;
 }
 
 .empty-state {
@@ -162,7 +199,7 @@
 .empty-state .login-link {
     display: inline-block;
     margin-top: 10px;
-    color: #0f5f0f;
+    color: #0f766e;
     font-weight: bold;
     text-decoration: none;
 }
@@ -172,7 +209,7 @@
 }
 
 .id-badge {
-    background-color: #1a531b;  /* verde închis elegant */
+    background-color: #0f766e;
     color: #fff;
     padding: 4px 10px;
     border-radius: 8px;
@@ -188,7 +225,7 @@
 }
 
 .profit-positive {
-    color: #0f5f0f;
+    color: #0f766e;
     font-weight: bold;
 }
 
@@ -204,9 +241,9 @@
 
 .details-row {
     grid-column: 1 / -1;
-    background: #e9fbe6;
-    border-left: 14px solid #07fb62;
-    border-bottom: 1px solid #1a531b;
+    background: #e0f2f1;
+    border-left: 14px solid #14b8a6;
+    border-bottom: 1px solid #0f766e;
     padding: 14px 20px;
     font-size: 20px;
     display: none;
@@ -225,7 +262,7 @@
 
 .details-content div span {
     font-weight: bold;
-    color: #0f5f0f;
+    color: #0f766e;
 }
 
 /* CLOSE BUTTON */
@@ -258,7 +295,7 @@
     margin-left: 6px;
 
     margin-right: 50px;
-    color: #1a531b;
+    color: #0f766e;
     cursor: pointer;
 
 }
@@ -281,33 +318,36 @@
 .sort-bar button {
     padding: 6px 10px;
     border-radius: 6px;
-    border: 1px solid #2e7d32;
+    border: 1px solid #0f766e;
     font-size: 16px;
 }
 
 .sort-bar button {
-    background: #1b5e20;
+    background: #0f766e;
     color: white;
     cursor: pointer;
 }
 
 .sort-bar button:hover {
-    background: #2e7d32;
+    background: #0d9488;
 }
 
-/* ===== SORT BOX WRAPPER ===== */
+/* ===== SORT BOX WRAPPER – lățime forțat identică cu tabelul .sales-container ===== */
 .sort-box-wrapper {
-
-    max-width: 1660px;
-    margin: 10px auto 25px auto;  /* poziționare centrală */
-    background-color: #e9fbe6;    /* verde foarte deschis */
-    border: 2px solid #1a531b;    /* margine verde pastel */
+    width: 95% !important;
+    max-width: 95% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    box-sizing: border-box !important;
+    background-color: #e0f2f1;
+    border: 2px solid #0f766e;
     border-radius: 12px;
     padding: 18px 22px;
-    box-shadow: 0 4px 10px rgba(0, 80, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2);
     display: flex;
     justify-content: center;
-
 }
 
 /* ===== CONȚINUT SORT BAR ===== */
@@ -319,7 +359,7 @@
 
 /* ===== LABEL ===== */
 .sort-container label {
-    color: #0d3b0d;
+    color: #0f766e;
     font-size: 24px;
     padding: 14px ;
     font-weight: bold;
@@ -329,9 +369,9 @@
 .sort-select {
     padding: 14px 22px;
     border-radius: 8px;
-    border: 2px solid #0e5c0e;
-    background-color: #b8ffb8;
-    color: #0e3d0e;
+    border: 2px solid #0f766e;
+    background-color: #ccfbf1;
+    color: #134e4a;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -339,8 +379,8 @@
 }
 
 .sort-select:hover {
-    background-color: #dbffdb;
-    border-color: #179f17;
+    background-color: #e0f2f1;
+    border-color: #0d9488;
 }
 
 /* ===== SORT BUTTON ===== */
@@ -348,7 +388,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    background-color: #1a531b;
+    background: linear-gradient(135deg, #166534, #0d9488);
     color: white;
     border: none;
     border-radius: 10px;
@@ -361,7 +401,7 @@
 }
 
 .sort-btn:hover {
-    background-color: #0d3a0e;
+    background: linear-gradient(135deg, #052e16, #0f766e);
     transform: translateY(-2px);
 }
 .sort-btn i{
@@ -387,7 +427,7 @@
 /* spinner */
 .spin-icon {
     font-size: 55px;
-    color: #1a531b;
+    color: #0f766e;
     animation: spin 1s linear infinite;
 }
 
@@ -416,7 +456,7 @@
 
 .filter-row label {
     font-weight: bold;
-    color: #0f5f0f;
+    color: #0f766e;
 }
 
 .filter-row input,
@@ -424,17 +464,17 @@
     width: 160px;
     padding: 5px 8px;
     font-size: 22px;
-    border: 2px solid #063a15;
+    border: 2px solid #0f766e;
     border-radius: 8px;
     outline: none;
     transition: 0.2s ease;
-    color: #063a15;
-    background-color: #b8ffb8;
+    color: #134e4a;
+    background-color: #ccfbf1;
 }
 
 
 .search-btn {
-    background-color: #1a531b;
+    background: linear-gradient(135deg, #166534, #0d9488);
     color: #fff;
     border: none;
     padding: 8px 14px;
@@ -445,7 +485,7 @@
 }
 
 .search-btn:hover {
-    background-color: #2c7c2d;
+    background: linear-gradient(135deg, #052e16, #0f766e);
     transition: 0.3s;
     transform: scale(1.1);
 }
@@ -474,17 +514,17 @@
 
     padding: 5px 8px;
     font-size: 22px;
-    border: 2px solid #063a15;
+    border: 2px solid #0f766e;
     border-radius: 8px;
     outline: none;
     transition: 0.2s ease;
-    color: #063a15;
-    background-color: #b8ffb8;
+    color: #134e4a;
+    background-color: #ccfbf1;
 }
 
 .model-search-input:focus {
-    border-color: #1a531b;
-    box-shadow: 0 0 6px rgba(0,128,0,0.4);
+    border-color: #0f766e;
+    box-shadow: 0 0 6px rgba(13, 148, 136, 0.4);
 }
 
 /* Dropdown sugestii */
@@ -493,9 +533,9 @@
     top: 35px;
     left: 0;
     width: 250px;
-    border: 1px solid #ccc;
+    border: 1px solid #14b8a6;
     border-radius: 8px;
-    background-color: #dcffc0;
+    background-color: #ccfbf1;
     max-height: 180px;
     overflow-y: auto;
     display: none;
@@ -510,11 +550,11 @@
     padding: 8px 12px;
     cursor: pointer;
     font-size: 17px;
-    color: #063a15;
+    color: #134e4a;
 }
 
 .model-search-suggestions div:hover {
-    background-color: #acec76;
+    background-color: #99f6e4;
 }
 
 #carSearchInput {
@@ -563,19 +603,19 @@
     align-items: center;
     gap: 32px;
 
-    background: #e9fbe6;
-    border: 4px solid #1a531b;
+    background: #e0f2f1;
+    border: 4px solid #0f766e;
     border-radius: 14px;
     padding: 10px 28px;
 
     width: 280px;
     height:  100px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 14px rgba(15, 118, 110, 0.2);
 }
 
 .summary-icon {
     font-size: 48px;
-    color: #24afaf;
+    color: #0d9488;
 }
 
 .summary-content {
@@ -587,13 +627,13 @@
 .summary-label {
     font-size: 26px;
     font-weight: 600;
-    color: #1a531b;
+    color: #0f766e;
 }
 
 .summary-value {
     font-size: 36px;
     font-weight: bold;
-    color: #063a15;
+    color: #134e4a;
     align-items: center;
 }
 
@@ -647,13 +687,14 @@
 
 .page-title-new {
     text-align: center;
-    color: #0f5f0f;
+    color: #0f766e;
     font-size: 48px;
 }
 
-.page-title-new i{
+.page-title-new i {
     font-size: 48px;
     margin-left: 10px;
+    color: #0f766e;
 }
 
 .one{
@@ -679,7 +720,7 @@
 }
 
 .markup-positive {
-    color: #1a7f37;
+    color: #0d9488;
     font-weight: bold;
 }
 

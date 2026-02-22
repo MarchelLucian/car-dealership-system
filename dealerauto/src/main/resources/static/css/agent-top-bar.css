@@ -1,0 +1,134 @@
+/* ===== Top bar agent – stiluri identice cu Car Inventory, poziționare forțată ===== */
+/* Folosit pe: agent-dashboard, cars-management, sales, add-car, add-brand, edit-listings,
+   retract-car, add-provider, view-my-sales, add-sale, add-client. */
+
+body {
+    font-family: 'Outfit', 'DM Sans', system-ui, sans-serif;
+}
+
+:root {
+    --green-950: #052e16;
+    --green-800: #166534;
+    --teal-600: #0d9488;
+    --white: #ffffff;
+}
+
+/* Top bar – distanțe simetrice 40px față de margini, 24px de la top */
+.top-bar {
+    position: relative;
+    min-height: 72px;
+    padding: 0 40px !important;
+    margin-bottom: 8px;
+}
+
+/* Go Back – distanță identică până la border-left și border-top a page-wrapper */
+.top-back {
+    position: absolute !important;
+    left: 40px !important;
+    top: 24px !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+}
+
+/* Agent greeting – distanță identică până la border-right și border-top a page-wrapper */
+.agent-greeting {
+    position: absolute !important;
+    right: 40px !important;
+    top: 24px !important;
+    left: auto !important;
+    bottom: auto !important;
+}
+
+/* ===== Buton Go Back – exact ca pe Car Inventory / Sales Management ===== */
+.back-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 8px 15px !important;
+    background: linear-gradient(135deg, #166534, #0d9488) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    border-radius: 14px !important;
+    font-weight: 600 !important;
+    font-size: 22px !important;
+    font-family: 'Outfit', 'DM Sans', system-ui, sans-serif !important;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s !important;
+    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25) !important;
+    border: none !important;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #052e16, #0f766e) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.35) !important;
+}
+
+.back-btn i {
+    font-size: 30px !important;
+    margin-right: 8px !important;
+}
+
+/* ===== Agent badge – exact ca pe Car Inventory ===== */
+#agentNameBadge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: linear-gradient(135deg, #166534, #0d9488) !important;
+    color: #fff !important;
+    padding: 10px 22px !important;
+    border-radius: 30px !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    font-family: 'Outfit', 'DM Sans', system-ui, sans-serif !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+    letter-spacing: 0.5px !important;
+    cursor: default !important;
+    transition: background 0.25s, transform 0.25s !important;
+    border: none !important;
+}
+
+#agentNameBadge:hover {
+    background: linear-gradient(135deg, #052e16, #0f766e) !important;
+    transform: translateY(-3px) !important;
+}
+
+#agentNameBadge i {
+    font-size: 26px !important;
+    margin-right: 6px !important;
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        padding: 0 20px !important;
+        min-height: 64px;
+    }
+
+    .top-back {
+        left: 20px !important;
+        top: 24px !important;
+    }
+
+    .agent-greeting {
+        right: 20px !important;
+        top: 24px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar {
+        padding: 0 12px !important;
+        min-height: 64px;
+    }
+
+    .top-back {
+        left: 12px !important;
+        top: 24px !important;
+    }
+
+    .agent-greeting {
+        right: 12px !important;
+        top: 24px !important;
+    }
+}

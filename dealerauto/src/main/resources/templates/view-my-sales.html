@@ -5,16 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Sales</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/sales.css}">
     <link rel="stylesheet" th:href="@{/css/view-my-sales.css}">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/agent-page-wrapper.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-dashboard-bg.css}" />
+    <link rel="stylesheet" th:href="@{/css/agent-top-bar.css}" />
     <script th:src="@{/js/view-my-sales.js}"></script>
 </head>
 
 <body>
 
 <div class="page-wrapper">
+
+    <!-- Fundal (ca pe Sales Management) -->
+    <div class="agent-dashboard-bg" aria-hidden="true">
+        <div class="bg-gradient"></div>
+        <div class="bg-mesh"></div>
+        <div class="bg-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+            <span class="shape shape-4"></span>
+            <span class="shape shape-5"></span>
+        </div>
+        <div class="bg-grid"></div>
+    </div>
+
+    <div class="agent-dashboard-content">
 
     <!-- TOP BAR -->
     <div class="top-bar">
@@ -171,7 +193,7 @@
                     <i class="fa-solid fa-coins"></i>
                 </div>
                 <div class="summary-content">
-                    <span class="summary-label">Total profit (€)</span>
+                    <span class="summary-label">Total profit</span>
                     <span class="summary-value" id="totalProfit">0</span>
                 </div>
             </div>
@@ -322,8 +344,10 @@
 
     </div>
 
+    </div><!-- /.agent-dashboard-content -->
 
-</div>
+</div><!-- /.page-wrapper -->
 
+    <script th:src="@{/js/agent-dashboard-bg.js}"></script>
 </body>
 </html>

@@ -165,7 +165,8 @@ public class AgentController {
             model.addAttribute("searchId", searchId);
             model.addAttribute("currentPage", 1);
             model.addAttribute("totalPages", 1);
-            model.addAttribute("pageSize", "-");
+            model.addAttribute("pageSize", 8);
+            model.addAttribute("queryString", "&searchId=" + searchId);
 
             if (car == null) {
                 model.addAttribute("notFoundMessage", "No car found with ID " + searchId + ".");
@@ -188,9 +189,8 @@ public class AgentController {
             model.addAttribute("vinNotFound", cars.isEmpty());
             model.addAttribute("currentPage", 1);
             model.addAttribute("totalPages", 1);
-            model.addAttribute("pageSize", "-");
-            model.addAttribute("vinSearch", vinSearch);
-
+            model.addAttribute("pageSize", 8);
+            model.addAttribute("queryString", "&vinSearch=" + java.net.URLEncoder.encode(vinSearch, java.nio.charset.StandardCharsets.UTF_8));
 
             if (cars.isEmpty()) {
                 model.addAttribute("notFoundMessage",
@@ -212,7 +212,8 @@ public class AgentController {
             model.addAttribute("modelNotFound", cars.isEmpty());
             model.addAttribute("currentPage", 1);
             model.addAttribute("totalPages", 1);
-            model.addAttribute("pageSize", "-");
+            model.addAttribute("pageSize", 8);
+            model.addAttribute("queryString", "&modelSearch=" + java.net.URLEncoder.encode(modelSearch, java.nio.charset.StandardCharsets.UTF_8));
             return "car-inventory";
         }
 
