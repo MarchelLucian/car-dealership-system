@@ -30,30 +30,29 @@ public class ClientDAO {
     public void insert(Client c) {
 
         String sql = """
-            INSERT INTO client (
-                tip_client,
-                nume,
-                prenume,
-                cnp,
-                cui,
-                telefon,
-                email,
-                adresa
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """;
+                    INSERT INTO client (
+                        tip_client,
+                        nume,
+                        prenume,
+                        cnp,
+                        cui,
+                        telefon,
+                        email,
+                        adresa
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
 
         jdbcTemplate.update(
                 sql,
                 c.getTip_client(),
                 c.getNume(),
-                c.getPrenume(),   // NULL pentru firmă
-                c.getCnp(),       // NULL pentru firmă
-                c.getCui(),       // NULL pentru persoană fizică
+                c.getPrenume(), // NULL pentru firmă
+                c.getCnp(), // NULL pentru firmă
+                c.getCui(), // NULL pentru persoană fizică
                 c.getTelefon(),
                 c.getEmail(),
-                c.getAdresa()
-        );
+                c.getAdresa());
     }
 
     // ============================
@@ -62,12 +61,13 @@ public class ClientDAO {
     public Client findByCnpOrCui(String cuiCnp) {
 
         String sql = """
-            SELECT * FROM client
-            WHERE cnp = ? OR cui = ?
-        """;
+                    SELECT * FROM client
+                    WHERE cnp = ? OR cui = ?
+                """;
 
         return jdbcTemplate.query(sql, rs -> {
-            if (!rs.next()) return null;
+            if (!rs.next())
+                return null;
 
             Client c = new Client();
             c.setId(rs.getInt("id"));
@@ -82,8 +82,6 @@ public class ClientDAO {
             return c;
         }, cuiCnp, cuiCnp);
     }
-
-
 
     /**
      * Găsește client după ID

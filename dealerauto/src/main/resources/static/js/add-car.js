@@ -79,9 +79,6 @@ function clearCarForm() {
     // curăță erori
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
     document.querySelectorAll("input, select").forEach(e => e.classList.remove("input-error"));
-
-    // 🔥 reload curat (fără flash attributes)
-    window.location.href = "/agent-dashboard/cars-management/add-car";
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -36,8 +36,7 @@ public class AgentController {
     // LOGIN FORM
     // ------------------------------
     @GetMapping("/agent-login")
-    public String showLoginForm(@RequestParam(value = "error", required = false) String error,
-            Model model) {
+    public String showLoginForm(@RequestParam(value = "error", required = false) String error, Model model) {
 
         if (error != null) {
             model.addAttribute("error", "Invalid username or password! Please try again!");

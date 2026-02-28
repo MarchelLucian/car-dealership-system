@@ -169,8 +169,6 @@ function clearSaleForm() {
   const err = document.getElementById("errorMessage");
   if (err) err.style.display = "none";
 
-  window.location.href = "/agent-dashboard/sales/add-sale";
-
   document.getElementById("carIdInput").value = "";
   document.getElementById("carVinInput").value = "";
   document.getElementById("masina_id").value = "";

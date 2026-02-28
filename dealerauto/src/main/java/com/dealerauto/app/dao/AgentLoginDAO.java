@@ -23,17 +23,16 @@ public class AgentLoginDAO {
         String sql = "SELECT * FROM agent_login WHERE username = ?";
 
         return jdbcTemplate.queryForObject(sql,
-                new Object[]{username},
+                new Object[] { username },
                 (rs, rowNum) -> {
 
                     Agent a = new Agent();
-                    a.setId(rs.getInt("id"));                    // id din agent_login
+                    a.setId(rs.getInt("id"));
                     a.setUsername(rs.getString("username"));
                     a.setPassword(rs.getString("password"));
-                    a.setIdAgent(rs.getInt("id_agent"));         // foreign key către agentdevanzare
+                    a.setIdAgent(rs.getInt("id_agent"));
 
                     return a;
-                }
-        );
+                });
     }
 }

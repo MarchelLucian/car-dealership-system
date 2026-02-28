@@ -25,7 +25,7 @@ public class AgentDAO {
         String sql = "SELECT * FROM agentdevanzare WHERE id_agent = ?";
 
         return jdbcTemplate.queryForObject(sql,
-                new Object[]{agent.getIdAgent()},
+                new Object[] { agent.getIdAgent() },
                 (rs, rowNum) -> {
                     agent.setNume(rs.getString("nume"));
                     agent.setPrenume(rs.getString("prenume"));
@@ -33,8 +33,7 @@ public class AgentDAO {
                     agent.setEmail(rs.getString("email"));
                     agent.setSalariu(rs.getDouble("salariu"));
                     return agent;
-                }
-        );
+                });
     }
 
     public List<Agent> findAll() {
@@ -50,6 +49,7 @@ public class AgentDAO {
             return agent;
         });
     }
+
     /**
      * Verifică dacă username-ul există deja în agent_login
      */

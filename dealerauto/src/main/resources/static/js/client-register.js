@@ -134,8 +134,6 @@ function clearRegisterForm() {
   document
     .querySelectorAll("input, select")
     .forEach((e) => e.classList.remove("input-error"));
-
-  window.location.href = "/client-register";
 }
 
 // Toggle Password Visibility

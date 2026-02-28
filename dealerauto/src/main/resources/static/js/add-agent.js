@@ -70,8 +70,6 @@ function clearAgentForm() {
 
     const err = document.getElementById("errorMessage");
     if (err) err.style.display = "none";
-
-    window.location.href = "/manager-dashboard/add-staff/add-agent";
 }
 
 // Toggle password visibility

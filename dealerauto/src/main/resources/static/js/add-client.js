@@ -73,6 +73,4 @@ function clearClientForm() {
     document.querySelector("form").reset();
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
     document.querySelectorAll("input, select").forEach(e => e.classList.remove("input-error"));
-
-    window.location.href = "/agent-dashboard/sales/add-client";
 }

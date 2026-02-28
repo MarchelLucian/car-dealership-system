@@ -55,8 +55,6 @@ function clearManagerForm() {
 
     const err = document.getElementById("errorMessage");
     if (err) err.style.display = "none";
-
-    window.location.href = "/manager-dashboard/add-staff/add-manager";
 }
 
 // Toggle password visibility
