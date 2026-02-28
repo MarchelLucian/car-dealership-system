@@ -2,12 +2,12 @@ function confirmRemoveAgent(button) {
     const idAgent = button.getAttribute('data-id');
     const agentName = button.getAttribute('data-name');
 
-    // Creează overlay
+    // overlay
     const overlay = document.createElement('div');
     overlay.className = 'custom-overlay';
     overlay.id = 'confirmOverlay';
 
-    // Creează modal
+    // modal
     overlay.innerHTML = `
         <div class="custom-modal">
             <div class="modal-icon">

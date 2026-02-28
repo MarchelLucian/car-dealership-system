@@ -1,9 +1,9 @@
 /**
- * Controller pentru gestionarea clienților adăugați de către agenți.
- * Oferă funcționalități de creare, editare și vizualizare clienți în sistem.
+ * Controller for clients added by agents.
+ * Provides create, edit and view client functionality.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 
@@ -51,38 +51,34 @@ public class ClientAddedByAgentController {
             @RequestParam String telefon,
             @RequestParam String email,
             @RequestParam String adresa,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
 
         // ---- VALIDARE DE BAZĂ ----
-        boolean invalid =
-                tip_client == null || tip_client.isBlank() ||
-                        nume == null || nume.isBlank() ||
-                        telefon == null || telefon.isBlank() ||
-                        email == null || email.isBlank() ||
-                        adresa == null || adresa.isBlank();
+        boolean invalid = tip_client == null || tip_client.isBlank() ||
+                nume == null || nume.isBlank() ||
+                telefon == null || telefon.isBlank() ||
+                email == null || email.isBlank() ||
+                adresa == null || adresa.isBlank();
 
         if (invalid) {
             redirectAttributes.addFlashAttribute(
-                    "errorMessage", "All required fields must be completed."
-            );
+                    "errorMessage", "All required fields must be completed.");
             return "redirect:/agent-dashboard/sales/add-client";
         }
 
         String cnp = null;
         String cui = null;
 
-// ---- VALIDARE TIP CLIENT ----
+        // ---- VALIDARE TIP CLIENT ----
         if ("persoana fizica".equals(tip_client)) {
 
             if (cnp_cui == null || cnp_cui.isBlank()) {
                 redirectAttributes.addFlashAttribute(
-                        "errorMessage", "CNP is required for physical persons."
-                );
+                        "errorMessage", "CNP is required for physical persons.");
                 return "redirect:/agent-dashboard/sales/add-client";
             }
 
-            cnp = cnp_cui;   // 👈
+            cnp = cnp_cui; // 👈
             cui = null;
 
         }
@@ -91,16 +87,14 @@ public class ClientAddedByAgentController {
 
             if (cnp_cui == null || cnp_cui.isBlank()) {
                 redirectAttributes.addFlashAttribute(
-                        "errorMessage", "CUI is required for companies."
-                );
+                        "errorMessage", "CUI is required for companies.");
                 return "redirect:/agent-dashboard/sales/add-client";
             }
 
-            cui = cnp_cui;   // 👈
+            cui = cnp_cui; // 👈
             cnp = null;
             prenume = null;
         }
-
 
         // ---- CREARE CLIENT ----
         Client c = new Client();
@@ -121,32 +115,28 @@ public class ClientAddedByAgentController {
 
             if (msg.contains("cnp") || msg.contains("cui")) {
                 redirectAttributes.addFlashAttribute(
-                        "errorMessage", "A client with this CNP / CUI already exists."
-                );
+                        "errorMessage", "A client with this CNP / CUI already exists.");
                 redirectAttributes.addFlashAttribute("telefon", telefon);
                 redirectAttributes.addFlashAttribute("email", email);
             } else if (msg.contains("telefon")) {
                 redirectAttributes.addFlashAttribute(
-                        "errorMessage", "This phone number is already used."
-                );
+                        "errorMessage", "This phone number is already used.");
                 redirectAttributes.addFlashAttribute("cnp_cui", cnp_cui);
                 redirectAttributes.addFlashAttribute("email", email);
             } else if (msg.contains("email")) {
                 redirectAttributes.addFlashAttribute(
-                        "errorMessage", "This email address is already used."
-                );
+                        "errorMessage", "This email address is already used.");
                 redirectAttributes.addFlashAttribute("cnp_cui", cnp_cui);
                 redirectAttributes.addFlashAttribute("telefon", telefon);
             } else {
                 redirectAttributes.addFlashAttribute(
-                        "errorMessage", "Client already exists (duplicate data) / Inputs are too long"
-                );
+                        "errorMessage", "Client already exists (duplicate data) / Inputs are too long");
                 redirectAttributes.addFlashAttribute("cnp_cui", cnp_cui);
                 redirectAttributes.addFlashAttribute("telefon", telefon);
                 redirectAttributes.addFlashAttribute("email", email);
             }
 
-            //  PĂSTRĂM DATELE
+            // PĂSTRĂM DATELE
             redirectAttributes.addFlashAttribute("tip_client", tip_client);
             redirectAttributes.addFlashAttribute("nume", nume);
             redirectAttributes.addFlashAttribute("prenume", prenume);
@@ -155,11 +145,9 @@ public class ClientAddedByAgentController {
             return "redirect:/agent-dashboard/sales/add-client";
         }
 
-
         redirectAttributes.addFlashAttribute(
                 "successMessage",
-                "Client successfully created. You may now register a sale."
-        );
+                "Client successfully created. You may now register a sale.");
 
         return "redirect:/agent-dashboard/sales/add-client";
     }

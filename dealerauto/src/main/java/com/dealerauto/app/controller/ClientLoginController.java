@@ -1,9 +1,9 @@
 /**
- * Controller pentru autentificarea clienților în sistem.
- * Gestionează procesul de login și crearea sesiunilor pentru clienți.
+ * Controller for client authentication.
+ * Handles login and session creation for clients.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 
@@ -32,8 +32,7 @@ public class ClientLoginController {
             @RequestParam String email,
             @RequestParam String password,
             HttpSession session,
-            Model model
-    ) {
+            Model model) {
         try {
             ClientUser user = clientUserDAO.findByEmail(email);
 
@@ -42,11 +41,10 @@ public class ClientLoginController {
                 String clientName = clientUserDAO.getClientName(user.getClientId());
                 String clientSecondName = clientUserDAO.getClientSecondName(user.getClientId());
                 // ===== GENERAM INITIALELE =====
-                String initials =clientName.substring(0, 1).toUpperCase();
+                String initials = clientName.substring(0, 1).toUpperCase();
                 if (clientSecondName != null && !clientSecondName.isBlank()) {
                     initials += clientSecondName.substring(0, 1).toUpperCase();
                 }
-
 
                 // salvăm userul în sesiune
                 session.setAttribute("clientId", user.getClientId());
@@ -58,7 +56,8 @@ public class ClientLoginController {
                 return "redirect:/client";
             }
 
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         model.addAttribute("error", "Invalid email or password!");
         return "client-login";

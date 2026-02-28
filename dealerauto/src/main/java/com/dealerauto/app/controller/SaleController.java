@@ -1,9 +1,9 @@
 /**
- * Controller pentru pagina de vânzări a dealership-ului.
- * Centralizează toate operațiunile legate de procesul de vânzare.
+ * Controller for dealership sales.
+ * Centralizes all sale-related operations.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 

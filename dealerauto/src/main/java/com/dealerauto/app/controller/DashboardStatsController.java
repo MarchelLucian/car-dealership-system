@@ -1,8 +1,8 @@
 /**
- * REST Controller pentru statistici dashboard cu filtrare temporală.
+ * REST controller for dashboard statistics with date range filtering.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 
@@ -22,11 +22,12 @@ public class DashboardStatsController {
     private DashboardDAO dashboardDAO;
 
     @GetMapping("/stats")
-    public ResponseEntity<DashboardStats> getStats(  // ← Returnează DashboardStats
-                                                     @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                                     @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+    public ResponseEntity<DashboardStats> getStats( // ← Returnează DashboardStats
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-       // System.out.println("🔍 API called with startDate=" + startDate + ", endDate=" + endDate);
+        // System.out.println("🔍 API called with startDate=" + startDate + ", endDate="
+        // + endDate);
 
         DashboardStats stats;
 

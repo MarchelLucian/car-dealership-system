@@ -1,4 +1,3 @@
-
 // Initialize Agent Performance Chart
 document.addEventListener('DOMContentLoaded', () => {
     colorMarkupBadges();
@@ -38,8 +37,6 @@ function initAgentPerformanceChart() {
     initAgentMarkupChart();
     initAgentPerformanceChart2();
 }
-
-
 
 /**
  * Apply sorting for Agents table
@@ -102,7 +99,6 @@ function applyAgentSort() {
     // Visual feedback
     showSortFeedback('agentsTable');
 }
-
 
 // Sales Count Chart (Horizontal Bar)
 function initAgentSalesChart() {
@@ -418,19 +414,18 @@ function initAgentPerformanceChart2() {
         return `${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
     });
 
-    // Grupează datele per agent
+    // data per agent
     const agentNames = [...new Set(topAgentsData.map(d => d.agentName))];
 
     console.log('📅 Labels:', labels);
     console.log('👥 Agents:', agentNames);
 
-    // Culori pentru agenți
     const colors = [
         '#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
         '#1abc9c', '#e67e22', '#34495e', '#16a085', '#d35400'
     ];
 
-    // Creează dataset pentru fiecare agent - DOAR Sales
+    // dataset per agent - ONLY Sales
     const salesDatasets = agentNames.map((agentName, index) => {
         const agentData = topAgentsData.filter(d => d.agentName === agentName);
         const salesData = uniqueMonths.map(month => {

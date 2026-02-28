@@ -1,18 +1,16 @@
-// Pornește spinnerul
+// spinner
 function showAddCarSpinner() {
     const btn = document.getElementById("addCarBtn");
     const spinner = document.getElementById("addCarSpinner");
     const text = document.getElementById("addCarText");
     const plus = document.getElementById("addCarPlus");
 
-    text.style.display = "none";      // ascunde textul
-    plus.style.display = "none";      // ascunde iconița plus
-    spinner.style.display = "inline-block";  // arată spinnerul
+    text.style.display = "none";      
+    plus.style.display = "none";      
+    spinner.style.display = "inline-block"; 
 
     btn.disabled = true;
 }
-
-
 
 // Validare formular
 function validateAddCarForm(event) {
@@ -73,7 +71,6 @@ function validateAddCarForm(event) {
         event.target.submit();
     }, 800);
 }
-
 
 function clearCarForm() {
     // reset DOM

@@ -1,9 +1,9 @@
 /**
- * Controller pentru gestionarea logout-ului utilizatorilor (agenți și clienți).
- * Invalidează sesiunile și redirecționează către paginile de autentificare.
+ * Controller for user logout (agents and clients).
+ * Invalidates sessions and redirects to login pages.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 

@@ -1,9 +1,9 @@
 /**
- * Controller pentru pagina principală (home page) a aplicației.
- * Gestionează landing page-ul și navigarea către secțiunile principale.
+ * Controller for the application home page.
+ * Handles the landing page and navigation to main sections.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 
@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home() { return "index"; }
+    public String home() {
+        return "index";
+    }
 
 }

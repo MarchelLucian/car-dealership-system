@@ -1,7 +1,3 @@
-// ====================================================
-// MY ACCOUNT.JS
-// ====================================================
-
 function showChangePasswordPopup() {
     document.getElementById('changePasswordOverlay').style.display = 'flex';
 }
@@ -41,7 +37,6 @@ function handleChangePassword(event) {
         return;
     }
 
-    // Trimite request
     fetch('/api/client/my-account/change-password', {
         method: 'POST',
         headers: {
@@ -65,7 +60,7 @@ function handleChangePassword(event) {
             showErrorMessage('An error occurred. Please try again.');
         });
 }
-//  FUNCȚIE PENTRU AFIȘARE EROARE
+
 function showErrorMessage(message) {
     const errorMessage = document.getElementById('passwordErrorMessage');
     errorMessage.textContent = message;
@@ -73,7 +68,6 @@ function showErrorMessage(message) {
     errorMessage.style.display = 'flex';
 }
 
-//  FUNCȚIE PENTRU AFIȘARE SUCCES
 function showSuccessMessage(message) {
     const errorMessage = document.getElementById('passwordErrorMessage');
     errorMessage.textContent = message;
@@ -88,8 +82,6 @@ function closeChangePasswordPopup() {
     document.getElementById('passwordErrorMessage').style.display = 'none';
 }
 
-
-// Close popup când se dă click pe overlay
 document.addEventListener('click', function(e) {
     const overlay = document.getElementById('changePasswordOverlay');
     if (e.target === overlay) {

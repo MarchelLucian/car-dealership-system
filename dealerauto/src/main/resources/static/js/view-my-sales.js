@@ -48,7 +48,6 @@ function showCarInfo(btn) {
                         <div><span>Mileage:</span> ${data.mileage} km</div>
                         <div><span>Transmission:</span> ${data.transmission}</div>
                         <div><span>VIN:</span> ${data.vin}</div>
-
                         <i class="fa-regular fa-circle-xmark close-btn"
                            onclick="closeDetails('${carRow.id}')"></i>
                     </div>
@@ -81,7 +80,6 @@ function getMainSalesRows() {
         row.id !== "noResultsRow"
     );
 }
-
 
 function showClientInfo(btn) {
     const saleId = btn.dataset.saleId;
@@ -136,7 +134,6 @@ function showClientInfo(btn) {
     }, 1000);
 }
 
-
 function closeDetails(id) {
     const row = document.getElementById(id);
     row.classList.remove("visible");
@@ -165,16 +162,13 @@ function closeAllDetailsRows() {
     });
 }
 
-
-
 function sortSales() {
 
     // 1 Activează overlay
     const overlay = document.getElementById("tableOverlay");
     if (overlay) overlay.style.display = "flex";
 
-
-    const field = document.getElementById("sortField").value;
+const field = document.getElementById("sortField").value;
     const order = document.getElementById("sortOrder").value;
 
     const container = document.querySelector(".sales-container");
@@ -230,8 +224,7 @@ function sortSales() {
             return 0;
         });
 
-
-        // Reatașăm rândurile sortate
+// Reatașăm rândurile sortate
         rows.forEach(row => container.appendChild(row));
 
         updateSalesSummary();
@@ -254,7 +247,6 @@ function resetAllTimeFilters() {
     if (predefined) predefined.value = ""; // "-" (gol)
 }
 
-
 function clearMonthsInput() {
     const el = document.getElementById("monthsInput");
     if (el) el.value = "";
@@ -272,13 +264,11 @@ function clearPredefinedRange() {
     if (el) el.value = ""; // "-"
 }
 
-
 function getSaleDate(row) {
     const cell = row.children[7];
     if (!cell) return null;
     return new Date(cell.innerText);
 }
-
 
 function filterLastMonths() {
     clearBetweenDates();
@@ -332,7 +322,6 @@ function filterQuickRange() {
     applyDateFilter(date => date >= from);
 }
 
-
 function applyDateFilter(predicate) {
 
     const overlay = document.getElementById("tableOverlay");
@@ -342,8 +331,7 @@ function applyDateFilter(predicate) {
     overlayProfit.style.display =
         overlayProfit.style.display === "flex" ? "none" : "flex";
 
-
-    const overlayCount = document.getElementById("tableOverlayCount");
+const overlayCount = document.getElementById("tableOverlayCount");
     overlayCount.style.display =
         overlayCount.style.display === "flex" ? "none" : "flex";
 
@@ -398,7 +386,6 @@ function showAllRows() {
     rows.forEach(row => row.style.display = "grid");
 }
 
-
 function showNoResults(message) {
     const row = document.getElementById("noResultsRow");
     const text = row?.querySelector(".no-results-text");
@@ -413,7 +400,6 @@ function hideNoResults() {
     const row = document.getElementById("noResultsRow");
     if (row) row.style.display = "none";
 }
-
 
 function getAllClientsFromTable() {
     const rows = getMainSalesRows();
@@ -503,8 +489,7 @@ function filterSalesByClient(clientName) {
     overlayProfit.style.display =
         overlayProfit.style.display === "flex" ? "none" : "flex";
 
-
-    const overlayCount = document.getElementById("tableOverlayCount");
+const overlayCount = document.getElementById("tableOverlayCount");
     overlayCount.style.display =
         overlayCount.style.display === "flex" ? "none" : "flex";
 
@@ -558,7 +543,6 @@ function filterByClient() {
 
     filterSalesByClient(value);
 }
-
 
 function getAllCarsFromTable() {
     const rows = getMainSalesRows();
@@ -643,8 +627,7 @@ function filterSalesByCar(carName) {
     overlayProfit.style.display =
         overlayProfit.style.display === "flex" ? "none" : "flex";
 
-
-    const overlayCount = document.getElementById("tableOverlayCount");
+const overlayCount = document.getElementById("tableOverlayCount");
     overlayCount.style.display =
         overlayCount.style.display === "flex" ? "none" : "flex";
 

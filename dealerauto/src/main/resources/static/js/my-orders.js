@@ -1,20 +1,12 @@
-// ====================================================
-// MY-ORDERS.JS - Cu traduceri și iconițe
-// ====================================================
-
 document.addEventListener("DOMContentLoaded", () => {
 
     loadCarLogos();
     loadCarImages();
 
-    // Traduce și adaugă iconițe pentru tipurile de plată
     translatePaymentMethods();
     updatePurchaseCount();
 });
 
-// ====================================================
-// ACTUALIZEAZĂ PLURAL PENTRU PURCHASE
-// ====================================================
 function updatePurchaseCount() {
     const purchaseText = document.querySelector('.purchase-text');
     const countElement = document.querySelector('.orders-count strong');
@@ -30,9 +22,7 @@ function updatePurchaseCount() {
     }
 }
 
-// ====================================================
-// TRADUCE TIPURILE DE PLATĂ ȘI ADAUGĂ ICONIȚE
-// ====================================================
+// translate payment types and set icons for each item
 function translatePaymentMethods() {
     const paymentItems = document.querySelectorAll('.payment-type-item');
 
@@ -42,18 +32,13 @@ function translatePaymentMethods() {
         const paymentIcon = item.querySelector('.payment-icon');
 
         if (paymentType && paymentText && paymentIcon) {
-            // Traduce textul
             paymentText.textContent = translatePaymentType(paymentType);
-
-            // Adaugă iconița
             paymentIcon.className = `payment-icon ${getPaymentIcon(paymentType)}`;
         }
     });
 }
 
-// ====================================================
-// FUNCȚIE TRADUCERE TIP PLATĂ
-// ====================================================
+// map payment type key to display label
 function translatePaymentType(tipTranzactie) {
     if (!tipTranzactie) return 'Unknown';
 
@@ -67,9 +52,7 @@ function translatePaymentType(tipTranzactie) {
     return translations[tipTranzactie.toLowerCase()] || tipTranzactie;
 }
 
-// ====================================================
-// FUNCȚIE ICONIȚE TIP PLATĂ
-// ====================================================
+// map payment type key to icon class name
 function getPaymentIcon(tipTranzactie) {
     if (!tipTranzactie) return 'fa-solid fa-money-bill';
 

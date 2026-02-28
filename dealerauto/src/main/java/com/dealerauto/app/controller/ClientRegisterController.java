@@ -1,9 +1,9 @@
 /**
- * Controller pentru înregistrarea clienților noi în platformă.
- * Validează datele și creează conturi pentru persoane fizice și juridice.
+ * Controller for new client registration.
+ * Validates input and creates accounts for individuals and companies.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 
@@ -44,13 +44,15 @@ public class ClientRegisterController {
             @RequestParam String email,
             @RequestParam(required = false) String adresa,
             @RequestParam String password,
-            Model model
-    ) {
+            Model model) {
 
         // Convertim valorile "---" la NULL
-        if ("---".equals(cnp)) cnp = null;
-        if ("---".equals(prenume)) prenume = null;
-        if ("---".equals(cui)) cui = null;
+        if ("---".equals(cnp))
+            cnp = null;
+        if ("---".equals(prenume))
+            prenume = null;
+        if ("---".equals(cui))
+            cui = null;
 
         // PĂSTRĂM TOATE VALORILE INTRODUSE (le trimitem înapoi la formular)
         model.addAttribute("tip_client", tip_client);
@@ -100,8 +102,7 @@ public class ClientRegisterController {
                 cui,
                 telefon,
                 email,
-                adresa
-        );
+                adresa);
 
         try {
             // Salvăm clientul și PRIMIM ID-ul generat

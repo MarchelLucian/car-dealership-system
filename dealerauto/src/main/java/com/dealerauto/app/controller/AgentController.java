@@ -1,9 +1,9 @@
 /**
- * Controller pentru gestionarea dashboard-ului și operațiunilor agentului de vânzări.
- * Oferă funcționalități CRUD pentru mașini, clienți și rapoarte de vânzări.
+ * Controller for the sales agent dashboard and operations.
+ * Provides CRUD for cars, clients and sales reports.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 
 package com.dealerauto.app.controller;
@@ -37,7 +37,7 @@ public class AgentController {
     // ------------------------------
     @GetMapping("/agent-login")
     public String showLoginForm(@RequestParam(value = "error", required = false) String error,
-                                Model model) {
+            Model model) {
 
         if (error != null) {
             model.addAttribute("error", "Invalid username or password! Please try again!");
@@ -51,8 +51,8 @@ public class AgentController {
     // ------------------------------
     @PostMapping("/agent-login")
     public String login(@RequestParam String username,
-                        @RequestParam String password,
-                        HttpSession session) {
+            @RequestParam String password,
+            HttpSession session) {
 
         try {
             Agent agent = loginDAO.findByUsername(username);
@@ -96,6 +96,7 @@ public class AgentController {
     public AgentController(MasinaDAO masinaDAO) {
         this.masinaDAO = masinaDAO;
     }
+
     @Autowired
     private MarcaDAO marcaDAO;
 
@@ -115,7 +116,7 @@ public class AgentController {
     @GetMapping("/agent-dashboard/cars-management/car-inventory/search-model")
     @ResponseBody
     public List<String> searchModelSuggestions(@RequestParam String query) {
-        return masinaDAO.searchModels(query);  // returnează lista de modele filtrate
+        return masinaDAO.searchModels(query); // returnează lista de modele filtrate
     }
 
     @GetMapping("/agent-dashboard/cars-management/car-inventory/search-vin")
@@ -123,7 +124,6 @@ public class AgentController {
     public List<String> searchVinSuggestions(@RequestParam String query) {
         return masinaDAO.searchVins(query);
     }
-
 
     @GetMapping("/agent-dashboard/cars-management/car-inventory")
     public String carInventory(
@@ -134,8 +134,7 @@ public class AgentController {
             @RequestParam(required = false) String vinSearch,
             @RequestParam MultiValueMap<String, String> allParams,
             Model model,
-            HttpSession session
-    ) {
+            HttpSession session) {
 
         Agent agent = (Agent) session.getAttribute("agent");
         model.addAttribute("agent", agent);
@@ -153,9 +152,6 @@ public class AgentController {
 
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortOrder", sortOrder);
-
-
-
 
         /* ====== 1) SEARCH BY ID ====== */
         if (searchId != null) {
@@ -190,7 +186,8 @@ public class AgentController {
             model.addAttribute("currentPage", 1);
             model.addAttribute("totalPages", 1);
             model.addAttribute("pageSize", 8);
-            model.addAttribute("queryString", "&vinSearch=" + java.net.URLEncoder.encode(vinSearch, java.nio.charset.StandardCharsets.UTF_8));
+            model.addAttribute("queryString",
+                    "&vinSearch=" + java.net.URLEncoder.encode(vinSearch, java.nio.charset.StandardCharsets.UTF_8));
 
             if (cars.isEmpty()) {
                 model.addAttribute("notFoundMessage",
@@ -199,7 +196,6 @@ public class AgentController {
 
             return "car-inventory";
         }
-
 
         /* ====== 2.1) SEARCH BY MODEL ====== */
         if (modelSearch != null && !modelSearch.isEmpty()) {
@@ -213,25 +209,24 @@ public class AgentController {
             model.addAttribute("currentPage", 1);
             model.addAttribute("totalPages", 1);
             model.addAttribute("pageSize", 8);
-            model.addAttribute("queryString", "&modelSearch=" + java.net.URLEncoder.encode(modelSearch, java.nio.charset.StandardCharsets.UTF_8));
+            model.addAttribute("queryString",
+                    "&modelSearch=" + java.net.URLEncoder.encode(modelSearch, java.nio.charset.StandardCharsets.UTF_8));
             return "car-inventory";
         }
 
         /* ====== 3) FILTER CARD ====== */
 
-        boolean hasFilters =
-                allParams.containsKey("priceMin") ||
-                        allParams.containsKey("priceMax") ||
-                        allParams.containsKey("yearMin")  ||
-                        allParams.containsKey("yearMax")  ||
-                        allParams.containsKey("kmMax")    ||
-                        allParams.containsKey("brands")   ||
-                        allParams.containsKey("fuels")     ||
-                        allParams.containsKey("transmissions") ||
-                        allParams.containsKey("doors")    ||
-                        allParams.containsKey("seats")    ||
-                        allParams.containsKey("providers");
-
+        boolean hasFilters = allParams.containsKey("priceMin") ||
+                allParams.containsKey("priceMax") ||
+                allParams.containsKey("yearMin") ||
+                allParams.containsKey("yearMax") ||
+                allParams.containsKey("kmMax") ||
+                allParams.containsKey("brands") ||
+                allParams.containsKey("fuels") ||
+                allParams.containsKey("transmissions") ||
+                allParams.containsKey("doors") ||
+                allParams.containsKey("seats") ||
+                allParams.containsKey("providers");
 
         // ==== QUERY STRING BASE EMPTY ==== (pentru pagination fără filtre)
         model.addAttribute("queryString", "");
@@ -241,7 +236,7 @@ public class AgentController {
             StringBuilder qs = new StringBuilder();
 
             allParams.forEach((k, list) -> {
-                if (!k.equals("page") && !k.equals("pageSize")) {   // <— EXCLUDEREA CORECTĂ
+                if (!k.equals("page") && !k.equals("pageSize")) { // <— EXCLUDEREA CORECTĂ
                     for (String val : list) {
                         qs.append("&").append(k).append("=").append(val);
                     }
@@ -256,9 +251,9 @@ public class AgentController {
             // ================================
             model.addAttribute("priceMin", allParams.getFirst("priceMin"));
             model.addAttribute("priceMax", allParams.getFirst("priceMax"));
-            model.addAttribute("yearMin",  allParams.getFirst("yearMin"));
-            model.addAttribute("yearMax",  allParams.getFirst("yearMax"));
-            model.addAttribute("kmMax",    allParams.getFirst("kmMax"));
+            model.addAttribute("yearMin", allParams.getFirst("yearMin"));
+            model.addAttribute("yearMax", allParams.getFirst("yearMax"));
+            model.addAttribute("kmMax", allParams.getFirst("kmMax"));
 
             // ================================
             // Re-populare checkbox-uri multiple
@@ -280,7 +275,6 @@ public class AgentController {
 
             model.addAttribute("seatsSelected",
                     allParams.containsKey("seats") ? allParams.get("seats") : null);
-
 
             // ================================
             // EXECUTĂM FILTRAREA COMPLETĂ
@@ -313,26 +307,28 @@ public class AgentController {
 
         /* ====== 4) PAGINATION (LISTĂ NORMALĂ FĂRĂ FILTRE) ====== */
 
-        if (pageSize < 5) pageSize = 5;
-        if (pageSize > 30) pageSize = 30;
+        if (pageSize < 5)
+            pageSize = 5;
+        if (pageSize > 30)
+            pageSize = 30;
 
-//  Luăm TOATE mașinile disponibile (nesortate, nepaginate)
+        // Luăm TOATE mașinile disponibile (nesortate, nepaginate)
         List<Masina> carsAll = masinaDAO.findAllAvailable();
 
-// Aplicăm sortarea (dacă sortField e null, sortăm după price asc implicit)
+        // Aplicăm sortarea (dacă sortField e null, sortăm după price asc implicit)
         carsAll = sortCars(carsAll, sortField, sortOrder);
 
-//  Calculăm paginarea
+        // Calculăm paginarea
         int totalCars = carsAll.size();
         int totalPages = (int) Math.ceil(totalCars / (double) pageSize);
 
         int start = (page - 1) * pageSize;
         int end = Math.min(start + pageSize, totalCars);
 
-//  Extragem DOAR mașinile paginii curente
+        // Extragem DOAR mașinile paginii curente
         List<Masina> cars = carsAll.subList(start, end);
 
-//  Trimitem în model
+        // Trimitem în model
         model.addAttribute("cars", cars);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -342,19 +338,20 @@ public class AgentController {
 
     }
 
-
     /* Helper: returnează primul element dintr-un String[] sau null */
     private String getFirst(String[] arr) {
         return (arr != null && arr.length > 0) ? arr[0] : null;
     }
 
-
-    /* ============================
-      FUNCTIE SORTARE UNIVERSALĂ
-   ============================ */
+    /*
+     * ============================
+     * FUNCTIE SORTARE UNIVERSALĂ
+     * ============================
+     */
     private List<Masina> sortCars(List<Masina> list, String sortField, String sortOrder) {
 
-        if (sortField == null || sortField.isEmpty()) return list;
+        if (sortField == null || sortField.isEmpty())
+            return list;
 
         Comparator<Masina> comparator = switch (sortField) {
 
@@ -366,7 +363,8 @@ public class AgentController {
             default -> null;
         };
 
-        if (comparator == null) return list;
+        if (comparator == null)
+            return list;
 
         if ("desc".equalsIgnoreCase(sortOrder)) {
             comparator = comparator.reversed();
@@ -374,9 +372,5 @@ public class AgentController {
 
         return list.stream().sorted(comparator).toList();
     }
-
-
-
-
 
 }

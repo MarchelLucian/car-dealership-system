@@ -41,7 +41,6 @@ function validateAddBrand(event) {
     }, 800);
 }
 
-
 // RESET BUTTON — șterge erorile + mesajul verde
 function clearBrandForm() {
     // reset DOM values

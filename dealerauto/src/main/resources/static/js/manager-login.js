@@ -4,12 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (demoBtn) {
         demoBtn.addEventListener("click", () => {
-
-            // Setăm username + password pentru demo
             document.getElementById("username").value = "Lucian";
             document.getElementById("password").value = "123";
 
-            // Trimitem formularul
             document.getElementById("loginForm").submit();
         });
     }

@@ -1,9 +1,9 @@
 /**
- * Controller pentru gestionarea operațiunilor managerului de dealership.
- * Oferă acces la statistici avansate, rapoarte și gestionare personal.
+ * Controller for dealership manager operations.
+ * Provides access to advanced statistics, reports and staff management.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 
@@ -41,13 +41,13 @@ public class ManagerController {
     // Afișează formularul de login
     @GetMapping("/manager-login")
     public String showLoginForm(@RequestParam(value = "error", required = false) String error,
-                                Model model) {
+            Model model) {
 
         if (error != null) {
             model.addAttribute("error", "Invalid username or password! Please try again!");
         }
 
-        return "manager-login";   // fișierul HTML din templates
+        return "manager-login"; // fișierul HTML din templates
     }
 
     // Procesează login-ul
@@ -73,7 +73,6 @@ public class ManagerController {
             return "manager-login";
         }
     }
-
 
     @Autowired
     private DashboardService dashboardService;
@@ -150,8 +149,7 @@ public class ManagerController {
                 "totalProfit", dashboardService.getTotalProfit(),
                 "totalCarsSold", dashboardService.getTotalCarsSold(),
                 "carsInStock", dashboardService.getCarsInStock(),
-                "carsRetracted", dashboardService.getCarsRetracted()
-        );
+                "carsRetracted", dashboardService.getCarsRetracted());
 
         return ResponseEntity.ok(overview);
     }
@@ -389,14 +387,14 @@ public class ManagerController {
                 "averageProfitMargin", dashboardService.getAverageProfitMargin(),
                 "averageRevenuePerCar", dashboardService.getAverageRevenuePerCar(),
                 "averageProfitPerCar", dashboardService.getAverageProfitPerCar(),
-                "averageDaysInStock", dashboardService.getAverageDaysInStock()
-        );
+                "averageDaysInStock", dashboardService.getAverageDaysInStock());
 
         return ResponseEntity.ok(metrics);
     }
 
     @Autowired
     private VanzareDAO vanzareDAO;
+
     @GetMapping("/api/manager/sales")
     @ResponseBody
     public Map<String, Object> getSalesPaginated(
@@ -408,14 +406,17 @@ public class ManagerController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-       // System.out.println(" API called: offset=" + offset + ", limit=" + limit + ", agentId=" + agentId +
-             //   ", startDate=" + startDate + ", endDate=" + endDate);
+        // System.out.println(" API called: offset=" + offset + ", limit=" + limit + ",
+        // agentId=" + agentId +
+        // ", startDate=" + startDate + ", endDate=" + endDate);
 
         try {
-            List<SaleDetail> sales = vanzareDAO.getSalesWithDetails(offset, limit, agentId, sortBy, sortOrder, startDate, endDate);
+            List<SaleDetail> sales = vanzareDAO.getSalesWithDetails(offset, limit, agentId, sortBy, sortOrder,
+                    startDate, endDate);
             int totalSales = vanzareDAO.getTotalSalesCount(agentId, startDate, endDate);
 
-           // System.out.println(" Returning " + sales.size() + " sales out of " + totalSales);
+            // System.out.println(" Returning " + sales.size() + " sales out of " +
+            // totalSales);
 
             Map<String, Object> response = new HashMap<>();
             response.put("sales", sales);
@@ -437,7 +438,5 @@ public class ManagerController {
             return errorResponse;
         }
     }
-
-
 
 }

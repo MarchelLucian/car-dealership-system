@@ -469,9 +469,6 @@ function initAgentPerformanceChart() {
 // HELPER FUNCTIONS
 // ====================================================
 
-/**
- * Formatează luna din "2025-01" în "Jan 2025"
- */
 function formatMonthLabel(monthStr) {
     if (!monthStr) return '';
 
@@ -724,7 +721,6 @@ function updateDashboard(stats) {
     updateKpiValue('Total Revenue', formatNumber(stats.totalSalesRevenue) + ' €');
     updateKpiValue('Total Profit', formatNumber(stats.totalProfit) + ' €');
     updateKpiValue('Profit Margin', formatNumber(stats.profitMargin) + '%');
-
 
     document.getElementById('stockValueAmount').textContent = formatNumber(stats.currentStockValue) + ' €';
     document.getElementById('carsInStockValue').textContent = stats.carsInStock || 0;

@@ -13,13 +13,13 @@ function colorConversionRates() {
 
         let color;
         if (rate === 0) {
-            color = 'linear-gradient(135deg, #757575 0%, #9e9e9e 100%)';  // Gri
+            color = 'linear-gradient(135deg, #757575 0%, #9e9e9e 100%)';  
         } else if (rate <= 20) {
-            color = 'linear-gradient(135deg, #c62828 0%, #f44336 100%)';  // Roșu
+            color = 'linear-gradient(135deg, #c62828 0%, #f44336 100%)';  
         } else if (rate < 50) {
-            color = 'linear-gradient(135deg, #f57c00 0%, #ffa726 100%)';  // Portocaliu
+            color = 'linear-gradient(135deg, #f57c00 0%, #ffa726 100%)';  
         } else {
-            color = 'linear-gradient(135deg, #3d8312 0%, #36da45 100%)';  // Verde
+            color = 'linear-gradient(135deg, #3d8312 0%, #36da45 100%)';  
         }
 
         span.style.background = color;
@@ -204,12 +204,10 @@ function initProviderPerformanceChart() {
 
 }
 
-
 function initProviderPerformanceChart2() {
     const ctx = document.getElementById('providerPerformanceChart2');
     if (!ctx) return;
 
-    // Luăm datele direct din tabel
     const rows = Array.from(document.querySelectorAll('.provider-row'));
 
     if (rows.length === 0) {
@@ -217,7 +215,6 @@ function initProviderPerformanceChart2() {
         return;
     }
 
-    // Extragem datele
     const providers = rows.map(row => ({
         name: row.dataset.name,
         supplied: Number(row.dataset.supplied),
@@ -227,7 +224,6 @@ function initProviderPerformanceChart2() {
     // Sort descrescător după Cars Supplied
     providers.sort((a, b) => b.supplied - a.supplied);
 
-    // Luăm Top 10
     const top10 = providers.slice(0, 10);
 
     const labels = top10.map(p => p.name);

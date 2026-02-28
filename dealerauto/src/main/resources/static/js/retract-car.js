@@ -4,7 +4,6 @@ document.addEventListener("keydown", function (e) {
     }
 });
 
-
 function openConfirmModal() {
     const modal = document.getElementById("confirmModal");
 
@@ -21,7 +20,6 @@ function closeConfirmModal() {
     const modal = document.getElementById("confirmModal");
     if (modal) modal.style.display = "none";
 }
-
 
 // ===============================
 // CONFIRM RETRACT (SUBMIT REAL)
@@ -47,7 +45,6 @@ function confirmRetractCar() {
         form.submit();
     }, 1000);
 }
-
 
 // ===============================
 // VALIDARE FORM
@@ -92,7 +89,6 @@ function validateRetractCar(event) {
 
     //  DESCHIDEM MODALUL
     openConfirmModal();
-
 }
 
 // ===============================
@@ -172,8 +168,6 @@ function updateTaxaStationare(pretAchizitie) {
     taxaInput.value = taxa.toFixed(2);
 }
 
-
-
 // ===============================
 // SEARCH BY ID
 // ===============================
@@ -196,8 +190,7 @@ function searchCarById() {
     providerInfoBox.style.display = "none";
     hiddenId.value = "";
 
-
-    // ascunde mesajele de succes / eroare venite din backend (FlashAttributes)
+    // ascunde mesajele de succes / eroare venite din backend 
     const successMsg = document.querySelector(".success-message");
     if (successMsg) successMsg.style.display = "none";
 
@@ -228,10 +221,8 @@ function searchCarById() {
                 // ===============================
                 if (data.data_intrare_stoc) {
 
-                    // afișăm data de intrare în stoc
                     entryDateInput.value = data.data_intrare_stoc;
 
-                    // calcul zile de stocare
                     const entry = new Date(data.data_intrare_stoc);
                     const today = new Date();
 
@@ -245,14 +236,12 @@ function searchCarById() {
                     storageDaysInput.value = "------";
                 }
 
-
-                clearCarValidationError();
+clearCarValidationError();
 
                 hiddenId.value = data.id;
                 document.getElementById("provider_id").value = data.provider_id;
 
-
-                const vinInput = document.getElementById("carVinInput");
+const vinInput = document.getElementById("carVinInput");
                 vinInput.value = data.vin;
 
                 disableVinSearch();
@@ -272,8 +261,7 @@ function searchCarById() {
                 document.getElementById("transmisie").value = data.transmisie;
                 document.getElementById("numar_locuri").value = data.numar_locuri;
 
-
-                updateTaxaStationare(data.pretAchizitie);
+updateTaxaStationare(data.pretAchizitie);
                 // PROVIDER
                 document.getElementById("provider_nume").value = data.provider_nume;
 
@@ -326,9 +314,9 @@ function searchCarById() {
     }, 1200);
 }
 
-// ===============================
-// SEARCH BY VIN (IDENTIC cu add-sale)
-// ===============================
+// =============
+// SEARCH BY VIN 
+// =============
 function searchCarByVin() {
     const vin = document.getElementById("carVinInput").value;
     const lookupError = document.getElementById("error-car-lookup");
@@ -374,13 +362,9 @@ function searchCarByVin() {
                     return;
                 }
 
-
-
                 clearCarValidationError();
 
-                // ===============================
-                // STORAGE ENTRY DATE + STORAGE DAYS
-                // ===============================
+                // entry date + storage days
                 if (data.data_intrare_stoc) {
 
                     // afișăm data de intrare în stoc
@@ -428,7 +412,6 @@ function searchCarByVin() {
 
                 // PROVIDER
                 document.getElementById("provider_nume").value = data.provider_nume;
-
                 infoBox.innerHTML = `
                     <strong>Vehicle Information</strong>
                     <div class="car-columns">
@@ -440,8 +423,6 @@ function searchCarByVin() {
                     </div>
                 `;
                 infoBox.style.display = "block";
-
-
                 providerInfoBox.innerHTML = `
     <strong>Provider Information</strong>
 
@@ -450,24 +431,20 @@ function searchCarByVin() {
             <span>Name</span>
            ${data.provider_nume}
         </div>
-
         <div>
             <span>Type</span>
             ${data.provider_tip}
         </div>
-
         <div>
             <span>Phone</span>
            ${data.provider_telefon}
         </div>
-
         <div>
             <span>CUI / CNP</span>
              ${data.provider_cui_cnp}
         </div>
     </div>
 `;
-
                 providerInfoBox.style.display = "block";
             })
             .finally(() => {
@@ -477,7 +454,6 @@ function searchCarByVin() {
             });
     }, 1200);
 }
-
 
 // ===============================
 // CLEAR DETAILS (IDENTIC cu add-sale)
@@ -535,25 +511,18 @@ function clearRetractForm() {
         storageDaysInput.value = "";
     }
 
-
     // re-activează câmpurile de căutare
     enableVinSearch();
     enableIdSearch();
-
 }
 
-
-// ===============================
 // DOM READY – INPUT LISTENERS
-// ===============================
 document.addEventListener("DOMContentLoaded", () => {
-
-    // ===== SET CURRENT DATE (READ-ONLY) =====
+    // SET CURRENT DATE (READ-ONLY)
     const dateInput = document.getElementById("withdrawDate");
     if (dateInput) {
         dateInput.value = new Date().toISOString().split("T")[0];
     }
-
 
     const carIdInput = document.getElementById("carIdInput");
     const carVinInput = document.getElementById("carVinInput");

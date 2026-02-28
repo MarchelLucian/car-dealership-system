@@ -76,4 +76,3 @@ function clearClientForm() {
 
     window.location.href = "/agent-dashboard/sales/add-client";
 }
-

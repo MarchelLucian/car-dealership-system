@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (demoBtn) {
         demoBtn.addEventListener("click", () => {
 
-            // Setăm username + password pentru demo
+            //  username + password pentru demo
             document.getElementById("username").value = "dani";
             document.getElementById("password").value = "aa";
 
-            // Trimitem formularul
+            // send form
             document.getElementById("loginForm").submit();
         });
     }

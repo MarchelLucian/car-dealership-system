@@ -1,9 +1,9 @@
 /**
- * Controller pentru pagina publică de vizualizare oferte pentru clienți.
- * Gestionează afișarea catalogului de mașini disponibile cu filtre și sortare.
+ * Controller for the public client catalog.
+ * Handles listing of available cars with filters and sorting.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 
@@ -16,7 +16,6 @@ import com.dealerauto.app.service.ClientUserService;
 import com.dealerauto.app.service.FavoriteService;
 import com.dealerauto.app.service.OrderService;
 import jakarta.servlet.http.HttpSession;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +30,11 @@ import java.util.stream.Collectors;
 @Controller
 public class ClientController {
 
-
     @Autowired
     private MasinaDAO masinaDAO;
 
     @Autowired
     private ClientUserDAO clientUserDAO;
-
 
     @Autowired
     private FavoriteService favoriteService;
@@ -65,7 +62,7 @@ public class ClientController {
         boolean isLogged = clientId != null;
         model.addAttribute("isLogged", isLogged);
 
-        //  Preia datele de actualizare (UN singur query)
+        // Preia datele de actualizare (UN singur query)
         Map<Integer, LocalDateTime> dateActualizare = masinaDAO.findAllActualDates();
 
         model.addAttribute("dateActualizare", dateActualizare);
@@ -78,8 +75,7 @@ public class ClientController {
             // Adaugă ID-urile mașinilor favorite
             Set<Integer> favoriteMasinaIds = favoriteService.getFavoriteMasinaIds(clientId);
             model.addAttribute("favoriteMasinaIds", favoriteMasinaIds);
-        }
-        else {
+        } else {
             model.addAttribute("favoriteMasinaIds", Collections.emptySet());
         }
 
@@ -116,7 +112,6 @@ public class ClientController {
         }
     }
 
-
     // Endpoint pentru debugging - verifică sesiunea
     @GetMapping("/api/check-session")
     @ResponseBody
@@ -144,7 +139,6 @@ public class ClientController {
         return masinaDAO.getAllBrands();
     }
 
-
     // Pagina de favorites
     @GetMapping("/client/favorites")
     public String paginaFavorites(HttpSession session, Model model) {
@@ -171,7 +165,6 @@ public class ClientController {
         // ID-urile favorite (toate vor fi active pe această pagină)
         Set<Integer> favoriteMasinaIds = favoriteService.getFavoriteMasinaIds(clientId);
         model.addAttribute("favoriteMasinaIds", favoriteMasinaIds);
-
 
         // Preia mașinile favorite CU data_adaugare
         List<Favorite> favorites = favoriteService.getFavoritesByClientId(clientId);

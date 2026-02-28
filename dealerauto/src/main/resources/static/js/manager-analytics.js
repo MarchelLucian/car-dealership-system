@@ -66,7 +66,6 @@ Chart.register({
     }
 });
 
-
 // Chart configurations
 const chartConfigs = {
     monthlySales: {

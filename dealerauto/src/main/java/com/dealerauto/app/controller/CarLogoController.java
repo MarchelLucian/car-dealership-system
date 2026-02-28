@@ -1,9 +1,9 @@
 /**
- * REST Controller pentru furnizarea dinamică a logo-urilor brandurilor auto.
- * Consumă Logo.dev API și implementează caching pentru performanță optimă.
+ * REST controller for serving car brand logos.
+ * Uses Logo.dev API and caches responses for performance.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 

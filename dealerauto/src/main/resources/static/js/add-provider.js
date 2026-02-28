@@ -45,7 +45,6 @@ function validateAddProvider(event) {
     }, 800);
 }
 
-
 // RESET BUTTON
 function clearProviderForm() {
     // reset DOM values

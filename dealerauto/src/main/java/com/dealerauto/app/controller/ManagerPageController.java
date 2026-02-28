@@ -1,9 +1,9 @@
 /**
- * Controller pentru gestionarea paginii managerului cu vizualizări detaliate.
- * Afișează dashboard-uri complexe cu KPI-uri și metrici de performanță.
+ * Controller for the manager page with detailed views.
+ * Displays dashboards with KPIs and performance metrics.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
 

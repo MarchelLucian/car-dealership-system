@@ -1,12 +1,11 @@
 /**
- * Controller pentru gestionarea operațiunilor generale pe mașini.
- * Coordonează logica de afișare și manipulare a stocului de vehicule.
+ * Controller for general car operations.
+ * Coordinates listing and vehicle stock management.
  *
  * @author Marchel Lucian
- * @version 12 Ianuarie 2026
+ * @version 12 January 2026
  */
 package com.dealerauto.app.controller;
-
 
 import com.dealerauto.app.dao.*;
 import com.dealerauto.app.model.Agent;
@@ -26,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+
 @Controller
 @RequestMapping("/agent-dashboard/cars-management")
 public class CarController {
@@ -41,8 +41,7 @@ public class CarController {
             MarcaDAO marcaDAO,
             FurnizorDAO furnizorDAO,
             VinCorelareDAO vinCorelareDAO,
-            MasiniRetraseDAO masiniRetraseDAO
-    ) {
+            MasiniRetraseDAO masiniRetraseDAO) {
         this.masinaDAO = masinaDAO;
         this.marcaDAO = marcaDAO;
         this.furnizorDAO = furnizorDAO;
@@ -69,7 +68,7 @@ public class CarController {
         model.addAttribute("brands", marcaDAO.getAllBrands()); // face rost de toate brandurile din baza de date
         model.addAttribute("providers", furnizorDAO.getAllProviders()); // toti providerii inregistrati
 
-        return "add-car";  // templates/add-car.html
+        return "add-car"; // templates/add-car.html
     }
 
     @Autowired
@@ -92,16 +91,12 @@ public class CarController {
             @RequestParam(required = false) String vin,
             @RequestParam(required = false) Double pretVanzare,
 
-            @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate dataIntrare,
-            RedirectAttributes redirectAttributes
-    ) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataIntrare,
+            RedirectAttributes redirectAttributes) {
         if (an != null && an <= 1950) {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "Year must be greater than 1950."
-            );
+                    "Year must be greater than 1950.");
 
             redirectAttributes.addFlashAttribute("brandName", brandName);
             redirectAttributes.addFlashAttribute("providerName", providerName);
@@ -121,11 +116,10 @@ public class CarController {
             return "redirect:/agent-dashboard/cars-management/add-car";
         }
 
-        if ( kilometraj < 0) {
+        if (kilometraj < 0) {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "Mileage must be zero or a positive number."
-            );
+                    "Mileage must be zero or a positive number.");
 
             redirectAttributes.addFlashAttribute("brandName", brandName);
             redirectAttributes.addFlashAttribute("providerName", providerName);
@@ -148,8 +142,7 @@ public class CarController {
         if (pretAchizitie <= 0) {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "Purchase price must be greater than 0."
-            );
+                    "Purchase price must be greater than 0.");
 
             redirectAttributes.addFlashAttribute("brandName", brandName);
             redirectAttributes.addFlashAttribute("providerName", providerName);
@@ -169,11 +162,10 @@ public class CarController {
             return "redirect:/agent-dashboard/cars-management/add-car";
         }
 
-        if ( pretVanzare < pretAchizitie) {
+        if (pretVanzare < pretAchizitie) {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "Selling price must be greater than or equal to purchase price."
-            );
+                    "Selling price must be greater than or equal to purchase price.");
 
             redirectAttributes.addFlashAttribute("brandName", brandName);
             redirectAttributes.addFlashAttribute("providerName", providerName);
@@ -193,11 +185,10 @@ public class CarController {
             return "redirect:/agent-dashboard/cars-management/add-car";
         }
 
-        if ( usi < 1 || usi > 10 ) {
+        if (usi < 1 || usi > 10) {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "Number of doors must be between 1 and 10."
-            );
+                    "Number of doors must be between 1 and 10.");
 
             redirectAttributes.addFlashAttribute("brandName", brandName);
             redirectAttributes.addFlashAttribute("providerName", providerName);
@@ -217,11 +208,10 @@ public class CarController {
             return "redirect:/agent-dashboard/cars-management/add-car";
         }
 
-        if ( locuri < 1 || locuri > 40 ) {
+        if (locuri < 1 || locuri > 40) {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "Number of seats must be between 1 and 40."
-            );
+                    "Number of seats must be between 1 and 40.");
 
             redirectAttributes.addFlashAttribute("brandName", brandName);
             redirectAttributes.addFlashAttribute("providerName", providerName);
@@ -250,8 +240,7 @@ public class CarController {
 
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "Stock entry date must be after 01.01.2020."
-            );
+                    "Stock entry date must be after 01.01.2020.");
 
             // ---- PĂSTRĂM DATELE DIN FORMULAR ----
             redirectAttributes.addFlashAttribute("brandName", brandName);
@@ -273,19 +262,18 @@ public class CarController {
         }
 
         // 1) VALIDARE SERVER-SIDE
-        boolean invalid =
-                brandName == null || brandName.isBlank() ||
-                        providerName == null || providerName.isBlank() ||
-                        model == null || model.isBlank() ||
-                        an == null ||
-                        kilometraj == null ||
-                        pretAchizitie == null ||
-                        pretVanzare == null || pretVanzare <= 0 ||
-                        usi == null ||
-                        locuri == null ||
-                        vin == null || vin.isBlank() ||
-                        combustibil == null || combustibil.isBlank() || "Select fuel type".equals(combustibil) ||
-                        transmisie == null || transmisie.isBlank() || "Select type".equals(transmisie);
+        boolean invalid = brandName == null || brandName.isBlank() ||
+                providerName == null || providerName.isBlank() ||
+                model == null || model.isBlank() ||
+                an == null ||
+                kilometraj == null ||
+                pretAchizitie == null ||
+                pretVanzare == null || pretVanzare <= 0 ||
+                usi == null ||
+                locuri == null ||
+                vin == null || vin.isBlank() ||
+                combustibil == null || combustibil.isBlank() || "Select fuel type".equals(combustibil) ||
+                transmisie == null || transmisie.isBlank() || "Select type".equals(transmisie);
 
         if (invalid) {
             redirectAttributes.addFlashAttribute("errorMessage",
@@ -305,8 +293,7 @@ public class CarController {
 
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "This VIN already exists in our database."
-            );
+                    "This VIN already exists in our database.");
 
             // ---- PĂSTRĂM DATELE DIN FORMULAR ----
             redirectAttributes.addFlashAttribute("brandName", brandName);
@@ -331,21 +318,18 @@ public class CarController {
                 "petrol", "benzina",
                 "diesel", "motorina",
                 "electric", "electric",
-                "hybrid", "hibrid"
-        );
+                "hybrid", "hibrid");
         combustibil = fuelMap.getOrDefault(combustibil, combustibil);
 
         Map<String, String> transMap = Map.of(
                 "manual", "manuala",
-                "automatic", "automata"
-        );
+                "automatic", "automata");
         transmisie = transMap.getOrDefault(transmisie, transmisie);
 
         // creeăm obiectul
         Masina masina = new Masina();
         masina.setMarcaId(marcaDAO.findIdByName(brandName));
         masina.setFurnizorId(furnizorDAO.findIdByName(providerName));
-
 
         masina.setMarca(brandName);
         masina.setFurnizor(providerName);
@@ -361,7 +345,6 @@ public class CarController {
         masina.setNumarLocuri(locuri);
         masina.setDataIntrareStoc(dataIntrare);
 
-
         int masinaId = masinaDAO.insert(masina);
 
         masinaDAO.upsertPretVanzare(masinaId, pretVanzare);
@@ -371,17 +354,14 @@ public class CarController {
             vinCorelareDAO.insert(masinaId, vin);
         }
 
-
-        //  INSERT în marcafurnizor , daca nu exista
+        // INSERT în marcafurnizor , daca nu exista
         marcaFurnizorDAO.insertIfNotExists(
                 masina.getMarcaId(),
-                masina.getFurnizorId()
-        );
+                masina.getFurnizorId());
 
         redirectAttributes.addFlashAttribute(
                 "successMessage",
-                "The car has been successfully added to the inventory.<br> Add more or go inspect the inventory ."
-        );
+                "The car has been successfully added to the inventory.<br> Add more or go inspect the inventory .");
 
         return "redirect:/agent-dashboard/cars-management/add-car";
 
@@ -395,13 +375,11 @@ public class CarController {
         return "add-brand";
     }
 
-
     @PostMapping("/add-brand")
     public String saveBrand(
             @RequestParam(required = false) String nume,
             @RequestParam(required = false) String tara_origine,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
         if (nume == null || nume.isBlank() ||
                 tara_origine == null || tara_origine.isBlank()) {
 
@@ -419,8 +397,7 @@ public class CarController {
 
             redirectAttributes.addFlashAttribute("successMessage",
                     "The brand has been successfully added.<br>You may add another one.");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // verificăm dacă este eroare de UNICITATE
             redirectAttributes.addFlashAttribute("errorMessage",
                     "This brand already exists in the database.");
@@ -432,7 +409,6 @@ public class CarController {
 
         return "redirect:/agent-dashboard/cars-management/add-brand";
     }
-
 
     @GetMapping("/add-provider")
     public String showAddProviderPage(Model model, HttpSession session) {
@@ -449,15 +425,13 @@ public class CarController {
             @RequestParam String cui_cnp,
             @RequestParam String adresa,
             @RequestParam(required = false) String tara,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
 
         if (tip_furnizor.equals("individual")) {
             tip_furnizor = "persoana fizica";
         } else if (tip_furnizor.equals("company")) {
             tip_furnizor = "firma";
         }
-
 
         Furnizor f = new Furnizor();
         f.setNume(nume);
@@ -466,7 +440,6 @@ public class CarController {
         f.setCuiCnp(cui_cnp);
         f.setAdresa(adresa);
         f.setTara(tara);
-
 
         try {
             furnizorDAO.insert(f);
@@ -484,7 +457,7 @@ public class CarController {
                 redirectAttributes.addFlashAttribute("cui_cnp", cui_cnp);
                 redirectAttributes.addFlashAttribute("adresa", adresa);
                 redirectAttributes.addFlashAttribute("tara", tara);
-            }  else {
+            } else {
                 redirectAttributes.addFlashAttribute("errorMessage",
                         "An unexpected error occurred.");
             }
@@ -498,9 +471,8 @@ public class CarController {
         return "redirect:/agent-dashboard/cars-management/add-provider";
     }
 
-
     @GetMapping("/retract-car")
-    public String showRetractCarPage(Model model , HttpSession session) {
+    public String showRetractCarPage(Model model, HttpSession session) {
         Agent agent = (Agent) session.getAttribute("agent");
         model.addAttribute("agent", agent);
         return "retract-car";
@@ -529,7 +501,6 @@ public class CarController {
             response.put("transmisie", row.get("transmisie"));
             response.put("numar_locuri", row.get("numar_locuri"));
             response.put("data_intrare_stoc", row.get("data_intrare_stoc"));
-
 
             // PROVIDER
             response.put("provider_id", row.get("provider_id"));
@@ -571,7 +542,6 @@ public class CarController {
             res.put("numar_locuri", row.get("numar_locuri"));
             res.put("data_intrare_stoc", row.get("data_intrare_stoc"));
 
-
             // PROVIDER
             res.put("provider_id", row.get("provider_id"));
             res.put("provider_nume", row.get("provider_nume"));
@@ -605,9 +575,8 @@ public class CarController {
             @RequestParam String provider_nume,
             @RequestParam(name = "retract_reason") String motiv,
             @RequestParam(required = false) Integer zile_in_stoc,
-            @RequestParam(required = false)double taxaStationare,
-            RedirectAttributes redirectAttributes
-    ) {
+            @RequestParam(required = false) double taxaStationare,
+            RedirectAttributes redirectAttributes) {
 
         try {
             if (zile_in_stoc == null) {
@@ -628,31 +597,27 @@ public class CarController {
                     provider_nume,
                     motiv,
                     zile_in_stoc,
-                    taxaStationare
-            );
+                    taxaStationare);
 
             vinCorelareDAO.deleteByMasinaId(masina_id);
             masinaDAO.deleteById(masina_id);
 
             redirectAttributes.addFlashAttribute(
                     "successMessage",
-                    "Car successfully withdrawn from inventory."
-            );
+                    "Car successfully withdrawn from inventory.");
 
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
-                    "An error occurred while withdrawing the car. Please try again."
-            );
+                    "An error occurred while withdrawing the car. Please try again.");
         }
 
         return "redirect:/agent-dashboard/cars-management/retract-car";
     }
 
-
     @GetMapping("/edit-listings")
-    public String showEditListiongsPage(Model model , HttpSession session) {
+    public String showEditListiongsPage(Model model, HttpSession session) {
         Agent agent = (Agent) session.getAttribute("agent");
         model.addAttribute("agent", agent);
         return "edit-listings";
@@ -695,7 +660,6 @@ public class CarController {
             return response;
         }
     }
-
 
     @GetMapping("/lookup-car-for-listing-by-vin")
     @ResponseBody
@@ -740,8 +704,7 @@ public class CarController {
     public String updateListingPrice(
             @RequestParam("masina_id") int masinaId,
             @RequestParam("pret_vanzare_nou") double pretVanzareNou,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
         try {
 
             if (pretVanzareNou <= 0) {
@@ -764,6 +727,5 @@ public class CarController {
 
         return "redirect:/agent-dashboard/cars-management/edit-listings";
     }
-
 
 }
