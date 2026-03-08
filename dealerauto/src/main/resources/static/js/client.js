@@ -1,8 +1,5 @@
 const allCarsPromise = fetch("/client/all").then((r) => r.json());
 
-// ====================================================
-// POPUP "SIGN IN TO ADD FAVORITES" (în loc de alert)
-// ====================================================
 function showSignInRequiredPopup() {
   const overlay = document.getElementById("signInRequiredOverlay");
   if (!overlay) return;
@@ -33,14 +30,9 @@ function initSignInRequiredPopup() {
   });
 }
 
-// ====================================================
-// FUNCȚIE PENTRU TOGGLE FAVORITE
-// ====================================================
-
 function toggleFavorite(button, carId) {
   isTogglingFavorite = true;
 
-  // Verifică dacă user-ul este logat
   const isLogged = document.querySelector(".auth-buttons-horizontal") !== null; // sau alt indicator
 
   if (!isLogged) {
@@ -48,7 +40,6 @@ function toggleFavorite(button, carId) {
     return;
   }
 
-  // Apel AJAX către backend
   fetch("/api/favorite/toggle", {
     method: "POST",
     headers: {
@@ -69,16 +60,12 @@ function toggleFavorite(button, carId) {
     })
     .then((data) => {
       if (data.success) {
-        // Toggle clasa 'active' pe buton
         const icon = button.querySelector("i");
-
         if (data.isAdded) {
-          // Adăugat la favorite
           button.classList.add("active");
           icon.classList.remove("fa-regular");
           icon.classList.add("fa-solid");
         } else {
-          // Șters de la favorite
           button.classList.remove("active");
           icon.classList.remove("fa-solid");
           icon.classList.add("fa-regular");
@@ -95,7 +82,6 @@ function loadCarLogos() {
   document.querySelectorAll(".car-logo[data-brand]").forEach((img) => {
     const brand = img.dataset.brand;
 
-    // Acum apelează backend-ul tău, nu direct logo.dev
     img.src = `/api/car-logo/${encodeURIComponent(brand)}`;
 
     img.onerror = () => {
@@ -104,9 +90,6 @@ function loadCarLogos() {
   });
 }
 
-// ================================
-// LOAD CAR IMAGES
-// ================================
 async function loadCarImages() {
   const carousels = document.querySelectorAll(".car-images-carousel");
 
@@ -120,12 +103,10 @@ async function loadCarImages() {
   for (const carousel of carousels) {
     const brand = carousel.dataset.brand;
     const model = carousel.dataset.model;
-
     try {
       const response = await fetch(
         `/api/car-images/${encodeURIComponent(brand)}/${encodeURIComponent(model)}`,
       );
-
       if (response.ok) {
         const imageUrls = await response.json();
         if (carousel.classList.contains("car-images-gallery")) {
@@ -153,10 +134,8 @@ async function loadCarImages() {
   }
 }
 
-// ================================
 // INITIALIZE IMAGE GALLERY (pagina /client: 3 stânga | 1 centru | 3 dreapta)
 // Initial: centrul = prima poză (top-left). Click pe oricare din 6 = apare în centru.
-// ================================
 function initializeImageGallery(galleryElement, imageUrls) {
   const leftEl = galleryElement.querySelector(".car-gallery-left");
   const centerEl = galleryElement.querySelector(".car-gallery-center");
@@ -172,14 +151,11 @@ function initializeImageGallery(galleryElement, imageUrls) {
     imageUrls = [placeholder];
   }
 
-  // Centru: o singură imagine mare (inițial = prima = index 0 = top-left)
   const mainImg = document.createElement("img");
   mainImg.src = imageUrls[0];
   mainImg.alt = "Car image";
   mainImg.className = "car-gallery-main-img";
   centerEl.appendChild(mainImg);
-
-  // Stânga: max 3 imagini (indici 0, 1, 2)
   const leftUrls = imageUrls.slice(0, 3);
   leftUrls.forEach((url, i) => {
     const index = i;
@@ -190,7 +166,6 @@ function initializeImageGallery(galleryElement, imageUrls) {
     leftEl.appendChild(thumb);
   });
 
-  // Dreapta: max 3 imagini (indici 3, 4, 5)
   const rightUrls = imageUrls.slice(3, 6);
   rightUrls.forEach((url, i) => {
     const index = 3 + i;
@@ -225,20 +200,14 @@ function setActiveThumb(galleryElement, activeIndex) {
   });
 }
 
-// ================================
-// INITIALIZE CAROUSEL (favorites, my-orders – păstrat pentru compatibilitate)
-// ================================
 function initializeCarousel(carouselElement, imageUrls) {
   const container = carouselElement.querySelector(".carousel-images");
   const dotsContainer = carouselElement.querySelector(".carousel-dots");
   const prevBtn = carouselElement.querySelector(".prev-btn");
   const nextBtn = carouselElement.querySelector(".next-btn");
 
-  // Clear loading state
   container.innerHTML = "";
   dotsContainer.innerHTML = "";
-
-  // Add images
   imageUrls.forEach((url, index) => {
     const img = document.createElement("img");
     img.src = url;
@@ -246,13 +215,10 @@ function initializeCarousel(carouselElement, imageUrls) {
     img.className = "carousel-image" + (index === 0 ? " active" : "");
     container.appendChild(img);
 
-    // Add dot
     const dot = document.createElement("span");
     dot.className = "carousel-dot" + (index === 0 ? " active" : "");
     dotsContainer.appendChild(dot);
   });
-
-  // Show navigation only if multiple images
   if (imageUrls.length > 1) {
     prevBtn.classList.remove("carousel-btn-hidden");
     nextBtn.classList.remove("carousel-btn-hidden");
@@ -261,7 +227,6 @@ function initializeCarousel(carouselElement, imageUrls) {
     const images = container.querySelectorAll(".carousel-image");
     const dots = dotsContainer.querySelectorAll(".carousel-dot");
 
-    // Navigation functions
     function updateCarousel(index) {
       images.forEach((img, i) => {
         img.classList.toggle("active", i === index);
@@ -275,21 +240,16 @@ function initializeCarousel(carouselElement, imageUrls) {
       currentIndex = (currentIndex - 1 + images.length) % images.length;
       updateCarousel(currentIndex);
     };
-
     nextBtn.onclick = () => {
       currentIndex = (currentIndex + 1) % images.length;
       updateCarousel(currentIndex);
     };
-
-    // Dots click
     dots.forEach((dot, index) => {
       dot.onclick = () => {
         currentIndex = index;
         updateCarousel(currentIndex);
       };
     });
-
-    // Auto-play (opțional - comentează dacă nu vrei)
     setInterval(() => {
       currentIndex = (currentIndex + 1) % images.length;
       updateCarousel(currentIndex);
@@ -297,9 +257,6 @@ function initializeCarousel(carouselElement, imageUrls) {
   }
 }
 
-// ====================================================
-// FORMATARE DATA ACTUALIZARE PREȚ
-// ====================================================
 function formatUpdateDate(dateStr) {
   if (!dateStr) return "Updated recently";
 
@@ -318,16 +275,12 @@ function formatUpdateDate(dateStr) {
     "Nov",
     "Dec",
   ];
-
   const day = date.getDate();
   const month = monthNames[date.getMonth()];
 
   return `Updated on ${day} ${month}`;
 }
 
-// ====================================================
-// ACTUALIZEAZĂ BADGE-URILE DE DATĂ
-// ====================================================
 function updatePriceUpdateBadges() {
   const badges = document.querySelectorAll(".price-update-badge");
 
@@ -338,7 +291,6 @@ function updatePriceUpdateBadges() {
     if (dateStr && span) {
       span.textContent = formatUpdateDate(dateStr);
     } else if (span) {
-      // Dacă nu are dată, ascunde badge-ul
       badge.style.display = "none";
     }
   });
@@ -348,17 +300,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("listaContent");
   const loadMoreBtn = document.getElementById("loadMore");
 
-  // ====================================================
-  // BODY TYPE MENU: filtrare + counts
-  // ====================================================
   let activeBodyType = "all-options";
 
-  // Map caroserie DB → data-body-type HTML
   const bodyTypeMap = {
     "Sedan": "sedan", "Hatchback": "hatchback", "Break": "break",
     "SUV": "suv", "Coupe": "coupe", "Cabriolet": "cabriolet", "MPV": "mpv"
   };
-
   function showBodyTypeSpinners() {
     document.querySelectorAll(".body-type-count").forEach(el => {
       el.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
@@ -423,7 +370,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       this.classList.add("selected");
       activeBodyType = this.getAttribute("data-body-type");
 
-      // Spinner în container + results count
       container.innerHTML = `
         <div class="loading-box">
             <i class="fa-solid fa-spinner spin-icon"></i>
@@ -440,7 +386,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const brandsContainer = document.getElementById("brandsContainer");
-  // load brands dynamically
   fetch("/client/brands")
     .then((r) => r.json())
     .then((brands) => {
@@ -454,9 +399,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-  // ====================================================
-  // FUNCȚII DE TRADUCERE
-  // ====================================================
   function translateFuel(combustibil) {
     const translations = {
       benzina: "Petrol",
@@ -478,17 +420,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   let visible = 0;
   let displayCars = []; // final list after body type filter (used by showMore + Load More)
 
-  // Așteptăm rezultatul — DAR request-ul a început deja înainte!
   const allCars = await allCarsPromise;
 
-  // ================================
-  // CALCULEAZĂ PRICE MAX DINAMIC din cea mai scumpă mașină
-  // ================================
   const maxCarPrice = allCars.reduce((mx, c) => Math.max(mx, c.pret || 0), 0);
   const priceSliderMax = Math.ceil(maxCarPrice / 10000) * 10000; // rotunjit la următoarele zeci de mii
   const priceSliderMin = 0;
 
-  // Actualizează HTML-ul sliderului de preț
   const priceWrapEl = document.getElementById("priceRangeWrap");
   if (priceWrapEl) {
     priceWrapEl.setAttribute("data-min", priceSliderMin);
@@ -499,9 +436,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (pMaxR) { pMaxR.min = priceSliderMin; pMaxR.max = priceSliderMax; pMaxR.value = priceSliderMax; pMaxR.step = 200; }
   }
 
-  // ================================
-  // YEAR MAX = anul curent
-  // ================================
   const currentYear = new Date().getFullYear();
   const yearWrapEl = document.getElementById("yearRangeWrap");
   if (yearWrapEl) {
@@ -512,9 +446,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (yMaxR) { yMaxR.max = currentYear; yMaxR.value = currentYear; }
   }
 
-  // ================================
-  // GENERARE TICK-URI (indici pe slider)
-  // ================================
   function generateTicks(containerId, tickValues, rangeMin, rangeMax, formatFn) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -530,13 +461,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Price ticks: capetele + din 10K în 10K
   const priceTicks = [priceSliderMin];
   for (let v = 10000; v < priceSliderMax; v += 10000) priceTicks.push(v);
   priceTicks.push(priceSliderMax);
   generateTicks("priceTicks", priceTicks, priceSliderMin, priceSliderMax, v => (v / 1000) + "K");
 
-  // Year ticks: 5 indici — min, 1/4, 1/2, 3/4, max
   const yearMin = 2000;
   const yearRange = currentYear - yearMin;
   const yearTickValues = [
@@ -554,63 +483,47 @@ document.addEventListener("DOMContentLoaded", async () => {
   mileageTicks.push(800000);
   generateTicks("mileageTicks", mileageTicks, 0, 800000, v => (v / 1000) + "K");
 
-  // înainte de filtre → lista filtrată = toată lista
   filteredCars = [...allCars];
   displayCars = [...filteredCars];
   updateBodyTypeCounts(filteredCars);
 
-  // ================================
-  // FORMAT NUMĂR CU PUNCT SEPARATOR (ex: 45.000)
-  // ================================
   function formatNum(n) {
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
-  // ================================
-  // RENDER ACTIVE FILTER TAGS (deasupra meniului caroserie)
-  // ================================
   function renderActiveFilterTags() {
     const tagsContainer = document.getElementById("activeFilterTags");
     if (!tagsContainer) return;
     const tags = [];
 
-    // Price
     if (minPriceInput.value) tags.push({ label: "Min Price: " + formatNum(minPriceInput.value), remove: () => { minPriceInput.value = ""; syncSliderFromInput("price"); } });
     if (maxPriceInput.value) tags.push({ label: "Max Price: " + formatNum(maxPriceInput.value), remove: () => { maxPriceInput.value = ""; syncSliderFromInput("price"); } });
 
-    // Year
     if (minYearInput.value) tags.push({ label: "Min Year: " + minYearInput.value, remove: () => { minYearInput.value = ""; syncSliderFromInput("year"); } });
     if (maxYearInput.value) tags.push({ label: "Max Year: " + maxYearInput.value, remove: () => { maxYearInput.value = ""; syncSliderFromInput("year"); } });
 
-    // Mileage
     if (minMileageInput.value) tags.push({ label: "Min Mileage: " + formatNum(minMileageInput.value), remove: () => { minMileageInput.value = ""; syncSliderFromInput("mileage"); } });
     if (maxMileageInput.value) tags.push({ label: "Max Mileage: " + formatNum(maxMileageInput.value), remove: () => { maxMileageInput.value = ""; syncSliderFromInput("mileage"); } });
 
-    // Brands
     document.querySelectorAll("#brandsContainer input[type='checkbox']:checked").forEach(chk => {
       tags.push({ label: chk.value, remove: () => { chk.checked = false; } });
     });
 
-    // Transmission
     document.querySelectorAll(".trans-filter:checked").forEach(chk => {
       tags.push({ label: translateTransmission(chk.value), remove: () => { chk.checked = false; } });
     });
 
-    // Doors
     document.querySelectorAll(".door-filter:checked").forEach(chk => {
       tags.push({ label: "Doors: " + chk.value, remove: () => { chk.checked = false; } });
     });
 
-    // Seats
     document.querySelectorAll(".seat-filter:checked").forEach(chk => {
       tags.push({ label: "Seats: " + chk.value, remove: () => { chk.checked = false; } });
     });
 
-    // Fuel
     document.querySelectorAll(".fuel-filter:checked").forEach(chk => {
       tags.push({ label: translateFuel(chk.value), remove: () => { chk.checked = false; } });
     });
-
     tagsContainer.innerHTML = "";
     tags.forEach((tag, i) => {
       const el = document.createElement("span");
@@ -619,7 +532,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       el.querySelector(".filter-tag-x").addEventListener("click", () => {
         tag.remove();
 
-        // Spinner în container + body type counts
         container.innerHTML = `
           <div class="loading-box">
               <i class="fa-solid fa-spinner spin-icon"></i>
@@ -662,11 +574,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ================================
-  // HELPER: Generează HTML pentru o mașină
-  // ================================
   function generateCarHTML(m) {
-    // Verifică dacă mașina este la favorite
     const isFavorite =
       favoriteMasinaIds && Array.isArray(favoriteMasinaIds)
         ? favoriteMasinaIds.includes(m.id)
@@ -756,35 +664,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
   }
 
-  // ----------------------------------------------------
-  // Funcție care afișează următoarele 5 mașini
-  // ----------------------------------------------------
   function showMore() {
     const nextCars = displayCars.slice(visible, visible + 5);
 
     nextCars.forEach((m) => {
       container.innerHTML += generateCarHTML(m);
     });
-
     visible += nextCars.length;
     loadCarLogos();
     loadCarImages();
-
     updatePriceUpdateBadges();
   }
 
-  // ----------------------------------------------------
-  // 1. AFIȘĂM AUTOMAT primele 5 la încărcarea paginii
-  // ----------------------------------------------------
   showMore();
   loadMoreBtn.style.visibility = "visible";
 
   document.querySelector(".back-btn").style.visibility = "visible";
-  // ----------------------------------------------------
-  // 2. Când se apasă Load More
-  // ----------------------------------------------------
   loadMoreBtn.addEventListener("click", () => {
-    // 1. Dacă nu mai sunt mașini de afișat → nu afișăm spinner
     if (visible >= displayCars.length) {
       if (filtersActive) {
         loadMoreBtn.innerText = "No more results for these filters";
@@ -796,21 +692,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // 2. Dacă mai sunt mașini → punem spinner
     loadMoreBtn.disabled = true;
     loadMoreBtn.innerHTML = '<i class="fa-solid fa-spinner spin-iconita"></i>';
 
-    // 3. Delay vizual
     setTimeout(() => {
-      // afișăm următoarele 5
       showMore();
-
-      // 4. Dacă încă mai sunt mașini rămase
       if (visible < displayCars.length) {
         loadMoreBtn.innerText = "Load More Offers";
         loadMoreBtn.disabled = false;
       }
-      // 5. Dacă S-AU TERMINAT mașinile filtrate
       else {
         if (filtersActive) {
           loadMoreBtn.innerText = "No more results for these filters";
@@ -831,7 +721,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   function updateSortIcon() {
     const icon = document.getElementById("sortIcon");
     const order = sortOrderSelect.value;
-
     icon.className =
       order === "cresc"
         ? "fa-solid fa-arrow-down-short-wide"
@@ -851,13 +740,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
         const field = sortFieldSelect.value;
         const order = sortOrderSelect.value;
-
         displayCars.sort((a, b) => {
           const valA = Number(a[field]) || 0;
           const valB = Number(b[field]) || 0;
           return order === "cresc" ? valA - valB : valB - valA;
         });
-
         const countToShow = visible;
         visible = 0;
 
@@ -866,12 +753,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         displayCars.slice(0, countToShow).forEach((m) => {
           container.innerHTML += generateCarHTML(m);
         });
-
         visible = countToShow;
         updateSortIcon();
         loadCarLogos();
         loadCarImages();
-
         updatePriceUpdateBadges();
       } finally {
         const overlay2 = getListaOverlay();
@@ -879,10 +764,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }, 750);
   });
-
-  // ============================
-  // BRAND LOADING WITH SHOW MORE
-  // ============================
 
   let allBrands = [];
   let brandsVisible = 8;
@@ -894,7 +775,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const res = await fetch("/client/brands");
       allBrands = await res.json();
-
       renderBrands();
     } catch (e) {
       console.error("Eroare la citirea brandurilor", e);
@@ -909,7 +789,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     brandsToShow.forEach((brand) => {
       const div = document.createElement("div");
       div.classList.add("brand-option");
-
       div.innerHTML = `
             <input type="checkbox" value="${brand}">
             <span>${brand}</span>
@@ -917,14 +796,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       brandsContainer.appendChild(div);
     });
 
-    // SHOW MORE logic (codul tău original)
     if (brandsVisible >= allBrands.length) {
       showMoreBrandsBtn.style.display = "none";
     } else {
       showMoreBrandsBtn.style.display = "block";
     }
 
-    // SHOW LESS logic (ADĂUGAT)
     if (brandsVisible > 8) {
       showLessBrandsBtn.style.display = "block";
     } else {
@@ -932,25 +809,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // CLICK → SHOW MORE
   showMoreBrandsBtn.addEventListener("click", () => {
     brandsVisible += 8;
     renderBrands();
   });
 
-  // CLICK → SHOW LESS (ADĂUGAT)
   showLessBrandsBtn.addEventListener("click", () => {
     brandsVisible = Math.max(8, brandsVisible - 8);
     renderBrands();
   });
-
-  // initial load
   loadBrands();
-
   let filtersActive = false;
 
-  // filters
-  // ============================
   const minPriceInput = document.getElementById("minPrice");
   const maxPriceInput = document.getElementById("maxPrice");
   const minYearInput = document.getElementById("minYear");
@@ -991,10 +861,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ---- Funcție generică pentru dual-range slider ----
-  // sliderGap = gap minim când tragi pe slider (push behavior)
-  // Din input manual: fără gap (thumbs se pot suprapune), dar dacă min > max → celălalt se resetează la capăt
   function initDualSlider(minRange, maxRange, minInput, maxInput, wrap, fillEl, sliderGap) {
-    // Z-index dinamic: ultimul thumb tras vine în față
     let lastActive = null;
     minRange.addEventListener("input", () => {
       if (lastActive !== "min") { minRange.style.zIndex = "5"; maxRange.style.zIndex = "3"; lastActive = "min"; }
@@ -1002,12 +869,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     maxRange.addEventListener("input", () => {
       if (lastActive !== "max") { maxRange.style.zIndex = "5"; minRange.style.zIndex = "3"; lastActive = "max"; }
     });
-
     function fromRange() {
       let minV = Number(minRange.value);
       let maxV = Number(maxRange.value);
       const { min, max } = getRangeBounds(wrap);
-      // Când sunt la gap minim, tragerea unui thumb îl împinge pe celălalt
       if (lastActive === "min" && minV > maxV - sliderGap) {
         maxV = Math.min(max, minV + sliderGap);
         if (maxV === max) minV = max - sliderGap;
@@ -1030,7 +895,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       let rawMax = maxInput.value === "" ? max : Number(maxInput.value);
       if (isNaN(rawMin)) rawMin = min;
       if (isNaN(rawMax)) rawMax = max;
-      // Resetare doar dacă ambele valori sunt în intervalul barului ȘI min > max
       const minInRange = rawMin >= min && rawMin <= max;
       const maxInRange = rawMax >= min && rawMax <= max;
       let minV = Math.max(min, Math.min(max, rawMin));
@@ -1058,17 +922,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateDualFill(wrap, fillEl, Number(minRange.value), Number(maxRange.value));
   }
 
-  // Price: gap 500 pe slider
   if (priceMinRange && priceMaxRange && minPriceInput && maxPriceInput && priceRangeFill && priceRangeWrap) {
     initDualSlider(priceMinRange, priceMaxRange, minPriceInput, maxPriceInput, priceRangeWrap, priceRangeFill, 500);
   }
 
-  // Year: gap 1 pe slider
   if (yearMinRange && yearMaxRange && minYearInput && maxYearInput && yearRangeFill && yearRangeWrap) {
     initDualSlider(yearMinRange, yearMaxRange, minYearInput, maxYearInput, yearRangeWrap, yearRangeFill, 1);
   }
 
-  // Mileage: gap 20000 (20K km) pe slider
   if (mileageMinRange && mileageMaxRange && minMileageInput && maxMileageInput && mileageRangeFill && mileageRangeWrap) {
     initDualSlider(mileageMinRange, mileageMaxRange, minMileageInput, maxMileageInput, mileageRangeWrap, mileageRangeFill, 20000);
   }
@@ -1111,126 +972,92 @@ document.addEventListener("DOMContentLoaded", async () => {
     const minMileage = Number(minMileageInput.value);
     const maxMileage = Number(maxMileageInput.value);
 
-    // BRANDS
     const selectedBrands = Array.from(
       document.querySelectorAll(
         "#brandsContainer input[type='checkbox']:checked",
       ),
     ).map((chk) => chk.value);
 
-    // TRANSMISSION
     const selectedTransmissions = Array.from(
       document.querySelectorAll(".trans-filter:checked"),
     ).map((chk) => chk.value);
-
-    // DOORS
     const selectedDoors = Array.from(
       document.querySelectorAll(".door-filter:checked"),
     ).map((chk) => Number(chk.value));
-
-    // SEATS
     const selectedSeats = Array.from(
       document.querySelectorAll(".seat-filter:checked"),
     ).map((chk) => Number(chk.value));
 
-    // FUEL TYPE
     const selectedFuelTypes = Array.from(
       document.querySelectorAll(".fuel-filter:checked"),
     ).map((chk) => chk.value);
 
-    // ======================
-    //  FILTRARE PRINCIPALĂ
-    // ======================
-
     filteredCars = allCars.filter((m) => {
-      // PRICE
       if (!isNaN(minPrice) && minPrice > 0 && m.pret < minPrice) return false;
       if (!isNaN(maxPrice) && maxPrice > 0 && m.pret > maxPrice) return false;
 
-      // YEAR
       if (!isNaN(minYear) && minYear > 0 && m.an < minYear) return false;
       if (!isNaN(maxYear) && maxYear > 0 && m.an > maxYear) return false;
 
-      // MILEAGE
       if (!isNaN(minMileage) && minMileage > 0 && m.kilometraj < minMileage)
         return false;
       if (!isNaN(maxMileage) && maxMileage > 0 && m.kilometraj > maxMileage)
         return false;
 
-      // BRAND
       if (selectedBrands.length > 0 && !selectedBrands.includes(m.marca))
         return false;
 
-      // TRANSMISSION (manual / automata)
       if (
         selectedTransmissions.length > 0 &&
         !selectedTransmissions.includes(m.transmisie)
       )
         return false;
 
-      // DOORS (2 / 4)
       if (selectedDoors.length > 0 && !selectedDoors.includes(m.numarUsi))
         return false;
 
-      // SEATS (2–9)
       if (selectedSeats.length > 0 && !selectedSeats.includes(m.numarLocuri))
         return false;
 
-      // FUEL TYPE
       if (
         selectedFuelTypes.length > 0 &&
         !selectedFuelTypes.includes(m.combustibil)
       )
         return false;
-
       return true;
     });
-
-    // Update counts + tags + body type filter
     updateBodyTypeCounts(filteredCars);
     renderActiveFilterTags();
     applyBodyTypeFilter();
   }
 
   applyFiltersBtn.addEventListener("click", () => {
-    // dezactivez butonul
     applyFiltersBtn.disabled = true;
-
-    // pun iconita spinner
     applyFiltersBtn.innerHTML =
       '<i class="fa-solid fa-spinner spin-iconita" ></i>';
 
-    // loader în container + spinners pe body type counts
     container.innerHTML = `
         <div class="loading-box">
             <i class="fa-solid fa-spinner spin-icon"></i>
         </div>
     `;
     showBodyTypeSpinners();
-
-    // delay vizual de 400-500 ms
     setTimeout(() => {
       applyFilters(); // rulează filtrarea
 
-      // readuce textul inițial
       applyFiltersBtn.innerText = "Apply Filters";
       applyFiltersBtn.disabled = false;
     }, 750); // 0.75 secunde delay
   });
 
-  // =============================
-  // LIVE AUTO-APPLY FILTERS
-  // =============================
   let autoApplyTimer = null;
 
   function triggerAutoApply(delay = 750) {
     if (autoApplyTimer) clearTimeout(autoApplyTimer);
 
-    // Spinner pe buton
     applyFiltersBtn.disabled = true;
     applyFiltersBtn.innerHTML = '<i class="fa-solid fa-spinner spin-iconita"></i>';
 
-    // Spinner pe lista + body type counts + results count
     container.innerHTML = `
       <div class="loading-box">
           <i class="fa-solid fa-spinner spin-icon"></i>
@@ -1273,61 +1100,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // =============================
-  // RESET FILTERS
-  // =============================
   document.getElementById("resetFilters").addEventListener("click", () => {
     const overlay = getListaOverlay();
     if (overlay) overlay.style.display = "flex";
 
     setTimeout(() => {
       try {
-        // 1. Resetează slider-ele de interval și golește input-urile numerice
         resetRangeSliders();
         searchInput.value = "";
         filtersActive = false;
-
-        // 2. Debifează toate brandurile
         document
           .querySelectorAll("#brandsContainer input[type='checkbox']")
           .forEach((chk) => (chk.checked = false));
 
-        // 3. Debifează TRANSMISSION TYPE
         document
           .querySelectorAll("input[id='trans_manual'], input[id='trans_auto']")
           .forEach((chk) => (chk.checked = false));
 
-        // 4. Debifează NUMBER OF DOORS
         document
           .querySelectorAll(".door-filter")
           .forEach((chk) => (chk.checked = false));
 
-        // 5. Debifează NUMBER OF SEATS
         document
           .querySelectorAll(".seat-filter")
           .forEach((chk) => (chk.checked = false));
 
-        // 6. Debifează FUEL TYPE
         document
           .querySelectorAll(".fuel-filter")
           .forEach((chk) => (chk.checked = false));
 
-        // 7. Resetează lista
         filteredCars = [...allCars];
         displayCars = [...filteredCars];
-
-        // 8. Resetează afișarea
         visible = 0;
         container.innerHTML = "";
         showMore();
-
-        // 9. Reactivează load more
         loadMoreBtn.disabled = false;
         loadMoreBtn.innerText = "Load More Offers";
 
         updateResultsCount("");
 
-        // Reset body type + counts + tags
         activeBodyType = "all-options";
         document.querySelectorAll(".body-type-btn").forEach(b => b.classList.remove("selected"));
         document.querySelector('[data-body-type="all-options"]').classList.add("selected");
@@ -1340,71 +1151,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 750);
   });
 
-  // Search
   const searchInput = document.getElementById("searchInput");
   const searchBtn = document.getElementById("searchBtn");
 
   function applySearch() {
-    //  RESET ALL FILTERS (inclusiv slider-ele de interval)
     resetRangeSliders();
-
     document
       .querySelectorAll("#brandsContainer input[type='checkbox']")
       .forEach((chk) => (chk.checked = false));
 
-    // Transmission (Manual / Automatic)
     document
       .querySelectorAll(
         "#advancedSection input[type='checkbox'][value='manuala'], #advancedSection input[type='checkbox'][value='automata']",
       )
       .forEach((chk) => (chk.checked = false));
 
-    // Number of Doors
     document
       .querySelectorAll(".door-filter")
       .forEach((chk) => (chk.checked = false));
 
-    // Number of Seats
     document
       .querySelectorAll(".seat-filter")
       .forEach((chk) => (chk.checked = false));
 
-    // Fuel Type
     document
       .querySelectorAll(".fuel-filter")
       .forEach((chk) => (chk.checked = false));
 
     const query = searchInput.value.toLowerCase().trim();
 
-    // 1. Loading vizual în container
     container.innerHTML = `
         <div class="loading-box">
             <i class="fa-solid fa-spinner spin-icon" "></i>  
         </div>
     `;
-
-    // 2. Loading pe buton
     searchBtn.disabled = true;
     searchBtn.innerHTML = '<i class="fa-solid fa-spinner spin-iconSearch"></i>';
 
     setTimeout(() => {
-      // dacă câmpul este gol → revenim la allCars
       if (query.length === 0) {
         filteredCars = [...allCars];
       } else {
-        // 🔥 SEARCH INTELIGENT CU MULTI-KEYWORDS
         const keywords = query.split(" ").filter((k) => k.length > 0);
 
         filteredCars = allCars.filter((m) => {
           const haystack =
             `${m.marca} ${m.model} ${m.an} ${m.kilometraj} ${m.pret}`.toLowerCase();
 
-          // toate cuvintele introduse trebuie să fie găsite în anunț
           return keywords.every((kw) => haystack.includes(kw));
         });
       }
 
-      // 3. Dacă nu există rezultate
       if (filteredCars.length === 0) {
         container.innerHTML = `
                 <div class="loading-box">
@@ -1412,12 +1209,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <p style="font-size:18px; margin-top:10px;">No results found</p>
                 </div>
             `;
-
         visible = 0;
         loadMoreBtn.disabled = true;
         loadMoreBtn.innerText = "No offers";
-
-        // reactivăm butonul
         searchBtn.disabled = false;
         searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
 
@@ -1426,21 +1220,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateResultsCount(query);
         updateBodyTypeCounts(filteredCars);
         renderActiveFilterTags();
-
         return;
       }
 
-      // 4. Avem rezultate → resetăm vizibilul și afișăm primele 5
       displayCars = [...filteredCars];
       visible = 0;
       container.innerHTML = "";
       showMore();
-
-      // reactivăm load more
       loadMoreBtn.disabled = false;
       loadMoreBtn.innerText = "Load More Offers";
 
-      // reactivăm search button
       searchBtn.disabled = false;
       searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
 
@@ -1455,7 +1244,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (e.key === "Enter") applySearch();
   });
 
-  // autocomplete
   const autoList = document.getElementById("autocompleteList");
 
   searchInput.addEventListener("input", function () {
@@ -1463,38 +1251,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     autoList.innerHTML = "";
     autoList.style.display = "none";
-
     if (query.length < 3) return;
-
     const suggestions = allCars
       .map((c) => `${c.marca} ${c.model} ${c.an}`)
       .filter((txt) => txt.toLowerCase().includes(query))
       .slice(0, 10);
-
     if (suggestions.length === 0) return;
-
     autoList.style.display = "block";
-
     suggestions.forEach((s) => {
       const item = document.createElement("div");
       item.className = "autocomplete-item";
       item.textContent = s;
-
       item.onclick = () => {
         searchInput.value = s;
-
         autoList.innerHTML = "";
         autoList.style.display = "none";
 
-        // 🔥 trigger automat pe functionarea ta de search
         applySearch();
 
-        // trimite Enter dacă ai eveniment pe Enter
         searchInput.dispatchEvent(
           new KeyboardEvent("keydown", { key: "Enter" }),
         );
       };
-
       autoList.appendChild(item);
     });
   });
@@ -1509,7 +1287,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   function updateResultsCount(queryText = "") {
     const resultsDiv = document.getElementById("resultsCount");
     const count = displayCars.length;
-
     if (!displayCars || count === 0) {
       resultsDiv.style.display = "none";
       return;
@@ -1540,7 +1317,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   advancedToggle.addEventListener("click", () => {
     advancedOpen = !advancedOpen;
-
     if (advancedOpen) {
       advancedSection.style.display = "block";
       advancedToggle.innerHTML =
@@ -1551,6 +1327,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         '<i class="fa-solid fa-atom"></i> Advanced Options ▼';
     }
   });
-
   initSignInRequiredPopup();
 });
+

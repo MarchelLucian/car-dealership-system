@@ -1,7 +1,6 @@
 function validateAddAgent(event) {
     let valid = true;
 
-    // RESET ERORI
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
     document.querySelectorAll("input").forEach(e => e.classList.remove("input-error"));
 
@@ -14,7 +13,6 @@ function validateAddAgent(event) {
         {name: "username", errorId: "error-username", label: "Username is required"},
         {name: "password", errorId: "error-password", label: "Password is required"}
     ];
-
     fields.forEach(f => {
         const el = document.getElementsByName(f.name)[0];
         if (!el.value || el.value.trim() === "") {
@@ -24,7 +22,6 @@ function validateAddAgent(event) {
         }
     });
 
-    // Validare password length
     const password = document.getElementsByName("password")[0];
     if (password.value && password.value.length < 6) {
         document.getElementById("error-password").textContent = "Password must be at least 6 characters";
@@ -32,7 +29,6 @@ function validateAddAgent(event) {
         valid = false;
     }
 
-    // Validare email format
     const email = document.getElementsByName("email")[0];
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email.value && !emailRegex.test(email.value)) {
@@ -46,13 +42,11 @@ function validateAddAgent(event) {
         return;
     }
 
-    // PORNEȘTE SPINNER
     const btn = document.getElementById("addAgentBtn");
     document.getElementById("addAgentText").style.display = "none";
     document.getElementById("addAgentPlus").style.display = "none";
     document.getElementById("addAgentSpinner").style.display = "inline-block";
     btn.disabled = true;
-
     event.preventDefault();
     setTimeout(() => {
         btn.disabled = false;
@@ -72,18 +66,15 @@ function clearAgentForm() {
     if (err) err.style.display = "none";
 }
 
-// Toggle password visibility
 document.addEventListener('DOMContentLoaded', () => {
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.querySelector('input[name="password"]');
 
     if (togglePassword && passwordInput) {
         togglePassword.addEventListener('click', function() {
-            // Toggle type
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
 
-            // Toggle icon
             if (type === 'text') {
                 this.classList.remove('fa-eye-slash');
                 this.classList.add('fa-eye');
@@ -94,3 +85,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+

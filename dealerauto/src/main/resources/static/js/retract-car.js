@@ -3,7 +3,6 @@ document.addEventListener("keydown", function (e) {
         e.preventDefault();
     }
 });
-
 function openConfirmModal() {
     const modal = document.getElementById("confirmModal");
 
@@ -21,15 +20,10 @@ function closeConfirmModal() {
     if (modal) modal.style.display = "none";
 }
 
-// ===============================
-// CONFIRM RETRACT (SUBMIT REAL)
-// ===============================
 function confirmRetractCar() {
-
     const btn = document.getElementById("retractCarBtn");
     const form = btn.closest("form");
 
-    // închide modalul
     closeConfirmModal();
 
     // ----- PORNEȘTE SPINNER (EXACT CA ÎNAINTE) -----
@@ -39,18 +33,13 @@ function confirmRetractCar() {
 
     btn.disabled = true;
 
-    // ⏳ Delay 0.8s înainte de submit efectiv
     setTimeout(() => {
         btn.disabled = false;
         form.submit();
     }, 1000);
 }
 
-// ===============================
-// VALIDARE FORM
-// ===============================
 function validateRetractCar(event) {
-
     let valid = true;
 
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
@@ -84,16 +73,11 @@ function validateRetractCar(event) {
         return;
     }
 
-    // NU trimitem formularul
     event.preventDefault();
 
-    //  DESCHIDEM MODALUL
     openConfirmModal();
 }
 
-// ===============================
-// DISABLE / ENABLE SEARCH
-// ===============================
 function disableVinSearch() {
     const vinInput = document.getElementById("carVinInput");
     const vinBtn = document.getElementById("searchVinBtn");
@@ -143,13 +127,11 @@ function clearCarValidationError() {
 
     document.getElementById("carIdInput")
         .classList.remove("input-error");
-
     document.getElementById("carVinInput")
         .classList.remove("input-error");
 }
 
 function updateTaxaStationare(pretAchizitie) {
-
     const taxaInput = document.getElementById("taxaStationare");
     if (!taxaInput) return;
 
@@ -168,9 +150,6 @@ function updateTaxaStationare(pretAchizitie) {
     taxaInput.value = taxa.toFixed(2);
 }
 
-// ===============================
-// SEARCH BY ID
-// ===============================
 function searchCarById() {
     const id = document.getElementById("carIdInput").value;
     const lookupError = document.getElementById("error-car-lookup");
@@ -190,7 +169,6 @@ function searchCarById() {
     providerInfoBox.style.display = "none";
     hiddenId.value = "";
 
-    // ascunde mesajele de succes / eroare venite din backend 
     const successMsg = document.querySelector(".success-message");
     if (successMsg) successMsg.style.display = "none";
 
@@ -205,52 +183,37 @@ function searchCarById() {
     searchIcon.style.display = "none";
     spinner.style.display = "inline-block";
     btn.disabled = true;
-
     setTimeout(() => {
         fetch(`/agent-dashboard/cars-management/lookup-car-with-provider?id=${id}`)
             .then(res => res.json())
             .then(data => {
-
                 if (!data.found) {
                     lookupError.textContent = data.message;
                     return;
                 }
 
-                // ===============================
-                // STORAGE ENTRY DATE + STORAGE DAYS
-                // ===============================
                 if (data.data_intrare_stoc) {
-
                     entryDateInput.value = data.data_intrare_stoc;
 
                     const entry = new Date(data.data_intrare_stoc);
                     const today = new Date();
-
                     const diffMs = today - entry;
                     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
                     storageDaysInput.value = diffDays;
-
                 } else {
                     entryDateInput.value = "------";
                     storageDaysInput.value = "------";
                 }
 
 clearCarValidationError();
-
                 hiddenId.value = data.id;
                 document.getElementById("provider_id").value = data.provider_id;
 
 const vinInput = document.getElementById("carVinInput");
                 vinInput.value = data.vin;
-
                 disableVinSearch();
 
-                // ===============================
-                // SNAPSHOT pentru masini_retrase
-                // ===============================
-
-                // CAR
                 document.getElementById("vin").value = data.vin;
                 document.getElementById("marca_nume").value = data.marca;
                 document.getElementById("model").value = data.model;
@@ -262,7 +225,6 @@ const vinInput = document.getElementById("carVinInput");
                 document.getElementById("numar_locuri").value = data.numar_locuri;
 
 updateTaxaStationare(data.pretAchizitie);
-                // PROVIDER
                 document.getElementById("provider_nume").value = data.provider_nume;
 
                 infoBox.innerHTML = `
@@ -314,9 +276,6 @@ updateTaxaStationare(data.pretAchizitie);
     }, 1200);
 }
 
-// =============
-// SEARCH BY VIN 
-// =============
 function searchCarByVin() {
     const vin = document.getElementById("carVinInput").value;
     const lookupError = document.getElementById("error-car-lookup");
@@ -336,7 +295,6 @@ function searchCarByVin() {
     providerInfoBox.style.display ="none";
     hiddenId.value = "";
 
-    // ascunde mesajele de succes / eroare venite din backend (FlashAttributes)
     const successMsg = document.querySelector(".success-message");
     if (successMsg) successMsg.style.display = "none";
 
@@ -351,12 +309,10 @@ function searchCarByVin() {
     searchIcon.style.display = "none";
     spinner.style.display = "inline-block";
     btn.disabled = true;
-
     setTimeout(() => {
         fetch(`/agent-dashboard/cars-management/lookup-car-with-provider-by-vin?vin=${encodeURIComponent(vin)}`)
             .then(res => res.json())
             .then(data => {
-
                 if (!data.found) {
                     lookupError.textContent = data.message;
                     return;
@@ -364,21 +320,15 @@ function searchCarByVin() {
 
                 clearCarValidationError();
 
-                // entry date + storage days
                 if (data.data_intrare_stoc) {
-
-                    // afișăm data de intrare în stoc
                     entryDateInput.value = data.data_intrare_stoc;
 
-                    // calcul zile de stocare
                     const entry = new Date(data.data_intrare_stoc);
                     const today = new Date();
-
                     const diffMs = today - entry;
                     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
                     storageDaysInput.value = diffDays;
-
                 } else {
                     entryDateInput.value = "------";
                     storageDaysInput.value = "------";
@@ -390,14 +340,8 @@ function searchCarByVin() {
 
                 const idInput = document.getElementById("carIdInput");
                 idInput.value = data.id;
-
                 disableIdSearch();
 
-                // ===============================
-                // SNAPSHOT pentru masini_retrase
-                // ===============================
-
-                // CAR
                 document.getElementById("vin").value = data.vin;
                 document.getElementById("marca_nume").value = data.marca;
                 document.getElementById("model").value = data.model;
@@ -410,7 +354,6 @@ function searchCarByVin() {
 
                 updateTaxaStationare(data.pretAchizitie);
 
-                // PROVIDER
                 document.getElementById("provider_nume").value = data.provider_nume;
                 infoBox.innerHTML = `
                     <strong>Vehicle Information</strong>
@@ -455,12 +398,7 @@ function searchCarByVin() {
     }, 1200);
 }
 
-// ===============================
-// CLEAR DETAILS (IDENTIC cu add-sale)
-// ===============================
 function clearRetractForm() {
-
-    // reset input-uri
     const carIdInput = document.getElementById("carIdInput");
     const carVinInput = document.getElementById("carVinInput");
 
@@ -468,27 +406,21 @@ function clearRetractForm() {
     carVinInput.value = "";
     document.getElementById("masina_id").value = "";
 
-    // reset highlight input-uri
     carIdInput.classList.remove("input-error");
     carVinInput.classList.remove("input-error");
 
-    // reset reason
     const reason = document.getElementById("retractReason");
     reason.value = "";
     reason.classList.remove("input-error");
 
-    // ascunde info box-uri
     document.getElementById("carInfoBox").style.display = "none";
     document.getElementById("providerInfoBox").style.display = "none";
 
-    // reset provider id
     document.getElementById("provider_id").value = "";
 
-    // șterge erori text
     document.querySelectorAll(".error-msg")
         .forEach(e => e.textContent = "");
 
-    // ascunde mesajele de succes / eroare venite din backend (FlashAttributes)
     const successMsg = document.querySelector(".success-message");
     if (successMsg) successMsg.style.display = "none";
 
@@ -500,7 +432,6 @@ function clearRetractForm() {
         taxaInput.value = "";
     }
 
-    // reset storage entry date & storage days
     const entryDateInput = document.getElementById("entryDate");
     if (entryDateInput) {
         entryDateInput.value = "";
@@ -511,14 +442,11 @@ function clearRetractForm() {
         storageDaysInput.value = "";
     }
 
-    // re-activează câmpurile de căutare
     enableVinSearch();
     enableIdSearch();
 }
 
-// DOM READY – INPUT LISTENERS
 document.addEventListener("DOMContentLoaded", () => {
-    // SET CURRENT DATE (READ-ONLY)
     const dateInput = document.getElementById("withdrawDate");
     if (dateInput) {
         dateInput.value = new Date().toISOString().split("T")[0];
@@ -530,10 +458,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (carIdInput) {
         carIdInput.addEventListener("input", () => {
             const idVal = carIdInput.value;
-
             if (!idVal || idVal.trim() === "") {
                 enableVinSearch();
-
             }
         });
     }
@@ -541,11 +467,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (carVinInput) {
         carVinInput.addEventListener("input", () => {
             const vinVal = carVinInput.value;
-
             if (!vinVal || vinVal.trim() === "") {
                 enableIdSearch();
-
             }
         });
     }
 });
+

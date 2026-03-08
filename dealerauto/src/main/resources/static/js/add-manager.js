@@ -10,7 +10,6 @@ function validateAddManager(event) {
         {name: "username", errorId: "error-username", label: "Username is required"},
         {name: "password", errorId: "error-password", label: "Password is required"}
     ];
-
     fields.forEach(f => {
         const el = document.getElementsByName(f.name)[0];
         if (!el.value || el.value.trim() === "") {
@@ -37,7 +36,6 @@ function validateAddManager(event) {
     document.getElementById("addManagerPlus").style.display = "none";
     document.getElementById("addManagerSpinner").style.display = "inline-block";
     btn.disabled = true;
-
     event.preventDefault();
     setTimeout(() => {
         btn.disabled = false;
@@ -57,18 +55,15 @@ function clearManagerForm() {
     if (err) err.style.display = "none";
 }
 
-// Toggle password visibility
 document.addEventListener('DOMContentLoaded', () => {
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.querySelector('input[name="password"]');
 
     if (togglePassword && passwordInput) {
         togglePassword.addEventListener('click', function() {
-            // Toggle type
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
 
-            // Toggle icon
             if (type === 'text') {
                 this.classList.remove('fa-eye-slash');
                 this.classList.add('fa-eye');
@@ -79,3 +74,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+

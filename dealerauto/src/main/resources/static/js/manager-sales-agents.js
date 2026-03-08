@@ -1,9 +1,7 @@
-// Initialize Agent Performance Chart
 document.addEventListener('DOMContentLoaded', () => {
     colorMarkupBadges();
     initAgentPerformanceChart();
 });
-
 function colorMarkupBadges() {
     const spans = document.querySelectorAll('.markup-badge');
 
@@ -49,7 +47,6 @@ function applyAgentSort() {
 
     rows.sort((a, b) => {
         let aValue, bValue;
-
         switch(sortBy) {
             case 'salesCount':
                 aValue = parseInt(a.dataset.sales);
@@ -78,17 +75,13 @@ function applyAgentSort() {
         }
     });
 
-    // Clear tbody and recalculate ranks
     tbody.innerHTML = '';
     rows.forEach((row, index) => {
-        // Actualizează rank badge
         const rankBadge = row.querySelector('.rank-badge');
         rankBadge.textContent = '#' + (index + 1);
 
-        // Resetează clasele
         rankBadge.className = 'rank-badge';
 
-        // Adaugă culori pentru top 3
         if (index === 0) rankBadge.classList.add('rank-gold');
         else if (index === 1) rankBadge.classList.add('rank-silver');
         else if (index === 2) rankBadge.classList.add('rank-bronze');
@@ -96,11 +89,9 @@ function applyAgentSort() {
         tbody.appendChild(row);
     });
 
-    // Visual feedback
     showSortFeedback('agentsTable');
 }
 
-// Sales Count Chart (Horizontal Bar)
 function initAgentSalesChart() {
     const ctx = document.getElementById('agentSalesChart');
 
@@ -134,12 +125,10 @@ function initAgentSalesChart() {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 18,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 18,
                         weight: 'bold'
@@ -182,7 +171,6 @@ function initAgentSalesChart() {
     });
 }
 
-// Profit Chart (Horizontal Bar)
 function initAgentProfitChart() {
     const ctx = document.getElementById('agentProfitChart');
 
@@ -216,12 +204,10 @@ function initAgentProfitChart() {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 18,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 18,
                         weight: 'bold'
@@ -286,7 +272,6 @@ function initAgentMarkupChart() {
 
     const markupData = agentPerformanceData.map(item => item.averageMarkup || 0);
 
-    // Generate gradient colors based on markup value
     const backgroundColors = markupData.map(value => {
         if (value >= 10) {
             return 'rgba(46, 204, 113, 0.8)'; // Verde - markup mare
@@ -305,7 +290,6 @@ function initAgentMarkupChart() {
         else if (value >= 2) return '#f39c12';
         else return '#e74c3c';
     });
-
     new Chart(ctx, {
         type: 'bar',
         data: {
@@ -328,12 +312,10 @@ function initAgentMarkupChart() {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 18,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 18,
                         weight: 'bold'
@@ -341,7 +323,6 @@ function initAgentMarkupChart() {
                     padding: 12,
                     caretSize: 22,
                     position: 'nearest',
-
                     callbacks: {
                         label: function(context) {
                             return 'Avg Markup: ' + context.parsed.x.toFixed(2) + '%';
@@ -374,7 +355,6 @@ function initAgentMarkupChart() {
                     },
                     title: {
                         display: true,
-
                         font: {
                             size: 14,
                             weight: 'bold'
@@ -407,32 +387,27 @@ function initAgentPerformanceChart2() {
 
     console.log('🔍 Top Agents Data:', topAgentsData);
 
-    // Extrage lunile unice și sortează
     const uniqueMonths = [...new Set(topAgentsData.map(d => d.monthDate))].sort();
     const labels = uniqueMonths.map(date => {
         const d = new Date(date);
         return `${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
     });
 
-    // data per agent
     const agentNames = [...new Set(topAgentsData.map(d => d.agentName))];
 
     console.log('📅 Labels:', labels);
     console.log('👥 Agents:', agentNames);
-
     const colors = [
         '#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
         '#1abc9c', '#e67e22', '#34495e', '#16a085', '#d35400'
     ];
 
-    // dataset per agent - ONLY Sales
     const salesDatasets = agentNames.map((agentName, index) => {
         const agentData = topAgentsData.filter(d => d.agentName === agentName);
         const salesData = uniqueMonths.map(month => {
             const found = agentData.find(d => d.monthDate === month);
             return found ? found.salesCount : 0;
         });
-
         return {
             label: agentName,
             data: salesData,
@@ -441,8 +416,6 @@ function initAgentPerformanceChart2() {
             borderWidth: 5,
             tension: 0.4,
             fill: false,
-
-            // BULINE
             pointRadius: 8,
             pointHoverRadius: 12,
             pointBackgroundColor: colors[index % colors.length],
@@ -458,7 +431,6 @@ function initAgentPerformanceChart2() {
     const maxSales = Math.max(...allSalesValues);
 
     console.log('📊 Max Sales:', maxSales);
-
     new Chart(ctx, {
         type: 'line',
         data: {
@@ -468,7 +440,6 @@ function initAgentPerformanceChart2() {
         options: {
             responsive: true,
             maintainAspectRatio: true,
-
             plugins: {
                 legend: {
                     display: true,
@@ -595,3 +566,4 @@ function reloadAgentChart() {
 
     window.location.href = `/manager-dashboard/sales-agents?fromMonth=${fromMonth}&fromYear=${fromYear}&toMonth=${toMonth}&toYear=${toYear}&topAgents=${topAgents}`;
 }
+

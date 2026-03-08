@@ -1,14 +1,8 @@
-// ===============================
-// PREVENT ENTER SUBMIT
-// ===============================
 document.addEventListener("keydown", function (e) {
   if (e.key === "Enter" && e.target.tagName === "INPUT") {
     e.preventDefault();
   }
 });
-// ===============================
-// HIDE FLASH MESSAGES
-// ===============================
 function hideFlashMessages() {
   const successMsg = document.querySelector(".success-message");
   if (successMsg) successMsg.style.display = "none";
@@ -25,9 +19,6 @@ function showMarkupSpinner() {
   markupInput.value = "";
 }
 
-// ===============================
-// New Markup
-// ===============================
 function updateNewMarkup() {
   const masinaId = document.getElementById("masina_id");
   if (!masinaId || !masinaId.value) {
@@ -43,7 +34,6 @@ function updateNewMarkup() {
   const purchasePrice = parseFloat(purchaseInput.value.replace("€", "").trim());
   const newSellingPrice = parseFloat(newPriceInput.value);
 
-  // dacă nu avem valori valide → placeholder
   if (!purchasePrice || !newSellingPrice || newSellingPrice <= 0) {
     markupInput.value = "------";
     markupInput.classList.remove("positive", "negative");
@@ -51,7 +41,6 @@ function updateNewMarkup() {
   }
 
   showMarkupSpinner();
-
   setTimeout(() => {
     if (!document.getElementById("masina_id").value) {
       return;
@@ -61,16 +50,12 @@ function updateNewMarkup() {
 
     markupInput.value = `${sign}${markup.toFixed(2)}%`;
 
-    // colorare
     markupInput.classList.remove("positive", "negative");
     if (markup > 0) markupInput.classList.add("positive");
     if (markup < 0) markupInput.classList.add("negative");
   }, 400);
 }
 
-// ===============================
-// VALIDARE FORM
-// ===============================
 function validateEditListing(event) {
   let valid = true;
 
@@ -123,9 +108,6 @@ function validateEditListing(event) {
   }, 1200);
 }
 
-// ===============================
-// DISABLE / ENABLE SEARCH
-// ===============================
 function disableVinSearch() {
   const vinInput = document.getElementById("carVinInput");
   const vinBtn = vinInput.nextElementSibling;
@@ -151,7 +133,6 @@ function disableIdSearch() {
 function enableVinSearch() {
   const input = document.getElementById("carVinInput");
   const btn = input.nextElementSibling;
-
   input.disabled = false;
   btn.disabled = false;
 
@@ -162,7 +143,6 @@ function enableVinSearch() {
 function enableIdSearch() {
   const input = document.getElementById("carIdInput");
   const btn = input.nextElementSibling;
-
   input.disabled = false;
   btn.disabled = false;
 
@@ -173,7 +153,6 @@ function enableIdSearch() {
 function updateMarkup(purchasePrice, sellingPrice) {
   const markupInput = document.getElementById("priceMarkup");
 
-  // reset
   markupInput.classList.remove("positive", "negative");
 
   if (!purchasePrice || !sellingPrice) {
@@ -186,14 +165,10 @@ function updateMarkup(purchasePrice, sellingPrice) {
   const sign = markup > 0 ? "+" : "";
   markupInput.value = `${sign}${markup.toFixed(2)}%`;
 
-  // colorare
   if (markup > 0) markupInput.classList.add("positive");
   if (markup < 0) markupInput.classList.add("negative");
 }
 
-// ===============================
-// RESET READ-ONLY PRICE FIELDS
-// ===============================
 function resetListingPrices() {
   const pretAch = document.getElementById("pretAchizitie");
   const pretVanz = document.getElementById("pretVanzareCurent");
@@ -207,14 +182,12 @@ function resetListingPrices() {
     markup.classList.remove("positive", "negative");
   }
 
-  // NEW SELLING PRICE
   const newPriceInput = document.getElementById("pretVanzareNou");
   if (newPriceInput) {
     newPriceInput.value = "";
     newPriceInput.classList.remove("input-error");
   }
 
-  // NEW MARKUP
   const newMarkupInput = document.getElementById("newPriceMarkup");
   if (newMarkupInput) {
     newMarkupInput.value = "------";
@@ -222,9 +195,6 @@ function resetListingPrices() {
   }
 }
 
-// ===============================
-// SEARCH BY ID
-// ===============================
 function searchCarById() {
   const id = document.getElementById("carIdInput").value;
   const lookupError = document.getElementById("error-car-lookup");
@@ -239,10 +209,8 @@ function searchCarById() {
   infoBox.style.display = "none";
   hiddenId.value = "";
 
-  // ascunde mesajele Flash
   hideFlashMessages();
   resetListingPrices();
-
   if (!id || id.trim() === "") {
     lookupError.textContent = "Please enter a car ID.";
     return;
@@ -251,7 +219,6 @@ function searchCarById() {
   searchIcon.style.display = "none";
   spinner.style.display = "inline-block";
   btn.disabled = true;
-
   setTimeout(() => {
     fetch(`/agent-dashboard/cars-management/lookup-car-for-listing?id=${id}`)
       .then((res) => res.json())
@@ -266,7 +233,6 @@ function searchCarById() {
 
         disableVinSearch();
 
-        // PREȚURI
         document.getElementById("pretAchizitie").value = data.pretAchizitie;
         document.getElementById("pretVanzareCurent").value = data.pretVanzare;
 
@@ -295,9 +261,6 @@ function searchCarById() {
   }, 1200);
 }
 
-// ===============================
-// SEARCH BY VIN
-// ===============================
 function searchCarByVin() {
   const vin = document.getElementById("carVinInput").value;
   const lookupError = document.getElementById("error-car-lookup");
@@ -312,10 +275,8 @@ function searchCarByVin() {
   infoBox.style.display = "none";
   hiddenId.value = "";
 
-  // ascunde mesajele Flash
   hideFlashMessages();
   resetListingPrices();
-
   if (!vin || vin.trim() === "") {
     lookupError.textContent = "Please enter a VIN.";
     return;
@@ -324,7 +285,6 @@ function searchCarByVin() {
   searchIcon.style.display = "none";
   spinner.style.display = "inline-block";
   btn.disabled = true;
-
   setTimeout(() => {
     fetch(
       `/agent-dashboard/cars-management/lookup-car-for-listing-by-vin?vin=${encodeURIComponent(vin)}`,
@@ -341,7 +301,6 @@ function searchCarByVin() {
 
         disableIdSearch();
 
-        // PREȚURI
         document.getElementById("pretAchizitie").value = data.pretAchizitie;
         document.getElementById("pretVanzareCurent").value = data.pretVanzare;
 
@@ -370,9 +329,6 @@ function searchCarByVin() {
   }, 1200);
 }
 
-// ===============================
-// DOM READY – INPUT LISTENERS
-// ===============================
 document.addEventListener("DOMContentLoaded", () => {
   const carIdInput = document.getElementById("carIdInput");
   const carVinInput = document.getElementById("carVinInput");
@@ -381,7 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
     carIdInput.addEventListener("input", () => {
       const idVal = carIdInput.value;
 
-      // dacă ID a fost șters → reactivăm VIN + resetăm selecția
       if (!idVal || idVal.trim() === "") {
         enableVinSearch();
       }
@@ -392,7 +347,6 @@ document.addEventListener("DOMContentLoaded", () => {
     carVinInput.addEventListener("input", () => {
       const vinVal = carVinInput.value;
 
-      // dacă VIN a fost șters → reactivăm ID + resetăm selecția
       if (!vinVal || vinVal.trim() === "") {
         enableIdSearch();
       }
@@ -406,7 +360,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const newPriceInput = document.getElementById("pretVanzareNou");
 
   if (newPriceInput) {
-    // ENTER  calculează New Markup
     newPriceInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault(); // nu submit form
@@ -414,7 +367,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // CLICK ÎN AFARĂ  calculează New Markup
     newPriceInput.addEventListener("blur", () => {
       if (newPriceInput.value && newPriceInput.value.trim() !== "") {
         updateNewMarkup();
@@ -423,14 +375,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ===============================
-// CLEAR FORM
-// ===============================
 function clearEditListingForm() {
-  // reset input-uri (inclusiv newSellingPrice)
   document.querySelectorAll("input").forEach((i) => (i.value = ""));
 
-  // reset erori
   document.querySelectorAll(".error-msg").forEach((e) => (e.textContent = ""));
 
   const newPriceInput = document.getElementById("pretVanzareNou");
@@ -448,28 +395,24 @@ function clearEditListingForm() {
     carIdInput.classList.remove("input-error");
   }
 
-  // ascunde info box
   const infoBox = document.getElementById("carInfoBox");
   if (infoBox) infoBox.style.display = "none";
 
-  // RESET CURRENT MARKUP
   const markupInput = document.getElementById("priceMarkup");
   if (markupInput) {
     markupInput.value = "";
     markupInput.classList.remove("positive", "negative");
   }
 
-  // RESET NEW MARKUP
   const newMarkupInput = document.getElementById("newPriceMarkup");
   if (newMarkupInput) {
     newMarkupInput.value = "";
     newMarkupInput.classList.remove("positive", "negative");
   }
 
-  // re-enable search
   enableIdSearch();
   enableVinSearch();
 
-  // ascunde mesajele backend
   hideFlashMessages();
 }
+

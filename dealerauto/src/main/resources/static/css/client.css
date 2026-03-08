@@ -289,12 +289,12 @@ body {
 .sidebar .filter-row .filter-item {
     text-align: center;
 }
-.sidebar .filter-row .filter-item:first-child input[type="number"] {
+.sidebar .filter-row .filter-item:first-of-type input[type="number"] {
     display: block;
     margin-left: 0;
     margin-right: auto;
 }
-.sidebar .filter-row .filter-item:nth-child(2) input[type="number"] {
+.sidebar .filter-row .filter-item:nth-of-type(2) input[type="number"] {
     display: block;
     margin-left: auto;
     margin-right: 0;

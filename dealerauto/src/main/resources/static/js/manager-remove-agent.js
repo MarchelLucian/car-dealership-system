@@ -2,12 +2,9 @@ function confirmRemoveAgent(button) {
     const idAgent = button.getAttribute('data-id');
     const agentName = button.getAttribute('data-name');
 
-    // overlay
     const overlay = document.createElement('div');
     overlay.className = 'custom-overlay';
     overlay.id = 'confirmOverlay';
-
-    // modal
     overlay.innerHTML = `
         <div class="custom-modal">
             <div class="modal-icon">
@@ -28,10 +25,8 @@ function confirmRemoveAgent(button) {
             </div>
         </div>
     `;
-
     document.body.appendChild(overlay);
 
-    // Animație fade-in
     setTimeout(() => {
         overlay.classList.add('active');
     }, 10);
@@ -40,7 +35,6 @@ function confirmRemoveAgent(button) {
 function closeConfirmModal() {
     const overlay = document.getElementById('confirmOverlay');
     overlay.classList.remove('active');
-
     setTimeout(() => {
         overlay.remove();
     }, 300);
@@ -51,7 +45,6 @@ function confirmDelete(idAgent) {
     document.getElementById('removeAgentForm').submit();
 }
 
-// Close on ESC key
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         const overlay = document.getElementById('confirmOverlay');
@@ -60,3 +53,4 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+

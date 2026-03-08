@@ -6,22 +6,18 @@ function toggleClientType() {
     const labelPrenume = document.getElementById("labelPrenume");
 
     if (type === "persoana fizica") {
-        // PF
         prenumeBlock.style.display = "contents";
         labelNume.textContent = "Last Name:";
         labelPrenume.textContent = "First Name:";
     } else if (type === "firma") {
-        // Firmă
         prenumeBlock.style.display = "none";
         labelNume.textContent = "Name:";
     }
 }
 
 function validateAddClient(event) {
-
     let valid = true;
 
-    // RESET
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
     document.querySelectorAll("input, select").forEach(e => e.classList.remove("input-error"));
 
@@ -35,7 +31,6 @@ function validateAddClient(event) {
         {name: "email", errorId: "error-email", label: "Email is required"},
         {name: "adresa", errorId: "error-adresa", label: "Address is required"}
     ];
-
     if (type === "persoana fizica") {
         fields.push({name: "prenume", errorId: "error-prenume", label: "First name is required"});
     }
@@ -48,20 +43,17 @@ function validateAddClient(event) {
             valid = false;
         }
     });
-
     if (!valid) {
         event.preventDefault();
         return;
     }
 
-    // SPINNER
     const btn = document.getElementById("addClientBtn");
     document.getElementById("addClientText").style.display = "none";
     document.getElementById("addClientPlus").style.display = "none";
     document.getElementById("addClientSpinner").style.display = "inline-block";
 
     btn.disabled = true;
-
     event.preventDefault();
     setTimeout(() => {
         btn.disabled = false;
@@ -74,3 +66,4 @@ function clearClientForm() {
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
     document.querySelectorAll("input, select").forEach(e => e.classList.remove("input-error"));
 }
+

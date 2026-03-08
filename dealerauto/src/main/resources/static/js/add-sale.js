@@ -1,13 +1,11 @@
 document.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     const target = e.target;
-
     if (target.tagName === "INPUT") {
       e.preventDefault();
     }
   }
 });
-
 function hideSuccessMessage() {
   const success = document.getElementById("successMessage");
   if (success) {
@@ -15,9 +13,6 @@ function hideSuccessMessage() {
   }
 }
 
-// ===============================
-// VALIDARE FORMULAR ADD-SALE
-// ===============================
 function validateAddSale(event) {
   let valid = true;
 
@@ -87,9 +82,6 @@ function validateAddSale(event) {
     return;
   }
 
-  // ===============================
-  // SPINNER + DISABLE BUTTON
-  // ===============================
   const btn = document.getElementById("addSaleBtn");
 
   document.getElementById("addSaleText").style.display = "none";
@@ -97,7 +89,6 @@ function validateAddSale(event) {
   document.getElementById("addSaleSpinner").style.display = "inline-block";
 
   btn.disabled = true;
-
   event.preventDefault();
   setTimeout(() => {
     btn.disabled = false;
@@ -152,9 +143,6 @@ document.getElementById("carVinInput").addEventListener("input", () => {
   document.getElementById("carIdInput").disabled = false;
 });
 
-// ===============================
-// RESET FORM
-// ===============================
 function clearSaleForm() {
   document.querySelector("form").reset();
 
@@ -183,7 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const carVinInput = document.getElementById("carVinInput");
   const clientInput = document.getElementById("buyerCuiCnpInput");
 
-  // ENTER → search CAR by ID
   if (carIdInput) {
     carIdInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -193,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ENTER → search CAR by VIN
   if (carVinInput) {
     carVinInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -203,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ENTER → search CLIENT
   if (clientInput) {
     clientInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -213,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
 function clearCarValidationError() {
   const validationError = document.getElementById("error-car-validation");
   if (validationError) {
@@ -242,7 +226,6 @@ function searchCarById() {
   validationError.textContent = "";
   infoBox.style.display = "none";
   hiddenId.value = "";
-
   if (!id || id.trim() === "") {
     lookupError.textContent = "Please enter a car ID.";
     enableVinSearch();
@@ -250,11 +233,9 @@ function searchCarById() {
     return;
   }
 
-  //  swap icons
   searchIcon.style.display = "none";
   spinner.style.display = "inline-block";
   btn.disabled = true;
-
   setTimeout(() => {
     fetch(`/agent-dashboard/sales/lookup-car?id=${id}`)
       .then((res) => res.json())
@@ -266,15 +247,11 @@ function searchCarById() {
         }
 
         clearCarValidationError();
-
         hiddenId.value = data.id;
 
-        //  completează VIN
         const vinInput = document.getElementById("carVinInput");
         vinInput.value = data.vin;
-
         disableVinSearch();
-
         carInfoBox.innerHTML = `
     <strong>Vehicle Information</strong>
     <div class="car-columns">
@@ -311,7 +288,6 @@ function searchCarByVin() {
   validationError.textContent = "";
   infoBox.style.display = "none";
   hiddenId.value = "";
-
   if (!vin || vin.trim() === "") {
     lookupError.textContent = "Please enter a VIN.";
     enableIdSearch();
@@ -319,11 +295,9 @@ function searchCarByVin() {
     return;
   }
 
-  //  swap icons
   searchIcon.style.display = "none";
   spinner.style.display = "inline-block";
   btn.disabled = true;
-
   setTimeout(() => {
     fetch(
       `/agent-dashboard/sales/lookup-car-by-vin?vin=${encodeURIComponent(vin)}`,
@@ -337,15 +311,11 @@ function searchCarByVin() {
         }
 
         clearCarValidationError();
-
         hiddenId.value = data.id;
 
-        //  completează ID
         const idInput = document.getElementById("carIdInput");
         idInput.value = data.id;
-
         disableIdSearch();
-
         carInfoBox.innerHTML = `
     <strong>Vehicle Information</strong>
     <div class="car-columns">
@@ -398,18 +368,15 @@ function searchClientByCuiCnp() {
   validationError.textContent = "";
   infoBox.style.display = "none";
   hiddenId.value = "";
-
   if (!cuiCnp || cuiCnp.trim() === "") {
     lookupError.textContent = "Please enter CUI or CNP.";
     hideSuccessMessage();
     return;
   }
 
-  //  swap icons
   searchIcon.style.display = "none";
   spinner.style.display = "inline-block";
   btn.disabled = true;
-
   setTimeout(() => {
     fetch(
       `/agent-dashboard/sales/lookup-client?cuiCnp=${encodeURIComponent(cuiCnp)}`,
@@ -429,14 +396,11 @@ function searchClientByCuiCnp() {
         }
 
         clearClientValidationError();
-
         hiddenId.value = data.id;
-
         const displayName =
           data.tip === "persoana fizica" && data.prenume
             ? `${data.prenume} ${data.nume}`
             : data.nume;
-
         infoBox.innerHTML = `
     <strong>Client Information</strong>
 
@@ -462,7 +426,6 @@ function searchClientByCuiCnp() {
         </div>
     </div>
 `;
-
         infoBox.style.display = "block";
       })
       .catch(() => {
@@ -499,3 +462,4 @@ function enableIdSearch() {
   input.classList.remove("disabled-input");
   btn.classList.remove("disabled-btn");
 }
+

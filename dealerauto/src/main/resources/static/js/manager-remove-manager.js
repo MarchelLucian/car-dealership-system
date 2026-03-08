@@ -5,7 +5,6 @@ function confirmRemoveManager(button) {
     const overlay = document.createElement('div');
     overlay.className = 'custom-overlay';
     overlay.id = 'confirmOverlay';
-
     overlay.innerHTML = `
         <div class="custom-modal">
             <div class="modal-icon">
@@ -26,9 +25,7 @@ function confirmRemoveManager(button) {
             </div>
         </div>
     `;
-
     document.body.appendChild(overlay);
-
     setTimeout(() => {
         overlay.classList.add('active');
     }, 10);
@@ -37,7 +34,6 @@ function confirmRemoveManager(button) {
 function closeConfirmModal() {
     const overlay = document.getElementById('confirmOverlay');
     overlay.classList.remove('active');
-
     setTimeout(() => {
         overlay.remove();
     }, 300);
@@ -56,3 +52,4 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+

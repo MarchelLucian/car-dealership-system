@@ -14,34 +14,26 @@ function toggleClientType() {
   const numeInput = document.getElementsByName("nume")[0];
 
   if (type === "persoana fizica") {
-    // Individual - Show prenume and CNP, hide CUI
     prenumeBlock.style.display = "contents";
     cnpBlock.style.display = "contents";
     cuiBlock.style.display = "none";
-
     labelNume.textContent = "Last Name:";
     labelPrenume.textContent = "First Name:";
 
-    // Update placeholder for Individual
     numeInput.placeholder = "e.g. Popescu";
 
-    // Enable required fields
     prenumeInput.disabled = false;
     cnpInput.disabled = false;
     cuiInput.disabled = true;
     cuiInput.value = "";
   } else if (type === "firma") {
-    // Company - Hide prenume and CNP, show CUI
     prenumeBlock.style.display = "none";
     cnpBlock.style.display = "none";
     cuiBlock.style.display = "contents";
-
     labelNume.textContent = "Name:";
 
-    // Update placeholder for Company
     numeInput.placeholder = "e.g. SC Auto SRL";
 
-    // Enable CUI, disable prenume and CNP
     cuiInput.disabled = false;
     prenumeInput.disabled = true;
     cnpInput.disabled = true;
@@ -52,7 +44,6 @@ function toggleClientType() {
 function validateClientRegister(event) {
   let valid = true;
 
-  // RESET errors
   document.querySelectorAll(".error-msg").forEach((e) => (e.textContent = ""));
   document
     .querySelectorAll("input, select")
@@ -60,7 +51,6 @@ function validateClientRegister(event) {
 
   const type = document.getElementById("tipClient").value;
 
-  // Base fields (always required)
   const fields = [
     {
       name: "tip_client",
@@ -78,7 +68,6 @@ function validateClientRegister(event) {
     { name: "adresa", errorId: "error-adresa", label: "Address is required" },
   ];
 
-  // Add conditional fields based on client type
   if (type === "persoana fizica") {
     fields.push({
       name: "prenume",
@@ -98,7 +87,6 @@ function validateClientRegister(event) {
     });
   }
 
-  // Validate each field
   fields.forEach((f) => {
     const el = document.getElementsByName(f.name)[0];
     if (!el || !el.value || el.value.trim() === "") {
@@ -107,20 +95,17 @@ function validateClientRegister(event) {
       valid = false;
     }
   });
-
   if (!valid) {
     event.preventDefault();
     return;
   }
 
-  // SPINNER animation
   const btn = document.getElementById("registerBtn");
   document.getElementById("registerText").style.display = "none";
   document.getElementById("registerPlus").style.display = "none";
   document.getElementById("registerSpinner").style.display = "inline-block";
 
   btn.disabled = true;
-
   event.preventDefault();
   setTimeout(() => {
     btn.disabled = false;
@@ -136,7 +121,6 @@ function clearRegisterForm() {
     .forEach((e) => e.classList.remove("input-error"));
 }
 
-// Toggle Password Visibility
 document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("password");
   const toggleIcon = document.getElementById("togglePassword");
@@ -152,3 +136,4 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleIcon.classList.toggle("fa-eye");
   });
 });
+

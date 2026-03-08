@@ -2,15 +2,12 @@ let currentOffset = 0;
 const limit = 5;
 let hasMore = true;
 let allFilters = {
-  // Agent si sorting
   agentId: null,
   sortBy: "data_vanzare",
   sortOrder: "DESC",
-  // Perioada
   startDate: null,
   endDate: null,
 };
-
 let globalKPIs = {
   totalSales: 0,
   totalRevenue: 0,
@@ -21,7 +18,6 @@ let currentPeriodFilters = {
   startDate: null,
   endDate: null,
 };
-// Funcție pentru a obține TOATE vânzările filtrate (pentru KPI-uri)
 async function loadAllFilteredSales() {
   const params = new URLSearchParams({
     offset: 0,
@@ -43,24 +39,20 @@ async function loadAllFilteredSales() {
     const response = await fetch(`/api/manager/sales?${params}`);
     const data = await response.json();
 
-    // Calculează totalurile
     let totalRevenue = 0;
     let totalProfit = 0;
     let totalPurchase = 0;
-
     data.sales.forEach((sale) => {
       totalRevenue += sale.finalPrice || 0;
       totalProfit += sale.profit || 0;
       totalPurchase += sale.purchasePrice || 0;
     });
-
     globalKPIs = {
       totalSales: data.sales.length,
       totalRevenue: totalRevenue,
       totalProfit: totalProfit,
       totalPurchase: totalPurchase,
     };
-
     updateFilteredKPIs();
   } catch (error) {
     console.error("Error loading all sales for KPIs:", error);
@@ -70,7 +62,6 @@ async function loadAllFilteredSales() {
 function calculateDateRange(period) {
   const today = new Date();
   let startDate, endDate;
-
   switch (period) {
     case "today":
       startDate = new Date(today);
@@ -111,7 +102,6 @@ function calculateDateRange(period) {
     endDate: endDate.toISOString().split("T")[0],
   };
 }
-// Format number RO
 function formatNumber(num) {
   if (num == null || isNaN(num)) return "0,00";
   return num
@@ -120,7 +110,6 @@ function formatNumber(num) {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-// Format date
 function formatDate(dateString) {
   const date = new Date(dateString);
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -128,7 +117,6 @@ function formatDate(dateString) {
   const year = date.getFullYear();
   return `${month}-${day}-${year}`; // mm-dd-yyyy
 }
-// Update sort icon based on order
 function updateSortIcon() {
   const sortIcon = document.getElementById("sortIcon");
   const sortOrder = document.getElementById("sortOrder").value;
@@ -140,7 +128,6 @@ function updateSortIcon() {
   }
 }
 
-// Load sales
 async function loadSales(append = false) {
   if (!append) {
     currentOffset = 0;
@@ -167,7 +154,6 @@ async function loadSales(append = false) {
   try {
     const response = await fetch(`/api/manager/sales?${params}`);
     const data = await response.json();
-
     displaySales(data.sales, append);
     updateFilteredKPIs();
     hasMore = data.hasMore;
@@ -182,7 +168,6 @@ async function loadSales(append = false) {
     el.style.fontSize = "30px";
     el.style.textAlign = "center";
     el.style.marginBottom = "10px";
-
     currentOffset += limit;
   } catch (error) {
     console.error("Error loading sales:", error);
@@ -190,20 +175,17 @@ async function loadSales(append = false) {
   }
 }
 
-// Funcție pentru actualizarea KPI-urilor - SIMPLIFICATĂ
 function updateFilteredKPIs() {
   const salesCount = globalKPIs.totalSales;
   const totalRevenue = globalKPIs.totalRevenue;
   const totalProfit = globalKPIs.totalProfit;
   const totalPurchase = globalKPIs.totalPurchase;
 
-  // Calculează markup-ul global
   const markup =
     totalPurchase > 0
       ? ((totalRevenue - totalPurchase) / totalPurchase) * 100
       : 0;
 
-  // Trigger animație
   const kpiValues = document.querySelectorAll(".kpi-value");
   kpiValues.forEach((el) => {
     el.style.animation = "none";
@@ -212,7 +194,6 @@ function updateFilteredKPIs() {
     }, 10);
   });
 
-  // Actualizează valorile
   document.getElementById("filteredSalesCount").textContent = salesCount;
   document.getElementById("filteredRevenue").textContent =
     formatNumber(totalRevenue) + " €";
@@ -227,10 +208,8 @@ function updateFilteredKPIs() {
   markupElement.style.color = markup >= 0 ? "#4CAF50" : "#f44336";
 }
 
-// Funcție pentru traducerea tipului de plată
 function translatePaymentType(tipTranzactie) {
   if (!tipTranzactie) return "Unknown";
-
   const translations = {
     cash: "Cash",
     "transfer bancar": "Bank Transfer",
@@ -241,7 +220,6 @@ function translatePaymentType(tipTranzactie) {
   return translations[tipTranzactie.toLowerCase()] || tipTranzactie;
 }
 
-// Display sales in table
 function displaySales(sales, append) {
   const tbody = document.getElementById("salesTableBody");
 
@@ -269,15 +247,12 @@ function displaySales(sales, append) {
     const profitIcon =
       sale.profit >= 0 ? "fa-arrow-trend-up" : "fa-arrow-trend-down";
 
-    // Markup logic
     const markupValue = sale.markupPercentage;
     const markupColor = markupValue >= 0 ? "#4CAF50" : "#f44336";
     const markupSign = markupValue >= 0 ? "+" : "";
 
-    // Traducere tip tranzacție
     const translatedType = translatePaymentType(sale.transactionType);
 
-    // Culoare pentru tip tranzacție
     const typeColors = {
       Cash: "#4CAF50",
       "Bank Transfer": "#2196F3",
@@ -338,7 +313,6 @@ function displaySales(sales, append) {
                 </span>
             </td>
         `;
-
     tbody.appendChild(row);
   });
 }
@@ -346,15 +320,12 @@ function displaySales(sales, append) {
 let salesChart = null;
 let currentPeriodType = "6months";
 
-// Helper pentru parsing date românești
 function parseRomanianDate(dateStr) {
   const [month, day, year] = dateStr.split("-");
   return new Date(year, month - 1, day);
 }
 
-// Functie pentru a determina intervalul de grupare in functie de numarul de zile
 function getGroupingInterval(startDate, endDate, periodType) {
-  // PRIORITATE 1: Verifică mai întâi periodType specific
   if (periodType === "today") {
     return "day";
   }
@@ -383,7 +354,6 @@ function getGroupingInterval(startDate, endDate, periodType) {
     return "month"; // All Time: pe lună
   }
 
-  // PRIORITATE 2: Pentru custom range (când periodType nu e setat sau e gol)
   if (startDate && endDate && (!periodType || periodType === "")) {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -397,17 +367,14 @@ function getGroupingInterval(startDate, endDate, periodType) {
     return "month";
   }
 
-  // Fallback
   return "month";
 }
 
 function groupSalesSingleDay(sales, selectedDate) {
   const centerDay = new Date(selectedDate);
   centerDay.setHours(0, 0, 0, 0);
-
   const grouped = {};
 
-  // Creează 5 zile: ziua-2 → ziua+2
   for (let i = -1; i <= 3; i++) {
     const date = new Date(centerDay);
     date.setDate(date.getDate() + i);
@@ -422,7 +389,6 @@ function groupSalesSingleDay(sales, selectedDate) {
     };
   }
 
-  // Adaugă vânzările DOAR pe ziua selectată
   sales.forEach((sale) => {
     const saleKey = formatDate(sale.saleDate);
     if (grouped[saleKey]) {
@@ -432,14 +398,11 @@ function groupSalesSingleDay(sales, selectedDate) {
     }
   });
 
-  // Returnează sortat cronologic
   return Object.values(grouped).sort(
     (a, b) => parseRomanianDate(a.date) - parseRomanianDate(b.date),
   );
 }
 
-// Functie pentru a grupa datele pe perioade
-// Funcție pentru a grupa datele pe perioade - CALCULARE INVERSĂ de la endDate
 function groupSalesByPeriod(
   sales,
   groupInterval,
@@ -447,19 +410,15 @@ function groupSalesByPeriod(
   endDate,
   periodType,
 ) {
-  // Cazuri o singura zi
-  // CAZ 1: Today
   if (periodType === "today") {
     return groupSalesSingleDay(sales, endDate);
   }
 
-  // CAZ 2: Custom range cu o singură zi
   if (startDate && endDate && startDate === endDate) {
     return groupSalesSingleDay(sales, endDate);
   }
 
   if (!startDate || !endDate) {
-    // Fallback pentru All Time
     if (sales.length === 0) return [];
     const dates = sales.map((s) => new Date(s.saleDate)).sort((a, b) => a - b);
     startDate = dates[0].toISOString().split("T")[0];
@@ -469,15 +428,11 @@ function groupSalesByPeriod(
   const grouped = {};
   const start = new Date(startDate);
   const end = new Date(endDate);
-
   if (groupInterval === "month") {
-    // Grupare pe lună - CALCULARE INVERSĂ de la endDate
     const endMonth = new Date(end.getFullYear(), end.getMonth(), end.getDate());
     const startMonth = new Date(start.getFullYear(), start.getMonth(), 1);
 
-    // Creează buckets mergând înapoi de la endDate
     let currentDate = new Date(endMonth);
-
     while (currentDate >= startMonth) {
       const displayDate = formatDate(currentDate.toISOString().split("T")[0]);
       const monthStart = new Date(
@@ -491,7 +446,6 @@ function groupSalesByPeriod(
         0,
       );
 
-      // Ajustează la limitele perioadei
       const bucketStart = monthStart < start ? start : monthStart;
       const bucketEnd = monthEnd > end ? end : monthEnd;
 
@@ -504,7 +458,6 @@ function groupSalesByPeriod(
         profit: 0,
       };
 
-      // Mergi înapoi cu o lună
       currentDate = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() - 1,
@@ -512,7 +465,6 @@ function groupSalesByPeriod(
       );
     }
 
-    // Adaugă vânzările
     sales.forEach((sale) => {
       const saleDate = new Date(sale.saleDate);
 
@@ -527,9 +479,7 @@ function groupSalesByPeriod(
       }
     });
   } else if (groupInterval === "day") {
-    // Grupare zilnică - CALCULARE INVERSĂ de la endDate
     let currentDate = new Date(end);
-
     while (currentDate >= start) {
       const key = formatDate(currentDate.toISOString().split("T")[0]);
       grouped[key] = {
@@ -541,7 +491,6 @@ function groupSalesByPeriod(
       currentDate.setDate(currentDate.getDate() - 1);
     }
 
-    // Adaugă vânzările
     sales.forEach((sale) => {
       const key = formatDate(sale.saleDate);
       if (grouped[key]) {
@@ -555,20 +504,16 @@ function groupSalesByPeriod(
     groupInterval === "3days" ||
     groupInterval === "5days"
   ) {
-    // Determină intervalul de zile
     const dayInterval =
       groupInterval === "2days" ? 2 : groupInterval === "3days" ? 3 : 5;
 
-    // Creează buckets mergând înapoi de la endDate
     let currentDate = new Date(end);
-
     while (currentDate >= start) {
       const displayDate = formatDate(currentDate.toISOString().split("T")[0]);
       const bucketStart = new Date(
         currentDate.getTime() - (dayInterval - 1) * 24 * 60 * 60 * 1000,
       );
 
-      // Ajustează dacă depășește startDate
       const adjustedStart = bucketStart < start ? start : bucketStart;
 
       grouped[displayDate] = {
@@ -580,11 +525,9 @@ function groupSalesByPeriod(
         profit: 0,
       };
 
-      // Mergi înapoi cu dayInterval zile
       currentDate.setDate(currentDate.getDate() - dayInterval);
     }
 
-    // Distribuie vânzările în buckets
     sales.forEach((sale) => {
       const saleDate = new Date(sale.saleDate);
 
@@ -607,8 +550,6 @@ function groupSalesByPeriod(
     return dateA - dateB;
   });
 }
-// Funcție pentru a obține datele pentru grafic
-// Funcție pentru a obține datele pentru grafic
 async function loadChartData() {
   const params = new URLSearchParams({
     offset: 0,
@@ -633,7 +574,6 @@ async function loadChartData() {
   try {
     const response = await fetch(`/api/manager/sales?${params}`);
     const data = await response.json();
-
     return {
       sales: data.sales,
       startDate: allFilters.startDate,
@@ -645,11 +585,9 @@ async function loadChartData() {
   }
 }
 
-// Funcție pentru crearea/actualizarea graficului - MODIFICATĂ
 async function updateChart() {
   const { sales, startDate, endDate } = await loadChartData();
 
-  // determina intervalul de grupare
   const groupInterval = getGroupingInterval(
     startDate,
     endDate,
@@ -662,7 +600,6 @@ async function updateChart() {
     currentPeriodType,
   );
 
-  // TRIMITE startDate și endDate la groupSalesByPeriod
   const groupedData = groupSalesByPeriod(
     sales,
     groupInterval,
@@ -680,12 +617,10 @@ async function updateChart() {
 
   const ctx = document.getElementById("salesChart").getContext("2d");
 
-  // Distruge chart-ul vechi dacă există
   if (salesChart) {
     salesChart.destroy();
   }
 
-  // Creează chart nou
   salesChart = new Chart(ctx, {
     type: "line",
     data: {
@@ -701,7 +636,6 @@ async function updateChart() {
           fill: true,
           yAxisID: "y",
           revenue: revenueData,
-          // ADAUGĂ ACESTEA pentru buline mai mari
           pointRadius: 8,
           pointHoverRadius: 12,
           pointBackgroundColor: "#4CAF50",
@@ -721,7 +655,6 @@ async function updateChart() {
           fill: false,
           yAxisID: "y1",
           revenue: revenueData,
-          // ADAUGĂ ACESTEA pentru buline mai mari
           pointRadius: 8,
           pointHoverRadius: 12,
           pointBackgroundColor: "#2196F3",
@@ -758,12 +691,10 @@ async function updateChart() {
         },
         tooltip: {
           backgroundColor: "rgba(0, 0, 0, 0.6)",
-
           titleFont: {
             size: 18,
             weight: "bold",
           },
-
           bodyFont: {
             size: 18,
             weight: "bold",
@@ -815,7 +746,6 @@ async function updateChart() {
             //
             callback: function (value, index, ticks) {
               if (isSingleDay) {
-                // indexul 2 din 5
                 return index === 2 ? this.getLabelForValue(value) : "";
               }
               return this.getLabelForValue(value);
@@ -852,7 +782,6 @@ async function updateChart() {
             const max = Math.max(...profitData);
             const min = -1000;
             const range = max - min;
-
             let stepSize;
             if (range <= 6000) {
               stepSize = 500;
@@ -897,12 +826,9 @@ async function updateChart() {
             const ctx = chart.ctx;
             const yAxis = chart.scales.y;
             const xAxis = chart.scales.x;
-
             if (!yAxis || !xAxis) return;
-            // Calculează poziția y pentru valoarea 0
             const yPos = yAxis.getPixelForValue(0);
 
-            // Verifică dacă 0 este în vizibil range
             if (yPos >= yAxis.top && yPos <= yAxis.bottom) {
               ctx.save();
               ctx.strokeStyle = "#333";
@@ -945,7 +871,6 @@ async function updateChart() {
   });
 }
 
-// Funcții pentru overlay chart
 function showChartOverlay() {
   document.getElementById("chartOverlay").style.display = "flex";
 }
@@ -954,40 +879,31 @@ function hideChartOverlay() {
   document.getElementById("chartOverlay").style.display = "none";
 }
 
-// Event listeners
 document.addEventListener("DOMContentLoaded", () => {
-  // Initial load
   const dateRange = calculateDateRange("6months");
   allFilters.startDate = dateRange.startDate;
   allFilters.endDate = dateRange.endDate;
   currentPeriodType = "6months";
-
   loadSales();
   loadAllFilteredSales();
   updateChart();
   updateSortIcon();
-  // Auto-apply când schimbi Period Select - fara Apply button
   document
     .getElementById("periodFilter")
     .addEventListener("change", function () {
       showTableOverlay();
       showChartOverlay();
-
       const periodSelect = this.value;
       currentPeriodType = periodSelect;
-
       if (periodSelect === "all") {
-        // All Time - resetează perioada
         allFilters.startDate = null;
         allFilters.endDate = null;
       } else if (periodSelect && periodSelect !== "") {
-        // Altă perioadă - calculează range
         const dateRange = calculateDateRange(periodSelect);
         allFilters.startDate = dateRange.startDate;
         allFilters.endDate = dateRange.endDate;
       }
 
-      // RESETEAZĂ câmpurile custom
       document.getElementById("dateFrom").value = "";
       document.getElementById("dateTo").value = "";
 
@@ -1000,7 +916,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 900);
     });
 
-  // Apply Period Filter - DOAR pentru Custom Date Range
   document.getElementById("applyPeriod").addEventListener("click", () => {
     showTableOverlay();
     showChartOverlay();
@@ -1015,11 +930,9 @@ document.addEventListener("DOMContentLoaded", () => {
         hideChartOverlay();
         return;
       }
-      // Actualizează perioada cu custom dates
       allFilters.startDate = dateFrom;
       allFilters.endDate = dateTo;
       currentPeriodType = "";
-      // RESETEAZĂ selectul la "-"
       document.getElementById("periodFilter").value = "";
 
       setTimeout(() => {
@@ -1035,7 +948,6 @@ document.addEventListener("DOMContentLoaded", () => {
       hideChartOverlay();
     }
   });
-  // Apply filters button
   document.getElementById("applyFilters").addEventListener("click", () => {
     showTableOverlay();
     showChartOverlay();
@@ -1047,9 +959,7 @@ document.addEventListener("DOMContentLoaded", () => {
     allFilters.agentId = agentFilter === "all" ? null : agentFilter;
     allFilters.sortBy = sortBy;
     allFilters.sortOrder = sortOrder;
-
     updateSortIcon();
-
     setTimeout(() => {
       loadSales(false);
       loadAllFilteredSales();
@@ -1058,17 +968,12 @@ document.addEventListener("DOMContentLoaded", () => {
       hideChartOverlay();
     }, 900);
   });
-
-  // Update icon when sort order changes
   document
     .getElementById("sortOrder")
     .addEventListener("change", updateSortIcon);
-  // Load more button
   document.getElementById("loadMoreBtn").addEventListener("click", () => {
     if (hasMore) {
-      // Arata overlay-ul
       showTableOverlay();
-
       setTimeout(() => {
         loadSales(true);
         hideTableOverlay();
@@ -1077,12 +982,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Arată overlay-ul
 function showTableOverlay() {
   document.getElementById("tableOverlay").style.display = "flex";
 }
 
-// Ascunde overlay-ul
 function hideTableOverlay() {
   document.getElementById("tableOverlay").style.display = "none";
 }
+

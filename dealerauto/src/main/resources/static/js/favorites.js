@@ -16,9 +16,6 @@ function translateTransmission(transmisie) {
   return translations[transmisie] || transmisie;
 }
 
-// ====================================================
-// FORMATARE DATA ACTUALIZARE PREȚ
-// ====================================================
 function formatUpdateDate(dateStr) {
   if (!dateStr) return "Updated recently";
 
@@ -37,16 +34,12 @@ function formatUpdateDate(dateStr) {
     "Nov",
     "Dec",
   ];
-
   const day = date.getDate();
   const month = monthNames[date.getMonth()];
 
   return `Updated on ${day} ${month}`;
 }
 
-// ====================================================
-// ACTUALIZEAZĂ BADGE-URILE DE ACTUALIZARE PREȚ
-// ====================================================
 function updatePriceUpdateBadges() {
   const badges = document.querySelectorAll(".price-update-badge");
 
@@ -62,9 +55,6 @@ function updatePriceUpdateBadges() {
   });
 }
 
-// ====================================================
-// ACTUALIZEAZĂ PLURAL PENTRU CAR
-// ====================================================
 function updateCarCount() {
   const carText = document.querySelector(".car-text");
   const countElement = document.querySelector(".fav-count strong");
@@ -79,12 +69,8 @@ function updateCarCount() {
     }
   }
 }
-// ====================================================
-// FUNCȚIE PENTRU RELATIVE TIME + DATA EXACTĂ
-// ====================================================
 function getRelativeTimeWithDate(dateStr) {
   if (!dateStr) return "Added recently";
-
   const added = new Date(dateStr);
   const now = new Date();
   const diffMs = now - added;
@@ -95,7 +81,6 @@ function getRelativeTimeWithDate(dateStr) {
   const diffWeek = Math.floor(diffDay / 7);
   const diffMonth = Math.floor(diffDay / 30);
 
-  // Formatare dată scurtă (Jan 5)
   const monthNames = [
     "Jan",
     "Feb",
@@ -114,9 +99,7 @@ function getRelativeTimeWithDate(dateStr) {
   const day = added.getDate();
   const shortDate = `${month} ${day}`;
 
-  // Determină "relative time"
   let relativeText = "";
-
   if (diffSec < 60) {
     relativeText = "Added just now";
   } else if (diffMin < 60) {
@@ -138,13 +121,9 @@ function getRelativeTimeWithDate(dateStr) {
     relativeText = `Added ${years} year${years > 1 ? "s" : ""} ago`;
   }
 
-  // Combină: "Added 3 days ago (Jan 5)"
   return `${relativeText} (${shortDate})`;
 }
 
-// ====================================================
-// ACTUALIZEAZĂ BADGE-URILE LA ÎNCĂRCARE
-// ====================================================
 function updateFavoriteDateBadges() {
   const badges = document.querySelectorAll(".fav-date-badge");
 
@@ -158,20 +137,13 @@ function updateFavoriteDateBadges() {
   });
 }
 
-// ====================================================
-// FAVORITES.JS - Pagina de favorites
-// ====================================================
-
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🎯 Favorites page loaded");
-
   loadCarLogos();
   loadCarImages();
-
   updateFavoritesCount();
   updateFavoritesStats();
   setupFavStagger();
-
   updateFavoriteDateBadges();
   updatePriceUpdateBadges();
   updateCarCount();
@@ -183,7 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
     el.innerHTML = el.innerHTML.replace(value, translated);
   });
 
-  // Transmission
   document.querySelectorAll(".transmission-text").forEach((el) => {
     const text = el.textContent.trim();
     const value = text.split(":").pop().trim();
@@ -192,9 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// ====================================================
-// ACTUALIZEAZĂ CONTORUL DE FAVORITE (în header)
-// ====================================================
 function updateFavoritesCount() {
   const carBoxes = document.querySelectorAll(".fav-grid .car-box");
   const countInHeader = document.querySelector(".fav-count strong");
@@ -203,9 +171,6 @@ function updateFavoritesCount() {
   }
 }
 
-// ====================================================
-// STATISTICI: număr mașini + total valoare (din DOM)
-// ====================================================
 function updateFavoritesStats() {
   const totalEl = document.getElementById("favStatsTotal");
   if (!totalEl) return;
@@ -220,7 +185,6 @@ function updateFavoritesStats() {
       if (!isNaN(num)) total += num;
     }
   });
-
   if (total > 0) {
     totalEl.textContent = total.toLocaleString("de-DE") + " €";
   } else {
@@ -228,19 +192,12 @@ function updateFavoritesStats() {
   }
 }
 
-// ====================================================
-// ANIMAȚIE INTRARE: delay progresiv pe carduri
-// ====================================================
 function setupFavStagger() {
   document.querySelectorAll(".fav-grid .car-box").forEach((box, i) => {
     box.style.animationDelay = `${i * 0.06}s`;
   });
 }
 
-// ====================================================
-// TOGGLE FAVORITE PE PAGINA FAVORITES
-// (specific pentru favorites.html - elimină cardul)
-// ====================================================
 let isTogglingFavoriteOnFavoritesPage = false;
 
 function toggleFavoriteOnFavoritesPage(button, carId) {
@@ -248,7 +205,6 @@ function toggleFavoriteOnFavoritesPage(button, carId) {
     return;
   }
 
-  // 🔹 Popup custom în loc de confirm()
   showConfirmPopup(
     "Remove this car from favorites?",
     () => {
@@ -265,13 +221,11 @@ function toggleFavoriteOnFavoritesPage(button, carId) {
         .then((response) => response.json())
         .then((data) => {
           if (data.success && !data.isAdded) {
-            // Șters cu succes - elimină cardul cu animație
             const carBox = button.closest(".car-box");
             carBox.style.animation = "slideOutRight 0.5s ease-out";
 
             setTimeout(() => {
               carBox.remove();
-
               updateFavoritesCount();
               updateFavoritesStats();
               const index = favoriteMasinaIds.indexOf(carId);
@@ -304,10 +258,6 @@ function toggleFavoriteOnFavoritesPage(button, carId) {
   );
 }
 
-// ====================================================
-// REMOVE FROM FAVORITES
-// (butonul explicit "Remove")
-// ====================================================
 let isRemovingFromFavorites = false;
 
 function removeFromFavorites(button, carId) {
@@ -315,14 +265,12 @@ function removeFromFavorites(button, carId) {
     return;
   }
 
-  //  Popup custom în loc de confirm()
   showConfirmPopup(
     "Are you sure you want to remove this car from favorites?",
     () => {
       // === ON CONFIRM ===
       isRemovingFromFavorites = true;
 
-      // Dezactivează butonul
       button.disabled = true;
       button.innerHTML =
         '<i class="fa-solid fa-spinner fa-spin"></i> Removing...';
@@ -337,7 +285,6 @@ function removeFromFavorites(button, carId) {
         .then((response) => response.json())
         .then((data) => {
           if (data.success && !data.isAdded) {
-            // Șters cu succes - animație de eliminare
             const carBox = button.closest(".car-box");
             carBox.style.animation = "slideOutRight 0.5s ease-out";
 
@@ -382,9 +329,6 @@ function removeFromFavorites(button, carId) {
   );
 }
 
-// ====================================================
-// NOTIFICARE
-// ====================================================
 function showNotification(message, type) {
   const notification = document.createElement("div");
   notification.className = `notification notification-${type}`;
@@ -412,15 +356,10 @@ function showNotification(message, type) {
   }, 4000);
 }
 
-// ====================================================
-// POPUP CONFIRMARE PERSONALIZAT
-// ====================================================
 function showConfirmPopup(message, onConfirm, onCancel) {
-  // Creează overlay
   const overlay = document.createElement("div");
   overlay.className = "fav-confirm-overlay";
 
-  // Creează popup
   const popup = document.createElement("div");
   popup.className = "fav-confirm-popup";
   popup.innerHTML = `
@@ -434,17 +373,14 @@ function showConfirmPopup(message, onConfirm, onCancel) {
             <button class="fav-confirm-btn fav-btn-confirm">Remove</button>
         </div>
     `;
-
   overlay.appendChild(popup);
   document.body.appendChild(overlay);
 
-  // Animație de intrare
   setTimeout(() => {
     overlay.classList.add("active");
     popup.classList.add("active");
   }, 10);
 
-  // Event listeners pentru butoane
   const btnCancel = popup.querySelector(".fav-btn-cancel");
   const btnConfirm = popup.querySelector(".fav-btn-confirm");
 
@@ -452,20 +388,17 @@ function showConfirmPopup(message, onConfirm, onCancel) {
     closePopup();
     if (onCancel) onCancel();
   };
-
   btnConfirm.onclick = () => {
     closePopup();
     if (onConfirm) onConfirm();
   };
 
-  // Click pe overlay pentru a închide
   overlay.onclick = (e) => {
     if (e.target === overlay) {
       closePopup();
       if (onCancel) onCancel();
     }
   };
-
   function closePopup() {
     overlay.classList.remove("active");
     popup.classList.remove("active");
@@ -473,9 +406,6 @@ function showConfirmPopup(message, onConfirm, onCancel) {
   }
 }
 
-// ====================================================
-// ANIMAȚII CSS
-// ====================================================
 const style = document.createElement("style");
 style.textContent = `
     @keyframes slideOutRight {
@@ -501,3 +431,4 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+

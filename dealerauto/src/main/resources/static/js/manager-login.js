@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const demoBtn = document.getElementById("demoLoginBtn");
 
     if (demoBtn) {
@@ -27,3 +26,4 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleIcon.classList.toggle("fa-eye");
     });
 });
+

@@ -1,15 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const demoBtn = document.getElementById("demoLoginBtn");
 
     if (demoBtn) {
         demoBtn.addEventListener("click", () => {
-
-            //  username + password pentru demo
             document.getElementById("username").value = "dani";
             document.getElementById("password").value = "aa";
 
-            // send form
             document.getElementById("loginForm").submit();
         });
     }
@@ -30,3 +26,4 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleIcon.classList.toggle("fa-eye");
     });
 });
+

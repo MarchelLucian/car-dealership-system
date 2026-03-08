@@ -1,12 +1,7 @@
-// ====================================================
-// MANAGER-DASHBOARD.JS - Grafice și interactivitate
-// ====================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Spinner pe cei 10 indici și la load/reload
     setKpiValuesLoading(true);
 
-    // Inițializează toate graficele
     initMonthlySalesChart();
     initTopBrandsChart();
     initPaymentMethodsChart();
@@ -38,20 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
         periodSelect.value = '';
     });
 });
-
-// ====================================================
-// 1. MONTHLY SALES CHART (Line Chart)
-// ====================================================
-
 function initMonthlySalesChart() {
     const ctx = document.getElementById('monthlySalesChart');
 
     if (!ctx || !monthlySalesData || monthlySalesData.length === 0) {
-
         return;
     }
 
-    // Extrage datele
     const labels = monthlySalesData.map(item => formatMonthLabel(item.month));
     const revenueData = monthlySalesData.map(item => item.revenue || 0);
     const profitData = monthlySalesData.map(item => item.profit || 0);
@@ -148,19 +136,13 @@ function initMonthlySalesChart() {
     });
 }
 
-// ====================================================
-// 2. TOP BRANDS CHART (Bar Chart)
-// ====================================================
-
 function initTopBrandsChart() {
     const ctx = document.getElementById('topBrandsChart');
 
     if (!ctx || !brandStatsData || brandStatsData.length === 0) {
-
         return;
     }
 
-    // Preia top 10 branduri
     const topBrands = brandStatsData.slice(0, 10);
 
     const labels = topBrands.map(item => item.brand);
@@ -280,36 +262,28 @@ function initTopBrandsChart() {
     });
 }
 
-// ====================================================
-// 3. PAYMENT METHODS CHART (Pie Chart)
-// ====================================================
-
 function initPaymentMethodsChart() {
     const ctx = document.getElementById('paymentMethodsChart');
 
     if (!ctx || !paymentMethodsData || paymentMethodsData.length === 0) {
-
         return;
     }
 
     const labels = paymentMethodsData.map(item => translatePaymentMethod(item.paymentMethod));
     const data = paymentMethodsData.map(item => item.salesCount || 0);
 
-    // Culori pentru fiecare metodă
     const backgroundColors = [
         'rgba(46, 204, 113, 0.8)',  // Cash - Verde
         'rgba(52, 152, 219, 0.8)',  // Transfer - Albastru
         'rgba(155, 89, 182, 0.8)',  // Leasing - Mov
         'rgba(230, 126, 34, 0.8)'   // Rate - Portocaliu
     ];
-
     const borderColors = [
         '#2ecc71',
         '#3498db',
         '#9b59b6',
         '#e67e22'
     ];
-
     new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -371,15 +345,10 @@ function initPaymentMethodsChart() {
     });
 }
 
-// ====================================================
-// 4. AGENT PERFORMANCE CHART (Horizontal Bar Chart)
-// ====================================================
-
 function initAgentPerformanceChart() {
     const ctx = document.getElementById('agentPerformanceChart');
 
     if (!ctx || !topAgentsData || topAgentsData.length === 0) {
-
         return;
     }
 
@@ -465,10 +434,6 @@ function initAgentPerformanceChart() {
     });
 }
 
-// ====================================================
-// HELPER FUNCTIONS
-// ====================================================
-
 function formatMonthLabel(monthStr) {
     if (!monthStr) return '';
 
@@ -498,7 +463,6 @@ function formatCurrency(value) {
  */
 function translatePaymentMethod(tipTranzactie) {
     if (!tipTranzactie) return 'Unknown';
-
     const translations = {
         'Cash': 'Cash',
         'cash': 'Cash',
@@ -513,13 +477,7 @@ function translatePaymentMethod(tipTranzactie) {
     return translations[tipTranzactie] || tipTranzactie;
 }
 
-// ====================================================
-// SORTING FUNCTIONALITY
-// ====================================================
-
-// Update icon when order changes
 document.addEventListener('DOMContentLoaded', () => {
-    // Agent sort order listener
     const agentSortOrder = document.getElementById('agentSortOrder');
     const agentSortIcon = document.getElementById('agentSortIcon');
 
@@ -527,11 +485,9 @@ document.addEventListener('DOMContentLoaded', () => {
         agentSortOrder.addEventListener('change', function() {
             updateSortIcon(this.value, agentSortIcon);
         });
-        // Set initial icon
         updateSortIcon(agentSortOrder.value, agentSortIcon);
     }
 
-    // Provider sort order listener
     const providerSortOrder = document.getElementById('providerSortOrder');
     const providerSortIcon = document.getElementById('providerSortIcon');
 
@@ -539,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
         providerSortOrder.addEventListener('change', function() {
             updateSortIcon(this.value, providerSortIcon);
         });
-        // Set initial icon
         updateSortIcon(providerSortOrder.value, providerSortIcon);
     }
 });
@@ -552,7 +507,6 @@ function updateSortIcon(order, iconElement) {
         iconElement.className = 'fa-solid fa-arrow-down-short-wide sort-icon';
     } else {
         iconElement.className = 'fa-solid fa-arrow-down-wide-short sort-icon';
-
     }
 }
 
@@ -567,7 +521,6 @@ function applyProviderSort() {
 
     rows.sort((a, b) => {
         let aValue, bValue;
-
         switch(sortBy) {
             case 'name':
                 aValue = a.dataset.name.toLowerCase();
@@ -600,11 +553,9 @@ function applyProviderSort() {
         }
     });
 
-    // Clear tbody and append sorted rows
     tbody.innerHTML = '';
     rows.forEach(row => tbody.appendChild(row));
 
-    // Visual feedback
     showSortFeedback('providersTable');
 }
 
@@ -621,11 +572,9 @@ function showSortFeedback(tableId) {
     }
 }
 
-// Funcție pentru calcularea datelor perioadelor
 function calculateDateRange(period) {
     const endDate = new Date();
     let startDate = new Date();
-
     switch(period) {
         case 'today':
             startDate.setDate(endDate.getDate());
@@ -671,7 +620,6 @@ function setKpiValuesLoading(loading) {
     });
 }
 
-// Încarcă statistici pentru perioadă
 async function loadStatsByPeriod(period) {
     const dateRange = calculateDateRange(period);
 
@@ -695,7 +643,6 @@ async function loadStatsByPeriod(period) {
     }
 }
 
-// Încarcă statistici pentru interval custom
 async function loadStatsByCustomRange(startDate, endDate) {
     const url = `/api/dashboard/stats?startDate=${startDate}&endDate=${endDate}`;
 
@@ -714,10 +661,8 @@ async function loadStatsByCustomRange(startDate, endDate) {
     }
 }
 function updateDashboard(stats) {
-    // SALES
     document.querySelector('.cars-value').textContent = stats.totalCarsSold || 0;
 
-    // Caută și actualizează fiecare valoare
     updateKpiValue('Total Revenue', formatNumber(stats.totalSalesRevenue) + ' €');
     updateKpiValue('Total Profit', formatNumber(stats.totalProfit) + ' €');
     updateKpiValue('Profit Margin', formatNumber(stats.profitMargin) + '%');
@@ -731,7 +676,6 @@ function updateDashboard(stats) {
     updateKpiValue('Retraction Costs', formatNumber(stats.totalRetractedCost) + ' €');
 }
 
-// Helper function
 function updateKpiValue(label, value) {
     const cards = document.querySelectorAll('.kpi-card');
     cards.forEach(card => {
@@ -742,7 +686,6 @@ function updateKpiValue(label, value) {
     });
 }
 
-// Format număr RO: mii cu punct, zecimale cu virgulă
 function formatNumber(num) {
     if (num == null || isNaN(num)) {
         return "0,00";
@@ -754,7 +697,7 @@ function formatNumber(num) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // 68.650,00
 }
 
-// Încărcare inițială
 function loadStats() {
     loadStatsByPeriod('all');
 }
+

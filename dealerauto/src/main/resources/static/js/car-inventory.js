@@ -2,13 +2,11 @@ function toggleStatus(carId, iconElem) {
   const td = iconElem.closest("td");
   const btn = td.querySelector(".status-btn");
 
-  //  ASCUNDEM ICONIȚA
   iconElem.style.display = "none";
 
   btn.innerHTML = `<i class="fa-solid fa-spinner status-spinner"></i>`;
   btn.disabled = true;
 
-  //  REQUEST LA BACKEND
   fetch(
     `/agent-dashboard/cars-management/car-inventory/toggle-status/${carId}`,
     { method: "POST" },
@@ -52,10 +50,6 @@ function goToPage(url) {
   }, 700); 
 }
 
-function showSpinner() {
-  document.getElementById("tableOverlay").style.display = "flex";
-}
-
 function changePageSize() {
   const size = document.getElementById("pageSizeSelect").value;
   window.location.href =
@@ -76,14 +70,11 @@ function updatePageSize() {
   const url = new URL(window.location.href);
   const params = url.searchParams;
 
-  //  sterge celelalte cautari
   params.delete("searchId");
   params.delete("modelSearch");
   params.delete("vinSearch");
-
   params.set("page", 1);
   params.set("pageSize", size);
-
   setTimeout(() => {
     window.location.href = `/agent-dashboard/cars-management/car-inventory?${params.toString()}`;
   }, 700);
@@ -108,20 +99,6 @@ function searchById() {
   setTimeout(() => {
     window.location.href = `/agent-dashboard/cars-management/car-inventory?searchId=${id}`;
   }, 700); 
-}
-
-function toggleArrow(isOpen) {
-  const arrow = document.getElementById("providerArrow");
-
-  if (isOpen) {
-    arrow.classList.remove("arrow-down");
-    arrow.classList.add("arrow-up");
-  } else {
-    setTimeout(() => {
-      arrow.classList.remove("arrow-up");
-      arrow.classList.add("arrow-down");
-    }, 150); 
-  }
 }
 
 function toggleBrands(event) {
@@ -163,18 +140,15 @@ function toggleProviders(event) {
 }
 
 function resetFilters() {
-  // numerice
   document.getElementById("priceMin").value = "";
   document.getElementById("priceMax").value = "";
   document.getElementById("yearMin").value = "";
   document.getElementById("yearMax").value = "";
   document.getElementById("kmMax").value = "";
 
-  // checkbox-uri
   document
     .querySelectorAll("input[type='checkbox']")
     .forEach((cb) => (cb.checked = false));
-
   applyFilters();
 }
 
@@ -196,15 +170,6 @@ function toggleFilters() {
   }
 }
 
-function selectModel(model) {
-  document.getElementById("modelSearch").value = model;
-  document.getElementById("modelSuggestions").style.display = "none";
-
-  // trimitem formularul de căutare direct spre backend
-  window.location.href = `/agent-dashboard/cars-management/car-inventory?searchModel=${model}`;
-}
-
-// AUTOCOMPLETE
 document
   .getElementById("modelSearchInput")
   .addEventListener("input", function () {
@@ -223,7 +188,6 @@ document
       .then((res) => res.json())
       .then((data) => {
         box.innerHTML = "";
-
         if (data.length === 0) {
           box.innerHTML = `<div class="model-suggestion-item">No model found</div>`;
           box.style.display = "block";
@@ -234,30 +198,23 @@ document
           let item = document.createElement("div");
           item.classList.add("model-suggestion-item");
           item.textContent = model;
-
           item.onclick = () => {
             document.getElementById("modelSearchInput").value = model;
             box.style.display = "none";
-
             resetFilters();
 
-            // SPINNER pe tabel
             const overlay = document.getElementById("tableOverlay");
             if (overlay) overlay.style.display = "flex";
 
-            // redirect cu delay
             setTimeout(() => {
               window.location.href = `/agent-dashboard/cars-management/car-inventory?modelSearch=${encodeURIComponent(model)}`;
             }, 500);
           };
-
           box.appendChild(item);
         });
-
         box.style.display = "block";
       });
   });
-
 document
   .getElementById("modelSearchInput")
   .addEventListener("keydown", function (e) {
@@ -269,12 +226,10 @@ document
       if (overlay) overlay.style.display = "flex";
 
       if (model === "") {
-        // input gol → pagina default
         setTimeout(() => {
           window.location.href = `/agent-dashboard/cars-management/car-inventory`;
         }, 500);
       } else {
-        // redirect filtrat
         resetFilters();
         setTimeout(() => {
           window.location.href = `/agent-dashboard/cars-management/car-inventory?modelSearch=${encodeURIComponent(model)}`;
@@ -282,7 +237,6 @@ document
       }
     }
   });
-
 document
   .getElementById("modelSearchButton")
   .addEventListener("click", function () {
@@ -302,20 +256,15 @@ document
       }, 700);
     }
   });
-
 function applyFilters() {
   const params = new URLSearchParams();
 
-  // —–––––––––––––––––––––––––––––
-  //  1) Pastram pageSize curent
-  // —–––––––––––––––––––––––––––––
   const pageSize = document.getElementById("pageSizeInput").value;
   if (pageSize) {
     params.append("pageSize", pageSize);
     params.append("page", 1); // mergem la pagina 1
   }
 
-  // numeric
   let priceMin = document.getElementById("priceMin").value;
   let priceMax = document.getElementById("priceMax").value;
   let yearMin = document.getElementById("yearMin").value;
@@ -328,19 +277,14 @@ function applyFilters() {
   if (yearMax) params.append("yearMax", yearMax);
   if (kmMax) params.append("kmMax", kmMax);
 
-  // brands
   document.querySelectorAll("#brands-content input:checked").forEach((cb) => {
     params.append("brands", cb.value);
   });
-
-  // providers
   document
     .querySelectorAll("#providers-content input:checked")
     .forEach((cb) => {
       params.append("providers", cb.value);
     });
-
-  // transmissions
   document
     .querySelectorAll(".row-options-center input:checked")
     .forEach((cb) => {
@@ -349,12 +293,9 @@ function applyFilters() {
       }
     });
 
-  // fuel
   document.querySelectorAll(".row-options input:checked").forEach((cb) => {
     params.append("fuels", cb.value);
   });
-
-  // doors
   document
     .querySelectorAll(".row-options-center input:checked")
     .forEach((cb) => {
@@ -362,16 +303,13 @@ function applyFilters() {
         params.append("doors", cb.value);
     });
 
-  // seats
   document.querySelectorAll(".seat-option input:checked").forEach((cb) => {
     params.append("seats", cb.value);
   });
 
-  // spinner pe tabel
   const overlay = document.getElementById("tableOverlay");
   if (overlay) overlay.style.display = "flex";
 
-  // redirect
   setTimeout(() => {
     window.location.href =
       "/agent-dashboard/cars-management/car-inventory?" + params.toString();
@@ -387,9 +325,7 @@ document.getElementById("sortOrder").addEventListener("change", function () {
     icon.className = "fa-solid fa-arrow-down-wide-short";
   }
 });
-
 function applySort() {
-  // 1) overlay
   const overlay = document.getElementById("tableOverlay");
   if (overlay) overlay.style.display = "flex";
 
@@ -397,16 +333,13 @@ function applySort() {
   const order = document.getElementById("sortOrder").value;
   const pageSize = document.getElementById("pageSizeInput").value || 10;
 
-  // 2) Preluare toți parametrii
   const params = new URLSearchParams(window.location.search);
 
-  // 3) Setăm valorile noi
   params.set("sortField", field);
   params.set("sortOrder", order);
   params.set("page", 1);
   params.set("pageSize", pageSize);
 
-  // 4) Construim noul URL
   const newUrl =
     "/agent-dashboard/cars-management/car-inventory?" + params.toString();
 
@@ -416,7 +349,6 @@ function applySort() {
   }, 700);
 }
 
-// AUTOCOMPLETE VIN
 document
   .getElementById("vinSearchInput")
   .addEventListener("input", function () {
@@ -435,7 +367,6 @@ document
       .then((res) => res.json())
       .then((data) => {
         box.innerHTML = "";
-
         if (data.length === 0) {
           box.innerHTML = `<div class="model-suggestion-item">No VIN found</div>`;
           box.style.display = "block";
@@ -446,11 +377,9 @@ document
           let item = document.createElement("div");
           item.classList.add("model-suggestion-item");
           item.textContent = vin;
-
           item.onclick = () => {
             document.getElementById("vinSearchInput").value = vin;
             box.style.display = "none";
-
             resetFilters();
 
             const overlay = document.getElementById("tableOverlay");
@@ -460,14 +389,11 @@ document
               window.location.href = `/agent-dashboard/cars-management/car-inventory?vinSearch=${encodeURIComponent(vin)}`;
             }, 500);
           };
-
           box.appendChild(item);
         });
-
         box.style.display = "block";
       });
   });
-
 document
   .getElementById("vinSearchInput")
   .addEventListener("keydown", function (e) {
@@ -490,7 +416,6 @@ document
       }
     }
   });
-
 document
   .getElementById("vinSearchButton")
   .addEventListener("click", function () {
@@ -510,3 +435,4 @@ document
       }, 700);
     }
   });
+

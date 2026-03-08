@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initProviderPerformanceChart2();
     colorConversionRates();
 });
-
 function colorConversionRates() {
     const spans = document.querySelectorAll('.conversion-rate');
 
@@ -37,7 +36,6 @@ function initProviderPerformanceChart() {
     const ctx = document.getElementById('providerPerformanceChart');
     if (!ctx) return;
 
-    // Preia datele din Thymeleaf
     if (typeof topProfitableProviders === 'undefined' || topProfitableProviders.length === 0) {
         console.log('No profitable provider data available');
         return;
@@ -89,7 +87,6 @@ function initProviderPerformanceChart() {
         options: {
             responsive: true,
             maintainAspectRatio: true,
-
             plugins: {
                 legend: {
                     display: true,
@@ -139,7 +136,6 @@ function initProviderPerformanceChart() {
                     }
                 }
             },
-
             scales: {
                 x: {
                     ticks: {
@@ -201,7 +197,6 @@ function initProviderPerformanceChart() {
             }
         }
     });
-
 }
 
 function initProviderPerformanceChart2() {
@@ -221,11 +216,9 @@ function initProviderPerformanceChart2() {
         sold: Number(row.dataset.sold)
     }));
 
-    // Sort descrescător după Cars Supplied
     providers.sort((a, b) => b.supplied - a.supplied);
 
     const top10 = providers.slice(0, 10);
-
     const labels = top10.map(p => p.name);
     const suppliedData = top10.map(p => p.supplied);
     const soldData = top10.map(p => p.sold);
@@ -258,7 +251,6 @@ function initProviderPerformanceChart2() {
         options: {
             responsive: true,
             maintainAspectRatio: true,
-
             plugins: {
                 legend: {
                     display: true,
@@ -288,7 +280,6 @@ function initProviderPerformanceChart2() {
                     position: 'nearest'
                 }
             },
-
             scales: {
                 x: {
                     ticks: {
@@ -318,3 +309,4 @@ function reloadProviderChart() {
     const minCars = document.getElementById('minCarsInput').value;
     window.location.href = `/manager-dashboard/providers?minCarsSold=${minCars}`;
 }
+

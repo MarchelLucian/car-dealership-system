@@ -1,7 +1,6 @@
 let currentChart = null;
 let currentChartType = null;
 let currentCategory = 'sold';
-
 function translateFuelType(fuel) {
     const translations = {
         'motorina': 'Diesel',
@@ -48,7 +47,6 @@ Chart.register({
 
             let { x, y } = datapoint.tooltipPosition();
 
-            // detectare tip chart
             const isBar = chart.config.type === 'bar';
             if (isBar) {
                 const bar = meta.data[index];
@@ -66,14 +64,12 @@ Chart.register({
     }
 });
 
-// Chart configurations
 const chartConfigs = {
     monthlySales: {
         title: 'Monthly Sales Trend',
         icon: 'fa-calendar-days',
         type: 'line',
         getData: () => {
-            // Doar pentru sold (stock nu are sales)
             if (currentCategory === 'stock') {
                 return { labels: ['No Data'], datasets: [{ label: 'N/A', data: [0] }] };
             }
@@ -104,12 +100,10 @@ const chartConfigs = {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 18,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 18,
                         weight: 'bold'
@@ -132,7 +126,6 @@ const chartConfigs = {
             const data = currentCategory === 'sold' ? soldData.brandStats : stockData.brandStats;
 
             if (currentCategory === 'sold') {
-                // SOLD: Cars Sold + Profit
                 const profitColors = data.map(b =>
                     b.totalProfit >= 0
                         ? 'rgba(46, 204, 113, 0.8)'  // Verde pentru profit pozitiv
@@ -164,7 +157,6 @@ const chartConfigs = {
                     ]
                 };
             } else {
-                // STOCK: Cars in Stock + Stock Value
                 return {
                     labels: data.map(b => b.brand),
                     datasets: [
@@ -188,12 +180,10 @@ const chartConfigs = {
                 };
             }
         },
-
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-
                 legend: {
                     display: true,
                     position: 'top',
@@ -209,12 +199,10 @@ const chartConfigs = {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 24,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 24,
                         weight: 'bold'
@@ -313,13 +301,11 @@ const chartConfigs = {
             }
         }
     },
-
     paymentMethods: {
         title: 'Payment Methods Distribution',
         icon: 'fa-credit-card',
         type: 'doughnut',
         getData: () => {
-            // Doar pentru sold
             if (currentCategory === 'stock') {
                 return { labels: ['No Data'], datasets: [{ data: [1] }] };
             }
@@ -341,7 +327,6 @@ const chartConfigs = {
                     borderColor: '#fff'
                 }]
             };
-
         },
         options: {
             responsive: true,
@@ -370,12 +355,10 @@ const chartConfigs = {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 24,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 24,
                         weight: 'bold'
@@ -439,12 +422,10 @@ const chartConfigs = {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 24,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 24,
                         weight: 'bold'
@@ -506,12 +487,10 @@ const chartConfigs = {
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
                     titleFont: {
                         size: 24,
                         weight: 'bold'
                     },
-
                     bodyFont: {
                         size: 24,
                         weight: 'bold'
@@ -525,17 +504,14 @@ const chartConfigs = {
     }
 };
 
-// Switch între Sold și Stock
 function switchCategory(category) {
     if (category === currentCategory) return;
 
     currentCategory = category;
 
-    // Update butoane active
     document.getElementById('soldBtn').classList.toggle('active', category === 'sold');
     document.getElementById('stockBtn').classList.toggle('active', category === 'stock');
 
-    // FILTERS visibility
     const yearFilter = document.getElementById('yearFilter');
     const stockCountFilter = document.getElementById('stockCountFilter');
 
@@ -549,10 +525,8 @@ function switchCategory(category) {
         }
     }
 
-    // Reîncarcă chart-ul curent cu datele noi
     const wrapper = document.getElementById('chartWrapper');
     wrapper.classList.remove('active');
-
     setTimeout(() => {
         if (currentChart) {
             currentChart.destroy();
@@ -584,7 +558,6 @@ function switchCategory(category) {
 function switchChart(chartType) {
     if (chartType === currentChartType) return;
 
-    // Update active card
     document.querySelectorAll('.chart-option-card').forEach(card => {
         card.classList.remove('active');
         if (card.dataset.chart === chartType) {
@@ -592,12 +565,9 @@ function switchChart(chartType) {
         }
     });
 
-    // Fade out
     const wrapper = document.getElementById('chartWrapper');
     wrapper.classList.remove('active');
-
     setTimeout(() => {
-        // Update title
         const config = chartConfigs[chartType];
         const titleElement = document.getElementById('mainChartTitle');
 
@@ -609,7 +579,6 @@ function switchChart(chartType) {
         }
         titleElement.innerHTML = `<i class="fa-solid ${config.icon}"></i><span>${title}</span>`;
 
-        // FILTERS visibility
         const yearFilter = document.getElementById('yearFilter');
         const stockCountFilter = document.getElementById('stockCountFilter');
 
@@ -626,12 +595,10 @@ function switchChart(chartType) {
             stockCountFilter.classList.remove('visible');
         }
 
-        // Destroy old chart
         if (currentChart) {
             currentChart.destroy();
         }
 
-        // Create new chart
         const ctx = document.getElementById('mainChart');
         const wrapper = ctx.parentElement;
         const heights = {
@@ -648,15 +615,12 @@ function switchChart(chartType) {
             data: config.getData(),
             options: config.options
         });
-
         currentChart.resize();
         currentChartType = chartType;
 
-        // Fade in
         setTimeout(() => {
             wrapper.classList.add('active');
         }, 50);
-
     }, 500);
 }
 
@@ -671,7 +635,6 @@ function reloadDataForStockCount() {
     window.location.href = `/manager-dashboard/analytics?stockCount=${stockCount}&chart=topBrands&category=${currentCategory}`;
 }
 
-// Initialize first chart
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -682,11 +645,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCategory = urlCategory;
     }
 
-    // Setează butoanele active corect
     document.getElementById('soldBtn').classList.toggle('active', currentCategory === 'sold');
     document.getElementById('stockBtn').classList.toggle('active', currentCategory === 'stock');
 
-    // Setează visibility filtre corect
     const yearFilter = document.getElementById('yearFilter');
     const stockCountFilter = document.getElementById('stockCountFilter');
 
@@ -705,3 +666,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     switchChart(selectedChart);
 });
+

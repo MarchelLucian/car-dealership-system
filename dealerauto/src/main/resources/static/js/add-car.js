@@ -1,4 +1,3 @@
-// spinner
 function showAddCarSpinner() {
     const btn = document.getElementById("addCarBtn");
     const spinner = document.getElementById("addCarSpinner");
@@ -8,19 +7,15 @@ function showAddCarSpinner() {
     text.style.display = "none";      
     plus.style.display = "none";      
     spinner.style.display = "inline-block"; 
-
     btn.disabled = true;
 }
 
-// Validare formular
 function validateAddCarForm(event) {
     let valid = true;
 
-    // Reset erori anterioare
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
     document.querySelectorAll("input, select").forEach(e => e.classList.remove("input-error"));
 
-    // Lista câmpurilor care trebuie validate
     const fields = [
         { name: "brandName", errorId: "error-brand", label: "Please select a brand" },
         { name: "model", errorId: "error-model", label: "Model is required" },
@@ -38,8 +33,6 @@ function validateAddCarForm(event) {
         { name: "vin", errorId: "error-vin", label: "VIN is required" },
         { name: "dataIntrare", errorId: "error-entry-date", label: "Entry Date is required" }
     ];
-
-    // Rulăm validarea
     fields.forEach(f => {
         const el = document.getElementsByName(f.name)[0];
         if (!el.value || el.value === "") {
@@ -56,17 +49,13 @@ function validateAddCarForm(event) {
         valid = false;
     }
 
-    // Dacă NU e valid → OPRIM submitul
     if (!valid) {
         event.preventDefault();
         return;
     }
 
     // -------- Formular VALID --------
-    // Pornește spinnerul
     showAddCarSpinner();
-
-    // timeout
     event.preventDefault();
     setTimeout(() => {
         event.target.submit();
@@ -74,16 +63,13 @@ function validateAddCarForm(event) {
 }
 
 function clearCarForm() {
-    // reset DOM
     document.querySelector("form").reset();
 
-    // curăță erori
     document.querySelectorAll(".error-msg").forEach(e => e.textContent = "");
     document.querySelectorAll("input, select").forEach(e => e.classList.remove("input-error"));
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
     const purchaseInput = document.querySelector("input[name='pretAchizitie']");
     const sellingInput = document.getElementById("pretVanzare");
     const markupInput = document.getElementById("priceMarkup");
@@ -118,3 +104,4 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+

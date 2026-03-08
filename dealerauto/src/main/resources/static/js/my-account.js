@@ -25,8 +25,6 @@ function handleChangePassword(event) {
 
     const errorMessage = document.getElementById('passwordErrorMessage');
     errorMessage.style.display = 'none';
-
-    // Validare
     if (newPassword !== confirmPassword) {
         showErrorMessage('New passwords do not match!');
         return;
@@ -78,7 +76,6 @@ function showSuccessMessage(message) {
 function closeChangePasswordPopup() {
     document.getElementById('changePasswordOverlay').style.display = 'none';
     document.getElementById('changePasswordForm').reset();
-    //  Ascunde mesajul la închidere
     document.getElementById('passwordErrorMessage').style.display = 'none';
 }
 
@@ -88,3 +85,4 @@ document.addEventListener('click', function(e) {
         closeChangePasswordPopup();
     }
 });
+
