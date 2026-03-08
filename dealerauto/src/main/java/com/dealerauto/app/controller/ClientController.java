@@ -15,6 +15,7 @@ import com.dealerauto.app.service.ClientService;
 import com.dealerauto.app.service.ClientUserService;
 import com.dealerauto.app.service.FavoriteService;
 import com.dealerauto.app.service.OrderService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class ClientController {
 
     // Pagina principală /client
     @GetMapping("/client")
-    public String paginaClient(HttpSession session, Model model) {
+    public String paginaClient(HttpSession session, Model model, HttpServletRequest request) {
         Integer clientId = (Integer) session.getAttribute("clientId");
         String clientName = (String) session.getAttribute("clientName");
         String clientSecondName = (String) session.getAttribute("clientSecondName");
@@ -61,6 +62,20 @@ public class ClientController {
 
         boolean isLogged = clientId != null;
         model.addAttribute("isLogged", isLogged);
+
+        // Fade-in pe meniu doar când intri de pe index (/) pe /client
+        boolean menuAnimate = false;
+        String referer = request.getHeader("Referer");
+        if (referer != null) {
+            try {
+                java.net.URI uri = java.net.URI.create(referer);
+                String path = uri.getPath();
+                if (path == null || path.isEmpty() || "/".equals(path)) {
+                    menuAnimate = true;
+                }
+            } catch (Exception ignored) { }
+        }
+        model.addAttribute("menuAnimate", menuAnimate);
 
         // Preia datele de actualizare (UN singur query)
         Map<Integer, LocalDateTime> dateActualizare = masinaDAO.findAllActualDates();
@@ -154,6 +169,7 @@ public class ClientController {
         String clientInitials = (String) session.getAttribute("clientInitials");
 
         model.addAttribute("isLogged", true);
+        model.addAttribute("menuAnimate", false);
         model.addAttribute("clientName", clientName);
         model.addAttribute("clientSecondName", clientSecondName);
         model.addAttribute("clientInitials", clientInitials);
@@ -202,6 +218,7 @@ public class ClientController {
         String clientInitials = (String) session.getAttribute("clientInitials");
 
         model.addAttribute("isLogged", true);
+        model.addAttribute("menuAnimate", false);
         model.addAttribute("clientName", clientName);
         model.addAttribute("clientSecondName", clientSecondName);
         model.addAttribute("clientInitials", clientInitials);
@@ -271,6 +288,7 @@ public class ClientController {
         String clientInitials = (String) session.getAttribute("clientInitials");
 
         model.addAttribute("isLogged", true);
+        model.addAttribute("menuAnimate", false);
         model.addAttribute("clientName", clientName);
         model.addAttribute("clientSecondName", clientSecondName);
         model.addAttribute("clientInitials", clientInitials);

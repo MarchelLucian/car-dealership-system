@@ -17,25 +17,57 @@
 <body class="fav-page">
 <div class="page-wrapper">
 
-    <!-- Top Bar (aceeași temă ca Favorites) -->
-    <div class="fav-top-bar">
-        <a href="/client" class="fav-back-btn">
+    <!-- Zonă top: Back + Search + Auth (același header ca pe client). Fără fade-in la navigare între pagini. -->
+    <header class="client-top" th:classappend="${menuAnimate == true} ? 'menu-animate' : null">
+        <a href="/client" class="client-back-btn">
             <i class="fa-regular fa-circle-left"></i>
-            Go Back
         </a>
-
-        <div class="fav-avatar">
-            <span th:text="${clientInitials}">MC</span>
+        <div class="search-wrapper">
+            <input
+                    type="text"
+                    id="searchInput"
+                    class="search-bar"
+                    placeholder="Search by Brand, Model or Year..."
+                    autocomplete="off"
+            />
+            <button id="searchBtn" class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <div id="autocompleteList" class="autocomplete-list"></div>
         </div>
-    </div>
-
-    <!-- Header (aceeași temă ca Favorites) -->
-    <div class="fav-header acc-header">
-        <h1>
-            <i class="fa-solid fa-circle-info"></i>
-            My Account
-        </h1>
-    </div>
+        <div class="auth-container">
+            <div class="avatar">
+                <span th:if="${isLogged}" th:text="${clientInitials} "></span>
+                <span th:unless="${isLogged}">?</span>
+            </div>
+            <div class="auth-buttons-vertical" th:unless="${isLogged}">
+                <a href="/client-login" class="auth-btn sign-in">Sign In</a>
+                <a href="/client-register" class="auth-btn sign-in">Create Account</a>
+            </div>
+            <div class="auth-buttons-horizontal" th:if="${isLogged}">
+                <a href="/client" class="auth-btn small-btn">
+                    <i class="fa-solid fa-rectangle-list auth-icon"></i>
+                    Offers
+                </a>
+                <a href="/client/favorites" class="auth-btn small-btn">
+                    <i class="fa-regular fa-heart auth-icon"></i>
+                    Favorites
+                </a>
+                <a href="/client/my-orders" class="auth-btn small-btn">
+                    <i class="fa-solid fa-car-side auth-icon"></i>
+                    My Purchases
+                </a>
+                <a href="/client/my-account" class="auth-btn small-btn active">
+                    <i class="fa-solid fa-circle-info auth-icon"></i>
+                    My Account
+                </a>
+                <a href="/logout" class="auth-btn logout-btn small-btn">
+                    <i class="fa-solid fa-door-open auth-icon"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
 
     <!-- Content -->
     <div class="fav-content acc-content">

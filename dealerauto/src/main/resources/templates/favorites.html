@@ -22,34 +22,69 @@
         <span class="fav-blob fav-blob-3"></span>
     </div>
 
-    <!-- Top Bar cu Go Back și Avatar -->
-    <div class="fav-top-bar">
-        <a href="/client" class="fav-back-btn">
+    <!-- Zonă top: Back + Search + Auth (același header ca pe client). Fără fade-in la navigare între pagini. -->
+    <header class="client-top" th:classappend="${menuAnimate == true} ? 'menu-animate' : null">
+        <a href="/client" class="client-back-btn">
             <i class="fa-regular fa-circle-left"></i>
-            Go Back
         </a>
-
-        <div class="fav-avatar">
-            <span th:text="${clientInitials}">MC</span>
+        <div class="search-wrapper">
+            <input
+                    type="text"
+                    id="searchInput"
+                    class="search-bar"
+                    placeholder="Search by Brand, Model or Year..."
+                    autocomplete="off"
+            />
+            <button id="searchBtn" class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <div id="autocompleteList" class="autocomplete-list"></div>
         </div>
-    </div>
-
-    <!-- Titlu pagină -->
-    <div class="fav-header">
-        <h1>
-            <i class="fa-solid fa-heart"></i>
-            My Favorites
-        </h1>
-        <p th:if="${masini.size() > 0}" class="fav-count">
-            You have <strong th:text="${masini.size()}">0</strong> favorite <span class="car-text">car(s)</span>
-        </p>
-        <p th:if="${masini.size() > 0}" class="fav-total-line">
-            <i class="fa-solid fa-money-bill-wave"></i> Total <strong id="favStatsTotal">—</strong>
-        </p>
-    </div>
+        <div class="auth-container">
+            <div class="avatar">
+                <span th:if="${isLogged}" th:text="${clientInitials} "></span>
+                <span th:unless="${isLogged}">?</span>
+            </div>
+            <div class="auth-buttons-vertical" th:unless="${isLogged}">
+                <a href="/client-login" class="auth-btn sign-in">Sign In</a>
+                <a href="/client-register" class="auth-btn sign-in">Create Account</a>
+            </div>
+            <div class="auth-buttons-horizontal" th:if="${isLogged}">
+                <a href="/client" class="auth-btn small-btn">
+                    <i class="fa-solid fa-rectangle-list auth-icon"></i>
+                    Offers
+                </a>
+                <a href="/client/favorites" class="auth-btn small-btn active">
+                    <i class="fa-regular fa-heart auth-icon"></i>
+                    Favorites
+                </a>
+                <a href="/client/my-orders" class="auth-btn small-btn">
+                    <i class="fa-solid fa-car-side auth-icon"></i>
+                    My Purchases
+                </a>
+                <a href="/client/my-account" class="auth-btn small-btn">
+                    <i class="fa-solid fa-circle-info auth-icon"></i>
+                    My Account
+                </a>
+                <a href="/logout" class="auth-btn logout-btn small-btn">
+                    <i class="fa-solid fa-door-open auth-icon"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
 
     <!-- Lista de mașini favorite -->
     <div class="fav-content">
+        <!-- Statistici: count + total value (reajezate în pagină) -->
+        <div th:if="${masini.size() > 0}" class="page-stats">
+            <p class="fav-count">
+                You have <strong th:text="${masini.size()}">0</strong> favorite <span class="car-text">car(s)</span>
+            </p>
+            <p class="fav-total-line">
+                <i class="fa-solid fa-money-bill-wave"></i> Total <strong id="favStatsTotal">—</strong>
+            </p>
+        </div>
         <!-- Mesaj când nu ai favorite -->
         <div th:if="${masini.isEmpty()}" class="fav-empty">
             <i class="fa-regular fa-heart-crack"></i>

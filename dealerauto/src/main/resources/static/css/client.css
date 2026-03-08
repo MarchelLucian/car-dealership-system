@@ -23,7 +23,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    min-height: 196px;
+    min-height: 177px;
     width: 100%;
     z-index: 10;
     pointer-events: none;
@@ -38,8 +38,8 @@ body {
 
 .client-back-btn {
     position: absolute;
-    top: 20px;
-    left: 44px;
+    top: 3px;
+    left: 8px;
     font-size: 38px;
     color: #0a44c9;
     text-decoration: none;
@@ -54,10 +54,10 @@ body {
 
 /* --------------------- LEFT SIDEBAR --------------------- */
 .sidebar {
-    width: 340px;
+    width: 348px;
     background: linear-gradient(180deg, rgba(232, 252, 254, 0.95) 0%, rgba(221, 250, 253, 0.95) 100%);
     padding: 24px;
-    margin: 326px 20px 20px 20px;
+    margin: 293px 20px 20px 20px;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(10, 68, 201, 0.1), 0 2px 8px rgba(0,0,0,0.06);
     height: fit-content;
@@ -127,6 +127,201 @@ body {
     margin-bottom: 18px;
     border: 1px solid rgba(10, 68, 201, 0.1);
     box-shadow: 0 2px 8px rgba(10, 68, 201, 0.04);
+}
+
+/* ---------- Range sliders (Price, Year, Mileage) — dual thumb ---------- */
+.sidebar .range-slider-wrap {
+    position: relative;
+    width: 100%;
+    height: 42px;
+    margin-top: 8px;
+}
+/* Track gri pe care glisează thumbs — poziționat sub ticks */
+.sidebar .range-slider-wrap .range-track {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(10, 68, 201, 0.13);
+    border-radius: 3px;
+    pointer-events: none;
+}
+/* Bara colorată între cele 2 thumbs */
+.sidebar .range-slider-wrap .range-fill {
+    position: absolute;
+    top: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #0a44c9, #1e62ff);
+    border-radius: 3px;
+    pointer-events: none;
+    transition: left 0.05s ease, width 0.05s ease;
+}
+/* Input range — suprapus pe track, transparent, doar thumb-ul e vizibil */
+.sidebar .range-slider-wrap .range-thumb {
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    width: 100%;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    pointer-events: none;
+    outline: none;
+    z-index: 2;
+}
+.sidebar .range-slider-wrap .range-thumb-min { z-index: 3; }
+.sidebar .range-slider-wrap .range-thumb-max { z-index: 3; }
+
+/* ---- Webkit (Chrome, Edge, Safari) ---- */
+.sidebar .range-slider-wrap .range-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a4fc4, #0a44c9);
+    border: 2.5px solid #fff;
+    box-shadow: 0 1px 4px rgba(10, 68, 201, 0.35), 0 2px 8px rgba(10, 68, 201, 0.2);
+    cursor: grab;
+    pointer-events: auto;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    margin-top: -7px;
+}
+.sidebar .range-slider-wrap .range-thumb:active::-webkit-slider-thumb {
+    cursor: grabbing;
+    transform: scale(1.18);
+    box-shadow: 0 2px 10px rgba(10, 68, 201, 0.55);
+}
+.sidebar .range-slider-wrap .range-thumb::-webkit-slider-runnable-track {
+    height: 6px;
+    background: transparent;
+    border: none;
+}
+
+/* ---- Firefox ---- */
+.sidebar .range-slider-wrap .range-thumb::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a4fc4, #0a44c9);
+    border: 2.5px solid #fff;
+    box-shadow: 0 1px 4px rgba(10, 68, 201, 0.35), 0 2px 8px rgba(10, 68, 201, 0.2);
+    cursor: grab;
+    pointer-events: auto;
+}
+.sidebar .range-slider-wrap .range-thumb::-moz-range-track {
+    height: 6px;
+    background: transparent;
+    border: none;
+}
+/* ---- Tick marks (indici) deasupra slider-ului ---- */
+.sidebar .range-ticks {
+    position: relative;
+    width: 100%;
+    height: 18px;
+    pointer-events: none;
+    user-select: none;
+    padding: 0 6px;
+    box-sizing: border-box;
+}
+.sidebar .range-tick {
+    position: absolute;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+/* Tick-urile de la capete: label-ul se aliniază, linia ascunsă */
+.sidebar .range-tick:first-child {
+    align-items: flex-start;
+}
+.sidebar .range-tick:first-child .range-tick-line {
+    display: none;
+}
+.sidebar .range-tick:last-child {
+    align-items: flex-end;
+}
+.sidebar .range-tick:last-child .range-tick-line {
+    display: none;
+}
+/* Year și Mileage: indicii din capete cu offset spre interior */
+.sidebar .filter-row-year .range-tick:first-child {
+    left: 4px !important;
+}
+.sidebar .filter-row-year .range-tick:last-child {
+    left: calc(100% - 4px) !important;
+}
+.sidebar .filter-row-mileage .range-tick:first-child {
+    left: 2px !important;
+}
+.sidebar .filter-row-mileage .range-tick:last-child {
+    left: calc(100% - 4px) !important;
+}
+.sidebar .range-tick-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #9ca3af;
+    line-height: 1;
+    white-space: nowrap;
+}
+.sidebar .range-tick-line {
+    width: 1px;
+    height: 5px;
+    background: #c4cad4;
+}
+
+/* Toate cele 3 filter-row-uri (price, year, mileage) au flex-wrap ca slider-ul să cadă sub inputuri */
+.sidebar .filter-row {
+    flex-wrap: wrap;
+}
+
+.sidebar .filter-row .range-slider-wrap {
+    flex-basis: 100%;
+    margin-top: 4px;
+}
+
+/* Labelele centrate, inputurile aliniate cu marginile slider-ului */
+.sidebar .filter-row .filter-item {
+    text-align: center;
+}
+.sidebar .filter-row .filter-item:first-child input[type="number"] {
+    display: block;
+    margin-left: 0;
+    margin-right: auto;
+}
+.sidebar .filter-row .filter-item:nth-child(2) input[type="number"] {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Unitate de măsură (KM) centrată între cele 2 labele, fără a afecta layout-ul */
+.sidebar .filter-row {
+    position: relative;
+}
+.sidebar .filter-row .filter-row-unit {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 17px;
+    font-weight: 500;
+    color: #9ca3af;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 1;
+}
+.sidebar .filter-row-price .filter-row-unit {
+    font-size: 21px;
+}
+.sidebar .filter-row-price,
+.sidebar .filter-row-mileage {
+    padding-top: 10px;
 }
 
 /* Minimum Year / Maximum Year pe un singur rând */
@@ -261,7 +456,7 @@ body {
 .filter-btn {
     width: 100%;
     padding: 12px 0;
-    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
+    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%); 
     color: white;
     border: none;
     border-radius: 10px;
@@ -282,6 +477,23 @@ body {
     transform: translateY(0);
 }
 
+/* Apply Filters din sidebar: override .sidebar button ca gradientul să se vadă */
+.sidebar .filter-btn,
+.sidebar button.filter-btn {
+    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%);
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.35);
+    padding: 12px 0;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-top: 18px;
+}
+.sidebar .filter-btn:hover,
+.sidebar button.filter-btn:hover {
+    background: linear-gradient(180deg, #0839ab 0%, #1e62ff 100%);
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.45);
+    transform: translateY(-2px);
+}
+
 
 /* --------------------- MAIN CONTENT --------------------- */
 
@@ -290,10 +502,161 @@ body {
     padding: 20px;
 }
 
+/* ---- Etichete filtre active (sub meniul caroserie, împinge conținutul jos) ---- */
+.active-filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 14px;
+}
+.active-filter-tags:empty {
+    display: none;
+    margin: 0;
+}
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    background: linear-gradient(180deg, rgba(232, 252, 254, 0.95) 0%, rgba(221, 250, 253, 0.95) 100%);
+    border: 1px solid rgba(10, 68, 201, 0.25);
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #133b95;
+    white-space: nowrap;
+    animation: fadeInUn 0.2s ease;
+}
+.filter-tag .filter-tag-x {
+    cursor: pointer;
+    font-size: 20px;
+    color: #0a44c9;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+.filter-tag .filter-tag-x:hover {
+    color: #05308e;
+    transform: scale(1.15);
+}
+
+/* Meniu tipuri caroserie: 2 rânduri x 4 butoane, pe toată lățimea cardurilor */
+.body-type-menu {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.body-type-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    min-height: 450px;
+}
+
+/* Buton categorii caroserie: la orice mărire a elementelor interioare (label, icon, count)
+   mărește și min-height aici ca structura să rămână corectă. */
+.body-type-btn {
+    width: 100%;
+    min-height: 225px;
+    height: 100%;
+    padding: 14px 12px;
+    border: 2px solid rgba(19, 59, 149, 0.25);
+    border-radius: 16px;
+    background: #F7FBFF;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(10, 68, 201, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.body-type-btn:hover {
+    background: rgba(232, 244, 255, 0.9);
+    border-color: #133b95;
+    box-shadow: 0 4px 12px rgba(19, 59, 149, 0.12);
+}
+
+/* Opțiune selectată: același fundal ca sidebar-ul */
+.body-type-btn.selected {
+    background: linear-gradient(180deg, rgba(232, 252, 254, 0.95) 0%, rgba(221, 250, 253, 0.95) 100%);
+    border: 4px solid #0a44c9;
+    box-shadow: inset 0 0 8px rgba(10, 68, 201, 0.25), 0 0 10px rgba(10, 68, 201, 0.22);
+}
+
+.body-type-btn.selected .body-type-btn-inner {
+    background: inherit;
+}
+
+.body-type-btn-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.body-type-btn .body-type-btn-inner {
+    background: inherit;
+}
+
+.body-type-btn:hover .body-type-btn-inner {
+    background: inherit;
+}
+
+.body-type-label {
+    height: 30px;
+    min-height: 30px;
+    margin-top: -7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 600;
+    color: #133b95;
+    text-align: center;
+    line-height: 1;
+}
+
+.body-type-icon {
+    width: 100%;
+    max-width: 177px;
+    height: auto;
+    max-height: 161px;
+    object-fit: contain;
+    flex: 1;
+    background: transparent !important;
+    opacity: 1;
+    margin-top: -40px;
+    margin-bottom: -41px;
+}
+
+/* Butonul All options: imagine puțin mai mică */
+.body-type-btn[data-body-type="all-options"] .body-type-icon {
+    max-width: 167px;
+    max-height: 151px;
+}
+
+.body-type-count {
+    font-size: 24px;
+    font-weight: 700;
+    color: #133b95;
+    line-height: 1;
+    margin-top: 8px;
+    margin-bottom: -10px;
+}
+
 .main-content h1 {
     text-align: center;
-    margin-top: 20px;
-    font-size: 32px;
+    margin-top: -20px;
+    margin-bottom: 26px;
+    font-size: 34px;
     font-weight: 700;
     color: #133b95;
     letter-spacing: 0.02em;
@@ -302,7 +665,7 @@ body {
 #loadMore {
     display: block;
     margin: 20px auto;
-    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
+    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%);  /* același ca Apply Filters */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -310,11 +673,12 @@ body {
     cursor: pointer;
     font-size: 20px;
     transition: box-shadow 0.25s ease, transform 0.15s ease;
-    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.3);
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.35);
 }
 
 #loadMore:hover {
-    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.4);
+    background: linear-gradient(180deg, #0839ab 0%, #1e62ff 100%);
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.45);
     transform: translateY(-2px);
 }
 
@@ -383,7 +747,7 @@ body {
 }
 
 .sort-btn {
-    background: linear-gradient(180deg, #0a44c9 0%, #0839ab 100%);
+    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%); 
     color: white;
     padding: 8px 18px;
     border: none;
@@ -447,13 +811,12 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 15px;
-    animation: fadeInUn 0.6s ease;
 }
 
 /* Avatar rotund – accent vizual, hover discret */
 .avatar {
     position: relative;
-    background: linear-gradient(145deg, #0a44c9 0%, #0839ab 100%);
+    background: linear-gradient(145deg, #0a44c9 0%, #1e62ff 100%);
     color: white;
     font-size: 32px;
     width: 80px;
@@ -523,6 +886,26 @@ body {
     transform: translateY(-1px);
 }
 
+/* Pagina curentă în meniu – border puternic, umbră mică */
+.auth-btn.active {
+    background: linear-gradient(180deg, rgba(232, 244, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
+    border: 4px solid #0a44c9;
+    color: #0a44c9;
+    font-weight: 700;
+    box-shadow: inset 0 0 8px rgba(10, 68, 201, 0.25),
+                0 0 10px rgba(10, 68, 201, 0.22),
+                0 0 16px rgba(10, 68, 201, 0.12);
+}
+
+.auth-btn.active:hover {
+    background: linear-gradient(180deg, #e0efff 0%, #e8f4ff 100%);
+    border-color: #083a9e;
+    color: #083a9e;
+    box-shadow: inset 0 0 10px rgba(8, 58, 158, 0.28),
+                0 0 12px rgba(10, 68, 201, 0.28),
+                0 0 20px rgba(10, 68, 201, 0.15);
+}
+
 /* Logout roșu */
 .logout-btn {
     color: #c41e3a;
@@ -536,7 +919,7 @@ body {
 }
 
 .main-content {
-    margin-top: 226px;   /* sub top bar + 30px în plus */
+    margin-top: 227px;   /* sub top bar + 30px în plus */
 }
 
 .auth-btn i {
@@ -575,17 +958,16 @@ body {
 /* bara de autentificare (poziționare în .client-top) */
 .auth-container {
     position: absolute;
-    top: 65px;
+    top: 46px;
     right: 20px;
     display: flex;
     align-items: center;
     gap: 15px;
-    animation: fadeInUn 0.6s ease;
 }
 /* bara de cautare (poziționare în .client-top) */
 .search-wrapper {
     position: absolute;
-    top: 95px;
+    top: 76px;
     left: 40px;
     display: flex;
     align-items: center;
@@ -613,19 +995,23 @@ body {
     background: #ffffff;
 }
 
-/* BUTTON */
+/* BUTTON – același background tranzitoriu ca auth-btn (gradient + tranziție lină) */
 .search-btn {
-    background: #0a44c9;
+    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%);
     border: none;
     color: white;
-    padding: 8px 12px;
+    padding: 14px 18px;   /* +3px încă o dată (înălțime și lățime) */
     border-radius: 80%;
     cursor: pointer;
     font-size: 16px;
+    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.35);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    margin: 3px;
 }
 
 .search-btn:hover {
-    background: #0839ab;
+    background: linear-gradient(180deg, #0839ab 0%, #1a52e0 100%);
+    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.45);
 }
 
 .spin-icon {
@@ -667,6 +1053,7 @@ body {
 /* Un bloc individual (label + input) */
 .filter-item {
     flex: 1;
+    text-align: center;
 }
 
 /* Secțiuni singulare precum mileage și brands */
@@ -823,7 +1210,17 @@ body {
     text-decoration: underline;
 }
 
-.filter-item input,
+.filter-item input[type="number"] {
+    width: 120px;
+    background: linear-gradient(180deg, #f8fcff 0%, #eef5ff 100%);
+    border: 1px solid rgba(10, 68, 201, 0.22);
+    color: #1f2937;
+    font-size: 18px;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 2px rgba(10, 68, 201, 0.06);
+    display: inline-block;
+}
+
 .filter-section input {
     width: 120px;
     background: linear-gradient(180deg, #f8fcff 0%, #eef5ff 100%);
@@ -846,20 +1243,13 @@ body {
     box-shadow: 0 0 0 2px rgba(10, 68, 201, 0.15), inset 0 1px 2px rgba(10, 68, 201, 0.06);
 }
 
-.filter-section.mileage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.filter-row-mileage {
     margin-top: 0;
 }
 
-.filter-section.mileage  input {
-    width: 110px;
-}
-
-
-.filter-section.mileage  label {
+.filter-row-mileage label {
     font-size: 20px;
+    color: #133b95;
 }
 
 
@@ -971,6 +1361,13 @@ body {
 .auth-container:has(.auth-buttons-horizontal) .avatar {
     position: relative;
     top: 20px;
+}
+
+/* Fade-in pe meniu doar când intri de pe index (/) pe /client */
+.client-top.menu-animate .auth-container {
+    animation: fadeInUn 0.6s ease;
+}
+.client-top.menu-animate .auth-container:has(.auth-buttons-horizontal) .avatar {
     animation: fadeInUn 1s ease;
 }
 
@@ -1685,11 +2082,11 @@ body {
 
 /* ================================
    RESPONSIVE PAGINĂ CLIENT (layout general, zoom, mobile)
-   Ordine clară: top (back, search, auth) → sidebar → main; în card: badge nu se suprapune peste carousel
+   Ordine clară: top (back, search, auth) → sidebar → main; meniu adaptat treptat la rezoluție
    ================================ */
 
-/* De la 1400px: layout complet stivuit (header → filtre → conținut) – ordine logică, inclusiv la zoom 150% */
-@media (max-width: 1400px) {
+/* De la 1700px: layout stivuit – Back, Search, Auth pe coloane, fără suprapunere în niciun scenariu */
+@media (max-width: 1700px) {
     .page-wrapper {
         flex-wrap: wrap;
         flex-direction: column;
@@ -1704,7 +2101,7 @@ body {
         align-items: stretch;
         gap: 12px;
         min-height: 0;
-        padding: 12px 0;
+        padding: 16px 12px;
         order: 1;
     }
 
@@ -1713,6 +2110,7 @@ body {
         top: auto;
         left: auto;
         align-self: flex-start;
+        font-size: 32px;
     }
 
     .search-wrapper {
@@ -1722,6 +2120,11 @@ body {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+        height: 42px;
+    }
+
+    .search-bar {
+        font-size: 17px;
     }
 
     .auth-container {
@@ -1730,16 +2133,28 @@ body {
         right: auto;
         flex-wrap: wrap;
         gap: 10px;
+        align-items: center;
+    }
+
+    .auth-container:has(.auth-buttons-horizontal) .avatar {
+        top: 0;
     }
 
     .auth-buttons-horizontal {
         flex-wrap: wrap;
         gap: 8px;
+        top: 0;
     }
 
     .auth-btn.small-btn {
         width: auto;
-        min-width: 120px;
+        min-width: 110px;
+        padding: 8px 14px;
+        font-size: 17px;
+    }
+
+    .auth-icon {
+        font-size: 22px;
     }
 
     .sidebar {
@@ -1907,28 +2322,50 @@ body {
     }
 
     .client-top {
-        padding: 10px 0;
-        gap: 10px;
+        padding: 12px 10px;
+        gap: 12px;
     }
 
     .client-back-btn {
         font-size: 28px;
     }
 
-    .auth-container {
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .avatar {
-        width: 56px;
-        height: 56px;
-        font-size: 22px;
-    }
-
     .search-wrapper {
         width: 100%;
         max-width: 100%;
+        height: 40px;
+        padding: 6px 12px;
+    }
+
+    .search-bar {
+        font-size: 16px;
+    }
+
+    .search-btn {
+        padding: 6px 10px;
+    }
+
+    .auth-container {
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-start;
+    }
+
+    .avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+    }
+
+    .auth-btn.small-btn {
+        padding: 8px 12px;
+        font-size: 15px;
+        min-width: 90px;
+    }
+
+    .auth-icon {
+        font-size: 20px;
+        margin-right: 4px;
     }
 
     .sidebar {
@@ -1937,6 +2374,20 @@ body {
 
     .main-content {
         margin-top: 16px;
+    }
+
+    .body-type-menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .body-type-btn {
+        min-height: 225px;
+    }
+
+    .body-type-count {
+        font-size: 24px;
     }
 
     .car-box .car-header {
@@ -2005,4 +2456,52 @@ body {
         font-size: 16px;
         padding: 6px 12px;
     }
+}
+
+/* Meniu la rezoluții foarte mici: butoane mai compacte, wrap ordonat */
+@media (max-width: 480px) {
+    .client-top {
+        padding: 10px 8px;
+        gap: 10px;
+    }
+
+    .client-back-btn {
+        font-size: 24px;
+    }
+
+    .search-wrapper {
+        height: 38px;
+        padding: 5px 10px;
+    }
+
+    .search-bar {
+        font-size: 15px;
+    }
+
+    .auth-container {
+        gap: 6px;
+    }
+
+    .avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 17px;
+    }
+
+    .auth-buttons-horizontal {
+        gap: 6px;
+    }
+
+    .auth-btn.small-btn {
+        padding: 6px 10px;
+        font-size: 13px;
+        min-width: 0;
+    }
+
+    .auth-icon {
+        font-size: 18px;
+        margin-right: 3px;
+    }
+
+    /* Opțional: pe foarte îngust, butoanele pot avea text scurtat sau doar icon – păstrăm text pentru lizibilitate */
 }

@@ -28,8 +28,9 @@ public class Masina {
     private String culoare;
     private String stare;
 
-    private int numarUsi;          // NOU
-    private int numarLocuri;       // NOU
+    private int numarUsi;
+    private int numarLocuri;
+    private String caroserie;      // Sedan, Hatchback, Break, SUV, Coupe, Cabriolet, MPV
 
     private String vin;
 
@@ -104,6 +105,7 @@ public class Masina {
     public String getStare() { return stare; }
     public int getNumarUsi() { return numarUsi; }
     public int getNumarLocuri() { return numarLocuri; }
+    public String getCaroserie() { return caroserie; }
 
     public String getFurnizor() { return furnizor; }
     public int getFurnizorId() { return furnizorId; }
@@ -123,6 +125,7 @@ public class Masina {
     public void setStare(String stare) { this.stare = stare; }
     public void setNumarUsi(int numarUsi) { this.numarUsi = numarUsi; }
     public void setNumarLocuri(int numarLocuri) { this.numarLocuri = numarLocuri; }
+    public void setCaroserie(String caroserie) { this.caroserie = caroserie; }
 
     public void setFurnizor(String furnizor) { this.furnizor = furnizor; }
 

@@ -214,6 +214,21 @@ body {
     border-color: #94a3b8 !important;
 }
 
+/* Ellipsis (•••) între blocuri de pagini – 3 puncte vizibile */
+.pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 2px;
+    vertical-align: middle;
+}
+
+.pagination-ellipsis .pagination-dot {
+    font-size: 17px;
+    color: #0f766e;
+    opacity: 0.8;
+}
+
 
 
 .back-btn {

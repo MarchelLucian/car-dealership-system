@@ -14,8 +14,8 @@
 <body>
 <div class="page-wrapper">
 
-    <!-- Zonă top: Back + Search + Auth (stivuite logic la zoom / ecran mic) -->
-    <header class="client-top">
+    <!-- Zonă top: Back + Search + Auth (stivuite logic la zoom / ecran mic). Fade-in doar când intri de pe index. -->
+    <header class="client-top" th:classappend="${menuAnimate == true} ? 'menu-animate' : null">
         <a href="/" class="client-back-btn">
             <i class="fa-regular fa-circle-left"></i>
         </a>
@@ -42,6 +42,10 @@
                 <a href="/client-register" class="auth-btn sign-in">Create Account</a>
             </div>
             <div class="auth-buttons-horizontal" th:if="${isLogged}">
+                <a href="/client" class="auth-btn small-btn active">
+                    <i class="fa-solid fa-rectangle-list auth-icon"></i>
+                    Offers
+                </a>
                 <a href="/client/favorites" class="auth-btn small-btn">
                     <i class="fa-regular fa-heart auth-icon"></i>
                     Favorites
@@ -66,36 +70,60 @@
     <div class="sidebar">
         <h2>Filters</h2>
 
-        <!-- PRICE -->
-        <div class="filter-row">
+        <!-- PRICE (min/max setat dinamic din JS pe baza celei mai scumpe mașini) -->
+        <div class="filter-row filter-row-price">
             <div class="filter-item">
-                <label>Minimum Price</label>
+                <label>Min Price</label>
                 <input id="minPrice" type="number" placeholder="Ex: 5000">
             </div>
-
+            <span class="filter-row-unit">&euro;</span>
             <div class="filter-item">
-                <label>Maximum Price</label>
+                <label>Max Price</label>
                 <input id="maxPrice" type="number" placeholder="Ex: 30000">
+            </div>
+            <div class="range-slider-wrap range-slider-dual" id="priceRangeWrap" data-min="0" data-max="60000">
+                <div class="range-ticks" id="priceTicks"></div>
+                <div class="range-track"><div class="range-fill" id="priceRangeFill"></div></div>
+                <input type="range" id="priceMin" min="0" max="60000" value="0" step="200" class="range-thumb range-thumb-min" aria-label="Min price">
+                <input type="range" id="priceMax" min="0" max="60000" value="60000" step="200" class="range-thumb range-thumb-max" aria-label="Max price">
             </div>
         </div>
 
         <!-- YEAR -->
-        <div class="filter-row years">
+        <div class="filter-row years filter-row-year">
             <div class="filter-item">
-                <label>Minimum Year</label>
+                <label>Min Year</label>
                 <input id="minYear" type="number" placeholder="Ex: 2005">
             </div>
-
             <div class="filter-item">
-                <label>Maximum Year</label>
+                <label>Max Year</label>
                 <input id="maxYear" type="number" placeholder="Ex: 2024">
+            </div>
+            <div class="range-slider-wrap range-slider-dual" id="yearRangeWrap" data-min="2000" data-max="2026">
+                <div class="range-ticks" id="yearTicks"></div>
+                <div class="range-track"><div class="range-fill" id="yearRangeFill"></div></div>
+                <input type="range" id="yearMin" min="2000" max="2026" value="2000" class="range-thumb range-thumb-min" aria-label="Min year">
+                <input type="range" id="yearMax" min="2000" max="2026" value="2026" class="range-thumb range-thumb-max" aria-label="Max year">
             </div>
         </div>
 
         <!-- MILEAGE -->
-        <div class="filter-section mileage">
-            <label>Maximum Mileage (km)</label>
-            <input id="maxMileage" type="number" placeholder="Ex: 150000">
+        <div class="filter-row filter-row-mileage">
+            <div class="filter-item">
+                <label>Min Mileage</label>
+                <input id="minMileage" type="number" placeholder="Ex: 10000">
+            </div>
+            <span class="filter-row-unit">KM</span>
+            <div class="filter-item">
+                <label>Max Mileage</label>
+                <input id="maxMileage" type="number" placeholder="Ex: 150000">
+            </div>
+            <div class="range-slider-wrap range-slider-dual" id="mileageRangeWrap" data-min="0" data-max="800000">
+                <div class="range-ticks" id="mileageTicks"></div>
+                <div class="range-track"><div class="range-fill" id="mileageRangeFill"></div></div>
+                <input type="range" id="mileageMin" min="0" max="800000" value="0" step="2000" class="range-thumb range-thumb-min" aria-label="Min mileage">
+                <input type="range" id="mileageMax" min="0" max="800000" value="800000" step="2000" class="range-thumb range-thumb-max" aria-label="Max mileage">
+            </div>
         </div>
 
 
@@ -242,7 +270,71 @@
     <!-- Main Content -->
     <div class="main-content">
         <h1>Available Offers</h1>
-        
+        <!-- Menu caroserii , de caroserii, s-->
+        <nav class="body-type-menu" aria-label="Categorii caroserie">
+            <div class="body-type-menu-grid">
+                <button type="button" class="body-type-btn selected" data-body-type="all-options">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">All</span>
+                        <img src="/images/categories/all-final-touch.png" alt="All options" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+                <button type="button" class="body-type-btn" data-body-type="sedan">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">Sedan</span>
+                        <img src="/images/categories/sedan.png" alt="Sedan" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+                <button type="button" class="body-type-btn" data-body-type="hatchback">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">Hatchback</span>
+                        <img src="/images/categories/hatchback.png" alt="Hatchback" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+                <button type="button" class="body-type-btn" data-body-type="break">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">Break</span>
+                        <img src="/images/categories/break.png" alt="Break" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+                <button type="button" class="body-type-btn" data-body-type="suv">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">SUV</span>
+                        <img src="/images/categories/suv.png" alt="SUV" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+                <button type="button" class="body-type-btn" data-body-type="coupe">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">Coupe</span>
+                        <img src="/images/categories/coupe.png" alt="Coupe" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+                <button type="button" class="body-type-btn" data-body-type="cabriolet">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">Cabriolet</span>
+                        <img src="/images/categories/cabriolet.png" alt="Cabriolet" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+                <button type="button" class="body-type-btn" data-body-type="mpv">
+                    <span class="body-type-btn-inner">
+                        <span class="body-type-label">MPV</span>
+                        <img src="/images/categories/mpv.png" alt="MPV" class="body-type-icon">
+                        <span class="body-type-count">0</span>
+                    </span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Etichete filtre active (sub meniu caroserii, împinge conținutul jos) -->
+        <div id="activeFilterTags" class="active-filter-tags"></div>
+
         <div id="resultsCount" class="results-count"></div>
         <!-- Sorting Bar -->
         <div class="sort-box">
@@ -328,7 +420,7 @@
                         </p>
                     </div>
 
-                    <!-- GALERIE: 3 stânga | 1 centru | 3 dreapta (click pe margini = centru) -->
+                    image.png                    <!-- GALERIE: 3 stânga | 1 centru | 3 dreapta (click pe margini = centru) -->
                     <div class="car-images-carousel car-images-gallery"
                          th:data-brand="${m.marca}"
                          th:data-model="${m.model}">

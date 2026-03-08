@@ -29,6 +29,7 @@ function validateAddCarForm(event) {
         { name: "kilometraj", errorId: "error-km", label: "Kilometers required" },
         { name: "combustibil", errorId: "error-fuel", label: "Please select fuel type" },
         { name: "transmisie", errorId: "error-trans", label: "Please select transmission" },
+        { name: "caroserie", errorId: "error-body", label: "Please select body type" },
         { name: "culoare", errorId: "error-color", label: "Color required" },
         { name: "pretAchizitie", errorId: "error-price", label: "Price required" },
         { name: "pretVanzare", errorId: "error-selling-price", label: "Selling price required" },

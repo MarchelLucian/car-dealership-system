@@ -37,7 +37,8 @@ public class MasinaDAO {
             m.culoare,
             m.stare,
             m.numar_usi,
-            m.numar_locuri
+            m.numar_locuri,
+            m.caroserie
         FROM masina m
         LEFT JOIN preturi_vanzare pv ON pv.masina_id = m.id
         WHERE m.stare = 'disponibila'
@@ -65,6 +66,7 @@ public class MasinaDAO {
             m.setStare(rs.getString("stare"));
             m.setNumarUsi(rs.getInt("numar_usi"));
             m.setNumarLocuri(rs.getInt("numar_locuri"));
+            m.setCaroserie(rs.getString("caroserie"));
 
             return m;
         });
@@ -152,23 +154,25 @@ public class MasinaDAO {
     """;
 
         try {
-            return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                            new Masina(
-                                    rs.getInt("id"),
-                                    rs.getString("marca_nume"),
-                                    rs.getString("model"),
-                                    rs.getInt("an_fabricatie"),
-                                    rs.getInt("kilometraj"),
-                                    rs.getDouble("pret_achizitie"),
-                                    rs.getString("combustibil"),
-                                    rs.getString("transmisie"),
-                                    rs.getString("culoare"),
-                                    rs.getString("stare"),
-                                    rs.getInt("numar_usi"),
-                                    rs.getInt("numar_locuri"),
-                                    rs.getString("furnizor_nume"),
-                                    rs.getString("vin")
-                            ),
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                        Masina m = new Masina();
+                        m.setId(rs.getInt("id"));
+                        m.setMarca(rs.getString("marca_nume"));
+                        m.setModel(rs.getString("model"));
+                        m.setAn(rs.getInt("an_fabricatie"));
+                        m.setKilometraj(rs.getInt("kilometraj"));
+                        m.setPret(rs.getDouble("pret_achizitie"));
+                        m.setCombustibil(rs.getString("combustibil"));
+                        m.setTransmisie(rs.getString("transmisie"));
+                        m.setCuloare(rs.getString("culoare"));
+                        m.setStare(rs.getString("stare"));
+                        m.setNumarUsi(rs.getInt("numar_usi"));
+                        m.setNumarLocuri(rs.getInt("numar_locuri"));
+                        m.setCaroserie(rs.getString("caroserie"));
+                        m.setFurnizor(rs.getString("furnizor_nume"));
+                        m.setVin(rs.getString("vin"));
+                        return m;
+                    },
                     id
             );
         } catch (EmptyResultDataAccessException e) {
@@ -188,21 +192,22 @@ public class MasinaDAO {
     }
 
     private Masina mapRowToMasina(ResultSet rs) throws SQLException {
-        return new Masina(
-                rs.getInt("id"),
-                rs.getString("marca_nume"),
-                rs.getString("model"),
-                rs.getInt("an_fabricatie"),
-                rs.getInt("kilometraj"),
-                rs.getDouble("pret_achizitie"),
-                rs.getString("combustibil"),
-                rs.getString("transmisie"),
-                rs.getString("culoare"),
-                rs.getString("stare"),
-                rs.getInt("numar_usi"),
-                rs.getInt("numar_locuri"),
-                rs.getString("furnizor_nume")
-        );
+        Masina m = new Masina();
+        m.setId(rs.getInt("id"));
+        m.setMarca(rs.getString("marca_nume"));
+        m.setModel(rs.getString("model"));
+        m.setAn(rs.getInt("an_fabricatie"));
+        m.setKilometraj(rs.getInt("kilometraj"));
+        m.setPret(rs.getDouble("pret_achizitie"));
+        m.setCombustibil(rs.getString("combustibil"));
+        m.setTransmisie(rs.getString("transmisie"));
+        m.setCuloare(rs.getString("culoare"));
+        m.setStare(rs.getString("stare"));
+        m.setNumarUsi(rs.getInt("numar_usi"));
+        m.setNumarLocuri(rs.getInt("numar_locuri"));
+        m.setCaroserie(rs.getString("caroserie"));
+        m.setFurnizor(rs.getString("furnizor_nume"));
+        return m;
     }
 
     public List<Masina> findByProvider(String provider) {
@@ -461,11 +466,11 @@ public class MasinaDAO {
     public int insert(Masina m) {
 
         String sql = """
-        INSERT INTO masina 
+        INSERT INTO masina
         (marca_id, furnizor_id, marca_nume, furnizor_nume, model, an_fabricatie,
          kilometraj, combustibil, transmisie, culoare, pret_achizitie,
-         numar_usi, numar_locuri , data_intrare_stoc)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         numar_usi, numar_locuri, data_intrare_stoc, caroserie)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -489,6 +494,7 @@ public class MasinaDAO {
             ps.setInt(12, m.getNumarUsi());
             ps.setInt(13, m.getNumarLocuri());
             ps.setDate(14, java.sql.Date.valueOf(m.getDataIntrareStoc()));
+            ps.setString(15, m.getCaroserie());
             return ps;
         }, keyHolder);
 

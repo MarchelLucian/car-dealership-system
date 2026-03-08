@@ -348,6 +348,97 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("listaContent");
   const loadMoreBtn = document.getElementById("loadMore");
 
+  // ====================================================
+  // BODY TYPE MENU: filtrare + counts
+  // ====================================================
+  let activeBodyType = "all-options";
+
+  // Map caroserie DB → data-body-type HTML
+  const bodyTypeMap = {
+    "Sedan": "sedan", "Hatchback": "hatchback", "Break": "break",
+    "SUV": "suv", "Coupe": "coupe", "Cabriolet": "cabriolet", "MPV": "mpv"
+  };
+
+  function showBodyTypeSpinners() {
+    document.querySelectorAll(".body-type-count").forEach(el => {
+      el.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+    });
+    showResultsCountSpinner();
+  }
+
+  function showResultsCountSpinner() {
+    const resultsDiv = document.getElementById("resultsCount");
+    if (resultsDiv && resultsDiv.style.display !== "none" && resultsDiv.innerHTML.trim() !== "") {
+      resultsDiv.innerHTML = resultsDiv.innerHTML.replace(/^\d+/, '<i class="fa-solid fa-spinner fa-spin"></i>');
+    }
+  }
+
+  function updateBodyTypeCounts(cars) {
+    const counts = {};
+    cars.forEach(c => {
+      const key = bodyTypeMap[c.caroserie] || "sedan";
+      counts[key] = (counts[key] || 0) + 1;
+    });
+    let total = 0;
+    document.querySelectorAll(".body-type-btn").forEach(btn => {
+      const type = btn.getAttribute("data-body-type");
+      if (type === "all-options") return;
+      const cnt = counts[type] || 0;
+      total += cnt;
+      btn.querySelector(".body-type-count").textContent = cnt;
+    });
+    const allBtn = document.querySelector('[data-body-type="all-options"]');
+    if (allBtn) allBtn.querySelector(".body-type-count").textContent = total;
+  }
+
+  function applyBodyTypeFilter() {
+    // filteredCars = sidebar-filtered; displayCars = final list for rendering
+    displayCars = [...filteredCars];
+    if (activeBodyType !== "all-options") {
+      const dbType = Object.keys(bodyTypeMap).find(k => bodyTypeMap[k] === activeBodyType);
+      displayCars = filteredCars.filter(c => c.caroserie === dbType);
+    }
+    visible = 0;
+    container.innerHTML = "";
+    if (displayCars.length === 0) {
+      container.innerHTML = `
+        <div class="loading-box">
+            <i class="fa-solid fa-magnifying-glass" style="font-size:60px;"></i>
+            <p style="font-size:18px; margin-top:10px;">No cars found for these filters</p>
+        </div>`;
+      loadMoreBtn.disabled = true;
+      loadMoreBtn.innerText = "No more offers";
+      updateResultsCount("");
+      return;
+    }
+    showMore();
+    loadMoreBtn.disabled = false;
+    loadMoreBtn.innerText = "Load More Offers";
+    updateResultsCount("");
+  }
+
+  document.querySelectorAll(".body-type-btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".body-type-btn").forEach((b) => b.classList.remove("selected"));
+      this.classList.add("selected");
+      activeBodyType = this.getAttribute("data-body-type");
+
+      // Spinner în container + results count
+      container.innerHTML = `
+        <div class="loading-box">
+            <i class="fa-solid fa-spinner spin-icon"></i>
+        </div>
+      `;
+      showResultsCountSpinner();
+      loadMoreBtn.style.visibility = "hidden";
+
+      setTimeout(() => {
+        applyBodyTypeFilter();
+        loadMoreBtn.style.visibility = "visible";
+      }, 750);
+    });
+  });
+
   const brandsContainer = document.getElementById("brandsContainer");
   // load brands dynamically
   fetch("/client/brands")
@@ -385,12 +476,191 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   let visible = 0;
+  let displayCars = []; // final list after body type filter (used by showMore + Load More)
 
   // Așteptăm rezultatul — DAR request-ul a început deja înainte!
   const allCars = await allCarsPromise;
 
+  // ================================
+  // CALCULEAZĂ PRICE MAX DINAMIC din cea mai scumpă mașină
+  // ================================
+  const maxCarPrice = allCars.reduce((mx, c) => Math.max(mx, c.pret || 0), 0);
+  const priceSliderMax = Math.ceil(maxCarPrice / 10000) * 10000; // rotunjit la următoarele zeci de mii
+  const priceSliderMin = 0;
+
+  // Actualizează HTML-ul sliderului de preț
+  const priceWrapEl = document.getElementById("priceRangeWrap");
+  if (priceWrapEl) {
+    priceWrapEl.setAttribute("data-min", priceSliderMin);
+    priceWrapEl.setAttribute("data-max", priceSliderMax);
+    const pMinR = document.getElementById("priceMin");
+    const pMaxR = document.getElementById("priceMax");
+    if (pMinR) { pMinR.min = priceSliderMin; pMinR.max = priceSliderMax; pMinR.value = priceSliderMin; pMinR.step = 200; }
+    if (pMaxR) { pMaxR.min = priceSliderMin; pMaxR.max = priceSliderMax; pMaxR.value = priceSliderMax; pMaxR.step = 200; }
+  }
+
+  // ================================
+  // YEAR MAX = anul curent
+  // ================================
+  const currentYear = new Date().getFullYear();
+  const yearWrapEl = document.getElementById("yearRangeWrap");
+  if (yearWrapEl) {
+    yearWrapEl.setAttribute("data-max", currentYear);
+    const yMinR = document.getElementById("yearMin");
+    const yMaxR = document.getElementById("yearMax");
+    if (yMinR) { yMinR.max = currentYear; }
+    if (yMaxR) { yMaxR.max = currentYear; yMaxR.value = currentYear; }
+  }
+
+  // ================================
+  // GENERARE TICK-URI (indici pe slider)
+  // ================================
+  function generateTicks(containerId, tickValues, rangeMin, rangeMax, formatFn) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+    const span = rangeMax - rangeMin || 1;
+    tickValues.forEach(val => {
+      const pct = ((val - rangeMin) / span) * 100;
+      const tick = document.createElement("div");
+      tick.className = "range-tick";
+      tick.style.left = pct + "%";
+      tick.innerHTML = `<span class="range-tick-label">${formatFn(val)}</span><span class="range-tick-line"></span>`;
+      container.appendChild(tick);
+    });
+  }
+
+  // Price ticks: capetele + din 10K în 10K
+  const priceTicks = [priceSliderMin];
+  for (let v = 10000; v < priceSliderMax; v += 10000) priceTicks.push(v);
+  priceTicks.push(priceSliderMax);
+  generateTicks("priceTicks", priceTicks, priceSliderMin, priceSliderMax, v => (v / 1000) + "K");
+
+  // Year ticks: 5 indici — min, 1/4, 1/2, 3/4, max
+  const yearMin = 2000;
+  const yearRange = currentYear - yearMin;
+  const yearTickValues = [
+    yearMin,
+    Math.round(yearMin + yearRange * 0.25),
+    Math.round(yearMin + yearRange * 0.5),
+    Math.round(yearMin + yearRange * 0.75),
+    currentYear
+  ];
+  generateTicks("yearTicks", yearTickValues, yearMin, currentYear, v => String(v));
+
+  // Mileage ticks: din 100K în 100K, inclusiv capetele 0 și 800K
+  const mileageTicks = [0];
+  for (let v = 100000; v < 800000; v += 100000) mileageTicks.push(v);
+  mileageTicks.push(800000);
+  generateTicks("mileageTicks", mileageTicks, 0, 800000, v => (v / 1000) + "K");
+
   // înainte de filtre → lista filtrată = toată lista
   filteredCars = [...allCars];
+  displayCars = [...filteredCars];
+  updateBodyTypeCounts(filteredCars);
+
+  // ================================
+  // FORMAT NUMĂR CU PUNCT SEPARATOR (ex: 45.000)
+  // ================================
+  function formatNum(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  // ================================
+  // RENDER ACTIVE FILTER TAGS (deasupra meniului caroserie)
+  // ================================
+  function renderActiveFilterTags() {
+    const tagsContainer = document.getElementById("activeFilterTags");
+    if (!tagsContainer) return;
+    const tags = [];
+
+    // Price
+    if (minPriceInput.value) tags.push({ label: "Min Price: " + formatNum(minPriceInput.value), remove: () => { minPriceInput.value = ""; syncSliderFromInput("price"); } });
+    if (maxPriceInput.value) tags.push({ label: "Max Price: " + formatNum(maxPriceInput.value), remove: () => { maxPriceInput.value = ""; syncSliderFromInput("price"); } });
+
+    // Year
+    if (minYearInput.value) tags.push({ label: "Min Year: " + minYearInput.value, remove: () => { minYearInput.value = ""; syncSliderFromInput("year"); } });
+    if (maxYearInput.value) tags.push({ label: "Max Year: " + maxYearInput.value, remove: () => { maxYearInput.value = ""; syncSliderFromInput("year"); } });
+
+    // Mileage
+    if (minMileageInput.value) tags.push({ label: "Min Mileage: " + formatNum(minMileageInput.value), remove: () => { minMileageInput.value = ""; syncSliderFromInput("mileage"); } });
+    if (maxMileageInput.value) tags.push({ label: "Max Mileage: " + formatNum(maxMileageInput.value), remove: () => { maxMileageInput.value = ""; syncSliderFromInput("mileage"); } });
+
+    // Brands
+    document.querySelectorAll("#brandsContainer input[type='checkbox']:checked").forEach(chk => {
+      tags.push({ label: chk.value, remove: () => { chk.checked = false; } });
+    });
+
+    // Transmission
+    document.querySelectorAll(".trans-filter:checked").forEach(chk => {
+      tags.push({ label: translateTransmission(chk.value), remove: () => { chk.checked = false; } });
+    });
+
+    // Doors
+    document.querySelectorAll(".door-filter:checked").forEach(chk => {
+      tags.push({ label: "Doors: " + chk.value, remove: () => { chk.checked = false; } });
+    });
+
+    // Seats
+    document.querySelectorAll(".seat-filter:checked").forEach(chk => {
+      tags.push({ label: "Seats: " + chk.value, remove: () => { chk.checked = false; } });
+    });
+
+    // Fuel
+    document.querySelectorAll(".fuel-filter:checked").forEach(chk => {
+      tags.push({ label: translateFuel(chk.value), remove: () => { chk.checked = false; } });
+    });
+
+    tagsContainer.innerHTML = "";
+    tags.forEach((tag, i) => {
+      const el = document.createElement("span");
+      el.className = "filter-tag";
+      el.innerHTML = `${tag.label}<i class="fa-regular fa-circle-xmark filter-tag-x"></i>`;
+      el.querySelector(".filter-tag-x").addEventListener("click", () => {
+        tag.remove();
+
+        // Spinner în container + body type counts
+        container.innerHTML = `
+          <div class="loading-box">
+              <i class="fa-solid fa-spinner spin-icon"></i>
+          </div>
+        `;
+        showBodyTypeSpinners();
+        loadMoreBtn.style.visibility = "hidden";
+
+        setTimeout(() => {
+          applyFilters();
+          renderActiveFilterTags();
+          updateBodyTypeCounts(filteredCars);
+          applyBodyTypeFilter();
+          loadMoreBtn.style.visibility = "visible";
+        }, 750);
+      });
+      tagsContainer.appendChild(el);
+    });
+  }
+
+  // Sync slider position when an input is cleared via tag remove
+  function syncSliderFromInput(type) {
+    if (type === "price" && priceMinRange && priceMaxRange && priceRangeWrap && priceRangeFill) {
+      const { min, max } = getRangeBounds(priceRangeWrap);
+      priceMinRange.value = minPriceInput.value || min;
+      priceMaxRange.value = maxPriceInput.value || max;
+      updateDualFill(priceRangeWrap, priceRangeFill, Number(priceMinRange.value), Number(priceMaxRange.value));
+    }
+    if (type === "year" && yearMinRange && yearMaxRange && yearRangeWrap && yearRangeFill) {
+      const { min, max } = getRangeBounds(yearRangeWrap);
+      yearMinRange.value = minYearInput.value || min;
+      yearMaxRange.value = maxYearInput.value || max;
+      updateDualFill(yearRangeWrap, yearRangeFill, Number(yearMinRange.value), Number(yearMaxRange.value));
+    }
+    if (type === "mileage" && mileageMinRange && mileageMaxRange && mileageRangeWrap && mileageRangeFill) {
+      const { min, max } = getRangeBounds(mileageRangeWrap);
+      mileageMinRange.value = minMileageInput.value || min;
+      mileageMaxRange.value = maxMileageInput.value || max;
+      updateDualFill(mileageRangeWrap, mileageRangeFill, Number(mileageMinRange.value), Number(mileageMaxRange.value));
+    }
+  }
 
   // ================================
   // HELPER: Generează HTML pentru o mașină
@@ -490,7 +760,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Funcție care afișează următoarele 5 mașini
   // ----------------------------------------------------
   function showMore() {
-    const nextCars = filteredCars.slice(visible, visible + 5);
+    const nextCars = displayCars.slice(visible, visible + 5);
 
     nextCars.forEach((m) => {
       container.innerHTML += generateCarHTML(m);
@@ -515,7 +785,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ----------------------------------------------------
   loadMoreBtn.addEventListener("click", () => {
     // 1. Dacă nu mai sunt mașini de afișat → nu afișăm spinner
-    if (visible >= filteredCars.length) {
+    if (visible >= displayCars.length) {
       if (filtersActive) {
         loadMoreBtn.innerText = "No more results for these filters";
       } else {
@@ -536,7 +806,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       showMore();
 
       // 4. Dacă încă mai sunt mașini rămase
-      if (visible < filteredCars.length) {
+      if (visible < displayCars.length) {
         loadMoreBtn.innerText = "Load More Offers";
         loadMoreBtn.disabled = false;
       }
@@ -582,7 +852,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const field = sortFieldSelect.value;
         const order = sortOrderSelect.value;
 
-        filteredCars.sort((a, b) => {
+        displayCars.sort((a, b) => {
           const valA = Number(a[field]) || 0;
           const valB = Number(b[field]) || 0;
           return order === "cresc" ? valA - valB : valB - valA;
@@ -593,7 +863,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         container.querySelectorAll(".car-box").forEach((el) => el.remove());
 
-        filteredCars.slice(0, countToShow).forEach((m) => {
+        displayCars.slice(0, countToShow).forEach((m) => {
           container.innerHTML += generateCarHTML(m);
         });
 
@@ -685,10 +955,150 @@ document.addEventListener("DOMContentLoaded", async () => {
   const maxPriceInput = document.getElementById("maxPrice");
   const minYearInput = document.getElementById("minYear");
   const maxYearInput = document.getElementById("maxYear");
+  const minMileageInput = document.getElementById("minMileage");
   const maxMileageInput = document.getElementById("maxMileage");
 
   const applyFiltersBtn = document.getElementById("applyFiltersBtn");
   const resetFiltersBtn = document.getElementById("resetFilters");
+
+  // ---------- Range sliders: sync with number inputs & visual fill ----------
+  const priceRangeWrap = document.getElementById("priceRangeWrap");
+  const priceRangeFill = document.getElementById("priceRangeFill");
+  const priceMinRange = document.getElementById("priceMin");
+  const priceMaxRange = document.getElementById("priceMax");
+  const yearRangeWrap = document.getElementById("yearRangeWrap");
+  const yearRangeFill = document.getElementById("yearRangeFill");
+  const yearMinRange = document.getElementById("yearMin");
+  const yearMaxRange = document.getElementById("yearMax");
+  const mileageRangeWrap = document.getElementById("mileageRangeWrap");
+  const mileageRangeFill = document.getElementById("mileageRangeFill");
+  const mileageMinRange = document.getElementById("mileageMin");
+  const mileageMaxRange = document.getElementById("mileageMax");
+
+  function getRangeBounds(wrap) {
+    const min = Number(wrap.getAttribute("data-min")) || 0;
+    const max = Number(wrap.getAttribute("data-max")) || 100;
+    return { min, max, span: max - min || 1 };
+  }
+
+  function updateDualFill(wrap, fillEl, minVal, maxVal) {
+    if (!wrap || !fillEl) return;
+    const { min, span } = getRangeBounds(wrap);
+    const left = ((minVal - min) / span) * 100;
+    const width = ((maxVal - minVal) / span) * 100;
+    fillEl.style.left = Math.max(0, left) + "%";
+    fillEl.style.width = Math.max(0, Math.min(100 - left, width)) + "%";
+  }
+
+  // ---- Funcție generică pentru dual-range slider ----
+  // sliderGap = gap minim când tragi pe slider (push behavior)
+  // Din input manual: fără gap (thumbs se pot suprapune), dar dacă min > max → celălalt se resetează la capăt
+  function initDualSlider(minRange, maxRange, minInput, maxInput, wrap, fillEl, sliderGap) {
+    // Z-index dinamic: ultimul thumb tras vine în față
+    let lastActive = null;
+    minRange.addEventListener("input", () => {
+      if (lastActive !== "min") { minRange.style.zIndex = "5"; maxRange.style.zIndex = "3"; lastActive = "min"; }
+    });
+    maxRange.addEventListener("input", () => {
+      if (lastActive !== "max") { maxRange.style.zIndex = "5"; minRange.style.zIndex = "3"; lastActive = "max"; }
+    });
+
+    function fromRange() {
+      let minV = Number(minRange.value);
+      let maxV = Number(maxRange.value);
+      const { min, max } = getRangeBounds(wrap);
+      // Când sunt la gap minim, tragerea unui thumb îl împinge pe celălalt
+      if (lastActive === "min" && minV > maxV - sliderGap) {
+        maxV = Math.min(max, minV + sliderGap);
+        if (maxV === max) minV = max - sliderGap;
+        maxRange.value = maxV;
+      } else if (lastActive === "max" && maxV < minV + sliderGap) {
+        minV = Math.max(min, maxV - sliderGap);
+        if (minV === min) maxV = min + sliderGap;
+        minRange.value = minV;
+      }
+      minRange.value = minV;
+      maxRange.value = maxV;
+      minInput.value = minV === min ? "" : minV;
+      maxInput.value = maxV === max ? "" : maxV;
+      updateDualFill(wrap, fillEl, minV, maxV);
+    }
+
+    function fromInput(editedSide) {
+      const { min, max } = getRangeBounds(wrap);
+      let rawMin = minInput.value === "" ? min : Number(minInput.value);
+      let rawMax = maxInput.value === "" ? max : Number(maxInput.value);
+      if (isNaN(rawMin)) rawMin = min;
+      if (isNaN(rawMax)) rawMax = max;
+      // Resetare doar dacă ambele valori sunt în intervalul barului ȘI min > max
+      const minInRange = rawMin >= min && rawMin <= max;
+      const maxInRange = rawMax >= min && rawMax <= max;
+      let minV = Math.max(min, Math.min(max, rawMin));
+      let maxV = Math.max(min, Math.min(max, rawMax));
+      if (minInRange && maxInRange && minV > maxV) {
+        if (editedSide === "min") {
+          maxV = max;
+          maxInput.value = "";
+        } else {
+          minV = min;
+          minInput.value = "";
+        }
+      }
+      minRange.value = minV;
+      maxRange.value = maxV;
+      updateDualFill(wrap, fillEl, minV, maxV);
+    }
+
+    minRange.addEventListener("input", fromRange);
+    maxRange.addEventListener("input", fromRange);
+    minInput.addEventListener("input", () => fromInput("min"));
+    minInput.addEventListener("change", () => fromInput("min"));
+    maxInput.addEventListener("input", () => fromInput("max"));
+    maxInput.addEventListener("change", () => fromInput("max"));
+    updateDualFill(wrap, fillEl, Number(minRange.value), Number(maxRange.value));
+  }
+
+  // Price: gap 500 pe slider
+  if (priceMinRange && priceMaxRange && minPriceInput && maxPriceInput && priceRangeFill && priceRangeWrap) {
+    initDualSlider(priceMinRange, priceMaxRange, minPriceInput, maxPriceInput, priceRangeWrap, priceRangeFill, 500);
+  }
+
+  // Year: gap 1 pe slider
+  if (yearMinRange && yearMaxRange && minYearInput && maxYearInput && yearRangeFill && yearRangeWrap) {
+    initDualSlider(yearMinRange, yearMaxRange, minYearInput, maxYearInput, yearRangeWrap, yearRangeFill, 1);
+  }
+
+  // Mileage: gap 20000 (20K km) pe slider
+  if (mileageMinRange && mileageMaxRange && minMileageInput && maxMileageInput && mileageRangeFill && mileageRangeWrap) {
+    initDualSlider(mileageMinRange, mileageMaxRange, minMileageInput, maxMileageInput, mileageRangeWrap, mileageRangeFill, 20000);
+  }
+
+  function resetRangeSliders() {
+    if (priceRangeWrap && priceMinRange && priceMaxRange && priceRangeFill) {
+      const { min, max } = getRangeBounds(priceRangeWrap);
+      priceMinRange.value = min;
+      priceMaxRange.value = max;
+      if (minPriceInput) minPriceInput.value = "";
+      if (maxPriceInput) maxPriceInput.value = "";
+      updateDualFill(priceRangeWrap, priceRangeFill, min, max);
+    }
+    if (yearRangeWrap && yearMinRange && yearMaxRange && yearRangeFill) {
+      const { min, max } = getRangeBounds(yearRangeWrap);
+      yearMinRange.value = min;
+      yearMaxRange.value = max;
+      if (minYearInput) minYearInput.value = "";
+      if (maxYearInput) maxYearInput.value = "";
+      updateDualFill(yearRangeWrap, yearRangeFill, min, max);
+    }
+    if (mileageRangeWrap && mileageMinRange && mileageMaxRange && mileageRangeFill) {
+      const { min, max } = getRangeBounds(mileageRangeWrap);
+      mileageMinRange.value = min;
+      mileageMaxRange.value = max;
+      if (minMileageInput) minMileageInput.value = "";
+      if (maxMileageInput) maxMileageInput.value = "";
+      updateDualFill(mileageRangeWrap, mileageRangeFill, min, max);
+    }
+  }
 
   function applyFilters() {
     filtersActive = true;
@@ -698,6 +1108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const maxPrice = Number(maxPriceInput.value);
     const minYear = Number(minYearInput.value);
     const maxYear = Number(maxYearInput.value);
+    const minMileage = Number(minMileageInput.value);
     const maxMileage = Number(maxMileageInput.value);
 
     // BRANDS
@@ -741,6 +1152,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!isNaN(maxYear) && maxYear > 0 && m.an > maxYear) return false;
 
       // MILEAGE
+      if (!isNaN(minMileage) && minMileage > 0 && m.kilometraj < minMileage)
+        return false;
       if (!isNaN(maxMileage) && maxMileage > 0 && m.kilometraj > maxMileage)
         return false;
 
@@ -773,30 +1186,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       return true;
     });
 
-    // NO RESULTS
-    if (filteredCars.length === 0) {
-      container.innerHTML = `
-                <div class="loading-box">
-                    <i class="fa-solid fa-magnifying-glass" style="font-size:60px;"></i>
-                    <p style="font-size:18px; margin-top:10px;">No result found for these filters</p>
-                </div>
-            `;
-      visible = 0;
-      loadMoreBtn.disabled = true;
-      loadMoreBtn.innerText = "No more offers";
-      updateResultsCount("");
-      return;
-    }
-
-    // RESET & SHOW NEW RESULTS
-    visible = 0;
-    container.innerHTML = "";
-    showMore();
-
-    loadMoreBtn.disabled = false;
-    loadMoreBtn.innerText = "Load More Offers";
-
-    updateResultsCount("");
+    // Update counts + tags + body type filter
+    updateBodyTypeCounts(filteredCars);
+    renderActiveFilterTags();
+    applyBodyTypeFilter();
   }
 
   applyFiltersBtn.addEventListener("click", () => {
@@ -807,12 +1200,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     applyFiltersBtn.innerHTML =
       '<i class="fa-solid fa-spinner spin-iconita" ></i>';
 
-    // loader în container
+    // loader în container + spinners pe body type counts
     container.innerHTML = `
         <div class="loading-box">
             <i class="fa-solid fa-spinner spin-icon"></i>
         </div>
     `;
+    showBodyTypeSpinners();
+
     // delay vizual de 400-500 ms
     setTimeout(() => {
       applyFilters(); // rulează filtrarea
@@ -824,6 +1219,61 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // =============================
+  // LIVE AUTO-APPLY FILTERS
+  // =============================
+  let autoApplyTimer = null;
+
+  function triggerAutoApply(delay = 750) {
+    if (autoApplyTimer) clearTimeout(autoApplyTimer);
+
+    // Spinner pe buton
+    applyFiltersBtn.disabled = true;
+    applyFiltersBtn.innerHTML = '<i class="fa-solid fa-spinner spin-iconita"></i>';
+
+    // Spinner pe lista + body type counts + results count
+    container.innerHTML = `
+      <div class="loading-box">
+          <i class="fa-solid fa-spinner spin-icon"></i>
+      </div>
+    `;
+    showBodyTypeSpinners();
+    loadMoreBtn.style.visibility = "hidden";
+
+    autoApplyTimer = setTimeout(() => {
+      applyFilters();
+      applyFiltersBtn.innerText = "Apply Filters";
+      applyFiltersBtn.disabled = false;
+      loadMoreBtn.style.visibility = "visible";
+    }, delay);
+  }
+
+  // Checkboxes: transmission, doors, seats, fuel — trigger imediat la change
+  document.querySelectorAll(".trans-filter, .door-filter, .seat-filter, .fuel-filter").forEach(chk => {
+    chk.addEventListener("change", () => triggerAutoApply());
+  });
+
+  // Brands — event delegation (checkboxes sunt generate dinamic)
+  brandsContainer.addEventListener("change", (e) => {
+    if (e.target.matches("input[type='checkbox']")) {
+      triggerAutoApply();
+    }
+  });
+
+  // Number inputs (price, year, mileage) — trigger pe change (blur / Enter)
+  [minPriceInput, maxPriceInput, minYearInput, maxYearInput, minMileageInput, maxMileageInput].forEach(input => {
+    if (input) {
+      input.addEventListener("change", () => triggerAutoApply());
+    }
+  });
+
+  // Range sliders — trigger la release (change event pe range input)
+  [priceMinRange, priceMaxRange, yearMinRange, yearMaxRange, mileageMinRange, mileageMaxRange].forEach(range => {
+    if (range) {
+      range.addEventListener("change", () => triggerAutoApply());
+    }
+  });
+
+  // =============================
   // RESET FILTERS
   // =============================
   document.getElementById("resetFilters").addEventListener("click", () => {
@@ -832,12 +1282,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     setTimeout(() => {
       try {
-        // 1. Golește toate input-urile numerice
-        minPrice.value = "";
-        maxPrice.value = "";
-        minYear.value = "";
-        maxYear.value = "";
-        maxMileage.value = "";
+        // 1. Resetează slider-ele de interval și golește input-urile numerice
+        resetRangeSliders();
         searchInput.value = "";
         filtersActive = false;
 
@@ -868,6 +1314,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // 7. Resetează lista
         filteredCars = [...allCars];
+        displayCars = [...filteredCars];
 
         // 8. Resetează afișarea
         visible = 0;
@@ -879,6 +1326,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         loadMoreBtn.innerText = "Load More Offers";
 
         updateResultsCount("");
+
+        // Reset body type + counts + tags
+        activeBodyType = "all-options";
+        document.querySelectorAll(".body-type-btn").forEach(b => b.classList.remove("selected"));
+        document.querySelector('[data-body-type="all-options"]').classList.add("selected");
+        updateBodyTypeCounts(filteredCars);
+        renderActiveFilterTags();
       } finally {
         const overlay2 = getListaOverlay();
         if (overlay2) overlay2.style.display = "none";
@@ -891,12 +1345,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const searchBtn = document.getElementById("searchBtn");
 
   function applySearch() {
-    //  RESET ALL FILTERS
-    minPriceInput.value = "";
-    maxPriceInput.value = "";
-    minYearInput.value = "";
-    maxYearInput.value = "";
-    maxMileageInput.value = "";
+    //  RESET ALL FILTERS (inclusiv slider-ele de interval)
+    resetRangeSliders();
 
     document
       .querySelectorAll("#brandsContainer input[type='checkbox']")
@@ -972,12 +1422,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
 
         filteredCars = [];
+        displayCars = [];
         updateResultsCount(query);
+        updateBodyTypeCounts(filteredCars);
+        renderActiveFilterTags();
 
         return;
       }
 
       // 4. Avem rezultate → resetăm vizibilul și afișăm primele 5
+      displayCars = [...filteredCars];
       visible = 0;
       container.innerHTML = "";
       showMore();
@@ -991,6 +1445,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
 
       updateResultsCount(query);
+      updateBodyTypeCounts(filteredCars);
+      renderActiveFilterTags();
     }, 750); // delay vizual
   }
 
@@ -1052,9 +1508,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function updateResultsCount(queryText = "") {
     const resultsDiv = document.getElementById("resultsCount");
-    const count = filteredCars.length;
+    const count = displayCars.length;
 
-    if (!filteredCars || count === 0) {
+    if (!displayCars || count === 0) {
       resultsDiv.style.display = "none";
       return;
     }

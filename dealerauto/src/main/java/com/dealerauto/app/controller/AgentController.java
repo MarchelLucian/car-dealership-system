@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -162,6 +163,7 @@ public class AgentController {
             model.addAttribute("totalPages", 1);
             model.addAttribute("pageSize", 8);
             model.addAttribute("queryString", "&searchId=" + searchId);
+            model.addAttribute("paginationItems", buildPaginationItems(1, 1));
 
             if (car == null) {
                 model.addAttribute("notFoundMessage", "No car found with ID " + searchId + ".");
@@ -187,6 +189,7 @@ public class AgentController {
             model.addAttribute("pageSize", 8);
             model.addAttribute("queryString",
                     "&vinSearch=" + java.net.URLEncoder.encode(vinSearch, java.nio.charset.StandardCharsets.UTF_8));
+            model.addAttribute("paginationItems", buildPaginationItems(1, 1));
 
             if (cars.isEmpty()) {
                 model.addAttribute("notFoundMessage",
@@ -210,6 +213,7 @@ public class AgentController {
             model.addAttribute("pageSize", 8);
             model.addAttribute("queryString",
                     "&modelSearch=" + java.net.URLEncoder.encode(modelSearch, java.nio.charset.StandardCharsets.UTF_8));
+            model.addAttribute("paginationItems", buildPaginationItems(1, 1));
             return "car-inventory";
         }
 
@@ -300,6 +304,7 @@ public class AgentController {
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("pageSize", pageSize);
+            model.addAttribute("paginationItems", buildPaginationItems(page, totalPages));
 
             return "car-inventory";
         }
@@ -332,6 +337,7 @@ public class AgentController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("pageSize", pageSize);
+        model.addAttribute("paginationItems", buildPaginationItems(page, totalPages));
 
         return "car-inventory";
 
@@ -340,6 +346,42 @@ public class AgentController {
     /* Helper: returnează primul element dintr-un String[] sau null */
     private String getFirst(String[] arr) {
         return (arr != null && arr.length > 0) ? arr[0] : null;
+    }
+
+    /**
+     * Paginare: dacă totalPages < 12 → toate numerele în șir; altfel format compact pentru orice număr de pagini.
+     * Compact: Prev | 1 2 3 4 | *** | [1 sau 3 pagini centrate pe current] | *** | ultimele 4 | Next.
+     * Valori >= 1 = număr pagină, -1 = ellipsis (•••).
+     */
+    private static final int ELLIPSIS = -1;
+
+    private List<Integer> buildPaginationItems(int currentPage, int totalPages) {
+        List<Integer> items = new ArrayList<>();
+        if (totalPages < 12) {
+            for (int i = 1; i <= totalPages; i++) {
+                items.add(i);
+            }
+            return items;
+        }
+        int last4Start = totalPages - 3;
+        for (int i = 1; i <= 4; i++) items.add(i);
+        items.add(ELLIPSIS);
+        if (currentPage <= 4 || currentPage >= last4Start) {
+            items.add(ELLIPSIS);
+        } else {
+            if (currentPage == 5) {
+                items.add(5);
+            } else if (currentPage == last4Start - 1) {
+                items.add(currentPage);
+            } else {
+                items.add(currentPage - 1);
+                items.add(currentPage);
+                items.add(currentPage + 1);
+            }
+            items.add(ELLIPSIS);
+        }
+        for (int i = last4Start; i <= totalPages; i++) items.add(i);
+        return items;
     }
 
     /*

@@ -580,15 +580,21 @@
     </span>
 
 
-        <!-- NUMERE PAGINI (NEATINSE) -->
-        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:href="|/agent-dashboard/cars-management/car-inventory?page=${i}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
-           th:text="${i}"
-           th:classappend="${i == currentPage} ? 'active' : ''"
-           class="page-btn"
-           onclick="goToPage(this.href); return false;">
+        <!-- Paginare compactă: max 8 butoane + ellipsis (•••) când sunt multe pagini -->
+        <th:block th:each="item : ${paginationItems}">
+          <a th:if="${item > 0}"
+             th:href="|/agent-dashboard/cars-management/car-inventory?page=${item}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}${queryString}|"
+             th:text="${item}"
+             th:classappend="${item == currentPage} ? 'active' : ''"
+             class="page-btn"
+             onclick="goToPage(this.href); return false;">
           </a>
-    </span>
+          <span th:if="${item < 0}" class="pagination-ellipsis" aria-hidden="true">
+            <i class="fa-solid fa-circle pagination-dot"></i>
+            <i class="fa-solid fa-circle pagination-dot"></i>
+            <i class="fa-solid fa-circle pagination-dot"></i>
+          </span>
+        </th:block>
 
 
         <!-- NEXT (funcționalitatea veche păstrată) -->

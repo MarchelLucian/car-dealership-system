@@ -40,6 +40,7 @@ public class MasinaRowMapper implements RowMapper<Masina> {
 
         m.setNumarUsi(rs.getInt("numar_usi"));
         m.setNumarLocuri(rs.getInt("numar_locuri"));
+        m.setCaroserie(rs.getString("caroserie"));
 
         m.setVin(rs.getString("vin")); // vine din vin_corelare
 

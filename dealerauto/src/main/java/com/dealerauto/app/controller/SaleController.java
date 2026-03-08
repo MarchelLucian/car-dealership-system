@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -169,7 +168,7 @@ public class SaleController {
             return "redirect:/agent-login";
         }
 
-        int agentId = agent.getId();
+        int agentId = agent.getIdAgent(); // vanzare.agent_id = agentdevanzare.id_agent
 
         // ===== 2) Preluăm preț achiziție mașină =====
         Masina masina = masinaDAO.findById(masina_id);
@@ -251,7 +250,7 @@ public class SaleController {
         model.addAttribute("agent", agent);
 
         List<SaleViewDTO> sales =
-                vanzareDAO.findSalesByAgentId(agent.getId());
+                vanzareDAO.findSalesByAgentId(agent.getIdAgent());
 
         model.addAttribute("sales", sales);
 

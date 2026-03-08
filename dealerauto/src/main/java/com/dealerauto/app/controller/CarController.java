@@ -90,6 +90,7 @@ public class CarController {
             @RequestParam(required = false) Integer locuri,
             @RequestParam(required = false) String vin,
             @RequestParam(required = false) Double pretVanzare,
+            @RequestParam(required = false) String caroserie,
 
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataIntrare,
             RedirectAttributes redirectAttributes) {
@@ -111,6 +112,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
             redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -134,6 +136,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
             redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -157,6 +160,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
             redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -180,6 +184,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
             redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -203,6 +208,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
             redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -226,6 +232,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
             redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -256,6 +263,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
             redirectAttributes.addFlashAttribute("vin", vin);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -273,7 +281,8 @@ public class CarController {
                 locuri == null ||
                 vin == null || vin.isBlank() ||
                 combustibil == null || combustibil.isBlank() || "Select fuel type".equals(combustibil) ||
-                transmisie == null || transmisie.isBlank() || "Select type".equals(transmisie);
+                transmisie == null || transmisie.isBlank() || "Select type".equals(transmisie) ||
+                caroserie == null || caroserie.isBlank() || "Select body type".equals(caroserie);
 
         if (invalid) {
             redirectAttributes.addFlashAttribute("errorMessage",
@@ -307,6 +316,7 @@ public class CarController {
             redirectAttributes.addFlashAttribute("pretAchizitie", pretAchizitie);
             redirectAttributes.addFlashAttribute("usi", usi);
             redirectAttributes.addFlashAttribute("locuri", locuri);
+            redirectAttributes.addFlashAttribute("caroserie", caroserie);
             redirectAttributes.addFlashAttribute("dataIntrare", dataIntrare);
 
             return "redirect:/agent-dashboard/cars-management/add-car";
@@ -343,6 +353,7 @@ public class CarController {
         masina.setPret(pretAchizitie);
         masina.setNumarUsi(usi);
         masina.setNumarLocuri(locuri);
+        masina.setCaroserie(caroserie);
         masina.setDataIntrareStoc(dataIntrare);
 
         int masinaId = masinaDAO.insert(masina);

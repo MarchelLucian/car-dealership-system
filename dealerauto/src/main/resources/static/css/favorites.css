@@ -13,12 +13,12 @@ body.fav-page,
 }
 
 /* ================================
-   STRATURI FUNDAL – gradient, blob-uri, pattern (doar Favorites)
+   FUNDAL – același ca pe pagina /client (page-wrapper + rest)
    ================================ */
 
-/* 1. Gradient discret pe body: alb în centru → albastru foarte deschis în colțuri */
+/* 1. Același gradient ca pe body din client.css */
 body.fav-page {
-    background: radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 252, 255, 0.95) 40%, rgba(232, 248, 255, 0.85) 100%);
+    background: linear-gradient(160deg, #e8f4ff 0%, #eef3ff 50%, #e5f0fa 100%);
     min-height: 100vh;
 }
 
@@ -27,16 +27,9 @@ body.fav-page {
     min-height: 100vh;
 }
 
-/* 2. Container pentru blob-uri + pattern – sub conținut */
+/* 2. Strat decorativ (blob-uri) dezactivat – fundal uniform ca pe /client */
 .fav-bg-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
+    display: none;
 }
 
 /* 2b. Pattern dots discret */
@@ -264,9 +257,36 @@ body.fav-page {
 .fav-content {
     max-width: 1420px;
     margin: 40px auto;
+    margin-top: 226px; /* sub meniul client-top (același offset ca pe client) */
     padding: 0 40px;
     box-sizing: border-box;
     width: 100%;
+}
+
+/* Statistici: count și total value, centrate, una sub alta, fără cadru/border/background */
+.page-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.page-stats .fav-count,
+.page-stats .fav-total-line {
+    margin: 0;
+    text-align: center;
+    font-size: 30px;
+}
+
+.page-stats .fav-count strong,
+.page-stats .fav-total-line strong {
+    font-size: 32px;
+    margin-right: 8px;
+}
+
+.page-stats .fav-total-line i {
+    font-size: 30px;
 }
 
 /* Grid: o singură coloană, aceeași lățime ca cardurile pe /client */
@@ -399,6 +419,13 @@ body.fav-page {
 /* ================================
    RESPONSIVE
    ================================ */
+
+/* Când header-ul client-top devine relativ (stivuit), conținutul vine imediat dedesubt */
+@media (max-width: 1700px) {
+    .fav-content {
+        margin-top: 24px;
+    }
+}
 
 @media (max-width: 1024px) {
     .fav-content {
