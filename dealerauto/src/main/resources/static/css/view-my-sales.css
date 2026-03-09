@@ -136,6 +136,11 @@ body {
     color: #666;
 }
 
+/* MOBILE LEGEND — visible only when full header is hidden */
+.sales-legend {
+    display: none;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1000px) {
     .sales-row {
@@ -145,6 +150,29 @@ body {
 
     .sales-header {
         display: none;
+    }
+
+    /* Show compact legend */
+    .sales-legend {
+        display: block;
+        background: #0f766e;
+        color: white;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.6;
+        border-bottom: 2px solid #0d9488;
+    }
+
+    .sales-legend span {
+        display: inline;
+        margin-right: 10px;
+        white-space: nowrap;
+    }
+
+    .sales-legend span::before {
+        content: "• ";
+        opacity: 0.6;
     }
 
     .sales-row div::before {
@@ -734,8 +762,15 @@ body {
    ================================ */
 @media (max-width: 768px) {
     .sales-container {
-        max-width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
         margin-bottom: 60px;
+        border-radius: 10px;
+    }
+
+    .sales-row {
+        font-size: 18px;
+        padding: 12px 14px;
     }
 
     .sort-bar {
@@ -745,5 +780,212 @@ body {
 
     .sort-container {
         flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sort-container label {
+        font-size: 18px;
+        padding: 8px;
+    }
+
+    .sort-select {
+        font-size: 16px;
+        padding: 10px 14px;
+    }
+
+    .sort-btn {
+        font-size: 16px;
+        padding: 10px 18px;
+    }
+
+    .sort-box-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 14px;
+    }
+
+    .filter-box-wrapper {
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .filter-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filter-row input,
+    .filter-row select {
+        width: 120px;
+        font-size: 18px;
+    }
+
+    .filters-and-summary {
+        flex-direction: column;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    .summary-wrapper,
+    .summary-wrapper-first {
+        align-self: center;
+        margin-right: 0;
+        margin-top: 20px;
+    }
+
+    .summary-card {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .summary-label {
+        font-size: 20px;
+    }
+
+    .summary-value {
+        font-size: 28px;
+    }
+
+    .summary-icon {
+        font-size: 36px;
+    }
+
+    .model-search-wrapper {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #carSearchInput,
+    #clientSearchInput {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .page-title-new {
+        font-size: 32px;
+    }
+
+    .page-title-new i {
+        font-size: 32px;
+    }
+
+    .one {
+        margin-top: 80px;
+        margin-bottom: -40px;
+    }
+
+    .details-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .close-btn {
+        position: relative;
+        right: auto;
+        align-self: flex-end;
+    }
+
+    .id-badge {
+        font-size: 16px;
+        width: auto;
+        padding: 3px 8px;
+    }
+
+    .status {
+        width: auto;
+        font-size: 18px;
+        padding: 4px 8px;
+    }
+
+    .info-btn {
+        margin-right: 10px;
+    }
+
+    .name-with-info i {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sales-row {
+        grid-template-columns: 1fr 1fr;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .sort-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sort-select {
+        width: 100%;
+    }
+
+    .filter-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-row input,
+    .filter-row select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #monthsInput,
+    #predefinedRange {
+        width: 100%;
+    }
+
+    .summary-card {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        padding: 10px 16px;
+        gap: 16px;
+    }
+
+    .summary-label {
+        font-size: 18px;
+    }
+
+    .summary-value {
+        font-size: 24px;
+    }
+
+    .page-title-new {
+        font-size: 26px;
+    }
+
+    .page-title-new i {
+        font-size: 26px;
+    }
+
+    .one {
+        margin-top: 50px;
+        margin-bottom: -20px;
+    }
+
+    #carSearchInput,
+    #clientSearchInput {
+        width: 100%;
+    }
+
+    .model-search-wrapper {
+        flex-wrap: wrap;
+    }
+
+    .model-search-input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .details-row {
+        padding: 10px 12px;
+        font-size: 16px;
+        border-left-width: 8px;
     }
 }

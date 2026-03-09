@@ -76,6 +76,23 @@ public class ClientUserDAO {
     }
 
     /**
+     * Actualizează emailul din client_user
+     */
+    public void updateEmail(Integer clientId, String newEmail) {
+        String sql = "UPDATE client_user SET email = ? WHERE client_id = ?";
+        jdbcTemplate.update(sql, newEmail, clientId);
+    }
+
+    /**
+     * Verifică dacă emailul există în client_user (excluzând clientul curent)
+     */
+    public boolean emailExistsExcluding(String email, Integer clientId) {
+        String sql = "SELECT COUNT(*) FROM client_user WHERE email = ? AND client_id != ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email, clientId);
+        return count != null && count > 0;
+    }
+
+    /**
      * RowMapper pentru ClientUser (dacă nu există deja)
      */
     private static class ClientUserRowMapper implements RowMapper<ClientUser> {

@@ -338,65 +338,77 @@ button:hover {
    ================================ */
 @media (max-width: 768px) {
     .page-wrapper {
-        padding: 10px 12px;
+        padding: 16px 16px;
+        box-sizing: border-box;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .top-bar {
-        padding: 0 20px;
-        min-height: 64px;
+        width: 100%;
+        padding: 0;
+        min-height: auto;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     .top-back {
-        left: 20px;
-        top: 24px;
+        position: relative;
+        left: auto;
+        top: auto;
+    }
+
+    .back-btn {
+        font-size: 18px;
+        padding: 10px 18px;
+    }
+
+    .back-btn i {
+        font-size: 24px;
     }
 
     .login-center {
-        margin-top: 40px;
+        margin-top: 32px;
+        width: 100%;
+        flex: 1;
+        justify-content: flex-start;
+    }
+
+    .logo-circle {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+
+    .logo-circle i {
+        font-size: 38px;
     }
 
     .login-box {
         width: 100%;
         max-width: 380px;
-        padding: 24px 20px;
+        padding: 24px 24px;
         box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    label {
+        font-size: 22px;
     }
 
     input {
         width: 100%;
         box-sizing: border-box;
+        font-size: 20px;
     }
 
     .password-wrapper input {
         width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .top-bar {
-        padding: 0 12px;
-        min-height: 64px;
-    }
-
-    .top-back {
-        left: 12px;
-        top: 24px;
-    }
-
-    .login-box {
-        padding: 20px 16px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    label {
-        font-size: 20px;
-    }
-
-    input {
-        font-size: 18px;
     }
 
     button {
@@ -404,7 +416,117 @@ button:hover {
     }
 
     .demo-btn {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-wrapper {
+        padding: 12px 12px;
+    }
+
+    .login-center {
+        margin-top: 20px;
+    }
+
+    .back-btn {
+        font-size: 16px;
+        padding: 8px 14px;
+    }
+
+    .back-btn i {
+        font-size: 22px;
+    }
+
+    .logo-circle {
+        width: 68px;
+        height: 68px;
+        margin-bottom: 16px;
+    }
+
+    .logo-circle i {
+        font-size: 32px;
+    }
+
+    .login-box {
+        padding: 20px 16px;
+    }
+
+    h1 {
+        font-size: 26px;
+        margin-bottom: 16px;
+    }
+
+    label {
+        font-size: 18px;
+    }
+
+    input {
+        font-size: 17px;
+        padding: 9px;
+    }
+
+    button {
+        font-size: 20px;
+        padding: 11px;
+    }
+
+    .demo-btn {
         width: 100%;
-        max-width: 220px;
+        max-width: 200px;
+        font-size: 20px;
+        padding: 9px 14px;
+    }
+
+    .password-toggle {
+        font-size: 20px;
+        right: 14px;
+    }
+
+    .error-message {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .page-wrapper {
+        padding: 10px 8px;
+    }
+
+    .login-box {
+        padding: 16px 12px;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    input {
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .logo-circle {
+        width: 58px;
+        height: 58px;
+        margin-bottom: 14px;
+    }
+
+    .logo-circle i {
+        font-size: 28px;
+    }
+
+    .demo-btn {
+        font-size: 18px;
     }
 }

@@ -274,6 +274,119 @@ public class ClientController {
         }
     }
 
+    // API: Verify Password (pentru deblocarea câmpurilor de editare)
+    @PostMapping("/api/client/my-account/verify-password")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> verifyPassword(
+            @RequestParam String password,
+            HttpSession session) {
+
+        Integer clientId = (Integer) session.getAttribute("clientId");
+
+        if (clientId == null) {
+            return ResponseEntity.status(401).body(Map.of("success", false, "message", "Not logged in"));
+        }
+
+        try {
+            ClientUser clientUser = clientUserService.findByClientId(clientId);
+
+            if (clientUser == null) {
+                return ResponseEntity.status(404).body(Map.of("success", false, "message", "User not found"));
+            }
+
+            if (!clientUser.getPassword().equals(password)) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "Incorrect password"));
+            }
+
+            return ResponseEntity.ok(Map.of("success", true, "message", "Password verified"));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("success", false, "message", "An error occurred"));
+        }
+    }
+
+    // API: Update Personal Details
+    @PostMapping("/api/client/my-account/update-details")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> updatePersonalDetails(
+            @RequestParam String nume,
+            @RequestParam String prenume,
+            @RequestParam String telefon,
+            @RequestParam String email,
+            @RequestParam String adresa,
+            HttpSession session) {
+
+        Integer clientId = (Integer) session.getAttribute("clientId");
+
+        if (clientId == null) {
+            return ResponseEntity.status(401).body(Map.of("success", false, "message", "Not logged in"));
+        }
+
+        try {
+            // Validări câmpuri obligatorii
+            if (nume == null || nume.trim().isEmpty()) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "Last name is required"));
+            }
+            if (prenume == null || prenume.trim().isEmpty()) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "First name is required"));
+            }
+            if (telefon == null || telefon.trim().isEmpty()) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "Phone number is required"));
+            }
+            if (email == null || email.trim().isEmpty()) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "Email is required"));
+            }
+            if (adresa == null || adresa.trim().isEmpty()) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "Address is required"));
+            }
+
+            String trimmedNume = nume.trim();
+            String trimmedPrenume = prenume.trim();
+            String trimmedTelefon = telefon.trim();
+            String trimmedEmail = email.trim();
+            String trimmedAdresa = adresa.trim();
+
+            // Validare format email
+            if (!trimmedEmail.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "Please enter a valid email address"));
+            }
+
+            // Verifică unicitate telefon (în tabela client, excluzând clientul curent)
+            if (clientService.phoneExistsExcluding(trimmedTelefon, clientId)) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "This phone number is already used by another client"));
+            }
+
+            // Verifică unicitate email (în tabela client, excluzând clientul curent)
+            if (clientService.emailExistsExcluding(trimmedEmail, clientId)) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "This email is already used by another client"));
+            }
+
+            // Verifică unicitate email (în tabela client_user, excluzând clientul curent)
+            if (clientUserService.emailExistsExcluding(trimmedEmail, clientId)) {
+                return ResponseEntity.ok(Map.of("success", false, "message", "This email is already used by another account"));
+            }
+
+            // 1) UPDATE tabela client
+            clientService.updatePersonalDetails(clientId, trimmedNume, trimmedPrenume,
+                    trimmedTelefon, trimmedEmail, trimmedAdresa);
+
+            // 2) UPDATE tabela client_user (email-ul de login)
+            clientUserService.updateEmail(clientId, trimmedEmail);
+
+            // 3) Actualizează sesiunea cu noile valori
+            session.setAttribute("clientName", trimmedNume);
+            session.setAttribute("clientSecondName", trimmedPrenume);
+            String initials = ("" + trimmedNume.charAt(0) + trimmedPrenume.charAt(0)).toUpperCase();
+            session.setAttribute("clientInitials", initials);
+            session.setAttribute("clientEmail", trimmedEmail);
+
+            return ResponseEntity.ok(Map.of("success", true, "message", "Personal details updated successfully"));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("success", false, "message", "An error occurred while updating"));
+        }
+    }
+
     // Pagina My Orders
     @GetMapping("/client/my-orders")
     public String paginaMyOrders(HttpSession session, Model model) {

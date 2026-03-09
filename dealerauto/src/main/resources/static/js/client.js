@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("listaContent");
   const loadMoreBtn = document.getElementById("loadMore");
 
-  let activeBodyType = "all-options";
+  let activeBodyTypes = new Set(); // empty = all
 
   const bodyTypeMap = {
     "Sedan": "sedan", "Hatchback": "hatchback", "Break": "break",
@@ -341,9 +341,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   function applyBodyTypeFilter() {
     // filteredCars = sidebar-filtered; displayCars = final list for rendering
     displayCars = [...filteredCars];
-    if (activeBodyType !== "all-options") {
-      const dbType = Object.keys(bodyTypeMap).find(k => bodyTypeMap[k] === activeBodyType);
-      displayCars = filteredCars.filter(c => c.caroserie === dbType);
+    if (activeBodyTypes.size > 0) {
+      const dbTypes = new Set();
+      activeBodyTypes.forEach(bt => {
+        const dbType = Object.keys(bodyTypeMap).find(k => bodyTypeMap[k] === bt);
+        if (dbType) dbTypes.add(dbType);
+      });
+      displayCars = filteredCars.filter(c => dbTypes.has(c.caroserie));
     }
     visible = 0;
     container.innerHTML = "";
@@ -364,11 +368,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateResultsCount("");
   }
 
+  function updateBodyTypeCheckIcons() {
+    document.querySelectorAll(".body-type-btn").forEach(btn => {
+      const type = btn.getAttribute("data-body-type");
+      const existing = btn.querySelector(".body-type-check");
+      if (type !== "all-options" && activeBodyTypes.has(type)) {
+        if (!existing) {
+          const icon = document.createElement("i");
+          icon.className = "fa-solid fa-check body-type-check";
+          btn.appendChild(icon);
+        }
+      } else if (existing) {
+        existing.remove();
+      }
+    });
+  }
+
+  function selectAllBodyTypes() {
+    activeBodyTypes.clear();
+    document.querySelectorAll(".body-type-btn").forEach(b => b.classList.remove("selected"));
+    document.querySelector('[data-body-type="all-options"]').classList.add("selected");
+    updateBodyTypeCheckIcons();
+  }
+
   document.querySelectorAll(".body-type-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
-      document.querySelectorAll(".body-type-btn").forEach((b) => b.classList.remove("selected"));
-      this.classList.add("selected");
-      activeBodyType = this.getAttribute("data-body-type");
+      const type = this.getAttribute("data-body-type");
+
+      if (type === "all-options") {
+        // All: dezactivează toate selecțiile
+        selectAllBodyTypes();
+      } else {
+        // Toggle individual body type
+        const allBtn = document.querySelector('[data-body-type="all-options"]');
+        if (activeBodyTypes.has(type)) {
+          activeBodyTypes.delete(type);
+          this.classList.remove("selected");
+        } else {
+          activeBodyTypes.add(type);
+          this.classList.add("selected");
+          allBtn.classList.remove("selected");
+        }
+        // Dacă nu mai e nimic selectat, revenim la All
+        if (activeBodyTypes.size === 0) {
+          allBtn.classList.add("selected");
+        }
+        updateBodyTypeCheckIcons();
+      }
 
       container.innerHTML = `
         <div class="loading-box">
@@ -380,6 +426,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       setTimeout(() => {
         applyBodyTypeFilter();
+        renderActiveFilterTags();
         loadMoreBtn.style.visibility = "visible";
       }, 750);
     });
@@ -524,6 +571,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.querySelectorAll(".fuel-filter:checked").forEach(chk => {
       tags.push({ label: translateFuel(chk.value), remove: () => { chk.checked = false; } });
     });
+
+    // Body type tags (separate badge per selection)
+    const bodyTypeLabelMap = { sedan: "Sedan", hatchback: "Hatchback", break: "Break", suv: "SUV", coupe: "Coupe", cabriolet: "Cabriolet", mpv: "MPV" };
+    activeBodyTypes.forEach(bt => {
+      tags.push({
+        label: "Body Type: " + (bodyTypeLabelMap[bt] || bt),
+        remove: () => {
+          activeBodyTypes.delete(bt);
+          const btn = document.querySelector(`[data-body-type="${bt}"]`);
+          if (btn) btn.classList.remove("selected");
+          if (activeBodyTypes.size === 0) {
+            document.querySelector('[data-body-type="all-options"]').classList.add("selected");
+          }
+          updateBodyTypeCheckIcons();
+        },
+        isBodyType: true
+      });
+    });
+
     tagsContainer.innerHTML = "";
     tags.forEach((tag, i) => {
       const el = document.createElement("span");
@@ -828,7 +894,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const minMileageInput = document.getElementById("minMileage");
   const maxMileageInput = document.getElementById("maxMileage");
 
-  const applyFiltersBtn = document.getElementById("applyFiltersBtn");
   const resetFiltersBtn = document.getElementById("resetFilters");
 
   // ---------- Range sliders: sync with number inputs & visual fill ----------
@@ -1031,32 +1096,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     applyBodyTypeFilter();
   }
 
-  applyFiltersBtn.addEventListener("click", () => {
-    applyFiltersBtn.disabled = true;
-    applyFiltersBtn.innerHTML =
-      '<i class="fa-solid fa-spinner spin-iconita" ></i>';
-
-    container.innerHTML = `
-        <div class="loading-box">
-            <i class="fa-solid fa-spinner spin-icon"></i>
-        </div>
-    `;
-    showBodyTypeSpinners();
-    setTimeout(() => {
-      applyFilters(); // rulează filtrarea
-
-      applyFiltersBtn.innerText = "Apply Filters";
-      applyFiltersBtn.disabled = false;
-    }, 750); // 0.75 secunde delay
-  });
-
   let autoApplyTimer = null;
 
   function triggerAutoApply(delay = 750) {
     if (autoApplyTimer) clearTimeout(autoApplyTimer);
-
-    applyFiltersBtn.disabled = true;
-    applyFiltersBtn.innerHTML = '<i class="fa-solid fa-spinner spin-iconita"></i>';
 
     container.innerHTML = `
       <div class="loading-box">
@@ -1068,8 +1111,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     autoApplyTimer = setTimeout(() => {
       applyFilters();
-      applyFiltersBtn.innerText = "Apply Filters";
-      applyFiltersBtn.disabled = false;
       loadMoreBtn.style.visibility = "visible";
     }, delay);
   }
@@ -1139,9 +1180,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         updateResultsCount("");
 
-        activeBodyType = "all-options";
-        document.querySelectorAll(".body-type-btn").forEach(b => b.classList.remove("selected"));
-        document.querySelector('[data-body-type="all-options"]').classList.add("selected");
+        selectAllBodyTypes();
         updateBodyTypeCounts(filteredCars);
         renderActiveFilterTags();
       } finally {
@@ -1306,7 +1345,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (queryText) {
       resultsDiv.innerHTML = `${count} ${resultWord} found for "<strong>${queryText}</strong>"`;
     } else {
-      resultsDiv.innerHTML = `${count} ${carWord} ${carVerb} your filters.`;
+      resultsDiv.innerHTML = `${count} ${carWord} ${carVerb} your filters`;
     }
   }
 

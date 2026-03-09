@@ -496,3 +496,113 @@ margin-top: 40px;
 #taxaStationare::after {
     content: " €";
 }
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .error-msg,
+    .success-message,
+    .error-message,
+    .reset-btn,
+    .submit-btn,
+    .full-row {
+        grid-column: 1;
+    }
+
+    .search-input-wrapper {
+        flex-wrap: nowrap;
+    }
+
+    .car-info-box,
+    .info-box {
+        font-size: 20px;
+    }
+
+    .car-columns,
+    .client-columns {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        font-size: 18px;
+    }
+
+    .modal-box {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .modal-title {
+        font-size: 24px;
+    }
+
+    .modal-box p,
+    #confirmMessage {
+        font-size: 18px;
+    }
+
+    .modal-btn {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin-top: 40px;
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h1 i {
+        font-size: 28px;
+    }
+
+    label {
+        font-size: 18px;
+    }
+
+    input, select {
+        font-size: 16px;
+    }
+
+    .car-info-box {
+        font-size: 18px;
+        padding: 12px;
+    }
+
+    .car-columns,
+    .client-columns {
+        grid-template-columns: 1fr 1fr;
+        font-size: 16px;
+        gap: 8px;
+    }
+
+    .car-columns span,
+    .client-columns span {
+        font-size: 14px;
+    }
+
+    .lookup-error {
+        font-size: 16px;
+    }
+
+    .readonly-input,
+    .readonly-input-listings,
+    .input_pret_vanzare_nou {
+        font-size: 18px;
+    }
+}

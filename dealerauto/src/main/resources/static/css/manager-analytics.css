@@ -286,3 +286,126 @@
     border-color: #ff6600;
     box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
 }
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 768px) {
+    .category-toggle {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .category-btn {
+        width: 100%;
+        font-size: 22px;
+        padding: 12px 20px;
+    }
+
+    .category-btn i {
+        font-size: 28px;
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    .chart-selector {
+        gap: 12px;
+    }
+
+    .chart-option-card {
+        width: 100%;
+        max-width: 280px;
+        font-size: 18px;
+    }
+
+    .chart-option-card i {
+        font-size: 36px;
+    }
+
+    .chart-option-card h4 {
+        font-size: 20px;
+    }
+
+    .main-chart-container {
+        padding: 16px;
+        min-height: 350px;
+    }
+
+    .main-chart-title {
+        font-size: 22px;
+    }
+
+    .main-chart-title i {
+        font-size: 30px;
+        margin-right: 8px;
+    }
+
+    .chart-canvas-wrapper {
+        height: 350px;
+    }
+
+    .main-chart-container[data-chart-type="bar"] .chart-canvas-wrapper {
+        height: 500px;
+    }
+
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .year-filter,
+    #stockCountFilter {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .year-filter label {
+        font-size: 20px;
+    }
+
+    .year-filter select {
+        font-size: 20px;
+    }
+
+    #minSalesInput {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-btn {
+        font-size: 18px;
+        padding: 10px 14px;
+    }
+
+    .category-btn i {
+        font-size: 24px;
+    }
+
+    .chart-option-card {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .chart-option-card i {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .chart-option-card h4 {
+        font-size: 18px;
+    }
+
+    .main-chart-title {
+        font-size: 20px;
+    }
+
+    .chart-canvas-wrapper {
+        height: 280px;
+    }
+}

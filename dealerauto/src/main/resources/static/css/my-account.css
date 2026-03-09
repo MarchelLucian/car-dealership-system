@@ -303,15 +303,37 @@
 
 @media (max-width: 480px) {
     .fav-content.acc-content {
-        padding: 0 12px;
+        padding: 0 8px;
     }
 
     .acc-section {
-        padding: 16px;
+        padding: 12px;
     }
 
     .acc-header.fav-header h1 {
         font-size: 24px;
+    }
+
+    .acc-section-title {
+        font-size: 20px;
+    }
+
+    .acc-label {
+        font-size: 15px;
+    }
+
+    .acc-value {
+        font-size: 16px;
+    }
+
+    .acc-badge {
+        font-size: 16px;
+        padding: 4px 10px;
+    }
+
+    .acc-btn-change-password {
+        font-size: 16px;
+        padding: 10px 20px;
     }
 }
 
@@ -364,4 +386,178 @@
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 18px;
+}
+
+/* ================================
+   SECURITY BUTTONS ROW
+   ================================ */
+
+.acc-security-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ================================
+   EDIT PERSONAL DETAILS POPUP
+   ================================ */
+
+.acc-edit-popup {
+    max-width: 550px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.acc-verify-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.acc-verify-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.acc-lock-icon {
+    font-size: 28px;
+    color: #e74c3c;
+    transition: all 0.4s ease;
+}
+
+.acc-lock-icon.acc-lock-open {
+    color: #28a745;
+}
+
+.acc-verify-label {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.acc-verify-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.acc-verify-input-wrapper {
+    flex: 1;
+}
+
+.acc-btn-verify {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.acc-btn-verify:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.acc-btn-verify:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Edit fields container */
+.acc-edit-fields {
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+}
+
+.acc-edit-fields.acc-fields-active {
+    opacity: 1;
+}
+
+.acc-edit-fields input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #96a4a8;
+    border-radius: 8px;
+    font-size: 22px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    background: #e0e0e0;
+    color: #666;
+}
+
+.acc-edit-fields input:disabled {
+    cursor: not-allowed;
+}
+
+.acc-edit-fields input.acc-field-unlocked {
+    background: #acf7fd;
+    color: #2c3e50;
+    cursor: text;
+}
+
+.acc-edit-fields input.acc-field-unlocked:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* ================================
+   RESPONSIVE - EDIT POPUP
+   ================================ */
+
+@media (max-width: 768px) {
+    .acc-security-buttons {
+        flex-direction: column;
+    }
+
+    .acc-edit-popup {
+        max-width: 100%;
+    }
+
+    .acc-verify-row {
+        flex-direction: column;
+    }
+
+    .acc-verify-label {
+        font-size: 17px;
+    }
+
+    .acc-lock-icon {
+        font-size: 24px;
+    }
+
+    .acc-edit-fields input {
+        font-size: 18px;
+    }
+
+    .acc-btn-verify {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .acc-verify-label {
+        font-size: 15px;
+    }
+
+    .acc-lock-icon {
+        font-size: 22px;
+    }
+
+    .acc-edit-fields input {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .acc-btn-verify {
+        font-size: 15px;
+        padding: 10px;
+    }
 }

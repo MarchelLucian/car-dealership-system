@@ -139,3 +139,57 @@
 .ics{
     color: #b8860b;;
 }
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 768px) {
+    .custom-modal {
+        padding: 24px 20px;
+    }
+
+    .custom-modal h2 {
+        font-size: 22px;
+    }
+
+    .custom-modal p {
+        font-size: 18px;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .cancel-btn,
+    .confirm-btn {
+        width: 100%;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .remove-btn {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-modal h2 {
+        font-size: 20px;
+    }
+
+    .custom-modal p {
+        font-size: 16px;
+    }
+
+    .cancel-btn,
+    .confirm-btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .remove-btn {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+}

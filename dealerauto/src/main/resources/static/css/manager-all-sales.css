@@ -462,3 +462,88 @@
     color: #666;
     margin: 0;
 }
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 768px) {
+    .period-left-group {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .period-right-group {
+        margin-left: 0;
+        margin-right: 0;
+        flex-wrap: wrap;
+    }
+
+    .period-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .kpi-bar {
+        flex-direction: column;
+    }
+
+    .kpi-item {
+        flex: 1 1 100%;
+    }
+
+    .kpi-content {
+        margin-left: 0;
+        flex-direction: row !important;
+        gap: 10px;
+    }
+
+    .kpi-label {
+        font-size: 18px;
+    }
+
+    .kpi-value {
+        font-size: 20px;
+        margin-left: 0;
+    }
+
+    .chart-container {
+        height: 400px;
+    }
+
+    .load-more-btn {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .sort-group input {
+        font-size: 18px;
+    }
+
+    .filter-select {
+        min-width: unset;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-label {
+        font-size: 16px;
+    }
+
+    .kpi-value {
+        font-size: 18px;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+
+    .chart-overlay .spinner-container i {
+        font-size: 48px;
+    }
+
+    .chart-overlay .spinner-container p {
+        font-size: 20px;
+    }
+}

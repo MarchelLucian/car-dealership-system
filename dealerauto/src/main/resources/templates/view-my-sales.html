@@ -250,6 +250,19 @@
             <div>Status</div>
         </div>
 
+        <!-- MOBILE LEGEND (visible only ≤1000px) -->
+        <div class="sales-legend">
+            <span>Sale ID</span>
+            <span>Car</span>
+            <span>Client</span>
+            <span>Final Price (€)</span>
+            <span>Profit (€)</span>
+            <span>Markup</span>
+            <span>Days in Stock</span>
+            <span>Sale Date</span>
+            <span>Status</span>
+        </div>
+
         <!-- NO RESULTS ROW -->
         <div id="noResultsRow" class="sales-row no-results" style="display:none;">
             <div class="no-results-text"></div>
@@ -261,12 +274,12 @@
 
             <!-- RÂND PRINCIPAL -->
             <div class="sales-row">
-                <div>
+                <div data-label="Sale ID">
                     <span class="id-badge" th:text="'#' + ${s.saleId}"></span>
                 </div>
 
                 <!-- CAR -->
-                <div class="name-with-info">
+                <div class="name-with-info" data-label="Car">
                     <span th:text="${s.carName}"></span>
                     <i class="fa-solid fa-circle-info info-btn"
                        th:attr="data-sale-id=${s.saleId}, data-car-id=${s.masinaId}"
@@ -277,7 +290,7 @@
                 </div>
 
                 <!-- CLIENT -->
-                <div class="name-with-info">
+                <div class="name-with-info" data-label="Client">
                     <span th:text="${s.clientName}"></span>
                     <i class="fa-solid fa-circle-info info-btn"
                        th:attr="data-sale-id=${s.saleId}, data-client-id=${s.clientId}"
@@ -287,28 +300,28 @@
                        style="display:none;"></i>
                 </div>
 
-                <div class="adjust-righttwo" th:text="${s.finalPrice}"></div>
+                <div class="adjust-righttwo" data-label="Final Price (€)" th:text="${s.finalPrice}"></div>
 
-                <div th:text="${s.profit}"
+                <div data-label="Profit (€)" th:text="${s.profit}"
                      th:classappend="${s.profit >= 0} ? ' profit-positive' : ' profit-negative'">
                 </div>
 
-                <div class="markup"
+                <div class="markup" data-label="Markup"
                      th:attr="data-final-price=${s.finalPrice},
               data-profit=${s.profit}">
                 </div>
 
-                <div class="days-in-stock adjust-right"
+                <div class="days-in-stock adjust-right" data-label="Days in Stock"
                      th:attr="
                         data-entry-date=${s.dataIntrareStoc},
                          data-sale-date=${s.saleDate}">
                 </div>
 
 
-                <div th:text="${#dates.format(s.saleDate, 'MM-dd-yyyy')}"></div>
+                <div data-label="Sale Date" th:text="${#dates.format(s.saleDate, 'MM-dd-yyyy')}"></div>
 
 
-                <div class="status"
+                <div class="status" data-label="Status"
                      th:classappend="${s.status == 'PENDING'} ? ' pending' : ' paid'"
                      th:text="${s.status == 'PENDING'} ? 'Payment in progress' : 'Paid'">
                 </div>

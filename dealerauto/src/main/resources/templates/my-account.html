@@ -124,10 +124,16 @@
                 Security
             </h2>
 
-            <button class="acc-btn-change-password" onclick="showChangePasswordPopup()">
-                <i class="fa-solid fa-key"></i>
-                Change Password
-            </button>
+            <div class="acc-security-buttons">
+                <button class="acc-btn-change-password" onclick="showEditDetailsPopup()">
+                    <i class="fa-solid fa-user-pen"></i>
+                    Edit Personal Details
+                </button>
+                <button class="acc-btn-change-password" onclick="showChangePasswordPopup()">
+                    <i class="fa-solid fa-key"></i>
+                    Change Password
+                </button>
+            </div>
         </div>
 
     </div>
@@ -174,6 +180,73 @@
             <div class="acc-form-buttons">
                 <button type="button" class="acc-btn-cancel" onclick="closeChangePasswordPopup()">Cancel</button>
                 <button type="submit" class="acc-btn-submit">Change Password</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Personal Details Popup (Hidden by default) -->
+<div id="editDetailsOverlay" class="acc-password-overlay" style="display: none;">
+    <div class="acc-password-popup acc-edit-popup">
+        <button class="acc-popup-close" onclick="closeEditDetailsPopup()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h3>Edit Personal Details</h3>
+
+        <div id="editDetailsMessage" class="acc-error-message" style="display: none;"></div>
+
+        <!-- Password verification section -->
+        <div class="acc-verify-section" id="verifySection">
+            <div class="acc-verify-header">
+                <i id="lockIcon" class="fa-solid fa-lock acc-lock-icon"></i>
+                <span class="acc-verify-label">Verify your password to unlock editing</span>
+            </div>
+            <div class="acc-verify-row">
+                <div class="acc-password-wrapper acc-verify-input-wrapper">
+                    <input type="password" id="editVerifyPassword" placeholder="Enter your password" required>
+                    <i class="fa-solid fa-eye-slash acc-toggle-password" onclick="togglePasswordVisibility('editVerifyPassword', this)"></i>
+                </div>
+                <button type="button" class="acc-btn-verify" id="verifyBtn" onclick="verifyPasswordForEdit()">
+                    Verify
+                </button>
+            </div>
+        </div>
+
+        <!-- Editable fields (disabled by default) -->
+        <form id="editDetailsForm" onsubmit="handleUpdateDetails(event)">
+            <div class="acc-edit-fields" id="editFieldsContainer">
+
+                <div class="acc-form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="editNume" th:value="${client.nume}" disabled required>
+                </div>
+
+                <div class="acc-form-group">
+                    <label>First Name</label>
+                    <input type="text" id="editPrenume" th:value="${client.prenume}" disabled required>
+                </div>
+
+                <div class="acc-form-group">
+                    <label>Phone</label>
+                    <input type="text" id="editTelefon" th:value="${client.telefon}" disabled required>
+                </div>
+
+                <div class="acc-form-group">
+                    <label>Email</label>
+                    <input type="email" id="editEmail" th:value="${client.email}" disabled required>
+                </div>
+
+                <div class="acc-form-group">
+                    <label>Address</label>
+                    <input type="text" id="editAdresa" th:value="${client.adresa}" disabled required>
+                </div>
+
+            </div>
+
+            <div class="acc-form-buttons">
+                <button type="button" class="acc-btn-cancel" onclick="closeEditDetailsPopup()">Cancel</button>
+                <button type="submit" class="acc-btn-submit" id="saveDetailsBtn" disabled>Save Changes</button>
             </div>
         </form>
     </div>

@@ -31,6 +31,20 @@ public class ClientUserService {
     }
 
     /**
+     * Actualizează emailul din client_user
+     */
+    public void updateEmail(Integer clientId, String newEmail) {
+        clientUserDAO.updateEmail(clientId, newEmail);
+    }
+
+    /**
+     * Verifică dacă emailul există în client_user (excluzând clientul curent)
+     */
+    public boolean emailExistsExcluding(String email, Integer clientId) {
+        return clientUserDAO.emailExistsExcluding(email, clientId);
+    }
+
+    /**
      * Găsește ClientUser după email
      */
     public ClientUser findByEmail(String email) {

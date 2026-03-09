@@ -1061,6 +1061,115 @@ body {
         padding: 10px 12px;
     }
 
+    /* Page size box — remove large top margin, stack naturally */
+    .page-size-box {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    /* Top row: stack vertically, no absolute title */
+    .top-row {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 10px;
+    }
+
+    .top-row .page-title {
+        position: relative;
+        left: auto;
+        transform: none;
+    }
+
+    .left-side {
+        width: 100%;
+    }
+
+    .search-box {
+        margin-left: 10px;
+        margin-right: 10px;
+        flex-wrap: wrap;
+    }
+
+    /* Search wrappers — remove left margin, full width */
+    .model-search-wrapper {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 15px;
+    }
+
+    .model-search-input {
+        width: 100%;
+        max-width: 260px;
+        box-sizing: border-box;
+    }
+
+    /* Filters toggle — remove negative top margin */
+    .filters-toggle-wrapper {
+        margin-top: 0;
+    }
+
+    /* Filter card */
+    .filter-card {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px 10px;
+    }
+
+    .filter-row {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+
+    .filter-input {
+        width: 100px;
+    }
+
+    .brands-options,
+    .providers-options {
+        margin-left: 10px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .row-options {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .row-options-center {
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .row-options-seats {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    /* Inventory header */
+    .inventory-header {
+        margin-left: 0;
+        align-items: center;
+    }
+
+    .page-title {
+        font-size: 32px;
+    }
+
+    .inventory-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .action-btn {
+        font-size: 18px;
+        padding: 12px 20px;
+    }
+
     .car-table-wrapper {
         width: 100%;
         overflow-x: auto;
@@ -1074,5 +1183,113 @@ body {
     .car-table th,
     .car-table td {
         padding: 8px 6px;
+    }
+
+    .sort-box-wrapper {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .sort-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-size-box {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+
+    .page-size-input {
+        font-size: 18px;
+    }
+
+    .search-box {
+        font-size: 18px;
+    }
+
+    .search-input {
+        font-size: 18px;
+        width: 50px;
+    }
+
+    .model-search-input {
+        font-size: 18px;
+        max-width: 200px;
+    }
+
+    .page-title {
+        font-size: 26px;
+    }
+
+    .action-btn {
+        font-size: 16px;
+        padding: 10px 16px;
+        gap: 6px;
+    }
+
+    .action-btn i {
+        font-size: 22px;
+    }
+
+    .car-table {
+        font-size: 14px;
+    }
+
+    .car-table th,
+    .car-table td {
+        padding: 6px 4px;
+    }
+
+    .sort-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sort-container label {
+        font-size: 18px;
+        padding: 8px;
+    }
+
+    .sort-select {
+        font-size: 16px;
+        padding: 10px 14px;
+    }
+
+    .sort-btn {
+        font-size: 16px;
+        padding: 10px 18px;
+    }
+
+    .filters-toggle-btn {
+        font-size: 18px;
+        padding: 12px 20px;
+    }
+
+    .filters-toggle-btn i {
+        font-size: 22px;
+    }
+
+    .filter-card {
+        padding: 10px 8px;
+    }
+
+    .filter-title {
+        margin-left: 10px;
+        font-size: 16px;
+    }
+
+    .row-options label,
+    .row-options-center label,
+    .seat-option {
+        font-size: 15px;
+    }
+
+    .apply-btn,
+    .reset-btn {
+        width: 180px;
+        font-size: 16px;
     }
 }

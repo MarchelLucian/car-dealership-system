@@ -331,7 +331,6 @@ input.tax::placeholder {
         position: relative;
         right: auto;
         top: auto;
-        order: -1;
         text-align: center;
     }
 
@@ -346,6 +345,17 @@ input.tax::placeholder {
 
     form {
         grid-template-columns: 1fr;
+    }
+
+    .submit-btn,
+    .reset-btn,
+    .error-msg {
+        grid-column: 1;
+    }
+
+    .back-btn {
+        margin: 12px 0;
+        margin-left: 0;
     }
 }
 

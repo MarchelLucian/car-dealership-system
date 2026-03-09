@@ -424,6 +424,7 @@ body.fav-page {
 @media (max-width: 1700px) {
     .fav-content {
         margin-top: 24px;
+        order: 2;
     }
 }
 
@@ -445,6 +446,7 @@ body.fav-page {
 @media (max-width: 768px) {
     .fav-content {
         padding: 0 20px;
+        box-sizing: border-box;
     }
 
     .fav-total-line {
@@ -458,6 +460,34 @@ body.fav-page {
 
     .fav-grid {
         gap: 25px;
+    }
+
+    /* Car-box favorites: footer-ul sub galerie */
+    .fav-grid .car-box .fav-card-footer {
+        grid-column: 1 / -1;
+        grid-row: 5;
+        flex-wrap: wrap;
+    }
+
+    .page-stats .fav-count,
+    .page-stats .fav-total-line {
+        font-size: 22px;
+    }
+
+    .page-stats .fav-count strong,
+    .page-stats .fav-total-line strong {
+        font-size: 24px;
+    }
+
+    .fav-date-badge,
+    .fav-card-footer .price-update-badge {
+        font-size: 16px;
+        padding: 6px 10px;
+    }
+
+    .fav-date-badge i,
+    .fav-card-footer .price-update-badge i {
+        font-size: 18px;
     }
 
     .fav-header h1 {
@@ -508,7 +538,7 @@ body.fav-page {
 
 @media (max-width: 480px) {
     .fav-content {
-        padding: 0 12px;
+        padding: 0 8px;
     }
 
     .fav-top-bar {
@@ -526,7 +556,38 @@ body.fav-page {
     }
 
     .fav-count {
-        font-size: 22px;
+        font-size: 18px;
+    }
+
+    .page-stats .fav-count,
+    .page-stats .fav-total-line {
+        font-size: 17px;
+    }
+
+    .page-stats .fav-count strong,
+    .page-stats .fav-total-line strong {
+        font-size: 19px;
+    }
+
+    .fav-grid .car-box .fav-card-footer {
+        gap: 8px;
+        padding: 0 4px;
+    }
+
+    .fav-remove-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .fav-remove-btn i {
+        font-size: 16px;
+        margin-right: 4px;
+    }
+
+    .fav-date-badge,
+    .fav-card-footer .price-update-badge {
+        font-size: 13px;
+        padding: 4px 8px;
     }
 }
 /* ================================

@@ -453,46 +453,6 @@ body {
     to   { opacity: 1; }
 }
 
-.filter-btn {
-    width: 100%;
-    padding: 12px 0;
-    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%); 
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: box-shadow 0.25s ease, transform 0.15s ease;
-    margin-top: 18px;
-    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.35);
-}
-
-.filter-btn:hover {
-    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.45);
-    transform: translateY(-2px);
-}
-
-.filter-btn:active {
-    transform: translateY(0);
-}
-
-/* Apply Filters din sidebar: override .sidebar button ca gradientul să se vadă */
-.sidebar .filter-btn,
-.sidebar button.filter-btn {
-    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%);
-    box-shadow: 0 2px 8px rgba(10, 68, 201, 0.35);
-    padding: 12px 0;
-    border-radius: 10px;
-    font-weight: 600;
-    margin-top: 18px;
-}
-.sidebar .filter-btn:hover,
-.sidebar button.filter-btn:hover {
-    background: linear-gradient(180deg, #0839ab 0%, #1e62ff 100%);
-    box-shadow: 0 4px 14px rgba(10, 68, 201, 0.45);
-    transform: translateY(-2px);
-}
 
 
 /* --------------------- MAIN CONTENT --------------------- */
@@ -650,6 +610,21 @@ body {
     line-height: 1;
     margin-top: 8px;
     margin-bottom: -10px;
+}
+
+/* Check icon pe body-type-btn selectat (nu pe All) */
+.body-type-btn {
+    position: relative;
+}
+
+.body-type-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 26px;
+    font-weight: 500;
+    color: #9ca3af;
+    pointer-events: none;
 }
 
 .main-content h1 {
@@ -1301,10 +1276,6 @@ body {
     margin-bottom: 10px;
 }
 
-.filter-btn {
-    font-size: 22px;
-}
-
 .reset-filters {
     font-size: 22px;
 }
@@ -1564,16 +1535,11 @@ body {
 /* Responsive pentru ecrane mici - card mașină */
 @media (max-width: 768px) {
     .car-box {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr auto;
     }
 
     .car-box .car-title {
         font-size: 1.2rem;
-    }
-
-    .favorite-btn {
-        width: 40px;
-        height: 40px;
     }
 }
 
@@ -2092,6 +2058,7 @@ body {
         flex-direction: column;
         align-items: stretch;
         padding: 10px 12px;
+        box-sizing: border-box;
     }
 
     .client-top {
@@ -2164,6 +2131,7 @@ body {
         margin-left: 0;
         margin-right: 0;
         order: 2;
+        box-sizing: border-box;
     }
 
     .main-content {
@@ -2172,6 +2140,7 @@ body {
         margin-right: 0;
         width: 100%;
         order: 3;
+        box-sizing: border-box;
     }
 
     .sort-box {
@@ -2217,6 +2186,7 @@ body {
         flex-direction: column;
         align-items: stretch;
         padding: 10px 12px;
+        box-sizing: border-box;
     }
 
     .client-top {
@@ -2271,6 +2241,7 @@ body {
         margin-left: 0;
         margin-right: 0;
         order: 2;
+        box-sizing: border-box;
     }
 
     .main-content {
@@ -2279,6 +2250,7 @@ body {
         margin-right: 0;
         width: 100%;
         order: 3;
+        box-sizing: border-box;
     }
 
     .sort-box {
@@ -2370,46 +2342,65 @@ body {
 
     .sidebar {
         margin-top: 16px;
+        padding: 18px;
     }
 
     .main-content {
         margin-top: 16px;
+        padding: 14px 10px;
     }
 
     .body-type-menu-grid {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(4, 1fr);
         gap: 10px;
+        min-height: 0;
     }
 
     .body-type-btn {
-        min-height: 225px;
+        min-height: 190px;
     }
 
     .body-type-count {
         font-size: 24px;
     }
 
+    /* Car card: header + favorite pe aceeasi linie, price sub ele */
+    .car-box {
+        padding: 14px;
+        box-sizing: border-box;
+    }
+
     .car-box .car-header {
-        flex-wrap: wrap;
+        grid-column: 1;
+        grid-row: 1;
+        margin-bottom: 0;
+        padding-bottom: 8px;
+        border-bottom: none;
     }
 
     .car-box .car-title {
         font-size: 20px;
+        margin-left: 10px;
     }
 
     .car-box .car-model {
         font-size: 18px;
+        margin-left: 10px;
     }
 
     .car-logo {
-        width: 56px;
-        height: 56px;
+        width: 52px;
+        height: 52px;
+        margin-left: 6px;
+        margin-top: 10px;
     }
 
-    .favorite-btn {
-        top: 35px;
-        right: 16px;
+    .car-box .favorite-btn {
+        position: static;
+        grid-column: 2;
+        grid-row: 1;
+        align-self: center;
         width: 48px;
         height: 48px;
     }
@@ -2419,12 +2410,41 @@ body {
     }
 
     .car-box .car-price {
+        position: static;
+        grid-column: 1 / -1;
+        grid-row: 2;
+        left: auto;
+        top: auto;
+        transform: none;
+        text-align: center;
+        margin: 4px auto;
         padding: 10px 24px;
         font-size: 20px;
+        width: fit-content;
     }
 
-    .car-images-carousel {
+    .car-box .car-main-details {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        margin-left: 8px;
+        margin-right: 8px;
+        padding-left: 16px;
+        padding-right: 16px;
+        border-radius: 16px;
+        gap: 16px;
+    }
+
+    .car-box .car-images-carousel {
+        grid-column: 1 / -1;
+        grid-row: 4;
         width: 100%;
+    }
+
+    .car-box .price-update-badge {
+        grid-column: 1 / -1;
+        grid-row: 5;
+        font-size: 16px;
+        padding: 6px 12px;
     }
 
     .car-images-gallery .car-gallery {
@@ -2450,11 +2470,6 @@ body {
 
     .carousel-loading {
         height: 260px;
-    }
-
-    .car-box .price-update-badge {
-        font-size: 16px;
-        padding: 6px 12px;
     }
 }
 
@@ -2503,5 +2518,122 @@ body {
         margin-right: 3px;
     }
 
-    /* Opțional: pe foarte îngust, butoanele pot avea text scurtat sau doar icon – păstrăm text pentru lizibilitate */
+    .page-wrapper {
+        padding: 6px 6px;
+    }
+
+    .sidebar {
+        padding: 14px;
+    }
+
+    .main-content {
+        padding: 10px 4px;
+    }
+
+    .body-type-menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        min-height: 0;
+    }
+
+    .body-type-btn {
+        min-height: 150px;
+        padding: 8px 6px;
+    }
+
+    .body-type-label {
+        font-size: 18px;
+    }
+
+    .body-type-icon {
+        max-width: 120px;
+        max-height: 110px;
+    }
+
+    .body-type-count {
+        font-size: 18px;
+    }
+
+    .sort-box {
+        padding: 8px 10px;
+        gap: 6px;
+    }
+
+    .sort-box label {
+        font-size: 16px;
+    }
+
+    .sort-box select {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+
+    .sort-btn {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+
+    .car-box {
+        padding: 10px;
+    }
+
+    .car-box .car-title {
+        font-size: 17px;
+        margin-left: 6px;
+    }
+
+    .car-box .car-model {
+        font-size: 15px;
+        margin-left: 6px;
+    }
+
+    .car-logo {
+        width: 42px;
+        height: 42px;
+        margin-left: 4px;
+        margin-top: 6px;
+    }
+
+    .car-box .favorite-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .favorite-btn i {
+        font-size: 18px;
+    }
+
+    .car-box .car-price {
+        padding: 8px 18px;
+        font-size: 18px;
+    }
+
+    .car-box .car-main-details {
+        margin-left: 4px;
+        margin-right: 4px;
+        padding: 10px;
+        border-radius: 12px;
+        gap: 10px;
+    }
+
+    .car-box p {
+        font-size: 15px;
+    }
+
+    .car-box p b {
+        font-size: 15px;
+    }
+
+    .car-box p i {
+        font-size: 18px;
+    }
+
+    .main-content h1 {
+        font-size: 24px;
+    }
+
+    #loadMore {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
 }

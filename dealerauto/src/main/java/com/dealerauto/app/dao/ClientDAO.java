@@ -96,6 +96,37 @@ public class ClientDAO {
     }
 
     /**
+     * Actualizează detaliile personale ale clientului
+     */
+    public void updatePersonalDetails(Integer clientId, String nume, String prenume,
+                                       String telefon, String email, String adresa) {
+        String sql = """
+                UPDATE client
+                SET nume = ?, prenume = ?, telefon = ?, email = ?, adresa = ?
+                WHERE id = ?
+                """;
+        jdbcTemplate.update(sql, nume, prenume, telefon, email, adresa, clientId);
+    }
+
+    /**
+     * Verifică dacă telefonul există în baza de date (excluzând clientul curent)
+     */
+    public boolean phoneExistsExcluding(String phone, Integer clientId) {
+        String sql = "SELECT COUNT(*) FROM client WHERE telefon = ? AND id != ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, phone, clientId);
+        return count != null && count > 0;
+    }
+
+    /**
+     * Verifică dacă emailul există în baza de date (excluzând clientul curent)
+     */
+    public boolean emailExistsExcluding(String email, Integer clientId) {
+        String sql = "SELECT COUNT(*) FROM client WHERE email = ? AND id != ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email, clientId);
+        return count != null && count > 0;
+    }
+
+    /**
      * RowMapper pentru Client
      */
     private static class ClientRowMapper implements RowMapper<Client> {

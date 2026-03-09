@@ -433,26 +433,17 @@ body {
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .page-wrapper {
-        padding: 0 16px 32px;
+        padding: 0 12px 32px;
     }
 
-    .top-bar {
-        padding: 0 20px;
-        min-height: 64px;
-    }
-
+    /* Resetăm !important-ul de pe desktop pentru .top-back */
     .top-back {
-        left: 20px;
-        top: 24px;
-    }
-
-    .agent-greeting {
-        right: 20px;
-        top: 24px;
+        left: auto !important;
+        margin-left: 0 !important;
     }
 
     .dashboard-hero {
-        padding: 32px 16px 28px;
+        padding: 20px 16px 28px;
     }
 
     .dashboard-grid {

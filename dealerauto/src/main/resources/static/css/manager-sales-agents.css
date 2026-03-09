@@ -49,3 +49,60 @@
     right: 20px;
     top: 72px;
 }
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 768px) {
+    .agent-filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        font-size: 18px;
+        padding: 10px 14px;
+    }
+
+    .filter-group {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .agent-filters select,
+    .agent-filters input[type="number"] {
+        font-size: 18px;
+    }
+
+    #agentPerformanceChart {
+        max-height: 500px !important;
+        height: 500px !important;
+    }
+
+    .chart-header-with-filter {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .apply-btn {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .agent-filters {
+        font-size: 16px;
+    }
+
+    .agent-filters select,
+    .agent-filters input[type="number"] {
+        font-size: 16px;
+    }
+
+    #agentPerformanceChart {
+        max-height: 350px !important;
+        height: 350px !important;
+    }
+}
