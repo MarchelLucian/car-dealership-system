@@ -1,74 +1,91 @@
-/* ====== OVERRIDE COLORS FOR CLIENT ====== */
+/* ====== OVERRIDE COLORS FOR CLIENT — light theme matching /client ====== */
+/* BACKUP original: background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%); */
 
 body {
-    background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%);
+    background: linear-gradient(160deg, #e8f4ff 0%, #eef3ff 50%, #e5f0fa 100%);
 }
 
 .page-wrapper {
-   /* border: 3px solid #005dff;
-    border-left: 3px solid #d0d0d0;
-    border-right: 3px solid #d0d0d0; */
 }
 
 .back-btn {
-    background-color: #133b95;
+    background: linear-gradient(145deg, #0a44c9, #1e62ff);
+    box-shadow: 0 4px 16px rgba(10, 68, 201, 0.25);
 }
 
 .back-btn:hover {
-    background-color: #09225a;
+    background: linear-gradient(145deg, #0839ab, #0a44c9);
+    box-shadow: 0 8px 24px rgba(10, 68, 201, 0.4);
 }
 
 h1 {
-    color: #133b95;
+    color: #0a44c9;
 }
 
 button {
-    background: linear-gradient(135deg, #0353dc 0%, #133b95 100%);
-    box-shadow: 0 4px 15px rgba(3, 83, 220, 0.3);
+    background: linear-gradient(145deg, #0a44c9, #1e62ff);
+    box-shadow: 0 4px 15px rgba(10, 68, 201, 0.3);
 }
 
 button:hover {
-    background: linear-gradient(135deg, #133b95 0%, #09225a 100%);
-    box-shadow: 0 6px 20px rgba(3, 83, 220, 0.5);
+    background: linear-gradient(145deg, #0839ab, #0a44c9);
+    box-shadow: 0 6px 20px rgba(10, 68, 201, 0.4);
 }
 
 .demo-btn {
-    background: linear-gradient(135deg, #0353dc 0%, #133b95 100%);
-    box-shadow: 0 4px 15px rgba(3, 83, 220, 0.3);
-    color:white;
-    border: 4px solid #0353dc;
+    background: linear-gradient(145deg, #0a44c9, #1e62ff);
+    box-shadow: 0 4px 15px rgba(10, 68, 201, 0.3);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .demo-btn:hover {
-    background: linear-gradient(135deg, #133b95 0%, #09225a 100%);
-    box-shadow: 0 6px 20px rgba(3, 83, 220, 0.5);
+    background: linear-gradient(145deg, #0839ab, #0a44c9);
+    box-shadow: 0 6px 20px rgba(10, 68, 201, 0.4);
 }
 
 .password-toggle {
-    color: #0353dc;
+    color: #0a44c9;
 }
 
 .password-toggle:hover {
-    color: #133b95;
+    color: #083399;
 }
 
 label {
-    color: #133b95;
+    color: #0a44c9;
 }
 
 /*  Logo circle culoare albastră */
 .logo-circle i {
-    color: #133b95;
+    color: #0a44c9;
 }
 
 /*  Input focus culoare albastră */
 input:focus {
-    border-color: #133b95;
-    box-shadow: 0 0 0 3px rgba(19, 59, 149, 0.1);
+    border-color: #0a44c9;
+    box-shadow: 0 0 0 3px rgba(10, 68, 201, 0.1);
 }
 
-/*  Background shapes tenta albastră */
+/*  Background shapes tenta albastră deschisă */
 .bg-shapes .shape {
-    background: rgba(0, 93, 255, 0.08);
+    background: rgba(10, 68, 201, 0.06);
+}
+
+/* ====== CANDLE / FLASHLIGHT CURSOR EFFECT — blue tint ====== */
+.candle-main {
+    background: radial-gradient(circle,
+        rgba(200, 220, 255, 0.50) 0%,
+        rgba(180, 210, 250, 0.30) 30%,
+        rgba(160, 200, 245, 0.12) 55%,
+        transparent 75%);
+}
+
+.candle-trail {
+    background: radial-gradient(circle,
+        rgba(180, 210, 255, 0.35) 0%,
+        rgba(160, 200, 250, 0.15) 35%,
+        rgba(140, 190, 245, 0.05) 55%,
+        transparent 75%);
 }
 

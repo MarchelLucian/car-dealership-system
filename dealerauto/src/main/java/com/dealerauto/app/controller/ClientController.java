@@ -15,7 +15,9 @@ import com.dealerauto.app.service.ClientService;
 import com.dealerauto.app.service.ClientUserService;
 import com.dealerauto.app.service.FavoriteService;
 import com.dealerauto.app.service.OrderService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +56,46 @@ public class ClientController {
 
     // Pagina principală /client
     @GetMapping("/client")
-    public String paginaClient(HttpSession session, Model model, HttpServletRequest request) {
+    public String paginaClient(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
         Integer clientId = (Integer) session.getAttribute("clientId");
+
+        // Auto-login cu contul demo doar pentru prima vizită (cookie persistent)
+        boolean alreadyVisited = false;
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if ("demoAutoLogged".equals(c.getName())) {
+                    alreadyVisited = true;
+                    break;
+                }
+            }
+        }
+
+        if (clientId == null && !alreadyVisited) {
+            try {
+                ClientUser demoUser = clientUserDAO.findByEmail("cristian.mihai@gmail.com");
+                if (demoUser != null) {
+                    String name = clientUserDAO.getClientName(demoUser.getClientId());
+                    String secondName = clientUserDAO.getClientSecondName(demoUser.getClientId());
+                    String initials = name.substring(0, 1).toUpperCase();
+                    if (secondName != null && !secondName.isBlank()) {
+                        initials += secondName.substring(0, 1).toUpperCase();
+                    }
+                    session.setAttribute("clientId", demoUser.getClientId());
+                    session.setAttribute("clientEmail", demoUser.getEmail());
+                    session.setAttribute("clientName", name);
+                    session.setAttribute("clientSecondName", secondName);
+                    session.setAttribute("clientInitials", initials);
+                    clientId = demoUser.getClientId();
+
+                    // Cookie persistent — 1 an
+                    Cookie cookie = new Cookie("demoAutoLogged", "true");
+                    cookie.setMaxAge(365 * 24 * 60 * 60);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                }
+            } catch (Exception ignored) { }
+        }
+
         String clientName = (String) session.getAttribute("clientName");
         String clientSecondName = (String) session.getAttribute("clientSecondName");
         String clientInitials = (String) session.getAttribute("clientInitials");

@@ -2,7 +2,7 @@
    GLOBAL STYLES
    ================================ */
 
-* {
+   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,7 +10,14 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #141e30 0%, #243b55 100%);
+    /* BACKUP variante:
+       Original mov:    linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+       V2 - Teal dark:  linear-gradient(135deg, #0a192f 0%, #112240 50%, #1d4e5f 100%)
+       V3 - Charcoal:   linear-gradient(135deg, #1c1c2e 0%, #2d2d44 50%, #23243a 100%)
+       V4 - Navy warm:  linear-gradient(135deg, #141e30 0%, #243b55 100%)
+       V5 - Dark green: linear-gradient(135deg, #0d1b2a 0%, #1b2a3a 50%, #1a3a2a 100%)
+    */
 
     min-height: 100vh;
     display: flex;
@@ -84,29 +91,99 @@ body {
     text-align: center;
     margin-bottom: 60px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 .header-section p{
     font-size: 22px;
 }
 
+/* --- index-card-changes LOGO-CIRCLE (backup: remove position:relative, ::after block, and border to revert) --- */
 .logo-circle {
     width: 100px;
     height: 100px;
-    background: white;
+    background: #f0f0f2;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 25px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
 
+@keyframes logo-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes logo-hue-1 {
+    from { filter: hue-rotate(0deg) saturate(1.5) brightness(1); }
+    to { filter: hue-rotate(360deg) saturate(1.5) brightness(1); }
+}
+
+@keyframes logo-hue-2 {
+    from { filter: hue-rotate(180deg) saturate(1.5) brightness(1); }
+    to { filter: hue-rotate(540deg) saturate(1.5) brightness(1); }
+}
+
+/* --- second serpentine line (::before) — comment out to disable --- */
+.logo-circle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    z-index: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='112' height='112' viewBox='0 0 112 112'%3E%3Cpath d='M103.5 56L101.6 57.4L100.4 58.8L100.3 60.2L101.3 61.7L102.9 63.4L104.5 65.3L105.3 67L105 68.6L103.4 69.8L101.2 70.7L98.9 71.5L97.3 72.4L96.8 73.7L97.3 75.4L98.3 77.6L99.3 79.8L99.5 81.7L98.7 83.1L96.8 83.8L94.4 83.9L92 84L90.3 84.3L89.3 85.4L89.3 87.2L89.6 89.6L89.8 92L89.4 93.9L88.2 94.9L86.3 95L83.9 94.4L81.6 93.7L79.8 93.5L78.6 94.3L78 96L77.6 98.3L77 100.7L76.1 102.4L74.6 103L72.7 102.5L70.7 101.2L68.7 99.8L67.1 99.1L65.7 99.4L64.5 100.8L63.4 102.9L62.2 105L60.8 106.3L59.2 106.4L57.6 105.4L56 103.5L54.6 101.6L53.2 100.4L51.8 100.3L50.3 101.3L48.6 102.9L46.7 104.5L45 105.3L43.4 105L42.2 103.4L41.3 101.2L40.5 98.9L39.6 97.3L38.3 96.8L36.6 97.3L34.4 98.3L32.2 99.3L30.3 99.5L28.9 98.7L28.2 96.8L28.1 94.4L28 92L27.7 90.3L26.6 89.3L24.8 89.3L22.4 89.6L20 89.8L18.1 89.4L17.1 88.2L17 86.3L17.6 83.9L18.3 81.6L18.5 79.8L17.7 78.6L16 78L13.7 77.6L11.3 77L9.6 76.1L9 74.6L9.5 72.7L10.8 70.7L12.2 68.7L12.9 67.1L12.6 65.7L11.2 64.5L9.1 63.4L7 62.2L5.7 60.8L5.6 59.2L6.6 57.6L8.5 56L10.4 54.6L11.6 53.2L11.7 51.8L10.7 50.3L9.1 48.6L7.5 46.7L6.7 45L7 43.4L8.6 42.2L10.8 41.3L13.1 40.5L14.7 39.6L15.2 38.3L14.7 36.6L13.7 34.4L12.7 32.2L12.5 30.3L13.3 28.9L15.2 28.2L17.6 28.1L20 28L21.7 27.7L22.7 26.6L22.7 24.8L22.4 22.4L22.2 20L22.6 18.1L23.8 17.1L25.7 17L28.1 17.6L30.4 18.3L32.2 18.5L33.4 17.7L34 16L34.4 13.7L35 11.3L35.9 9.6L37.4 9L39.3 9.5L41.3 10.8L43.3 12.2L44.9 12.9L46.3 12.6L47.5 11.2L48.6 9.1L49.8 7L51.2 5.7L52.8 5.6L54.4 6.6L56 8.5L57.4 10.4L58.8 11.6L60.2 11.7L61.7 10.7L63.4 9.1L65.3 7.5L67 6.7L68.6 7L69.8 8.6L70.7 10.8L71.5 13.1L72.4 14.7L73.7 15.2L75.4 14.7L77.6 13.7L79.8 12.7L81.7 12.5L83.1 13.3L83.8 15.2L83.9 17.6L84 20L84.3 21.7L85.4 22.7L87.2 22.7L89.6 22.4L92 22.2L93.9 22.6L94.9 23.8L95 25.7L94.4 28.1L93.7 30.4L93.5 32.2L94.3 33.4L96 34L98.3 34.4L100.7 35L102.4 35.9L103 37.4L102.5 39.3L101.2 41.3L99.8 43.3L99.1 44.9L99.4 46.3L100.8 47.5L102.9 48.6L105 49.8L106.3 51.2L106.4 52.8L105.4 54.4Z' stroke='%232a5298' stroke-opacity='0.55' stroke-width='2.09' fill='none'/%3E%3C/svg%3E") no-repeat center / contain;
+    pointer-events: none;
+    animation: logo-rotate 11s linear infinite, logo-hue-2 9s linear infinite;
+}
+
+.logo-circle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='112' height='112' viewBox='0 0 112 112'%3E%3Cpath d='M103.5 56L105.4 57.6L106.4 59.2L106.3 60.8L105 62.2L102.9 63.4L100.8 64.5L99.4 65.7L99.1 67.1L99.8 68.7L101.2 70.7L102.5 72.7L103 74.6L102.4 76.1L100.7 77L98.3 77.6L96 78L94.3 78.6L93.5 79.8L93.7 81.6L94.4 83.9L95 86.3L94.9 88.2L93.9 89.4L92 89.8L89.6 89.6L87.2 89.3L85.4 89.3L84.3 90.3L84 92L83.9 94.4L83.8 96.8L83.1 98.7L81.7 99.5L79.8 99.3L77.6 98.3L75.4 97.3L73.7 96.8L72.4 97.3L71.5 98.9L70.7 101.2L69.8 103.4L68.6 105L67 105.3L65.3 104.5L63.4 102.9L61.7 101.3L60.2 100.3L58.8 100.4L57.4 101.6L56 103.5L54.4 105.4L52.8 106.4L51.2 106.3L49.8 105L48.6 102.9L47.5 100.8L46.3 99.4L44.9 99.1L43.3 99.8L41.3 101.2L39.3 102.5L37.4 103L35.9 102.4L35 100.7L34.4 98.3L34 96L33.4 94.3L32.2 93.5L30.4 93.7L28.1 94.4L25.7 95L23.8 94.9L22.6 93.9L22.2 92L22.4 89.6L22.7 87.2L22.7 85.4L21.7 84.3L20 84L17.6 83.9L15.2 83.8L13.3 83.1L12.5 81.7L12.7 79.8L13.7 77.6L14.7 75.4L15.2 73.7L14.7 72.4L13.1 71.5L10.8 70.7L8.6 69.8L7 68.6L6.7 67L7.5 65.3L9.1 63.4L10.7 61.7L11.7 60.2L11.6 58.8L10.4 57.4L8.5 56L6.6 54.4L5.6 52.8L5.7 51.2L7 49.8L9.1 48.6L11.2 47.5L12.6 46.3L12.9 44.9L12.2 43.3L10.8 41.3L9.5 39.3L9 37.4L9.6 35.9L11.3 35L13.7 34.4L16 34L17.7 33.4L18.5 32.2L18.3 30.4L17.6 28.1L17 25.7L17.1 23.8L18.1 22.6L20 22.2L22.4 22.4L24.8 22.7L26.6 22.7L27.7 21.7L28 20L28.1 17.6L28.2 15.2L28.9 13.3L30.3 12.5L32.2 12.7L34.4 13.7L36.6 14.7L38.3 15.2L39.6 14.7L40.5 13.1L41.3 10.8L42.2 8.6L43.4 7L45 6.7L46.7 7.5L48.6 9.1L50.3 10.7L51.8 11.7L53.2 11.6L54.6 10.4L56 8.5L57.6 6.6L59.2 5.6L60.8 5.7L62.2 7L63.4 9.1L64.5 11.2L65.7 12.6L67.1 12.9L68.7 12.2L70.7 10.8L72.7 9.5L74.6 9L76.1 9.6L77 11.3L77.6 13.7L78 16L78.6 17.7L79.8 18.5L81.6 18.3L83.9 17.6L86.3 17L88.2 17.1L89.4 18.1L89.8 20L89.6 22.4L89.3 24.8L89.3 26.6L90.3 27.7L92 28L94.4 28.1L96.8 28.2L98.7 28.9L99.5 30.3L99.3 32.2L98.3 34.4L97.3 36.6L96.8 38.3L97.3 39.6L98.9 40.5L101.2 41.3L103.4 42.2L105 43.4L105.3 45L104.5 46.7L102.9 48.6L101.3 50.3L100.3 51.8L100.4 53.2L101.6 54.6Z' stroke='%230f3460' stroke-opacity='0.7' stroke-width='2.09' fill='none'/%3E%3C/svg%3E") no-repeat center / contain;
+    pointer-events: none;
+    animation: logo-rotate 11s linear infinite, logo-hue-1 9s linear infinite;
+}
+
+
+/* --- COMMENTED OUT: simple circle line — uncomment to restore ---
+.logo-circle-inner {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1.45px solid #aaa;
+    pointer-events: none;
+}
+--- */
+
+@keyframes icon-color-cycle {
+    0%   { color: #1a1a2e; }
+    25%  { color: #0f3460; }
+    50%  { color: #1d4e5f; }
+    75%  { color: #2a5298; }
+    100% { color: #1a1a2e; }
 }
 
 .logo-circle i {
     font-size: 48px;
-    color: #667eea;
-    animation: pulse 6s infinite;
+    color: #1a1a2e;
+    animation: pulse 6s infinite, icon-color-cycle 9s ease-in-out infinite;
+    z-index: 1;
+    position: relative;
 }
 
 @keyframes pulse {
@@ -114,12 +191,12 @@ body {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.35);
+        transform: scale(1.15);
     }
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 50px;
     font-weight: 700;
     color: white;
     margin-bottom: 15px;
@@ -127,8 +204,18 @@ h1 {
     letter-spacing: -1px;
 }
 
+.platform-tag {
+    display: block;
+    font-size: 26px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
 .subtitle {
-    font-size: 18px;
+    font-size: 22px;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 400;
 }
@@ -143,7 +230,7 @@ h1 {
     gap: 35px;
     flex-wrap: wrap;
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 1200px;
 }
 
@@ -151,9 +238,39 @@ h1 {
    CARDS
    ================================ */
 
+/* --- index-card-changes START (pentru undo, inlocuieste pana la index-card-changes END cu BACKUP-ul de mai jos)
+   BACKUP CARD BASE:
+   .card {
+       width: 320px;
+       background: white;
+       border-radius: 20px;
+       padding: 40px 30px;
+       cursor: pointer;
+       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+       text-decoration: none;
+       color: #222;
+       position: relative;
+       overflow: hidden;
+       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+   }
+   .card::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 14px;
+   }
+   .card:hover {
+       transform: translateY(-10px);
+       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+   }
+   END BACKUP
+--- */
+
 .card {
     width: 320px;
-    background: white;
+    background: #f0f0f2;
     border-radius: 20px;
     padding: 40px 30px;
     cursor: pointer;
@@ -163,6 +280,8 @@ h1 {
     position: relative;
     overflow: hidden;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(200, 200, 210, 0.35);
+    border-top: none;
 }
 
 .card::before {
@@ -170,24 +289,61 @@ h1 {
     position: absolute;
     top: 0;
     left: 0;
+    background: #999;
+    transition: background 0.4s ease;
     width: 100%;
     height: 14px;
+}
+
+/* Serpentine / wave accent lines — gri #666 default, colorat pe hover */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 0 0 14px 14px;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 6 3' stroke='%23666666' stroke-opacity='0.35' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 0 3' stroke='%23666666' stroke-opacity='0.35' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='6'%3E%3Cpath d='M0 3Q4.75 0 9.5 3Q14.25 6 19 3' stroke='%23666666' stroke-opacity='0.35' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q0 4.75 3 9.5Q6 14.25 3 19' stroke='%23666666' stroke-opacity='0.35' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q6 4.75 3 9.5Q0 14.25 3 19' stroke='%23666666' stroke-opacity='0.35' stroke-width='2.09' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat, repeat-x, repeat-y, repeat-y;
+    background-position: left bottom, right bottom, 6px bottom, left top, right top;
+    background-size: 6px 6px, 6px 6px, 19px 6px, 6px 19px, 6px 19px;
+    transition: background-image 0.4s ease;
+}
+
+@keyframes wave-rtl {
+    from {
+        background-position: left bottom, right bottom, 6px bottom, left 0px, right 0px;
+    }
+    to {
+        background-position: left bottom, right bottom, -13px bottom, left -19px, right 19px;
+    }
+}
+
+.card:hover::after {
+    animation: wave-rtl 0.5s linear infinite;
 }
 
 .card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    border-color: rgba(180, 180, 195, 0.5);
 }
+/* index-card-changes END */
 
-.card:hover::before {
-    height: 100%;
-    opacity: 0.2;
-}
 
 /* ================================
    CARD ICONS
    ================================ */
 
+/* --- index-card-changes ICON (backup: remove box-shadow and outline below to revert) --- */
 .card-icon {
     width: 70px;
     height: 70px;
@@ -198,6 +354,7 @@ h1 {
     margin: 0 auto 25px;
     font-size: 32px;
     transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .card:hover .card-icon {
@@ -221,12 +378,18 @@ h1 {
     line-height: 1.6;
     text-align: center;
     margin-bottom: 20px;
+    transition: color 0.4s ease;
 }
+
+.card.client:hover p { color: #0080ff; }
+.card.agent:hover p { color: #28a745; }
+.card.manager:hover p { color: #f39c12; }
 
 /* ================================
    CARD ARROW
    ================================ */
 
+/* --- index-card-changes ARROW (backup: remove box-shadow below to revert) --- */
 .card-arrow {
     width: 45px;
     height: 45px;
@@ -238,18 +401,37 @@ h1 {
     transition: all 0.4s ease;
     font-size: 18px;
     color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 .card:hover .card-arrow {
     transform: translateX(5px);
 }
 
+
 /* ================================
    SPECIFIC CARD COLORS
    ================================ */
 
+/* --- index-card-changes COLORS START (pentru undo, inlocuieste pana la COLORS END cu BACKUP-ul de mai jos)
+   BACKUP COLORS:
+   .card.agent::before { background: #28a745; }
+   .card.agent .card-icon { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; }
+   .card.agent h3 { color: #28a745; }
+   .card.agent .card-arrow { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); }
+   .card.client::before { background: #0080ff; }
+   .card.client .card-icon { background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%); color: white; }
+   .card.client h3 { color: #0080ff; }
+   .card.client .card-arrow { background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%); }
+   .card.manager::before { background: linear-gradient(90deg, #f1c40f, #f39c12); }
+   .card.manager .card-icon { background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%); color: white; }
+   .card.manager h3 { color: #f39c12; }
+   .card.manager .card-arrow { background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%); }
+   END BACKUP
+--- */
+
 /* Sales Agent - Green */
-.card.agent::before {
+.card.agent:hover::before {
     background: #28a745;
 }
 
@@ -266,8 +448,21 @@ h1 {
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
 }
 
+.card.agent:hover::after {
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 6 3' stroke='%2328a745' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 0 3' stroke='%2328a745' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='6'%3E%3Cpath d='M0 3Q4.75 0 9.5 3Q14.25 6 19 3' stroke='%2328a745' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q0 4.75 3 9.5Q6 14.25 3 19' stroke='%2328a745' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q6 4.75 3 9.5Q0 14.25 3 19' stroke='%2328a745' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E");
+}
+
+.card.agent:hover {
+    border-color: rgba(40, 167, 69, 0.25);
+}
+
 /* Client - Blue */
-.card.client::before {
+.card.client:hover::before {
     background: #0080ff;
 }
 
@@ -284,9 +479,22 @@ h1 {
     background: linear-gradient(135deg, #0080ff 0%, #00b4d8 100%);
 }
 
+.card.client:hover::after {
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 6 3' stroke='%230080ff' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 0 3' stroke='%230080ff' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='6'%3E%3Cpath d='M0 3Q4.75 0 9.5 3Q14.25 6 19 3' stroke='%230080ff' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q0 4.75 3 9.5Q6 14.25 3 19' stroke='%230080ff' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q6 4.75 3 9.5Q0 14.25 3 19' stroke='%230080ff' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E");
+}
+
+.card.client:hover {
+    border-color: rgba(0, 128, 255, 0.25);
+}
+
 /* Manager - Yellow */
-.card.manager::before {
-    background: #f1c40f;
+.card.manager:hover::before {
+    background: linear-gradient(90deg, #f1c40f, #f39c12);
 }
 
 .card.manager .card-icon {
@@ -301,6 +509,20 @@ h1 {
 .card.manager .card-arrow {
     background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
 }
+
+.card.manager:hover::after {
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 6 3' stroke='%23f39c12' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M3 0Q3 3 0 3' stroke='%23f39c12' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='6'%3E%3Cpath d='M0 3Q4.75 0 9.5 3Q14.25 6 19 3' stroke='%23f39c12' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q0 4.75 3 9.5Q6 14.25 3 19' stroke='%23f39c12' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='19'%3E%3Cpath d='M3 0Q6 4.75 3 9.5Q0 14.25 3 19' stroke='%23f39c12' stroke-opacity='0.5' stroke-width='2.09' fill='none'/%3E%3C/svg%3E");
+}
+
+.card.manager:hover {
+    border-color: rgba(243, 156, 18, 0.25);
+}
+/* index-card-changes COLORS END */
 
 .card p{
     font-size: 20px;
@@ -396,7 +618,7 @@ h1 {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
 }
 
@@ -418,7 +640,7 @@ h1 {
     overflow: hidden;
 }
 
-/* Animații generice (folosite random de JS) */
+/* Animatii generice (folosite random de JS) */
 @keyframes float-1 {
     0%, 100% {
         transform: translate(0, 0) rotate(0deg);
@@ -464,7 +686,99 @@ h1 {
     }
 }
 
-/* Responsive - mai puține logo-uri pe mobile */
+/* ================================
+   CARD CANDLE — GOLDEN GLOW ON CARDS
+   ================================ */
+
+.card-candle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    width: 113px;
+    height: 113px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.card.client .card-candle {
+    background: radial-gradient(circle,
+        rgba(0, 128, 255, 0.18) 0%,
+        rgba(0, 150, 220, 0.12) 30%,
+        rgba(0, 128, 255, 0.048) 55%,
+        transparent 75%);
+}
+
+.card.agent .card-candle {
+    background: radial-gradient(circle,
+        rgba(40, 167, 69, 0.18) 0%,
+        rgba(32, 201, 151, 0.12) 30%,
+        rgba(40, 167, 69, 0.048) 55%,
+        transparent 75%);
+}
+
+.card.manager .card-candle {
+    background: radial-gradient(circle,
+        rgba(241, 196, 15, 0.18) 0%,
+        rgba(243, 156, 18, 0.12) 30%,
+        rgba(241, 196, 15, 0.048) 55%,
+        transparent 75%);
+}
+
+/* ================================
+   CANDLE / FLASHLIGHT CURSOR EFFECT
+   ================================ */
+
+.candle-main {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(255, 255, 255, 0.50) 0%,
+        rgba(245, 245, 245, 0.30) 30%,
+        rgba(230, 230, 230, 0.12) 55%,
+        transparent 75%);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.candle-trail {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(255, 255, 255, 0.35) 0%,
+        rgba(240, 240, 240, 0.15) 35%,
+        rgba(220, 220, 220, 0.05) 55%,
+        transparent 75%);
+    transform: translate(-50%, -50%);
+    animation: candle-trail-fade 3.5s ease-out forwards;
+}
+
+@keyframes candle-trail-fade {
+    0% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    60% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+}
+
+/* Responsive - mai putine logo-uri pe mobile */
 @media (max-width: 768px) {
     .floating-logo:nth-child(n+8) {
         display: none;

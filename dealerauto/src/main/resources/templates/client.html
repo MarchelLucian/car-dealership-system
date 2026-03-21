@@ -337,20 +337,42 @@
         <!-- Sorting Bar -->
         <div class="sort-box">
             <label>Sort by:</label>
-            <select id="sortField" class="criteriuSort">
+
+            <!-- Hidden native selects (kept for JS compatibility) -->
+            <select id="sortField" class="criteriuSort" style="display:none;">
                 <option value="pret">Price</option>
                 <option value="an">Year</option>
                 <option value="kilometraj">Mileage</option>
             </select>
-
-            <select id="sortOrder" class="tipSort">
-                <option value="cresc">
-                    Ascending
-                </option>
-                <option value="desc">
-                    Descending
-                </option>
+            <select id="sortOrder" class="tipSort" style="display:none;">
+                <option value="cresc">Ascending</option>
+                <option value="desc">Descending</option>
             </select>
+
+            <!-- Custom dropdown: Sort Field -->
+            <div class="custom-select" id="customSortField">
+                <div class="custom-select__trigger">
+                    <span class="custom-select__text">Price</span>
+                    <i class="fa-solid fa-chevron-down custom-select__arrow"></i>
+                </div>
+                <div class="custom-select__options">
+                    <div class="custom-select__option selected" data-value="pret">Price</div>
+                    <div class="custom-select__option" data-value="an">Year</div>
+                    <div class="custom-select__option" data-value="kilometraj">Mileage</div>
+                </div>
+            </div>
+
+            <!-- Custom dropdown: Sort Order -->
+            <div class="custom-select" id="customSortOrder">
+                <div class="custom-select__trigger">
+                    <span class="custom-select__text">Ascending</span>
+                    <i class="fa-solid fa-chevron-down custom-select__arrow"></i>
+                </div>
+                <div class="custom-select__options">
+                    <div class="custom-select__option selected" data-value="cresc">Ascending</div>
+                    <div class="custom-select__option" data-value="desc">Descending</div>
+                </div>
+            </div>
 
             <button id="sortBtn" class="sort-btn">
                 <span>Sort</span>

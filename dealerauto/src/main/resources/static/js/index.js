@@ -105,7 +105,170 @@ function getRandomAnimation() {
   };
 }
 
+/* ================================
+   CANDLE / FLASHLIGHT — CURSOR EFFECT
+   ================================ */
+
+function initCandle() {
+  const mainLight = document.createElement("div");
+  mainLight.className = "candle-main";
+  document.body.appendChild(mainLight);
+
+  // Card candle — auriu, pe fiecare card
+  document.querySelectorAll(".card").forEach((card) => {
+    const glow = document.createElement("div");
+    glow.className = "card-candle";
+    card.appendChild(glow);
+
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      glow.style.left = (e.clientX - rect.left) + "px";
+      glow.style.top = (e.clientY - rect.top) + "px";
+      glow.style.opacity = "1";
+    });
+
+    card.addEventListener("mouseleave", () => {
+      glow.style.opacity = "0";
+    });
+  });
+
+  let onCard = false;
+  let lastTrailTime = 0;
+  const TRAIL_INTERVAL = 25;
+  const MAX_TRAILS = 80;
+  const REVEAL_RADIUS = 120;
+
+  document.addEventListener("mousemove", (e) => {
+    const isCard = !!e.target.closest(".card");
+
+    if (isCard) {
+      onCard = true;
+      mainLight.style.opacity = "0";
+      return;
+    }
+
+    if (onCard) {
+      onCard = false;
+    }
+
+    mainLight.style.left = e.clientX + "px";
+    mainLight.style.top = e.clientY + "px";
+    mainLight.style.opacity = "1";
+
+    const now = Date.now();
+    if (now - lastTrailTime >= TRAIL_INTERVAL) {
+      lastTrailTime = now;
+      createTrailSpot(e.clientX, e.clientY);
+    }
+
+    revealLogos(e.clientX, e.clientY);
+  });
+
+  document.addEventListener("mouseleave", () => {
+    mainLight.style.opacity = "0";
+    resetLogos();
+  });
+
+  function createTrailSpot(x, y) {
+    const existing = document.querySelectorAll(".candle-trail");
+    if (existing.length >= MAX_TRAILS) return;
+
+    const spot = document.createElement("div");
+    spot.className = "candle-trail";
+    spot.style.left = x + "px";
+    spot.style.top = y + "px";
+    document.body.appendChild(spot);
+    spot.addEventListener("animationend", () => spot.remove());
+  }
+
+  /* --- UNDO: pentru a reveni la comportamentul vechi, inlocuieste
+         tot blocul revealLogos + resetLogos cu versiunea din BACKUP mai jos.
+
+  // === BACKUP REVEAL (comportament vechi — fara persistenta) ===
+  // function revealLogos(cx, cy) {
+  //   const logos = document.querySelectorAll(".floating-logo");
+  //   logos.forEach((logo) => {
+  //     const rect = logo.getBoundingClientRect();
+  //     const lx = rect.left + rect.width / 2;
+  //     const ly = rect.top + rect.height / 2;
+  //     const dist = Math.sqrt((cx - lx) ** 2 + (cy - ly) ** 2);
+  //     if (dist < REVEAL_RADIUS) {
+  //       const factor = 1 - dist / REVEAL_RADIUS;
+  //       logo.style.opacity = 0.12 + factor * 0.78;
+  //       logo.style.filter =
+  //         "grayscale(" + (100 - factor * 100) + "%) brightness(" + (200 - factor * 100) + "%)";
+  //       logo.style.transition = "opacity 0.15s, filter 0.15s";
+  //     } else {
+  //       logo.style.transition = "opacity 0.5s, filter 0.5s";
+  //       logo.style.opacity = "";
+  //       logo.style.filter = "";
+  //     }
+  //   });
+  // }
+  // function resetLogos() {
+  //   document.querySelectorAll(".floating-logo").forEach((logo) => {
+  //     logo.style.transition = "opacity 0.5s, filter 0.5s";
+  //     logo.style.opacity = "";
+  //     logo.style.filter = "";
+  //   });
+  // }
+  // === END BACKUP ===
+  */
+
+  const LOGO_LINGER_MS = 3000;
+
+  function revealLogos(cx, cy) {
+    const logos = document.querySelectorAll(".floating-logo");
+    logos.forEach((logo) => {
+      const rect = logo.getBoundingClientRect();
+      const lx = rect.left + rect.width / 2;
+      const ly = rect.top + rect.height / 2;
+      const dist = Math.sqrt((cx - lx) ** 2 + (cy - ly) ** 2);
+
+      if (dist < REVEAL_RADIUS) {
+        const factor = 1 - dist / REVEAL_RADIUS;
+        logo.style.transition = "opacity 0.15s, filter 0.15s";
+        logo.style.opacity = 0.12 + factor * 0.78;
+        logo.style.filter =
+          "grayscale(" + (100 - factor * 100) + "%) brightness(" + (200 - factor * 100) + "%)";
+        logo._revealed = true;
+        if (logo._lingerTimer) {
+          clearTimeout(logo._lingerTimer);
+          logo._lingerTimer = null;
+        }
+      } else if (logo._revealed && !logo._lingerTimer) {
+        logo._lingerTimer = setTimeout(() => {
+          logo.style.transition = "opacity 1.5s ease-out, filter 1.5s ease-out";
+          logo.style.opacity = "";
+          logo.style.filter = "";
+          logo._revealed = false;
+          logo._lingerTimer = null;
+        }, LOGO_LINGER_MS);
+      }
+    });
+  }
+
+  function resetLogos() {
+    document.querySelectorAll(".floating-logo").forEach((logo) => {
+      if (logo._lingerTimer) {
+        clearTimeout(logo._lingerTimer);
+        logo._lingerTimer = null;
+      }
+      if (logo._revealed) {
+        logo._lingerTimer = setTimeout(() => {
+          logo.style.transition = "opacity 1.5s ease-out, filter 1.5s ease-out";
+          logo.style.opacity = "";
+          logo.style.filter = "";
+          logo._revealed = false;
+          logo._lingerTimer = null;
+        }, LOGO_LINGER_MS);
+      }
+    });
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   generateFloatingLogos();
+  initCandle();
 });
 

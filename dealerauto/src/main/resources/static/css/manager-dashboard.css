@@ -64,21 +64,20 @@ body {
     align-items: center;
     margin: 28px;
     padding: 8px 15px;
-    background-color: #b8860b;
+    background: linear-gradient(135deg, #c49a1d, #8b6914);
     color: white;
     text-decoration: none;
     border-radius: 8px;
     font-weight: bold;
     font-size: 22px;
     transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.15);
-
+    box-shadow: 0 4px 16px rgba(160, 125, 28, 0.25);
 }
 
 .back-btn:hover {
-    background-color: #775809;
+    background: linear-gradient(135deg, #8b6914, #5c470e);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.2);
+    box-shadow: 0 8px 24px rgba(160, 125, 28, 0.4);
 }
 
 .back-btn i {
@@ -94,13 +93,13 @@ body {
 
 #managerNameBadge {
     display: inline-block;
-    background: #b8860b;
+    background: linear-gradient(135deg, #c49a1d, #8b6914);
     color: white;
     padding: 10px 22px;
     border-radius: 30px;
     font-size: 24px;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.15);
+    box-shadow: 0 4px 16px rgba(160, 125, 28, 0.25);
     letter-spacing: 0.5px;
     cursor: default;
     transition: all 0.25s ease;
@@ -109,9 +108,9 @@ body {
 }
 
 #managerNameBadge:hover {
-    background: #775809;
+    background: linear-gradient(135deg, #8b6914, #5c470e);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.2);
+    box-shadow: 0 8px 24px rgba(160, 125, 28, 0.4);
 }
 
 #managerNameBadge i {

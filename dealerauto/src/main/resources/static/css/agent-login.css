@@ -1,7 +1,8 @@
 /* ====== Background general ====== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    font-family: 'Outfit', 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    background: #dcfce7;
+    /* BACKUP original: linear-gradient(135deg, #28a745 0%, #20c997 100%) */
     margin: 0;
     padding: 0;
 }
@@ -104,7 +105,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
 }
 
@@ -136,41 +137,40 @@ body {
     position: relative;
     min-height: 72px;
     padding: 0 40px;
-    margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .top-back {
     position: absolute;
-    left: 76px;   /* poziție orizontală: mărește pentru mai în dreapta, micșorează pentru mai în stânga */
-    top: 27px;
+    left: 63px;
+    top: 33px;
 }
 
 .back-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin: 0;
-    padding: 12px 22px;
-    background-color: #1a531b;
+    padding: 8px 15px;
+    background: linear-gradient(135deg, #166534, #0d9488);
     color: white;
     text-decoration: none;
     border-radius: 14px;
     font-weight: 600;
     font-size: 22px;
-    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .back-btn:hover {
-    background-color: #0d3a0e;
+    background: linear-gradient(135deg, #052e16, #0f766e);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(22, 163, 74, 0.35);
 }
 
 .back-btn i {
     font-size: 30px;
+    margin-right: -3px;
 }
 
 .login-center {
@@ -208,7 +208,7 @@ body {
 
 .logo-circle i {
     font-size: 48px;
-    color: #1a531b;
+    color: #166534;
 }
 
 .login-box {
@@ -222,7 +222,7 @@ body {
 
 h1 {
     margin-bottom: 20px;
-    color: #1a531b;
+    color: #166534;
     font-size: 38px;
     margin-top: -10px;
 }
@@ -232,7 +232,7 @@ label {
     text-align: left;
     margin-top: 10px;
     font-weight: bold;
-    color: #1a531b;
+    color: #166534;
     font-size: 26px;
 }
 
@@ -255,7 +255,7 @@ input:focus {
 button {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg, #0f9d23 0%, #0b7a1b 100%);
+    background: linear-gradient(135deg, #166534, #0d9488);
     color: white;
     border: none;
     border-radius: 8px;
@@ -263,13 +263,13 @@ button {
     margin-top: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(15, 157, 35, 0.3);
+    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.3);
 }
 
 button:hover {
-    background: linear-gradient(135deg, #0b7a1b 0%, #085a14 100%);
+    background: linear-gradient(135deg, #052e16, #0f766e);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(15, 157, 35, 0.4);
+    box-shadow: 0 6px 20px rgba(22, 101, 52, 0.4);
 }
 
 .error-message {
@@ -286,8 +286,8 @@ button:hover {
 }
 
 .demo-btn {
-    background: linear-gradient(135deg, #0f9d23 0%, #0b7a1b 100%);
-    border: 4px solid #0f9d23;
+    background: linear-gradient(135deg, #166534, #0d9488);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     color: white;
     width: 220px;
     padding: 10px 16px;
@@ -300,10 +300,11 @@ button:hover {
 }
 
 .demo-btn:hover {
-    background: linear-gradient(135deg, #0b7a1b 0%, #085a14 100%);
+    background: linear-gradient(135deg, #052e16, #0f766e);
+    border-color: rgba(255, 255, 255, 0.5);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(15, 157, 35, 0.3);
+    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.3);
 }
 
 .password-wrapper {
@@ -322,7 +323,7 @@ button:hover {
     top: 50%;
     transform: translateY(-50%);
     font-size: 22px;
-    color: #1a531b;
+    color: #166534;
     cursor: pointer;
     transition: color 0.2s ease;
     opacity: 0.7;
@@ -528,5 +529,54 @@ button:hover {
 
     .demo-btn {
         font-size: 18px;
+    }
+}
+
+/* ====== CANDLE / FLASHLIGHT CURSOR EFFECT ====== */
+.candle-main {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(200, 255, 210, 0.50) 0%,
+        rgba(170, 240, 185, 0.30) 30%,
+        rgba(140, 220, 160, 0.12) 55%,
+        transparent 75%);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.candle-trail {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(180, 245, 195, 0.35) 0%,
+        rgba(150, 230, 170, 0.15) 35%,
+        rgba(120, 210, 145, 0.05) 55%,
+        transparent 75%);
+    transform: translate(-50%, -50%);
+    animation: candle-trail-fade 3.5s ease-out forwards;
+}
+
+@keyframes candle-trail-fade {
+    0% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    60% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.7);
     }
 }

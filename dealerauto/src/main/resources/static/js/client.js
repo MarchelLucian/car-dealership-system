@@ -784,6 +784,52 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sortOrderSelect = document.getElementById("sortOrder");
   const overlay = document.getElementById("listaOverlay");
 
+  // --- Custom dropdowns logic ---
+  document.querySelectorAll(".custom-select").forEach((dropdown) => {
+    const trigger = dropdown.querySelector(".custom-select__trigger");
+    const textEl = dropdown.querySelector(".custom-select__text");
+    const options = dropdown.querySelectorAll(".custom-select__option");
+
+    // Determine which native select to sync
+    const isField = dropdown.id === "customSortField";
+    const nativeSelect = isField ? sortFieldSelect : sortOrderSelect;
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      // Close other open dropdowns
+      document.querySelectorAll(".custom-select.open").forEach((d) => {
+        if (d !== dropdown) d.classList.remove("open");
+      });
+      dropdown.classList.toggle("open");
+    });
+
+    options.forEach((opt) => {
+      opt.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const val = opt.dataset.value;
+        const label = opt.textContent.trim();
+
+        // Update visual state
+        options.forEach((o) => o.classList.remove("selected"));
+        opt.classList.add("selected");
+        textEl.textContent = label;
+
+        // Sync native select
+        nativeSelect.value = val;
+        nativeSelect.dispatchEvent(new Event("change"));
+
+        dropdown.classList.remove("open");
+      });
+    });
+  });
+
+  // Close dropdowns when clicking outside
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".custom-select.open").forEach((d) => {
+      d.classList.remove("open");
+    });
+  });
+
   function updateSortIcon() {
     const icon = document.getElementById("sortIcon");
     const order = sortOrderSelect.value;
@@ -992,7 +1038,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (yearMinRange && yearMaxRange && minYearInput && maxYearInput && yearRangeFill && yearRangeWrap) {
-    initDualSlider(yearMinRange, yearMaxRange, minYearInput, maxYearInput, yearRangeWrap, yearRangeFill, 1);
+    initDualSlider(yearMinRange, yearMaxRange, minYearInput, maxYearInput, yearRangeWrap, yearRangeFill, 0);
   }
 
   if (mileageMinRange && mileageMaxRange && minMileageInput && maxMileageInput && mileageRangeFill && mileageRangeWrap) {

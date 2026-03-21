@@ -1,7 +1,8 @@
 /* ====== OVERRIDE COLORS FOR MANAGER ====== */
 
 body {
-    background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+    background: linear-gradient(135deg, #f8f3e3 0%, #fef9ed 100%);
+    /* BACKUP original: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%) */
 }
 
 .page-wrapper {
@@ -11,12 +12,28 @@ body {
 
 }
 
+.top-back {
+    left: 92px;
+    top: 35px;
+}
+
 .back-btn {
-    background-color: #b8860b;
+    background: linear-gradient(135deg, #c49a1d, #8b6914);
+    box-shadow: 0 4px 16px rgba(160, 125, 28, 0.25);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 7px 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    gap: 5px;
+}
+
+.back-btn i {
+    margin-right: 4px !important;
 }
 
 .back-btn:hover {
-    background-color: #775809;
+    background: linear-gradient(135deg, #8b6914, #5c470e);
+    box-shadow: 0 8px 24px rgba(160, 125, 28, 0.4);
 }
 
 h1 {
@@ -24,25 +41,25 @@ h1 {
 }
 
 button {
-    background: linear-gradient(135deg, #f4da28 0%, #baa61d 100%);
-    box-shadow: 0 4px 15px rgba(225, 209, 26, 0.3);
+    background: linear-gradient(135deg, #c49a1d, #8b6914);
+    box-shadow: 0 4px 15px rgba(160, 125, 28, 0.25);
 }
 
 button:hover {
-    background: linear-gradient(135deg, #baa61d 0%, #8b6508 100%);
-    box-shadow: 0 6px 20px rgba(225, 209, 26, 0.5);
+    background: linear-gradient(135deg, #8b6914, #5c470e);
+    box-shadow: 0 6px 20px rgba(160, 125, 28, 0.4);
 }
 
 .demo-btn {
-    background: linear-gradient(135deg, #f4da28 0%, #baa61d 100%);
-    box-shadow: 0 4px 15px rgba(225, 209, 26, 0.3);
-    color:white;
-    border: 4px solid #f4da28;
+    background: linear-gradient(135deg, #c49a1d, #8b6914);
+    box-shadow: 0 4px 15px rgba(160, 125, 28, 0.25);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .demo-btn:hover {
-    background: linear-gradient(135deg, #baa61d 0%, #8b6508 100%);
-    box-shadow: 0 6px 20px rgba(225, 209, 26, 0.5);
+    background: linear-gradient(135deg, #8b6914, #5c470e);
+    box-shadow: 0 6px 20px rgba(160, 125, 28, 0.4);
 }
 
 .password-toggle {
@@ -71,4 +88,23 @@ input:focus {
 /* Background shapes tenta galbenă */
 .bg-shapes .shape {
     background: rgba(244, 218, 40, 0.08);
+}
+
+/* ====== CANDLE / FLASHLIGHT CURSOR EFFECT ====== */
+.candle-main {
+    z-index: 0;
+    background: radial-gradient(circle,
+        rgba(255, 240, 180, 0.50) 0%,
+        rgba(250, 220, 140, 0.30) 30%,
+        rgba(245, 200, 100, 0.12) 55%,
+        transparent 75%);
+}
+
+.candle-trail {
+    z-index: 0;
+    background: radial-gradient(circle,
+        rgba(250, 230, 160, 0.35) 0%,
+        rgba(245, 210, 120, 0.15) 35%,
+        rgba(240, 190, 80, 0.05) 55%,
+        transparent 75%);
 }
