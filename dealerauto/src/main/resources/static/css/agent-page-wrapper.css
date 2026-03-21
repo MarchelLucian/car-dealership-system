@@ -1,7 +1,4 @@
-/* ===== Încadrare unitară pentru toate paginile agentului de vânzare ===== */
-/* Se încarcă ultimul pe paginile agentului ca să aibă același page-wrapper. */
 
-/* Scrollbar vertical mereu vizibil (evită săritura layout-ului între pagini cu mult/puțin conținut) */
 html {
     overflow-y: scroll;
 }

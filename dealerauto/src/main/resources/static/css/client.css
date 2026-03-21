@@ -1,4 +1,3 @@
-/* ===== MODERNIZARE VIZUALĂ: font, fundal, consistență ===== */
 body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(160deg, #e8f4ff 0%, #eef3ff 50%, #e5f0fa 100%);
@@ -17,7 +16,6 @@ body {
         transform: translateY(0);
     }
 }
-/* Header: glassmorphism + delimitare prin umbră (fără linie simplă) */
 .client-top {
     position: absolute;
     top: 0;
@@ -52,7 +50,6 @@ body {
     transform: translateX(-3px);
 }
 
-/* --------------------- LEFT SIDEBAR --------------------- */
 .sidebar {
     width: 348px;
     background: linear-gradient(180deg, rgba(232, 252, 254, 0.95) 0%, rgba(221, 250, 253, 0.95) 100%);
@@ -118,7 +115,6 @@ body {
     background: #004ec2;
 }
 
-/* Filter groups: carduri albe discrete, umbră ușoară */
 .sidebar .filter-row,
 .sidebar .filter-section {
     background: rgba(255,255,255,0.85);
@@ -129,14 +125,12 @@ body {
     box-shadow: 0 2px 8px rgba(10, 68, 201, 0.04);
 }
 
-/* ---------- Range sliders (Price, Year, Mileage) — dual thumb ---------- */
 .sidebar .range-slider-wrap {
     position: relative;
     width: 100%;
     height: 42px;
     margin-top: 8px;
 }
-/* Track gri pe care glisează thumbs — poziționat sub ticks */
 .sidebar .range-slider-wrap .range-track {
     position: absolute;
     bottom: 10px;
@@ -147,7 +141,6 @@ body {
     border-radius: 3px;
     pointer-events: none;
 }
-/* Bara colorată între cele 2 thumbs */
 .sidebar .range-slider-wrap .range-fill {
     position: absolute;
     top: 0;
@@ -157,7 +150,6 @@ body {
     pointer-events: none;
     transition: left 0.05s ease, width 0.05s ease;
 }
-/* Input range — suprapus pe track, transparent, doar thumb-ul e vizibil */
 .sidebar .range-slider-wrap .range-thumb {
     position: absolute;
     bottom: 2px;
@@ -176,7 +168,6 @@ body {
 .sidebar .range-slider-wrap .range-thumb-min { z-index: 3; }
 .sidebar .range-slider-wrap .range-thumb-max { z-index: 3; }
 
-/* ---- Webkit (Chrome, Edge, Safari) ---- */
 .sidebar .range-slider-wrap .range-thumb::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -202,7 +193,6 @@ body {
     border: none;
 }
 
-/* ---- Firefox ---- */
 .sidebar .range-slider-wrap .range-thumb::-moz-range-thumb {
     width: 20px;
     height: 20px;
@@ -218,7 +208,6 @@ body {
     background: transparent;
     border: none;
 }
-/* ---- Tick marks (indici) deasupra slider-ului ---- */
 .sidebar .range-ticks {
     position: relative;
     width: 100%;
@@ -236,7 +225,6 @@ body {
     align-items: center;
     gap: 1px;
 }
-/* Tick-urile de la capete: label-ul se aliniază, linia ascunsă */
 .sidebar .range-tick:first-child {
     align-items: flex-start;
 }
@@ -249,7 +237,6 @@ body {
 .sidebar .range-tick:last-child .range-tick-line {
     display: none;
 }
-/* Year și Mileage: indicii din capete cu offset spre interior */
 .sidebar .filter-row-year .range-tick:first-child {
     left: 4px !important;
 }
@@ -275,7 +262,6 @@ body {
     background: #c4cad4;
 }
 
-/* Toate cele 3 filter-row-uri (price, year, mileage) au flex-wrap ca slider-ul să cadă sub inputuri */
 .sidebar .filter-row {
     flex-wrap: wrap;
 }
@@ -285,7 +271,6 @@ body {
     margin-top: 4px;
 }
 
-/* Labelele centrate, inputurile aliniate cu marginile slider-ului */
 .sidebar .filter-row .filter-item {
     text-align: center;
 }
@@ -300,7 +285,6 @@ body {
     margin-right: 0;
 }
 
-/* Unitate de măsură (KM) centrată între cele 2 labele, fără a afecta layout-ul */
 .sidebar .filter-row {
     position: relative;
 }
@@ -324,7 +308,6 @@ body {
     padding-top: 10px;
 }
 
-/* Minimum Year / Maximum Year pe un singur rând */
 .sidebar .filter-row .filter-item {
     min-width: 135px;
 }
@@ -332,12 +315,11 @@ body {
     white-space: nowrap;
 }
 
-/* --- NEW styling for horizontal filters --- */
 
 .filter-inline.centered {
     display: flex;
-    justify-content: center; /* center the items */
-    gap: 60px;               /* spacing between left and right option */
+    justify-content: center; 
+    gap: 60px;               
     margin-top: 5px;
     align-items: center;
 }
@@ -348,14 +330,12 @@ body {
     gap: 6px;
 }
 
-/* Doar Transmission Type și Number of Doors: valorile (Manual, Automatic, 2, 4) în negru */
 .sidebar .filter-section.transmission-section .filter-inline label,
 .sidebar .filter-section.doors-section .filter-inline label {
     color: #374151;
     font-weight: normal;
 }
 
-/* Apply same size as brand checkboxes to all new filters */
 .filter-section input[type="checkbox"],
 .filter-inline input[type="checkbox"],
 .seat-grid input[type="checkbox"] {
@@ -364,16 +344,15 @@ body {
     cursor: pointer;
 }
 
-/* grid for seats */
 .seat-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-top: 5px;
-    justify-content: center;     /* CENTER THE WHOLE GRID */
-    width: 200px;                /* FIXED WIDTH TO CENTER COLUMNS */
+    justify-content: center;     
+    width: 200px;                
     margin-left: auto;
-    margin-right: auto;          /* CENTER THE GRID IN SIDEBAR */
+    margin-right: auto;          
 }
 
 .seat-grid .row2 {
@@ -381,25 +360,25 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    justify-content: center;     /* CENTER SECOND ROW */
-    width: 150px;                /* 3 columns centered */
+    justify-content: center;     
+    width: 150px;                
     margin-left: auto;
     margin-right: auto;
 }
 .seat-grid .seat-item {
     display: flex;
     flex-direction: column;
-    align-items: center; /* center checkbox and number */
+    align-items: center; 
     justify-content: center;
-    gap: 2px; /* space between checkbox and number */
-    width: 40px; /* ensures equal width per column */
+    gap: 2px; 
+    width: 40px; 
 }
 
 .fuel-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;            /* aici modifici distanța */
-    width: 240px;         /* poți ajusta la nevoie */
+    gap: 20px;            
+    width: 240px;         
     margin-left: auto;
     margin-right: auto;
     margin-top: 5px;
@@ -412,7 +391,6 @@ body {
     gap: 3px;
 }
 
-/* Button for advanced options */
 .advanced-toggle {
     font-size: 16px;
     font-weight: 600;
@@ -435,19 +413,17 @@ body {
     border-color: rgba(10, 68, 201, 0.35);
 }
 
-/* Hidden section */
 .advanced-section {
-    display: none;    /* hidden by default */
+    display: none;    
     animation: fadeIn 0.3s ease;
 }
 
 .advanced-toggle i {
-    font-size: 24px;   /* tu alegi dimensiunea */
-    margin-right: 6px;  /* opțional, spațiu între text și icon */
+    font-size: 24px;   
+    margin-right: 6px;  
 }
 
 
-/* Fade-in effect */
 @keyframes fadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -455,14 +431,12 @@ body {
 
 
 
-/* --------------------- MAIN CONTENT --------------------- */
 
 .main-content {
     flex: 1;
     padding: 20px;
 }
 
-/* ---- Etichete filtre active (sub meniul caroserie, împinge conținutul jos) ---- */
 .active-filter-tags {
     display: flex;
     flex-wrap: wrap;
@@ -501,7 +475,6 @@ body {
     transform: scale(1.15);
 }
 
-/* Meniu tipuri caroserie: 2 rânduri x 4 butoane, pe toată lățimea cardurilor */
 .body-type-menu {
     width: 100%;
     margin-bottom: 24px;
@@ -516,8 +489,7 @@ body {
     min-height: 450px;
 }
 
-/* Buton categorii caroserie: la orice mărire a elementelor interioare (label, icon, count)
-   mărește și min-height aici ca structura să rămână corectă. */
+
 .body-type-btn {
     width: 100%;
     min-height: 225px;
@@ -540,7 +512,6 @@ body {
     box-shadow: 0 4px 12px rgba(19, 59, 149, 0.12);
 }
 
-/* Opțiune selectată: același fundal ca sidebar-ul */
 .body-type-btn.selected {
     background: linear-gradient(180deg, rgba(232, 252, 254, 0.95) 0%, rgba(221, 250, 253, 0.95) 100%);
     border: 4px solid #0a44c9;
@@ -597,7 +568,6 @@ body {
     margin-bottom: -41px;
 }
 
-/* Butonul All options: imagine puțin mai mică */
 .body-type-btn[data-body-type="all-options"] .body-type-icon {
     max-width: 167px;
     max-height: 151px;
@@ -612,7 +582,6 @@ body {
     margin-bottom: -10px;
 }
 
-/* Check icon pe body-type-btn selectat (nu pe All) */
 .body-type-btn {
     position: relative;
 }
@@ -640,7 +609,7 @@ body {
 #loadMore {
     display: block;
     margin: 20px auto;
-    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%);  /* același ca Apply Filters */
+    background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%);  
     color: white;
     border: none;
     padding: 10px 20px;
@@ -705,7 +674,6 @@ body {
     color: #133b95;
 }
 
-/* Custom select dropdowns */
 .custom-select {
     position: relative;
     width: 160px;
@@ -829,14 +797,13 @@ body {
 }
 
 
-/* --- Auth bar (legacy/fallback) --- */
 .auth-bar {
     position: fixed;
     top: 15px;
     right: 25px;
     display: flex;
-    flex-direction: column; /* buttons stacked vertically */
-    gap: 10px;              /* space between them */
+    flex-direction: column; 
+    gap: 10px;              
     z-index: 999;
 }
 
@@ -844,8 +811,8 @@ body {
     width: 150px;
     text-align: center;
     padding: 10px 0;
-    background: #f4f4f4;       /* white-grey */
-    color: #222;               /* dark text */
+    background: #f4f4f4;       
+    color: #222;               
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
@@ -855,12 +822,10 @@ body {
 }
 
 .auth-btn:hover {
-    background: #e6e6e6;       /* slightly darker on hover */
+    background: #e6e6e6;       
     transform: translateY(-2px);
 }
 
-/* iconita */
-/* Container general (poziționat în dreapta sus) */
 .auth-container {
     position: absolute;
     top: 20px;
@@ -870,7 +835,6 @@ body {
     gap: 15px;
 }
 
-/* Avatar rotund – accent vizual, hover discret */
 .avatar {
     position: relative;
     background: linear-gradient(145deg, #0a44c9 0%, #1e62ff 100%);
@@ -892,7 +856,6 @@ body {
     box-shadow: 0 6px 20px rgba(10, 68, 201, 0.4);
 }
 
-/* ----------------- GUEST MODE (VERTICAL) ---------------- */
 
 .auth-buttons-vertical {
     display: flex;
@@ -900,7 +863,6 @@ body {
     gap: 10px;
 }
 
-/* ----------------- LOGGED MODE (HORIZONTAL) ---------------- */
 
 .auth-buttons-horizontal {
     display: flex;
@@ -910,7 +872,6 @@ body {
     margin-top: 10px;
 }
 
-/* Butoane generale – look modern, tranziții line */
 .auth-btn {
     display: block;
     text-align: center;
@@ -927,7 +888,6 @@ body {
     box-shadow: 0 2px 8px rgba(10, 68, 201, 0.08);
 }
 
-/* Butoane mici pentru orizontală – pill style */
 .small-btn {
     padding: 10px 16px;
     min-width: auto;
@@ -935,7 +895,6 @@ body {
     font-size: 20px;
 }
 
-/* Hover */
 .auth-btn:hover {
     background: #e8f4ff;
     border-color: #0a44c9;
@@ -943,7 +902,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* Pagina curentă în meniu – border puternic, umbră mică */
 .auth-btn.active {
     background: linear-gradient(180deg, rgba(232, 244, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
     border: 4px solid #0a44c9;
@@ -963,7 +921,6 @@ body {
                 0 0 20px rgba(10, 68, 201, 0.15);
 }
 
-/* Logout roșu */
 .logout-btn {
     color: #c41e3a;
     border-color: rgba(196, 30, 58, 0.5);
@@ -976,7 +933,7 @@ body {
 }
 
 .main-content {
-    margin-top: 227px;   /* sub top bar + 30px în plus */
+    margin-top: 227px;   
 }
 
 .auth-btn i {
@@ -988,11 +945,10 @@ body {
 }
 
 
-/* === LAYOUT GENERAL === */
 .page-wrapper {
-    max-width: 1800px;        /* limitează lățimea TOTALĂ */
+    max-width: 1800px;        
     width: 100%;
-    margin: 0 auto;           /* centrează pe ecran */
+    margin: 0 auto;           
     display: flex;
     position: relative;
 
@@ -1000,19 +956,17 @@ body {
 
 
     border: 2px solid #005DFF;
-    border-left: 3px solid #d0d0d0;   /* bordura stânga */
-    border-right: 3px solid #d0d0d0;  /* bordura dreapta */
+    border-left: 3px solid #d0d0d0;   
+    border-right: 3px solid #d0d0d0;  
 
 }
 
-/* zona de content */
 .main-content {
     flex: 1;
     margin-left: 20px;
     margin-right: 20px;
 }
 
-/* bara de autentificare (poziționare în .client-top) */
 .auth-container {
     position: absolute;
     top: 46px;
@@ -1021,7 +975,6 @@ body {
     align-items: center;
     gap: 15px;
 }
-/* bara de cautare (poziționare în .client-top) */
 .search-wrapper {
     position: absolute;
     top: 76px;
@@ -1042,7 +995,6 @@ body {
     border-color: #0a44c9;
 }
 
-/* SEARCH INPUT – același fundal alb ca wrapper-ul, un singur câmp vizual */
 .search-bar {
     flex: 1;
     left: 100px;
@@ -1052,12 +1004,11 @@ body {
     background: #ffffff;
 }
 
-/* BUTTON – același background tranzitoriu ca auth-btn (gradient + tranziție lină) */
 .search-btn {
     background: linear-gradient(180deg, #0a44c9 0%, #1e62ff 100%);
     border: none;
     color: white;
-    padding: 14px 18px;   /* +3px încă o dată (înălțime și lățime) */
+    padding: 14px 18px;   
     border-radius: 80%;
     cursor: pointer;
     font-size: 16px;
@@ -1098,27 +1049,22 @@ body {
     visibility: hidden;
 }
 
-/* filters */
-/* Un rând cu două filtre unul lângă altul */
 .filter-row {
     display: flex;
     justify-content: space-between;
-    gap: 20px;   /* spațiu între min/max */
-    margin-bottom: 40px; /* spațiu între secțiuni */
+    gap: 20px;   
+    margin-bottom: 40px; 
 }
 
-/* Un bloc individual (label + input) */
 .filter-item {
     flex: 1;
     text-align: center;
 }
 
-/* Secțiuni singulare precum mileage și brands */
 .filter-section {
     margin-bottom: 25px;
 }
 
-/* Toate input-urile din filtre */
 .filter-item input,
 .filter-section input {
     width: 100%;
@@ -1131,8 +1077,8 @@ body {
 .brand-option {
     display: flex;
     align-items: center;
-    gap: 8px;          /* spațiu între checkbox și text */
-    margin-bottom: 12px; /* reduce spațiul între branduri */
+    gap: 8px;          
+    margin-bottom: 12px; 
     font-size: 19px;
 }
 .brand-option span {
@@ -1201,9 +1147,7 @@ body {
 
     background: white;
     border: 2px solid #005DFF;
-     /* IMPORTANT: ca să se contopească elegant cu bara */
 
-    /* colțuri rotunjite doar jos */
     border-radius: 20px 20px 20px 20px;
 
     box-shadow: 2px 4px 8px rgba(0,0,0,0.24);
@@ -1223,7 +1167,6 @@ body {
 .autocomplete-item:hover {
     background: #f5f5f5;
 }
-/* results count – invizibil când e gol, apare doar după ce JS pune numărul */
 #resultsCount:empty,
 .results-count:empty {
     display: none !important;
@@ -1246,7 +1189,7 @@ body {
 
 .brands-controls {
     display: flex;
-    justify-content: flex-start;   /* în colțul stânga jos al dreptunghiului */
+    justify-content: flex-start;   
     align-items: center;
     gap: 12px;
     margin-top: 12px;
@@ -1256,10 +1199,10 @@ body {
 
 .show-less-brands {
     font-size: 14px;
-    color: #d11a1a;     /* roșu */
+    color: #d11a1a;     
     cursor: pointer;
     transition: color 0.2s;
-    display: none;      /* ascuns la început */
+    display: none;      
 }
 
 .show-less-brands:hover {
@@ -1418,7 +1361,6 @@ body {
     top: 20px;
 }
 
-/* Fade-in pe meniu doar când intri de pe index (/) pe /client */
 .client-top.menu-animate .auth-container {
     animation: fadeInUn 0.6s ease;
 }
@@ -1441,9 +1383,7 @@ body {
 
 
 
-/* ========================================
-   CARD DESIGN PROFESIONAL PENTRU MAȘINI
-   ======================================== */
+
 .car-box {
     position: relative;
     background: linear-gradient(180deg, rgba(232, 252, 254, 0.98) 0%, rgba(221, 250, 253, 0.98) 100%);
@@ -1468,7 +1408,6 @@ body {
     border-color: rgba(19, 59, 149, 0.4);
 }
 
-/* Header cu Brand și Model */
 .car-box .car-header {
     grid-column: 1 / -1;
     display: flex;
@@ -1497,7 +1436,6 @@ body {
     letter-spacing: 0.01em;
 }
 
-/* Buton Favorite */
 .favorite-btn {
     position: absolute;
     top: 45px;
@@ -1533,7 +1471,6 @@ body {
     color: #e74c3c;
 }
 
-/* Când este favorit (checked) */
 .favorite-btn.active {
     border-color: #e74c3c;
     background: #ffe5e5;
@@ -1547,7 +1484,6 @@ body {
     color: #e74c3c;
 }
 
-/* Detalii mașină */
 .car-box p {
     margin: 10px 0 10px 0;
     font-size: 23px;
@@ -1565,7 +1501,6 @@ body {
     font-size: 24px;
 }
 
-/* min-width doar pentru p-uri în afara car-main-details (ex. alte liste) */
 .car-box > p b {
     min-width: 170px;
 }
@@ -1574,7 +1509,6 @@ body {
     min-width: 0;
 }
 
-/* Iconițe pentru fiecare detaliu */
 .car-box p i {
     color: #133b95;
     width: 20px;
@@ -1583,7 +1517,6 @@ body {
     margin-right: 8px;
 
 }
-/* Prețul - special styling */
 .car-box .car-price {
     position: absolute;
     top: 40px;
@@ -1617,7 +1550,6 @@ body {
     margin-right: 5px;
 }
 
-/* Responsive pentru ecrane mici - card mașină */
 @media (max-width: 768px) {
     .car-box {
         grid-template-columns: 1fr auto;
@@ -1628,7 +1560,6 @@ body {
     }
 }
 
-/* car-main-details: doar în media queries reducem gap/margini ca să rămână în card */
 @media (max-width: 1200px) {
     .car-main-details {
         gap: 60px;
@@ -1677,7 +1608,6 @@ body {
 }
 
 
-/* Poziționare orizontală pentru detalii (Year, Mileage, Fuel, Transmission) – padding simetric stânga/dreapta */
 .car-main-details {
     grid-column: 1 / -1;
     display: flex;
@@ -1718,7 +1648,6 @@ body {
     min-width: 0;
 }
 
-/* pt LOGO */
 .car-title-section {
     display: flex;
     align-items: center;
@@ -1740,16 +1669,12 @@ body {
 
 
 
-/* Loading state */
 .car-logo[src*="loading.gif"] {
     opacity: 0.5;
 }
 
 
-/* ================================
-   GALERIE IMAGINI (pagina /client: 3 stânga | 1 centru | 3 dreapta)
-   Ocupă spațiul alocat pe card, simetrică, bine centrată.
-   ================================ */
+
 .car-images-carousel.car-images-gallery {
     width: 100%;
     max-width: 100%;
@@ -1820,7 +1745,6 @@ body {
     color: #133b95;
 }
 
-/* Thumbnails stânga/dreapta – înalțime egală (flex: 1), centrul = înălțimea celor 3 */
 .car-images-gallery .car-gallery-thumb {
     padding: 0;
     border: 2px solid rgba(19, 59, 149, 0.25);
@@ -1841,7 +1765,6 @@ body {
     transform: scale(1.02);
 }
 
-/* Imaginea laterală selectată (cea afișată în centru) – evidențiere mai puternică */
 .car-images-gallery .car-gallery-thumb.active {
     border-width: 3px;
     border-color: #0a44c9;
@@ -1856,9 +1779,7 @@ body {
     vertical-align: middle;
 }
 
-/* ================================
-   CAROUSEL IMAGINI (favorites, my-orders)
-   ================================ */
+
 
 .car-images-carousel {
     width: 40%;
@@ -1969,7 +1890,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 378px; /* ACELAȘI CA .carousel-container */
+    height: 378px; 
     background: #bbefef;
 
 }
@@ -1983,9 +1904,7 @@ body {
     display: none;
 }
 
-/* ================================
-   BADGE DATA ACTUALIZARE PREȚ ("Updated on" – dedesubtul galeriei pe /client)
-   ================================ */
+
 .price-update-badge {
     background: transparent;
     color: #133b95;
@@ -1999,7 +1918,6 @@ body {
     white-space: nowrap;
 }
 
-/* În card mașină: badge "Updated on" DEDESUBTUL imaginilor, în flux (nu peste galerie) */
 .car-box .price-update-badge {
     position: relative;
     bottom: auto;
@@ -2015,7 +1933,6 @@ body {
     margin-right:6px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .price-update-badge {
         font-size: 10px;
@@ -2030,9 +1947,7 @@ body {
     animation: fadeInUn 0.6s ease;
 }
 
-/* ================================
-   POPUP "SIGN IN TO ADD FAVORITES" (temă pagină client: albastru / #0a44c9, #ddfafd)
-   ================================ */
+
 .client-signin-overlay {
     position: fixed;
     top: 0;
@@ -2136,7 +2051,6 @@ body {
    Ordine clară: top (back, search, auth) → sidebar → main; meniu adaptat treptat la rezoluție
    ================================ */
 
-/* De la 1700px: layout stivuit – Back, Search, Auth pe coloane, fără suprapunere în niciun scenariu */
 @media (max-width: 1700px) {
     .page-wrapper {
         flex-wrap: wrap;
@@ -2265,7 +2179,6 @@ body {
         margin-right: auto;
     }
 
-    /* Badge "Updated on" dedesubtul imaginilor */
     .car-box .price-update-badge {
         order: 6;
     }
@@ -2277,7 +2190,6 @@ body {
     .car-box .car-images-carousel { order: 5; }
 }
 
-/* De la 1200px: header stivuit (Back, Search, Auth una sub alta), sidebar sub header, fără suprapuneri */
 @media (max-width: 1200px) {
     .page-wrapper {
         flex-wrap: wrap;
@@ -2388,7 +2300,6 @@ body {
         margin-right: auto;
     }
 
-    /* Badge "Updated on" dedesubtul imaginilor */
     .car-box .price-update-badge { order: 6; }
 
     .car-box .car-header { order: 1; }
@@ -2476,7 +2387,6 @@ body {
         font-size: 24px;
     }
 
-    /* Car card: header + favorite pe aceeasi linie, price sub ele */
     .car-box {
         padding: 14px;
         box-sizing: border-box;
@@ -2584,7 +2494,6 @@ body {
     }
 }
 
-/* Meniu la rezoluții foarte mici: butoane mai compacte, wrap ordonat */
 @media (max-width: 480px) {
     .client-top {
         padding: 10px 8px;

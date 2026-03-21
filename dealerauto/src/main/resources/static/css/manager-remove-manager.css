@@ -15,7 +15,6 @@
     box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
 }
 
-/* Custom Modal Overlay */
 .custom-overlay {
     position: fixed;
     top: 0;
@@ -140,9 +139,7 @@
     color: #b8860b;;
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
+
 @media (max-width: 768px) {
     .custom-modal {
         padding: 24px 20px;

@@ -15,7 +15,6 @@ body {
         transform: translateY(0);
     }
 }
-/* Wrapper general — ocupă toată pagina */
 .page-wrapper {
     position: relative;
     max-width: 1800px;
@@ -31,11 +30,10 @@ body {
 }
 
 
-/* Buton Go Back în colțul stânga-sus al wrapperului */
 .top-back {
     position: absolute;
-    left: 40px;      /* distanță de marginea stângă */
-    top: 40px;       /* distanță de sus */
+    left: 40px;      
+    top: 40px;       
 }
 
 
@@ -126,7 +124,7 @@ input, select {
 .error-msg {
     color: #d10000;
     font-size: 16px;
-    grid-column: span 2; /* ocupa rând întreg */
+    grid-column: span 2; 
     margin-top: -5px;
     margin-bottom: -5px;
 }
@@ -260,7 +258,6 @@ input, select {
     transition: background 0.25s, transform 0.25s;
 }
 
-/* efect mic de hover */
 #agentNameBadge:hover {
     background: #0d3a0e;
     transform: translateY(-3px);
@@ -273,8 +270,8 @@ input, select {
 
 .agent-greeting {
     position: absolute;
-    right: 60px;   /* distanță față de marginea dreaptă */
-    top: 34px;     /* aliniat cu butonul Go Back */
+    right: 60px;   
+    top: 34px;     
 }
 
 .readonly-input{
@@ -290,15 +287,13 @@ input, select {
     margin-top: 22px;
 }
 
-/* valoarea reală (când există text) */
 input.tax {
-    color: #c0392b;        /* roșu */
+    color: #c0392b;        
     font-weight: 600;
 }
 
-/* placeholder-ul rămâne neutru */
 input.tax::placeholder {
-    color: #999;           /* gri */
+    color: #999;           
     font-weight: normal;
 }
 
@@ -306,9 +301,7 @@ input.tax::placeholder {
     margin-top:8px;
 }
 
-/* ================================
-   RESPONSIVE (doar @media)
-   ================================ */
+
 @media (max-width: 768px) {
     .page-wrapper {
         padding: 10px 12px;

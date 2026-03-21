@@ -1,4 +1,3 @@
-/* ===== Agent Dashboard – design modern, layere, fundal complex ===== */
 :root {
     --green-950: #052e16;
     --green-800: #166534;
@@ -24,7 +23,6 @@
     --font-sans: 'Outfit', 'DM Sans', system-ui, sans-serif;
 }
 
-/* ===== Base & page wrapper ===== */
 * {
     box-sizing: border-box;
 }
@@ -54,7 +52,6 @@ body {
     box-sizing: border-box;
 }
 
-/* ===== Layer 1: complex background (doar în interiorul page-wrapper) ===== */
 .agent-dashboard-bg {
     position: absolute;
     inset: 0;
@@ -131,57 +128,48 @@ body {
     opacity: 0.2;
 }
 
-/* ===== 8 preset-uri de poziționare pentru umbre (aranjări distincte, random la încărcare) ===== */
-/* 1: dreapta-sus + stânga-jos */
 .agent-dashboard-bg.shadow-preset-1 .shape-1 { top: -120px; right: -80px; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-1 .shape-2 { bottom: 10%; left: -100px; top: auto; right: auto; }
 .agent-dashboard-bg.shadow-preset-1 .shape-3 { top: 40%; right: 15%; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-1 .shape-4 { bottom: 25%; right: 25%; left: auto; top: auto; }
 .agent-dashboard-bg.shadow-preset-1 .shape-5 { top: 60%; left: 20%; right: auto; bottom: auto; }
 
-/* 2: stânga-sus + dreapta-jos (oglindă față de 1) */
 .agent-dashboard-bg.shadow-preset-2 .shape-1 { top: -80px; left: -60px; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-2 .shape-2 { bottom: 15%; right: -80px; top: auto; left: auto; }
 .agent-dashboard-bg.shadow-preset-2 .shape-3 { top: 25%; left: 15%; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-2 .shape-4 { bottom: 30%; left: 25%; right: auto; top: auto; }
 .agent-dashboard-bg.shadow-preset-2 .shape-5 { top: 55%; right: 20%; left: auto; bottom: auto; }
 
-/* 3: colțuri + centru */
 .agent-dashboard-bg.shadow-preset-3 .shape-1 { top: -100px; left: -80px; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-3 .shape-2 { top: -100px; right: -80px; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-3 .shape-3 { bottom: -80px; left: -80px; top: auto; right: auto; }
 .agent-dashboard-bg.shadow-preset-3 .shape-4 { bottom: -80px; right: -80px; top: auto; left: auto; }
 .agent-dashboard-bg.shadow-preset-3 .shape-5 { top: 50%; left: 50%; right: auto; bottom: auto; }
 
-/* 4: diagonală (stânga-sus → dreapta-jos) */
 .agent-dashboard-bg.shadow-preset-4 .shape-1 { top: 5%; left: -50px; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-4 .shape-2 { top: 30%; right: 10%; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-4 .shape-3 { top: 55%; left: 15%; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-4 .shape-4 { bottom: 25%; right: -50px; left: auto; top: auto; }
 .agent-dashboard-bg.shadow-preset-4 .shape-5 { bottom: 5%; left: 30%; right: auto; top: auto; }
 
-/* 5: bandă stânga */
 .agent-dashboard-bg.shadow-preset-5 .shape-1 { top: 10%; left: -120px; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-5 .shape-2 { top: 35%; left: -80px; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-5 .shape-3 { top: 60%; left: -100px; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-5 .shape-4 { bottom: 25%; left: -60px; top: auto; right: auto; }
 .agent-dashboard-bg.shadow-preset-5 .shape-5 { bottom: 5%; left: -40px; top: auto; right: auto; }
 
-/* 6: bandă dreapta */
 .agent-dashboard-bg.shadow-preset-6 .shape-1 { top: 10%; right: -120px; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-6 .shape-2 { top: 35%; right: -80px; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-6 .shape-3 { top: 60%; right: -100px; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-6 .shape-4 { bottom: 25%; right: -60px; left: auto; top: auto; }
 .agent-dashboard-bg.shadow-preset-6 .shape-5 { bottom: 5%; right: -40px; left: auto; top: auto; }
 
-/* 7: jumătate superioară */
 .agent-dashboard-bg.shadow-preset-7 .shape-1 { top: -100px; left: 10%; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-7 .shape-2 { top: -60px; right: 20%; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-7 .shape-3 { top: 15%; left: -50px; right: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-7 .shape-4 { top: 20%; right: -60px; left: auto; bottom: auto; }
 .agent-dashboard-bg.shadow-preset-7 .shape-5 { top: 35%; left: 35%; right: auto; bottom: auto; }
 
-/* 8: jumătate inferioară */
 .agent-dashboard-bg.shadow-preset-8 .shape-1 { bottom: -80px; left: 10%; top: auto; right: auto; }
 .agent-dashboard-bg.shadow-preset-8 .shape-2 { bottom: -60px; right: 20%; top: auto; left: auto; }
 .agent-dashboard-bg.shadow-preset-8 .shape-3 { bottom: 35%; left: -50px; top: auto; right: auto; }
@@ -197,14 +185,12 @@ body {
     background-size: 48px 48px;
 }
 
-/* ===== Layer 2: content ===== */
 .agent-dashboard-content {
     position: relative;
     z-index: 1;
     padding-top: 16px;
 }
 
-/* ===== Top bar – simetrie: același top, distanțe egale față de margini ===== */
 .top-bar {
     position: relative;
     min-height: 72px;
@@ -218,7 +204,6 @@ body {
     top: 24px;
 }
 
-/* Doar pe agent-dashboard: Go Back – margin-left -1px (acest fișier se încarcă după agent-top-bar) */
 .top-back {
     left: 37px !important;
     margin-left: -1px !important;
@@ -283,7 +268,6 @@ body {
     font-size: 26px;
 }
 
-/* ===== Hero section ===== */
 .dashboard-hero {
     text-align: center;
     padding: 48px 24px 40px;
@@ -332,7 +316,6 @@ body {
     }
 }
 
-/* ===== Cards grid – layere și culori ===== */
 .dashboard-grid {
     display: flex;
     justify-content: center;
@@ -430,13 +413,11 @@ body {
     margin: 0;
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 768px) {
     .page-wrapper {
         padding: 0 12px 32px;
     }
 
-    /* Resetăm !important-ul de pe desktop pentru .top-back */
     .top-back {
         left: auto !important;
         margin-left: 0 !important;

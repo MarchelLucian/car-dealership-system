@@ -26,7 +26,6 @@
 }
 
 
-/* Icon eye */
 .password-toggle {
     position: absolute;
     right: 18px;
@@ -45,8 +44,8 @@
 }
 
 .go-login-btn {
-    display: block;          /* devine element de rând */
-    width: fit-content;      /* se strânge pe text */
+    display: block;          
+    width: fit-content;      
     margin: 20px auto 10px;
 
     color: #133b95;

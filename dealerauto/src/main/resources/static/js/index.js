@@ -270,5 +270,6 @@ function initCandle() {
 document.addEventListener("DOMContentLoaded", () => {
   generateFloatingLogos();
   initCandle();
+
 });
 

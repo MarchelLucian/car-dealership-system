@@ -1,5 +1,3 @@
-/* ===== Carduri în stil agent-dashboard (fără buton "Open →") ===== */
-/* Folosit pe cars-management și sales. Variabile și stiluri aliniate la agent-dashboard. */
 
 :root {
     --ag-card-green-950: #052e16;
@@ -15,7 +13,6 @@
     --ag-card-radius: 28px;
 }
 
-/* Card link – același look ca .card-inner de pe agent-dashboard */
 .option-card {
     position: relative;
     width: 100%;
@@ -47,7 +44,6 @@
     border-color: rgba(34, 197, 94, 0.35);
 }
 
-/* Wrapper icoane – același stil ca .card-icon-wrap */
 .option-icon-wrap {
     width: 84px;
     height: 84px;
@@ -73,13 +69,11 @@
     font-size: 1em;
 }
 
-/* Două icoane în același wrap – puțin mai mici */
 .option-icon-wrap .option-icon:first-child:nth-last-child(2),
 .option-icon-wrap .option-icon:first-child:nth-last-child(2) ~ .option-icon {
     font-size: 0.75em;
 }
 
-/* Titlu – același font-size și culoare ca pe agent-dashboard */
 .option-card h2 {
     font-size: 31px;
     font-weight: 700;
@@ -88,7 +82,6 @@
     letter-spacing: -0.01em;
 }
 
-/* Descriere – același font-size ca pe agent-dashboard (fără flex:1 ca să nu rămână spațiu gol unde era Open) */
 .option-card p {
     font-size: 23px;
     line-height: 1.5;

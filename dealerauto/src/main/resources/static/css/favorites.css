@@ -1,22 +1,16 @@
-/* ================================
-   OVERRIDE PAGE-WRAPPER + FONT FAVORITES
-   ================================ */
+
 
 .page-wrapper {
     flex-direction: column !important;
 }
 
-/* Font modern, aliniat cu /client */
 body.fav-page,
 .fav-page .page-wrapper {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* ================================
-   FUNDAL – același ca pe pagina /client (page-wrapper + rest)
-   ================================ */
 
-/* 1. Același gradient ca pe body din client.css */
+
 body.fav-page {
     background: linear-gradient(160deg, #e8f4ff 0%, #eef3ff 50%, #e5f0fa 100%);
     min-height: 100vh;
@@ -27,12 +21,10 @@ body.fav-page {
     min-height: 100vh;
 }
 
-/* 2. Strat decorativ (blob-uri) dezactivat – fundal uniform ca pe /client */
 .fav-bg-layer {
     display: none;
 }
 
-/* 2b. Pattern dots discret */
 .fav-bg-layer::before {
     content: '';
     position: absolute;
@@ -45,7 +37,6 @@ body.fav-page {
     opacity: 1;
 }
 
-/* 3. Blob-uri decorative – cercuri blurate, semi-transparente */
 .fav-blob {
     position: absolute;
     border-radius: 50%;
@@ -77,7 +68,6 @@ body.fav-page {
     right: 20%;
 }
 
-/* Conținutul peste stratul de fundal */
 .fav-page .fav-top-bar,
 .fav-page .fav-header,
 .fav-page .fav-content {
@@ -85,11 +75,8 @@ body.fav-page {
     z-index: 1;
 }
 
-/* ================================
-   TOP BAR FAVORITES – strat fundal + stil client
-   ================================ */
 
-/* 4. Glassmorphism pe top bar – sticlă + blur */
+
 .fav-top-bar {
     position: relative;
     display: flex;
@@ -109,7 +96,6 @@ body.fav-page {
     overflow: hidden;
 }
 
-/* Strat suplimentar de adâncime (subtle) */
 .fav-top-bar::before {
     content: '';
     position: absolute;
@@ -169,11 +155,8 @@ body.fav-page {
     margin-right: 8px;
 }
 
-/* ================================
-   HEADER FAVORITES – două straturi vizuale
-   ================================ */
 
-/* 4b. Glassmorphism pe header – sticlă + blur */
+
 .fav-header {
     position: relative;
     text-align: center;
@@ -191,7 +174,6 @@ body.fav-page {
     overflow: hidden;
 }
 
-/* Accent discret pe jumătatea superioară a header-ului */
 .fav-header::before {
     content: '';
     position: absolute;
@@ -250,20 +232,17 @@ body.fav-page {
     margin-right: 8px;
 }
 
-/* ================================
-   CONTENT AREA FAVORITES (UNIC)
-   ================================ */
+
 
 .fav-content {
     max-width: 1420px;
     margin: 40px auto;
-    margin-top: 226px; /* sub meniul client-top (același offset ca pe client) */
+    margin-top: 226px; 
     padding: 0 40px;
     box-sizing: border-box;
     width: 100%;
 }
 
-/* Statistici: count și total value, centrate, una sub alta, fără cadru/border/background */
 .page-stats {
     display: flex;
     flex-direction: column;
@@ -289,7 +268,6 @@ body.fav-page {
     font-size: 30px;
 }
 
-/* Grid: o singură coloană, aceeași lățime ca cardurile pe /client */
 .fav-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -317,9 +295,7 @@ body.fav-page {
     }
 }
 
-/* ================================
-   NO FAVORITES MESSAGE (UNIC)
-   ================================ */
+
 
 .fav-empty {
     text-align: center;
@@ -370,9 +346,7 @@ body.fav-page {
     box-shadow: 0 4px 14px rgba(10, 68, 201, 0.4);
 }
 
-/* ================================
-   BUTON REMOVE (UNIC)
-   ================================ */
+
 
 .fav-remove-btn {
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
@@ -390,7 +364,6 @@ body.fav-page {
     flex-shrink: 0;
 }
 
-/* În carduri: footer-ul e sub galerie, Remove în dreapta */
 .fav-card-footer .fav-remove-btn {
     position: static;
     margin-right: 10px;
@@ -416,11 +389,8 @@ body.fav-page {
     margin-right: 10px;
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
 
-/* Când header-ul client-top devine relativ (stivuit), conținutul vine imediat dedesubt */
+
 @media (max-width: 1700px) {
     .fav-content {
         margin-top: 24px;
@@ -435,7 +405,6 @@ body.fav-page {
     }
 }
 
-/* Carduri favorite: footer-ul (badge-uri + Remove) rămâne sub galerie */
 @media (max-width: 1200px) {
     .fav-grid .car-box .fav-card-footer {
         flex-wrap: wrap;
@@ -462,7 +431,6 @@ body.fav-page {
         gap: 25px;
     }
 
-    /* Car-box favorites: footer-ul sub galerie */
     .fav-grid .car-box .fav-card-footer {
         grid-column: 1 / -1;
         grid-row: 5;
@@ -590,9 +558,7 @@ body.fav-page {
         padding: 4px 8px;
     }
 }
-/* ================================
-   POPUP CONFIRMARE PERSONALIZAT
-   ================================ */
+
 
 .fav-confirm-overlay {
     position: fixed;
@@ -694,11 +660,8 @@ body.fav-page {
     box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
 }
 
-/* ================================
-   BADGE DATA ADAUGARE (
-   ================================ */
 
-/* Rând sub galerie: badge-uri stânga, Remove dreapta */
+
 .fav-card-footer {
     grid-column: 1 / -1;
     display: flex;
@@ -736,9 +699,7 @@ body.fav-page {
     margin-right: 6px;
 }
 
-/* ================================
-   MESAJ DE EROARE ÎN POPUP
-   ================================ */
+
 
 .acc-error-message {
     background: #ffe5e5;
@@ -755,7 +716,7 @@ body.fav-page {
 }
 
 .acc-error-message::before {
-    content: "\f06a"; /* Font Awesome exclamation-circle */
+    content: "\f06a"; 
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 18px;
@@ -776,13 +737,12 @@ body.fav-page {
 }
 
 .acc-success-message::before {
-    content: "\f058"; /* Font Awesome check-circle */
+    content: "\f058"; 
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 18px;
 }
 
-/* Badge-uri în footer (consolidat mai sus) */
 .fav-grid .car-box .price-update-badge:not([style*="display: none"]) {
     display: flex;
 }

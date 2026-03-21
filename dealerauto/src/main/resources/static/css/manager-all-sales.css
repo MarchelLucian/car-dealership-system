@@ -1,42 +1,39 @@
-/* All Sales Page Styles */
-/* Sales Table Column Widths - cu Sale ID */
 .data-table th:nth-child(1),
-.data-table td:nth-child(1) { width: 3%; }   /* ID - */
+.data-table td:nth-child(1) { width: 3%; }   
 
 .data-table th:nth-child(2),
-.data-table td:nth-child(2) { width: 14%; }   /* Sale Date */
+.data-table td:nth-child(2) { width: 14%; }   
 
 .data-table th:nth-child(3),
-.data-table td:nth-child(3) { width: 13%; }  /* Brand & Model */
+.data-table td:nth-child(3) { width: 13%; }  
 
 .data-table th:nth-child(4),
-.data-table td:nth-child(4) { width: 13%; }  /* Client */
+.data-table td:nth-child(4) { width: 13%; }  
 
 .data-table th:nth-child(5),
-.data-table td:nth-child(5) { width: 13%; }  /* Agent */
+.data-table td:nth-child(5) { width: 13%; }  
 
 .data-table th:nth-child(6),
-.data-table td:nth-child(6) { width: 10%; }  /* Provider */
+.data-table td:nth-child(6) { width: 10%; }  
 
 .data-table th:nth-child(7),
-.data-table td:nth-child(7) { width: 9%; }   /* Purchase Price */
+.data-table td:nth-child(7) { width: 9%; }   
 
 .data-table th:nth-child(8),
-.data-table td:nth-child(8) { width: 7%; }   /* Days in Stock */
+.data-table td:nth-child(8) { width: 7%; }   
 
 .data-table th:nth-child(9),
-.data-table td:nth-child(9) { width: 9%; }   /* Final Price */
+.data-table td:nth-child(9) { width: 9%; }   
 
 .data-table th:nth-child(10),
-.data-table td:nth-child(10) { width: 6%; }  /* Profit */
+.data-table td:nth-child(10) { width: 6%; }  
 
 .data-table th:nth-child(11),
-.data-table td:nth-child(11) { width: 6%; }  /* Markup */
+.data-table td:nth-child(11) { width: 6%; }  
 
 .data-table th:nth-child(12),
-.data-table td:nth-child(12) { width: 5%; }  /* Type */
+.data-table td:nth-child(12) { width: 5%; }  
 
-/* Text wrapping pentru coloane mai mici */
 .data-table td:nth-child(1),
 .data-table td:nth-child(7),
 .data-table td:nth-child(8),
@@ -47,7 +44,6 @@
     white-space: nowrap;
 }
 
-/* Table Overlay */
 .table-section {
     position: relative;
 }
@@ -93,7 +89,6 @@
     animation: spin 0.5s linear infinite;
 }
 
-/* Text wrapping pentru coloane mai largi */
 .data-table td:nth-child(4),
 .data-table td:nth-child(5),
 .data-table td:nth-child(6) {
@@ -102,7 +97,7 @@
 }
 .data-table th {
     text-align: center;
-    vertical-align: middle; /* centru pe verticală */
+    vertical-align: middle; 
 }
 
 
@@ -267,7 +262,6 @@
     font-size: 14px;
 }
 
-/* Sales Table Specific Styles */
 .profit-positive {
     color: #4CAF50;
     font-weight: 600;
@@ -292,19 +286,16 @@
     color: #999;
 }
 
-/* Loading row */
 .loading-row td {
     text-align: center !important;
     padding: 40px !important;
 }
 
-/* Empty state */
 .data-table tbody tr td[colspan] {
     text-align: center;
     color: #666;
 }
 
-/* KPI Bar */
 .kpi-bar {
     margin-top: 30px;
     display: flex;
@@ -350,7 +341,6 @@
     animation: fadeIn 0.6s ease;
 }
 
-/* Animație fade in */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -362,7 +352,6 @@
     }
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .kpi-bar {
         flex-wrap: wrap;
@@ -385,7 +374,6 @@
     }
 }
 
-/* Period Filter Bar - Layout */
 .period-filter-bar {
     margin-bottom: 20px;
     display: flex;
@@ -409,7 +397,6 @@
     margin-right: 218px;
 }
 
-/* Date input styling */
 .date-input {
     cursor: pointer;
 }
@@ -434,7 +421,6 @@
     margin-bottom: -20px;
 }
 
-/* Chart Overlay */
 .chart-overlay {
     position: absolute;
     top: 0;
@@ -463,9 +449,7 @@
     margin: 0;
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
+
 @media (max-width: 768px) {
     .period-left-group {
         margin-left: 0;

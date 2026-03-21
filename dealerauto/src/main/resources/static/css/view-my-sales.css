@@ -1,4 +1,3 @@
-/* Font ca pe celelalte pagini agent */
 body {
     font-family: 'Outfit', 'DM Sans', system-ui, sans-serif;
 }
@@ -14,7 +13,6 @@ body {
     }
 }
 
-/* Butoanele Go Back și Agent greeting: stil + poziționare din agent-top-bar.css (identic cu Car Inventory) */
 
 .search-btn {
     background: linear-gradient(135deg, #166534, #0d9488) !important;
@@ -42,7 +40,6 @@ body {
     box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
 }
 
-/* ===== SALES LIST ===== */
 
 .sales-container {
     width: 95% !important;
@@ -59,19 +56,18 @@ body {
     position: relative;
     animation: fadeIn 0.6s ease;
 }
-/* GRID ROW */
 .sales-row {
     display: grid;
     grid-template-columns:
-     130px    /* Sale ID */
-    2.5fr    /* Car */
-    2.2fr    /* Client */
-    1.5fr    /* Final Price */
-    1.2fr    /* Profit */
-    1fr    /* Markup (%) */
-    1.5fr  /* Days in stock (%) */
-    1.4fr    /* Date */
-    160px;   /* Status */
+     130px    
+    2.5fr    
+    2.2fr    
+    1.5fr    
+    1.2fr    
+    1fr    
+    1.5fr  
+    1.4fr    
+    160px;   
     padding: 16px 20px;
     align-items: center;
     font-size: 24px;
@@ -82,7 +78,6 @@ body {
     border-bottom: none;
 }
 
-/* HEADER */
 .sales-header {
     background: #0f766e;
     color: white;
@@ -90,22 +85,18 @@ body {
     font-size: 24px;
 }
 
-/* HOVER EFFECT */
 .sales-row:not(.sales-header):hover {
     background: #99f6e4;
 }
 
-/* STATUS */
 
 .status {
     font-weight: bold;
     text-align: center;
 
-    /* DIMENSIUNI FIXE */
     width: 140px;
     min-height: 40px;
 
-    /* CENTRARE TEXT */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,7 +105,7 @@ body {
     border-radius: 10px;
 
     line-height: 1.2;
-    white-space: normal; /* permite text pe 2 rânduri */
+    white-space: normal; 
     font-size: 22px;
 
 }
@@ -128,7 +119,6 @@ body {
     background-color: #fcd34d;
     color: #92400e;
 }
-/* EMPTY STATE */
 .empty-state {
     padding: 40px;
     text-align: center;
@@ -136,12 +126,10 @@ body {
     color: #666;
 }
 
-/* MOBILE LEGEND — visible only when full header is hidden */
 .sales-legend {
     display: none;
 }
 
-/* RESPONSIVE */
 @media (max-width: 1000px) {
     .sales-row {
         grid-template-columns: 1fr 2fr 2fr;
@@ -152,7 +140,6 @@ body {
         display: none;
     }
 
-    /* Show compact legend */
     .sales-legend {
         display: block;
         background: #0f766e;
@@ -192,9 +179,8 @@ body {
     justify-content: space-between;
     width: 100%;
 }
-/* textul */
 .name-with-info span {
-    flex: 1;                       /* ia tot spațiul disponibil */
+    flex: 1;                       
     text-align: left;
 
 }
@@ -247,7 +233,7 @@ body {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
     width: 50px;
 
-    display: flex;               /* centrare perfectă */
+    display: flex;               
     align-items: center;
     justify-content: center;
 }
@@ -293,7 +279,6 @@ body {
     color: #0f766e;
 }
 
-/* CLOSE BUTTON */
 .close-btn  {
     position: absolute;
 
@@ -360,7 +345,6 @@ body {
     background: #0d9488;
 }
 
-/* ===== SORT BOX WRAPPER – lățime forțat identică cu tabelul .sales-container ===== */
 .sort-box-wrapper {
     width: 95% !important;
     max-width: 95% !important;
@@ -378,14 +362,12 @@ body {
     justify-content: center;
 }
 
-/* ===== CONȚINUT SORT BAR ===== */
 .sort-container {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* ===== LABEL ===== */
 .sort-container label {
     color: #0f766e;
     font-size: 24px;
@@ -393,7 +375,6 @@ body {
     font-weight: bold;
 }
 
-/* ===== SELECT BOXES ===== */
 .sort-select {
     padding: 14px 22px;
     border-radius: 8px;
@@ -411,7 +392,6 @@ body {
     border-color: #0d9488;
 }
 
-/* ===== SORT BUTTON ===== */
 .sort-btn {
     display: flex;
     align-items: center;
@@ -438,21 +418,19 @@ body {
 }
 
 
-/* overlay doar peste tabel */
 .table-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.7); /* semi-transparent */
+    background: rgba(255,255,255,0.7); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10; /* peste tabel */
+    z-index: 10; 
 }
 
-/* spinner */
 .spin-icon {
     font-size: 55px;
     color: #0f766e;
@@ -525,7 +503,6 @@ body {
     width: 185px;
 }
 
-/* Wrapper general */
 .model-search-wrapper {
     position: relative;
     display: flex;
@@ -537,7 +514,6 @@ body {
     animation: fadeIn 0.6s ease;
 }
 
-/* Input-ul */
 .model-search-input {
 
     padding: 5px 8px;
@@ -555,7 +531,6 @@ body {
     box-shadow: 0 0 6px rgba(13, 148, 136, 0.4);
 }
 
-/* Dropdown sugestii */
 .model-search-suggestions {
     position: absolute;
     top: 35px;
@@ -573,7 +548,6 @@ body {
     z-index: 9999;
 }
 
-/* Fiecare item */
 .model-search-suggestions div {
     padding: 8px 12px;
     cursor: pointer;
@@ -593,7 +567,6 @@ body {
     width: 364px;
 }
 
-/* RÂND special în tabel */
 .no-results {
     grid-column: 1 / -1;
     display: grid;
@@ -606,7 +579,6 @@ body {
     pointer-events: none;
 }
 
-/* Conținut mesaj */
 .no-results-text {
     grid-column: 1 / -1;
     width: 100%;
@@ -619,10 +591,9 @@ body {
 
 
 
-    /* CHEIA PROBLEMEI */
-    white-space: nowrap;        /* un singur rând */
+    white-space: nowrap;        
     overflow: hidden;
-    text-overflow: ellipsis;    /* dacă e foarte lung */
+    text-overflow: ellipsis;    
 }
 
 .summary-card {
@@ -672,20 +643,17 @@ body {
 .filters-and-summary {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* NU center pe rând */
+    align-items: flex-start; 
     width: 95%;
     margin: 0 100px 0px 30px;
 
-     /* AICI controlezi spațiul */
 }
 
 .summary-wrapper {
     display: flex;
     flex-direction: column;
-    /* MUTĂ pe dreapta */
     margin-right: -14px;
 
-    /* Centrează vertical față de blocul de filtre */
     margin-top: -4px;
     animation: fadeIn 0.6s ease;
 }
@@ -705,10 +673,8 @@ body {
 .summary-wrapper-first{
     display: flex;
     flex-direction: column;
-    /* MUTĂ pe dreapta */
     margin-right: -14px;
 
-    /* Centrează vertical față de blocul de filtre */
     margin-top: 30px;
     animation: fadeIn 0.6s ease;
 }
@@ -736,11 +702,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.7); /* semi-transparent */
+    background: rgba(255,255,255,0.7); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10; /* peste tabel */
+    z-index: 10; 
 }
 
 .summary-overlay i{
@@ -757,9 +723,7 @@ body {
     font-weight: bold;
 }
 
-/* ================================
-   RESPONSIVE (doar @media)
-   ================================ */
+
 @media (max-width: 768px) {
     .sales-container {
         width: 100% !important;

@@ -1,13 +1,10 @@
-/* ====== Background general ====== */
 body {
     font-family: 'Outfit', 'DM Sans', 'Segoe UI', system-ui, sans-serif;
     background: #dcfce7;
-    /* BACKUP original: linear-gradient(135deg, #28a745 0%, #20c997 100%) */
     margin: 0;
     padding: 0;
 }
 
-/* ====== BACKGROUND DECORATIV ====== */
 .bg-shapes {
     position: fixed;
     top: 0;
@@ -50,7 +47,6 @@ body {
         transform: translateY(-25px) translateX(15px);
     }
 }
-/* ====== ANIMAȚII PENTRU LOGO-URI PLUTITOARE ====== */
 
 @keyframes float-1 {
     0%, 100% {
@@ -97,7 +93,6 @@ body {
     }
 }
 
-/* ====== LOGO-URI PLUTITOARE ====== */
 .floating-logos {
     position: fixed;
     top: 0;
@@ -122,7 +117,6 @@ body {
     overflow: hidden;
 }
 
-/* ====== Wrapper centralizat ====== */
 .page-wrapper {
     position: relative;
     max-width: 1800px;
@@ -193,7 +187,6 @@ body {
     }
 }
 
-/* ====== LOGO CIRCLE (FĂRĂ PULS) ====== */
 .logo-circle {
     width: 100px;
     height: 100px;
@@ -316,7 +309,6 @@ button:hover {
     width: 94%;
 }
 
-/* Icon eye */
 .password-toggle {
     position: absolute;
     right: 18px;
@@ -334,9 +326,7 @@ button:hover {
     opacity: 1;
 }
 
-/* ================================
-   RESPONSIVE (doar @media – valorile tale rămân la 100% zoom)
-   ================================ */
+
 @media (max-width: 768px) {
     .page-wrapper {
         padding: 16px 16px;
@@ -532,7 +522,6 @@ button:hover {
     }
 }
 
-/* ====== CANDLE / FLASHLIGHT CURSOR EFFECT ====== */
 .candle-main {
     position: fixed;
     pointer-events: none;

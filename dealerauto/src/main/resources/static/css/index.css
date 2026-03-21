@@ -1,6 +1,4 @@
-/* ================================
-   GLOBAL STYLES
-   ================================ */
+
 
    * {
     margin: 0;
@@ -11,13 +9,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #141e30 0%, #243b55 100%);
-    /* BACKUP variante:
-       Original mov:    linear-gradient(135deg, #667eea 0%, #764ba2 100%)
-       V2 - Teal dark:  linear-gradient(135deg, #0a192f 0%, #112240 50%, #1d4e5f 100%)
-       V3 - Charcoal:   linear-gradient(135deg, #1c1c2e 0%, #2d2d44 50%, #23243a 100%)
-       V4 - Navy warm:  linear-gradient(135deg, #141e30 0%, #243b55 100%)
-       V5 - Dark green: linear-gradient(135deg, #0d1b2a 0%, #1b2a3a 50%, #1a3a2a 100%)
-    */
+    
 
     min-height: 100vh;
     display: flex;
@@ -26,12 +18,10 @@ body {
     justify-content: center;
     padding: 40px 20px;
     position: relative;
-    overflow-x: hidden; /* doar orizontal ascuns; vertical se poate da scroll */
+    overflow-x: hidden; 
 }
 
-/* ================================
-   BACKGROUND SHAPES (DECORATIVE)
-   ================================ */
+
 
 .bg-shapes {
     position: absolute;
@@ -83,9 +73,7 @@ body {
     }
 }
 
-/* ================================
-   HEADER SECTION
-   ================================ */
+
 
 .header-section {
     text-align: center;
@@ -97,7 +85,6 @@ body {
     font-size: 22px;
 }
 
-/* --- index-card-changes LOGO-CIRCLE (backup: remove position:relative, ::after block, and border to revert) --- */
 .logo-circle {
     width: 100px;
     height: 100px;
@@ -127,7 +114,6 @@ body {
     to { filter: hue-rotate(540deg) saturate(1.5) brightness(1); }
 }
 
-/* --- second serpentine line (::before) — comment out to disable --- */
 .logo-circle::before {
     content: '';
     position: absolute;
@@ -220,9 +206,7 @@ h1 {
     font-weight: 400;
 }
 
-/* ================================
-   CARDS CONTAINER
-   ================================ */
+
 
 .container {
     display: flex;
@@ -234,9 +218,7 @@ h1 {
     max-width: 1200px;
 }
 
-/* ================================
-   CARDS
-   ================================ */
+
 
 /* --- index-card-changes START (pentru undo, inlocuieste pana la index-card-changes END cu BACKUP-ul de mai jos)
    BACKUP CARD BASE:
@@ -295,7 +277,6 @@ h1 {
     height: 14px;
 }
 
-/* Serpentine / wave accent lines — gri #666 default, colorat pe hover */
 .card::after {
     content: '';
     position: absolute;
@@ -336,14 +317,10 @@ h1 {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
     border-color: rgba(180, 180, 195, 0.5);
 }
-/* index-card-changes END */
 
 
-/* ================================
-   CARD ICONS
-   ================================ */
 
-/* --- index-card-changes ICON (backup: remove box-shadow and outline below to revert) --- */
+
 .card-icon {
     width: 70px;
     height: 70px;
@@ -361,9 +338,7 @@ h1 {
     transform: scale(1.1) rotate(7deg);
 }
 
-/* ================================
-   CARD CONTENT
-   ================================ */
+
 
 .card h3 {
     font-size: 24px;
@@ -385,11 +360,8 @@ h1 {
 .card.agent:hover p { color: #28a745; }
 .card.manager:hover p { color: #f39c12; }
 
-/* ================================
-   CARD ARROW
-   ================================ */
 
-/* --- index-card-changes ARROW (backup: remove box-shadow below to revert) --- */
+
 .card-arrow {
     width: 45px;
     height: 45px;
@@ -409,9 +381,7 @@ h1 {
 }
 
 
-/* ================================
-   SPECIFIC CARD COLORS
-   ================================ */
+
 
 /* --- index-card-changes COLORS START (pentru undo, inlocuieste pana la COLORS END cu BACKUP-ul de mai jos)
    BACKUP COLORS:
@@ -430,7 +400,6 @@ h1 {
    END BACKUP
 --- */
 
-/* Sales Agent - Green */
 .card.agent:hover::before {
     background: #28a745;
 }
@@ -461,7 +430,6 @@ h1 {
     border-color: rgba(40, 167, 69, 0.25);
 }
 
-/* Client - Blue */
 .card.client:hover::before {
     background: #0080ff;
 }
@@ -492,7 +460,6 @@ h1 {
     border-color: rgba(0, 128, 255, 0.25);
 }
 
-/* Manager - Yellow */
 .card.manager:hover::before {
     background: linear-gradient(90deg, #f1c40f, #f39c12);
 }
@@ -522,15 +489,12 @@ h1 {
 .card.manager:hover {
     border-color: rgba(243, 156, 18, 0.25);
 }
-/* index-card-changes COLORS END */
 
 .card p{
     font-size: 20px;
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
+
 
 @media (max-width: 1024px) {
     .container {
@@ -607,9 +571,7 @@ h1 {
     }
 }
 
-/* ================================
-   FLOATING LOGOS (BACKGROUND)
-   ================================ */
+
 
 .floating-logos {
     position: absolute;
@@ -632,7 +594,6 @@ h1 {
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
 
-    /*  CERC */
     border-radius: 50%;
     background: transparent;
     padding: 0;
@@ -640,7 +601,6 @@ h1 {
     overflow: hidden;
 }
 
-/* Animatii generice (folosite random de JS) */
 @keyframes float-1 {
     0%, 100% {
         transform: translate(0, 0) rotate(0deg);
@@ -686,9 +646,7 @@ h1 {
     }
 }
 
-/* ================================
-   CARD CANDLE — GOLDEN GLOW ON CARDS
-   ================================ */
+
 
 .card-candle {
     position: absolute;
@@ -726,9 +684,7 @@ h1 {
         transparent 75%);
 }
 
-/* ================================
-   CANDLE / FLASHLIGHT CURSOR EFFECT
-   ================================ */
+
 
 .candle-main {
     position: fixed;
@@ -778,7 +734,6 @@ h1 {
     }
 }
 
-/* Responsive - mai putine logo-uri pe mobile */
 @media (max-width: 768px) {
     .floating-logo:nth-child(n+8) {
         display: none;

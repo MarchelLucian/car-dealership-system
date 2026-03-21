@@ -1,12 +1,7 @@
-/* ================================
-   ACELAȘI TEMA CA FAVORITES – fundal, font (prin body.fav-page din favorites.css)
-   ================================ */
 
-/* Pagina my-orders folosește .fav-page pe body => același fundal și header ca favorites */
 
-/* ================================
-   TOP BAR
-   ================================ */
+
+
 
 .orders-top-bar {
 
@@ -28,9 +23,7 @@
 
 }
 
-/* ================================
-   HEADER
-   ================================ */
+
 
 .orders-header {
 
@@ -53,9 +46,7 @@
     color: #0839ab;
 }
 
-/* ================================
-   CONTENT
-   ================================ */
+
 
 .orders-content {
     max-width: 1200px;
@@ -77,12 +68,10 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    overflow-x: hidden; /* conține detaliile și carouselul în card */
+    overflow-x: hidden; 
 }
 
-/* ================================
-   NO ORDERS MESSAGE
-   ================================ */
+
 
 .no-orders {
     text-align: center;
@@ -129,14 +118,10 @@
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
-/* ================================
-   BADGE "SOLD"
-   ================================ */
 
 
-/* ================================
-   DETALII COMANDĂ (ORDER DETAILS)
-   ================================ */
+
+
 
 .order-details-section {
     background: transparent;
@@ -240,9 +225,7 @@
   margin-top:15px;
 }
 
-/* ================================
-   RESPONSIVE (doar la ecran îngust / zoom – aspect 100% zoom păstrat pe desktop)
-   ================================ */
+
 
 @media (max-width: 1280px) {
     .orders-grid .car-box {
@@ -295,7 +278,6 @@
         box-sizing: border-box;
     }
 
-    /* car-main-details: rămân în card – gap mic, wrap 2x2, nu mai ies la dreapta */
     .orders-grid .car-box .car-main-details {
         gap: 20px;
         margin-left: 12px;
@@ -312,7 +294,6 @@
     }
 }
 
-/* La zoom / ecran mai îngust: car-main-details pe coloană, totul în card */
 @media (max-width: 900px) {
     .orders-grid .car-box .car-main-details {
         gap: 12px;
@@ -351,18 +332,13 @@
         gap: 25px;
     }
 
-    /* =============================================
-       Car-box orders: layout mobile single column
-       Selectori cu specificitate ridicata (.orders-grid .car-box ...)
-       pentru a depasi stilurile de baza care apar mai tarziu in fisier
-       ============================================= */
+    
     .orders-grid .car-box {
         grid-template-columns: 1fr;
         padding: 14px;
         box-sizing: border-box;
     }
 
-    /* Row 1: Header cu logo + brand/model */
     .orders-grid .car-box .car-header {
         grid-column: 1;
         grid-row: 1;
@@ -388,7 +364,6 @@
         margin-top: 8px;
     }
 
-    /* Row 2: Sold badge centrat */
     .orders-grid .car-box .sold-badge {
         position: static;
         grid-column: 1;
@@ -412,7 +387,6 @@
         font-size: 20px;
     }
 
-    /* Row 3: Pretul centrat */
     .orders-grid .car-box .car-price {
         position: static;
         grid-column: 1;
@@ -427,7 +401,6 @@
         margin: 4px auto;
     }
 
-    /* Row 4: Detalii principale (Year, Mileage, Fuel, Transmission) — VERTICAL */
     .orders-grid .car-box .car-main-details {
         grid-column: 1;
         grid-row: 4;
@@ -466,7 +439,6 @@
         font-size: 20px;
     }
 
-    /* Row 5: Carousel + Order Details (coloana, full width) */
     .orders-grid .car-box .order-flex-container {
         grid-column: 1;
         grid-row: 5;
@@ -480,7 +452,6 @@
         box-sizing: border-box;
     }
 
-    /* Carousel: width 100% (baza din client.css are width: 40% — trebuie suprascris) */
     .orders-grid .order-flex-container .car-images-carousel.purchases-cars {
         flex: 1 1 100%;
         width: 100%;
@@ -496,7 +467,6 @@
         box-sizing: border-box;
     }
 
-    /* Order details: compact, full width, fara spatiu in exces */
     .orders-grid .order-flex-container .order-details-section {
         width: 100%;
         max-width: 100%;
@@ -746,37 +716,33 @@
 }
 
 
-/* Iconiță payment */
 .payment-icon {
     font-size: 32px;
     color: #3498db;
     min-width: 24px;
 }
 
-/* Culori specifice pentru fiecare tip */
 .payment-type-item[data-payment-type="Cash"] .payment-icon,
 .payment-type-item[data-payment-type="cash"] .payment-icon {
-    color: #27ae60; /* Verde pentru Cash */
+    color: #27ae60; 
 }
 
 .payment-type-item[data-payment-type="Transfer bancar"] .payment-icon,
 .payment-type-item[data-payment-type="transfer bancar"] .payment-icon {
-    color: #133b95; /* Albastru pentru Transfer */
+    color: #133b95; 
 }
 
 .payment-type-item[data-payment-type="Leasing"] .payment-icon,
 .payment-type-item[data-payment-type="leasing"] .payment-icon {
-    color: #9b59b6; /* Mov pentru Leasing */
+    color: #9b59b6; 
 }
 
 .payment-type-item[data-payment-type="Rate"] .payment-icon,
 .payment-type-item[data-payment-type="rate"] .payment-icon {
-    color: #e67e22; /* Portocaliu pentru Rate */
+    color: #e67e22; 
 }
 
-/* ================================
-   CONTAINER FLEX - CAROUSEL + SALE DETAILS (aspect 100% zoom restaurat)
-   ================================ */
+
 
 .order-flex-container {
     width: 1200px;

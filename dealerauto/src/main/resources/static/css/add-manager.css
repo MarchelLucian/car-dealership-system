@@ -31,7 +31,6 @@ body {
  label{
      color: #a67a0a;
 }
-/* Icon eye */
 .password-toggle {
     position: absolute;
     right: 18px;
@@ -60,12 +59,10 @@ body {
 
 .password-wrapper input {
     flex: 1;
-    padding-right: 45px; /* Space pentru iconița */
+    padding-right: 45px; 
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
+
 @media (max-width: 768px) {
     .container {
         width: 100%;

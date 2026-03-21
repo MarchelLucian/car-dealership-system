@@ -1,6 +1,4 @@
-/* ================================
-   GLOBAL STYLES
-   ================================ */
+
 
 * {
     margin: 0;
@@ -10,7 +8,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #f8f3e3 0%, #fef9ed 100%); /* Galben foarte soft */
+    background: linear-gradient(135deg, #f8f3e3 0%, #fef9ed 100%); 
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -27,9 +25,7 @@ body {
     }
 }
 
-/* ================================
-   PAGE WRAPPER
-   ================================ */
+
 
 .page-wrapper {
     position: relative;
@@ -46,9 +42,7 @@ body {
     backdrop-filter: blur(10px);
 }
 
-/* ================================
-   TOP BAR
-   ================================ */
+
 
 .top-bar {
     display: flex;
@@ -118,9 +112,7 @@ body {
     margin-right: 8px;
 }
 
-/* ================================
-   DASHBOARD HEADER
-   ================================ */
+
 
 .dashboard-header {
     text-align: center;
@@ -157,9 +149,7 @@ body {
     }
 }
 
-/* ================================
-   SECTION TITLE
-   ================================ */
+
 
 .section-title {
     font-size: 28px;
@@ -189,9 +179,7 @@ body {
     color: #b8860b;
 }
 
-/* ================================
-   KPI SECTION
-   ================================ */
+
 
 .kpi-section {
     margin: 40px 0;
@@ -289,7 +277,6 @@ body {
     font-weight: 700;
 }
 
-/* Loading: spinner rotitor în locul valorii */
 .kpi-value-period {
     position: relative;
     min-height: 1.2em;
@@ -321,9 +308,7 @@ body {
     to { transform: rotate(360deg); }
 }
 
-/* ================================
-   CHARTS SECTION
-   ================================ */
+
 
 .charts-section {
     display: grid;
@@ -357,9 +342,7 @@ body {
     margin-right: 20px;
 }
 
-/* ================================
-   TABLE SECTION
-   ================================ */
+
 
 .table-section {
     margin: 40px 0;
@@ -440,9 +423,7 @@ body {
     font-size: 22px;
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
+
 
 @media (max-width: 1024px) {
     .charts-section {
@@ -472,9 +453,7 @@ body {
     }
 }
 
-/* ================================
-   KPI ROW – CONTROL MANUAL
-   ================================ */
+
 
 .kpi-row {
     display: flex;
@@ -493,7 +472,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* toate cardurile la fel */
 .kpi-row-first .kpi-card {
     width: 350px;
 }
@@ -506,12 +484,10 @@ body {
 }
 
 
-/* conținut centrat */
 .kpi-row-first .kpi-content {
     align-items: center;
 }
 
-/* conținut centrat */
 .kpi-row .kpi-content {
     align-items: center;
 }
@@ -570,9 +546,7 @@ body {
     margin-left: 24px;
 }
 
-/* ================================
-   SORTING BAR
-   ================================ */
+
 
 .sort-bar {
     display: flex;
@@ -661,7 +635,6 @@ body {
 }
 
 
-/* Responsive */
 @media (max-width: 768px) {
     .sort-bar {
         flex-direction: column;
@@ -684,9 +657,7 @@ body {
     }
 }
 
-/* ================================
-   NAVIGATION SECTION
-   ================================ */
+
 
 .navigation-section {
     margin: 40px 0;
@@ -714,7 +685,6 @@ body {
     text-align: center;
 }
 
-/* Staggered fade-in: left to right (All Sales → Manage Staff) */
 .nav-card:nth-child(1) { animation-delay: 0s; }
 .nav-card:nth-child(2) { animation-delay: 0.16s; }
 .nav-card:nth-child(3) { animation-delay: 0.32s; }
@@ -722,7 +692,7 @@ body {
 .nav-card:nth-child(5) { animation-delay: 0.64s; }
 
 .nav-card:hover {
-    background: #faf4d5; /* galben foarte deschis */
+    background: #faf4d5; 
     transform: translateY(-8px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
@@ -820,9 +790,7 @@ body {
     margin-top: 40px;
     margin-bottom: -40px;
 }
-/* ================================
-   ADDITIONAL BADGES
-   ================================ */
+
 
 .salary-badge {
     display: inline-block;
@@ -843,13 +811,11 @@ body {
     display: inline-block;
 }
 
-/* FIRMA */
 .provider-type-badge.company {
     background: linear-gradient(135deg, #3498db 0%, #7bc1ed 100%);
     color: white;
 }
 
-/* PERSOANĂ FIZICĂ */
 .provider-type-badge.individual {
     background: linear-gradient(135deg, #3d8312, #36da45);
     color: white;
@@ -860,7 +826,6 @@ body {
 .fa-earth-europe {
     font-size: 28px;
 }
-/* Rank badge fără culoare (pentru pozițiile 4+) */
 .rank-badge:not(.rank-gold):not(.rank-silver):not(.rank-bronze) {
     background: transparent;
     color: #2c3e50;
@@ -868,14 +833,12 @@ body {
     font-weight: 700;
 }
 
-/* Header coloană tabel */
 .data-table thead th {
-    font-size: 22px;       /* mărește titlurile */
+    font-size: 22px;       
     font-weight: 700;
-    padding: 18px 20px;   /* puțin mai aerisit */
+    padding: 18px 20px;   
 }
 
-/* Celule tabel */
 .data-table tbody td {
     font-size: 22px;
     padding: 16px 20px;
@@ -899,9 +862,7 @@ body {
     font-size: 28px;
 }
 
-/* ================================
-   CENTERED CHART SECTION
-   ================================ */
+
 
 .charts-section-centered {
     display: flex;
@@ -933,7 +894,6 @@ body {
     color: #f4da28;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .chart-container-centered {
         max-width: 100%;
@@ -945,21 +905,19 @@ body {
 
 .kpi-sections-row {
     display: flex;
-    gap: 60px;           /* spațiu între Sales și Inventory */
+    gap: 60px;           
     align-items: flex-start;
 }
 
 .kpi-section-col {
-    flex: 1;             /* stânga / dreapta egale */
+    flex: 1;             
 }
 .stockValueResize {
     margin-left:-10px;
     margin-right: -20px;
 }
 
-/* ========================================
-   TIME PERIOD SELECTOR
-   ======================================== */
+
 
 .time-period-selector {
     background: #f8f9fa;
@@ -976,7 +934,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* Quick Filters */
 .quick-filters {
     display: flex;
     flex-wrap: wrap;
@@ -1008,7 +965,6 @@ body {
     box-shadow: 0 4px 8px rgba(19, 59, 149, 0.3);
 }
 
-/* Custom Date Range */
 .custom-range {
     display: flex;
     align-items: center;
@@ -1038,7 +994,6 @@ body {
 }
 
 
-/* Responsive */
 @media (max-width: 768px) {
     .quick-filters {
         flex-direction: column;
@@ -1058,7 +1013,6 @@ body {
     }
 }
 
-/* CSS pentru time-period-selector - tema portocalie manager */
 .time-period-selector {
     background: linear-gradient(135deg, #fff5e6 0%, #fff7cc 100%);
     border: 2px solid #b8860b;
@@ -1076,7 +1030,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* Select dropdown pe stânga */
 .period-select-wrapper {
     display: flex;
     align-items: center;
@@ -1165,7 +1118,6 @@ body {
     box-shadow: 0 2px 4px rgba(255, 102, 0, 0.2);
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .selector-container {
         flex-direction: column;
@@ -1188,7 +1140,6 @@ body {
         width: 100%;
     }
 }
-/* Select period */
 .selector-container {
     display: flex;
     justify-content: space-between;
@@ -1258,7 +1209,6 @@ body {
 .custom-range input{
     font-size: 22px;
 }
-/* Iconițe pentru cardurile noi */
 .kpi-icon.new-cars {
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
 }
@@ -1289,16 +1239,13 @@ body {
     margin-right: -20px;
 }
 
-/* ================================
-   RESPONSIVE (doar @media – layout-ul manual la 100% rămâne neschimbat)
-   ================================ */
+
 @media (max-width: 1024px) {
     .charts-section {
         grid-template-columns: 1fr;
     }
 }
 
-/* La ecran îngust: anulăm marginile speciale de pe carduri ca să nu se suprapună când se trec pe 2 coloane */
 @media (max-width: 1200px) {
     .nav-cards-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1366,7 +1313,6 @@ body {
         max-width: 100%;
     }
 
-    /* O singură coloană: fără margini speciale, toate cardurile la același nivel */
     .staffNavCard,
     .allSalesNavCard,
     .analyticsNavCard {
@@ -1403,7 +1349,6 @@ body {
         font-size: 22px;
     }
 
-    /* KPI sections row — stack vertically */
     .kpi-sections-row {
         flex-direction: column;
         gap: 20px;
@@ -1422,7 +1367,6 @@ body {
         width: 100%;
     }
 
-    /* Charts — single column, no min-width overflow */
     .charts-section {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -1443,7 +1387,6 @@ body {
         margin-right: 8px;
     }
 
-    /* Tables — horizontal scroll */
     .data-table {
         display: block;
         overflow-x: auto;
@@ -1465,7 +1408,6 @@ body {
         padding: 10px;
     }
 
-    /* Sort bar */
     .sort-bar {
         flex-direction: column;
         align-items: stretch;
@@ -1495,7 +1437,6 @@ body {
         font-size: 18px;
     }
 
-    /* Time period selector */
     .time-period-selector {
         padding: 14px;
     }
@@ -1539,7 +1480,6 @@ body {
         font-size: 18px !important;
     }
 
-    /* Negative margins cleanup */
     .stockValueResize,
     .tot-rev,
     .cars-label,

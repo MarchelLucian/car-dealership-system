@@ -50,9 +50,7 @@
     top: 72px;
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
+
 @media (max-width: 768px) {
     .agent-filters {
         flex-direction: column;

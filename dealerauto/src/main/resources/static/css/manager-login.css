@@ -1,8 +1,6 @@
-/* ====== OVERRIDE COLORS FOR MANAGER ====== */
 
 body {
     background: linear-gradient(135deg, #f8f3e3 0%, #fef9ed 100%);
-    /* BACKUP original: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%) */
 }
 
 .page-wrapper {
@@ -74,23 +72,19 @@ label {
     color: #b8860b;
 }
 
-/*  Logo circle culoare galbenă */
 .logo-circle i {
     color: #b8860b;
 }
 
-/* Input focus culoare galbenă */
 input:focus {
     border-color: #b8860b;
     box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
 }
 
-/* Background shapes tenta galbenă */
 .bg-shapes .shape {
     background: rgba(244, 218, 40, 0.08);
 }
 
-/* ====== CANDLE / FLASHLIGHT CURSOR EFFECT ====== */
 .candle-main {
     z-index: 0;
     background: radial-gradient(circle,
