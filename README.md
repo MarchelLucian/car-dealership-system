@@ -1,6 +1,11 @@
 # DealerAuto
 
-A car dealership management web application with role-based access for clients, sales agents, and managers.
+Car Dealership Web Platform (Spring Boot · MVC · PostgreSQL) — full-stack Java web application with a dynamic UI built using Thymeleaf and JavaScript.
+
+The application includes three main modules:
+- Online customer interface  
+- Sales agent module for vehicle inventory and sales management  
+- Manager dashboard with analytics and agent performance tracking  
 
 ## Tech Stack
 
