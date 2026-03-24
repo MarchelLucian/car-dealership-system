@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class CarImageService {
 
-    @Value("${PEXELS_API_KEY:n7ehKn42oBcP3W1pVxdnvOKWkiKbKq4Rbn0G7wRXBgSsCFdQmMjT8yCB}")
+    @Value("${PEXELS_API_KEY}")
     private String pexelsApiKey;
 
     private static final String PEXELS_API_URL = "https://api.pexels.com/v1/search";
